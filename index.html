@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3S Checkout — Ferramenta Comercial</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--purple:#e9202e;--violet:#C41528;--magenta:#FF6B7A;--acai:#890119;--dark:#2D0A0E;--white:#FFF;--off-white:#F9FAFB;--light-purp:#E5E7EB;--gray:#6B7280;--dark-gray:#374151;--green:#10B981;--red:#EF4444;--card-bg:#F3F4F6;--border-light:#D1D5DB;--accent-light:#F3F4F6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);background:#F9FAFB;-webkit-font-smoothing:antialiased;}
+
+/* ── HEADER ── */
+.hdr{background:var(--dark);color:#fff;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.2);}
+.hdr h1{font-size:16px;font-weight:700;}
+.hdr .tag{background:var(--purple);font-size:10px;padding:3px 10px;border-radius:12px;font-weight:600;margin-left:10px;}
+.stepper{display:flex;align-items:center;gap:6px;}
+.sd{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);transition:all .3s;cursor:pointer;}
+.sd.active{background:var(--magenta);color:#fff;}
+.sd.done{background:var(--green);color:#fff;}
+.sl{width:20px;height:2px;background:rgba(255,255,255,.12);}
+
+/* ── PANELS ── */
+.pnl{display:none;max-width:1100px;margin:0 auto;padding:32px 28px 70px;}
+.pnl.on{display:block;}
+.pnl-t{font-size:24px;font-weight:800;color:var(--dark-gray);margin-bottom:6px;}
+.pnl-d{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:580px;line-height:1.5;}
+
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:12px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:16px;}
+.card-t{font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.card-t .n{background:var(--dark-gray);color:#fff;width:22px;height:22px;border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;}
+
+/* ── FORM ── */
+.fld{margin-bottom:12px;}
+.fld label{display:block;font-size:12px;font-weight:500;color:var(--gray);margin-bottom:4px;}
+.fld input,.fld select{width:100%;padding:8px 12px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;transition:border .2s;}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--dark-gray);box-shadow:0 0 0 3px rgba(55,65,81,.1);}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+@media(max-width:700px){.r2,.r3{grid-template-columns:1fr;}}
+
+/* ── CHECKS ── */
+.chk-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+@media(max-width:600px){.chk-grid{grid-template-columns:1fr;}}
+.chk{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:7px;border:1.5px solid var(--border-light);cursor:pointer;font-size:12px;transition:all .15s;}
+.chk:hover{border-color:var(--dark-gray);background:var(--off-white);}
+.chk.sel{border-color:var(--purple);background:rgba(233,32,46,.06);}
+.chk input{width:15px;height:15px;accent-color:var(--purple);cursor:pointer;}
+
+/* ── MODULE ROWS ── */
+.mr{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-bottom:1px solid rgba(107,114,128,.1);font-size:12px;}
+.mr:hover{background:#F3F4F6;}
+.mr label{display:flex;align-items:center;gap:6px;cursor:pointer;flex:1;}
+.mr input[type=checkbox]{width:15px;height:15px;accent-color:var(--purple);cursor:pointer;}
+.mr .pr input{width:76px;padding:4px 6px;border:1px solid var(--border-light);border-radius:5px;font-size:11px;font-weight:600;color:var(--dark-gray);text-align:right;font-family:'Inter',sans-serif;}
+.mr .pr input:focus{outline:none;border-color:var(--dark-gray);}
+.m-tot{display:flex;justify-content:space-between;padding:10px;margin-top:6px;background:#E5E7EB;border-radius:7px;font-weight:700;color:var(--dark-gray);font-size:14px;}
+
+/* ── TOGGLES ── */
+.tgl{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:13px;color:var(--dark-gray);cursor:pointer;}
+.tgl input{width:16px;height:16px;accent-color:var(--dark-gray);cursor:pointer;}
+
+/* ── MARGIN BAR ── */
+.mbar{background:#374151;border-radius:12px;padding:20px 24px;color:#fff;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px;}
+@media(max-width:700px){.mbar{grid-template-columns:repeat(2,1fr);}}
+.mi{text-align:center;}
+.mi .mv{font-size:20px;font-weight:800;}
+.mi .ml{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;}
+.mi.ok .mv{color:#34D399;}
+.mi.bad .mv{color:#F87171;}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 24px;border-radius:9px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;border:none;}
+.btn-p{background:var(--purple);color:#fff;}
+.btn-p:hover{background:var(--acai);}
+.btn-o{background:transparent;color:var(--dark-gray);border:2px solid var(--dark-gray);}
+.btn-o:hover{background:#F3F4F6;}
+.btn-g{background:var(--green);color:#fff;}
+.btn-g:hover{background:#059669;}
+.bbar{display:flex;gap:10px;margin-top:24px;justify-content:flex-end;}
+
+
+/* ── STEP 0: UPLOAD ── */
+.upload-zone{border:2.5px dashed var(--border-light);border-radius:14px;padding:48px 32px;text-align:center;cursor:pointer;transition:all .25s;background:#F3F4F6;}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--dark-gray);background:rgba(55,65,81,.04);}
+.upload-zone .icon{font-size:44px;margin-bottom:10px;opacity:.6;}
+.upload-zone p{font-size:14px;color:var(--gray);margin-top:6px;}
+.file-list{margin-top:16px;}
+.file-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--white);border-radius:8px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.file-item .fi-name{font-size:13px;font-weight:600;color:var(--dark-gray);}
+.file-item .fi-status{font-size:11px;font-weight:500;}
+.file-item .fi-status.ok{color:var(--green);}
+.file-item .fi-status.proc{color:var(--purple);}
+.file-item .fi-rm{background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;font-weight:700;padding:2px 6px;}
+.extract-preview{margin-top:20px;background:var(--white);border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.extract-preview h3{font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:12px;}
+.ext-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #E5E7EB;font-size:13px;}
+.ext-row .lbl{color:var(--gray);}
+.ext-row .val{font-weight:600;color:var(--dark-gray);}
+.ext-dores{margin-top:10px;}
+.ext-dor{display:inline-block;background:#E5E7EB;color:var(--dark-gray);font-size:11px;font-weight:500;padding:3px 10px;border-radius:12px;margin:2px 4px 2px 0;}
+.text-paste{width:100%;min-height:140px;padding:14px;border:1.5px solid var(--border-light);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;color:var(--dark-gray);resize:vertical;margin-top:10px;}
+.text-paste:focus{outline:none;border-color:var(--dark-gray);box-shadow:0 0 0 3px rgba(55,65,81,.1);}
+.tab-switch{display:flex;gap:0;margin-bottom:16px;}
+.tab-btn{padding:8px 20px;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;border:1.5px solid var(--border-light);background:var(--white);color:var(--gray);cursor:pointer;transition:all .2s;}
+.tab-btn:first-child{border-radius:8px 0 0 8px;}
+.tab-btn:last-child{border-radius:0 8px 8px 0;}
+.tab-btn.active{background:var(--dark-gray);color:#fff;border-color:var(--dark-gray);}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid #E5E7EB;border-top-color:var(--dark-gray);border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+
+/* ── MODULE ACTIONS ── */
+.mr-acts{display:flex;gap:3px;margin-left:6px;align-items:center;}
+.mr-acts button{background:none;border:none;cursor:pointer;font-size:11px;padding:2px 4px;border-radius:4px;transition:all .15s;color:var(--gray);line-height:1;}
+.mr-acts button:hover{background:#E5E7EB;}
+.mr-acts .ix-btn{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;border:1px solid var(--border-light);}
+.mr-acts .ix-btn.isento{background:#DCFCE7;color:#059669;border-color:#86EFAC;}
+.mr-acts .mv-btn{font-size:9px;color:var(--gray);}
+.mr-acts .rm-btn{color:#EF4444;font-size:13px;font-weight:700;}
+.add-mod{display:flex;align-items:center;gap:6px;padding:6px 0;margin-top:4px;}
+.add-mod button{background:none;border:1.5px dashed var(--border-light);border-radius:6px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--gray);cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;width:100%;}
+.add-mod button:hover{border-color:var(--dark-gray);color:var(--dark-gray);background:#F3F4F6;}
+
+
+#essCatalogDrop::-webkit-scrollbar{width:4px;}
+#essCatalogDrop::-webkit-scrollbar-thumb{background:#D1D5DB;border-radius:4px;}
+/* ── STEP 3: PREVIEW ── */
+#previewWrap{background:var(--white);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1);overflow:hidden;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+</head>
+<body>
+
+<header class="hdr">
+  <div style="display:flex;align-items:center;"><h1>3S Checkout<span class="tag">Ferramenta Comercial</span></h1></div>
+  <div class="stepper">
+    <div class="sd active" id="sd1" onclick="go(1)">1</div><div class="sl"></div>
+    <div class="sd" id="sd2" onclick="go(2)">2</div><div class="sl"></div>
+    <div class="sd" id="sd3" onclick="go(3)">3</div><div class="sl"></div>
+    <div class="sd" id="sd4" onclick="go(4)">4</div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 1 — IMPORTAR DOCUMENTOS           -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl on" id="s1">
+  <h2 class="pnl-t">Importar Documentos</h2>
+  <p class="pnl-d">Anexe o relatório de pré-vendas e/ou o briefing da primeira reunião. A ferramenta vai extrair automaticamente os dados do prospect.</p>
+
+  <div class="card">
+    <div class="card-t"><span class="n">1</span> Fonte dos dados</div>
+    <div class="tab-switch">
+      <button class="tab-btn active" onclick="switchTab('upload')">Anexar Arquivos</button>
+      <button class="tab-btn" onclick="switchTab('paste')">Colar Texto</button>
+    </div>
+
+    <div id="tabUpload">
+      <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div class="icon">📄</div>
+        <div style="font-size:15px;font-weight:600;color:var(--dark-gray);">Arraste seus arquivos aqui</div>
+        <p>PDF, Word (.docx) ou texto — até 3 arquivos</p>
+        <input type="file" id="fileInput" accept=".pdf,.docx,.doc,.txt" multiple hidden>
+      </div>
+      <div class="file-list" id="fileList"></div>
+    </div>
+
+    <div id="tabPaste" style="display:none;">
+      <p style="font-size:12px;color:var(--gray);margin-bottom:6px;">Cole o conteúdo do relatório de pré-vendas e/ou briefing abaixo:</p>
+      <textarea class="text-paste" id="pasteArea" placeholder="Cole aqui o conteúdo do relatório e briefing..."></textarea>
+      <div style="margin-top:10px;text-align:right;">
+        <button class="btn btn-p" onclick="processText(document.getElementById('pasteArea').value)">Processar texto</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="extractResult" style="display:none;">
+    <div class="card extract-preview">
+      <h3>Dados extraídos automaticamente</h3>
+      <p style="font-size:11px;color:var(--gray);margin-bottom:14px;">Confira os dados identificados. Eles serão preenchidos no Step 1 para revisão.</p>
+      <div class="ext-row"><span class="lbl">Marca</span><span class="val" id="ex_nome">—</span></div>
+      <div class="ext-row"><span class="lbl">Lojas</span><span class="val" id="ex_lojas">—</span></div>
+      <div class="ext-row"><span class="lbl">Segmento</span><span class="val" id="ex_seg">—</span></div>
+      <div class="ext-row"><span class="lbl">Concorrente</span><span class="val" id="ex_conc">—</span></div>
+      <div class="ext-row"><span class="lbl">Base BP</span><span class="val" id="ex_bp">—</span></div>
+      <div class="ext-dores" id="ex_dores"></div>
+    </div>
+  </div>
+
+  <div class="bbar">
+    <button class="btn btn-o" onclick="go(2)" style="font-size:12px;">Pular — preencher manualmente</button>
+    <button class="btn btn-p" id="btnExtract" onclick="applyExtracted();go(2)" style="display:none;">Aplicar e prosseguir →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 2 — CONFIGURAÇÃO DO PROSPECT     -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s2">
+  <h2 class="pnl-t">Configuração do Prospect</h2>
+  <p class="pnl-d">Revise os dados extraídos ou preencha manualmente. Selecione as dores identificadas.</p>
+
+  <div class="card">
+    <div class="card-t"><span class="n">1</span> Dados do Cliente</div>
+    <div class="r3">
+      <div class="fld"><label>Nome da marca</label><input type="text" id="p_nome" value="" placeholder="Preenchido automaticamente via docs" autocomplete="off"></div>
+      <div class="fld"><label>Segmento</label><select id="p_seg"><option value="qsr" selected>Quick Service (QSR)</option><option value="table">Table Service</option><option value="delivery">Delivery First</option><option value="cafe">Cafeteria / Doceria</option></select></div>
+      <div class="fld"><label>Estado</label><select id="p_uf"><option selected>SP</option><option>RJ</option><option>MG</option><option>Outro</option></select></div>
+    </div>
+    <div class="r3">
+      <div class="fld"><label>Restaurantes atuais</label><input type="number" id="p_lojas" value="200" min="1"></div>
+      <div class="fld"><label>Meses de contrato</label><input type="number" id="p_contrato" value="60" min="12" max="120"></div>
+      <div class="fld"><label>Meses de rollout</label><input type="number" id="p_rollout" value="2" min="1" max="60"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="n">2</span> Dores identificadas</div>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Dores extraídas dos documentos importados. Remova as que não se aplicam ou adicione novas.</p>
+    <div class="chk-grid" id="dGrid"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="n">3</span> Concorrente atual</div>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Se o prospect usa um concorrente conhecido, selecione para incluir um slide comparativo.</p>
+    <div class="fld">
+      <select id="p_conc">
+        <option value="">Nenhum / não informado</option>
+        <option value="linx">Linx Degust</option>
+        <option value="saipos">Saipos</option>
+        <option value="totvs">TOTVS Food Service (Chef)</option>
+        <option value="colibri">Colibri</option>
+        <option value="aloha">Aloha (NCR Voyix)</option>
+        <option value="teknisa">Teknisa</option>
+        <option value="nola">Nola</option>
+        <option value="gcom">GCOM PDV Food</option>
+        <option value="ciss">CISS S.A.</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="bbar"><button class="btn btn-p" onclick="go(3)">Próximo: Calculadora →</button></div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 3 — CALCULADORA (tudo em 1 pág)  -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s3">
+  <h2 class="pnl-t">Calculadora Interna</h2>
+  <p class="pnl-d">Ajuste módulos, valores, isenções e negociação. Dados internos — não vão para o cliente.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="card">
+      <div class="card-t">Parâmetros do Contrato</div>
+      <div class="r3">
+        <div class="fld"><label>Restaurantes</label><input type="number" id="g_lojas" value="200" min="1"></div>
+        <div class="fld"><label>Meses contrato</label><input type="number" id="g_contrato" value="60" min="12" max="120"></div>
+        <div class="fld"><label>Meses rollout</label><input type="number" id="g_rollout" value="2" min="1" max="60"></div>
+      </div>
+      <div class="r2" style="margin-top:8px;">
+        <div class="fld"><label>Setup marca (R$)</label><input type="number" id="g_setup" value="3000" min="0"></div>
+        <div class="fld"><label>Instalação/loja (R$)</label><input type="number" id="g_inst" value="1622" min="0"></div>
+      </div>
+      <label class="tgl"><input type="checkbox" id="ix_setup"> Isentar setup</label>
+      <label class="tgl"><input type="checkbox" id="ix_inst"> Isentar instalação</label>
+      <div class="r2" style="margin-top:8px;">
+        <div class="fld"><label>Rebate (%)</label><input type="number" id="g_reb" value="0" min="0" max="100" step="0.5"></div>
+        <div class="fld"><label>Incentivo (R$/mês)</label><input type="number" id="g_inc" value="0" min="0"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-t">Módulos — ative/desative e edite valores</div>
+      <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">Essenciais</div>
+      <div id="mEss"></div>
+      <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin:8px 0 3px;">Adicionais</div>
+      <div id="mAdd"></div>
+      <div class="m-tot"><span>Mensalidade/loja</span><span id="mTot">—</span></div>
+    </div>
+  </div>
+
+  <!-- Fixe CRM -->
+  <div class="card" style="margin-top:16px;">
+    <div class="card-t"><span style="background:#FF4D5E;color:#fff;width:22px;height:22px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700;">F</span> Ecossistema — Fixe CRM</div>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:8px;">Ative para incluir módulos Fixe CRM na proposta e apresentação.</p>
+    <label class="tgl" style="margin-bottom:10px;"><input type="checkbox" id="eco_fixe" onchange="toggleFixe();calc();"> Incluir Fixe CRM na proposta</label>
+    <div id="fixeModulos" style="display:none;padding:14px;background:#F3F4F6;border-radius:8px;">
+      <div style="font-size:11px;font-weight:700;color:var(--dark-gray);margin-bottom:8px;">Módulos Fixe CRM — selecione os contratados:</div>
+      <div class="chk-grid" id="fixeGrid"></div>
+    </div>
+  </div>
+
+  <div class="mbar">
+    <div class="mi"><div class="mv" id="b_mens">—</div><div class="ml">Mensalidade/loja</div></div>
+    <div class="mi"><div class="mv" id="b_rede">—</div><div class="ml">Total mensal rede</div></div>
+    <div class="mi"><div class="mv" id="b_save">—</div><div class="ml">Saving isenções</div></div>
+    <div class="mi ok"><div class="mv" id="b_marg">—</div><div class="ml">Margem Bruta (contrato)</div></div>
+  </div>
+
+  <div class="bbar">
+    <button class="btn btn-o" onclick="go(2)">← Voltar</button>
+    <button class="btn btn-g" onclick="go(4)">Gerar Apresentação →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 4 — APRESENTAÇÃO GERADA          -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s4">
+  <h2 class="pnl-t">Apresentação Gerada</h2>
+  <p class="pnl-d">Selecione quais seções incluir e exporte via Ctrl+P ou botão.</p>
+
+  <!-- Slide selector -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-t" style="margin-bottom:8px;">Seções da apresentação</div>
+    <p style="font-size:11px;color:var(--gray);margin-bottom:10px;">Desmarque o que não faz sentido para esta etapa da negociação. A apresentação será regenerada automaticamente.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;" id="slideToggles">
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_capa" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Capa</span></label>
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_quem" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Quem somos</span></label>
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_op" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Operação</span></label>
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_dores" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Dores</span></label>
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_sol" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Soluções</span></label>
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_fort" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Fortalezas</span></label>
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_comp" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Comparativo</span></label>
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_eco" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Ecossistema</span></label>
+      <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_prop" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Proposta</span></label>
+    </div>
+  </div>
+
+  <div class="bbar" style="margin-top:0;margin-bottom:16px;justify-content:flex-start;">
+    <button class="btn btn-o" onclick="go(3)">← Voltar</button>
+    <button class="btn btn-p" onclick="xport()">Abrir em nova aba (para PDF)</button>
+  </div>
+  <div id="previewWrap"><iframe id="pFrame" style="border:none;width:100%;height:85vh;"></iframe></div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// BASE BP — AUTOCOMPLETE
+// ══════════════════════════════════════
+const BP=[["A PIZZA DA MOOCA",3,"table",""],["ACAI BEAT",20,"qsr",""],["ACAI DA CIDADE",10,"qsr",""],["AÇAI DO FORTE - CONTA PAI",8,"qsr",""],["ACAI LA FRESCO",5,"qsr",""],["ADEGA DO BOI TERESINA",1,"table",""],["AKIRO SUSHI",3,"table","gcom"],["AMBROZINI",3,"table","teknisa"],["AMERICAN ORIGINAL - CONTA MARCA",12,"table",""],["ANGUS - CARNES E HAMBURGUERIA",6,"table","ciss"],["ARNALDO'S LANCHES - NÍVEL MARCA",4,"qsr","gcom"],["ARO TEMAKERIA DELIVERY",2,"delivery",""],["BABY BEEF EXPRESS",3,"table",""],["BANZAI ES",5,"table",""],["BAR DO ELIAS",2,"table",""],["BB DOG",8,"qsr",""],["BELLA PIZZA",4,"table",""],["BELLA SUSHI",3,"table",""],["BENDITA ESFIHA",1,"table",""],["BENTO AÇAITERIA",6,"qsr",""],["BERRIES - CONTA PAI",15,"qsr",""],["BEST - UBERLÂNDIA",3,"table",""],["BIBI RISTORANTE",2,"table",""],["BIG PIZZA",7,"qsr",""],["BISTROGONOFF",3,"table",""],["BKO - CONTA MARCA",10,"qsr",""],["BOLOS DO SÍTIO",5,"cafe",""],["BOLOS ROSA",8,"cafe",""],["BORDA E LENHA",4,"table",""],["BOTECO COLARINHO",2,"table",""],["BOTECO CONFRARIA",3,"table",""],["BRAVA SUSHI - CONTA MARCA",12,"table",""],["BRAZZATTO PIZZA",6,"table",""],["BRONCO BURGER",5,"table",""],["BRUTUS BURGER",6,"table",""],["BURGER X",4,"table","ciss"],["BURGERS RIO",7,"table",""],["CACHORRÃO DO CLAUDIÃO OFICIAL",3,"qsr","saipos"],["CAFE CULTURA SC - CONTA MARCA",8,"table",""],["CAMARÃO TO GO",4,"table",""],["CAMARÕES",5,"table",""],["CANTINHO DO PASTEL",6,"qsr",""],["CANTINHO DO SABOR",3,"qsr","saipos"],["CANTUCCI OSTERIA",2,"table",""],["CARECA",4,"table","saipos"],["CARNEIRO DO ORDONES - CONTA MARCA",6,"table",""],["CASA DO PARÁ",5,"table",""],["CAVENDISH",3,"table","saipos"],["CHAVITOS HAMBURGUERIA ARTESANAL",2,"table",""],["CHICKEN TOWN",8,"qsr",""],["CHILI BURGER HAMBURGUERIA ARTESANAL",8,"table","saipos"],["CHOPP DA FÁBRICA",4,"table",""],["COME ON BURGER",18,"table",""],["CONECTA KITCHEN",3,"table",""],["COOKIE DELIVERY OFICIAL",4,"cafe",""],["COOKIE MANIA",14,"qsr","saipos"],["COXA COXINHA",5,"qsr",""],["COXINHA DO GAGO",7,"qsr",""],["CRUZEIROS",8,"table",""],["CULINÁRIA MINEIRA",6,"table","gcom"],["D QUENTINHAS",9,"qsr",""],["DA PRI",6,"table","gcom"],["DALLE PIZZA",6,"table",""],["DAUNS",6,"table",""],["DELIKATA",6,"table",""],["DI LIANA RISTORANTE",1,"table",""],["DI NAPOLI PIZZARIA RS",11,"table","saipos"],["DIGÃO LANCHES",6,"qsr","teknisa"],["DILETTO MASSAS",6,"table","teknisa"],["DINA PIZZA",2,"table",""],["DIZZY",3,"table",""],["DOCE MAGIA",3,"cafe",""],["COFFEE DONUTS COFFEE - CONTA MARCA",7,"table",""],["DOM GALETO",4,"table",""],["DONA CARMELA",1,"table",""],["EAI BURGUER - MARCA",4,"table",""],["EDDIE FINE BURGER",11,"table",""],["EKY ESPETARIA CONSELHEIRO",2,"table",""],["EL PATRON",2,"table",""],["ESFIHARIA MAKTUBS",4,"table",""],["ESFIHAS DOZZA",7,"table",""],["FAMIGLIA DA PIZZA",9,"table",""],["FAMIGLIA REIS MAGOS",2,"table","saipos"],["FEIJOADA DO ABÍLIO",3,"table",""],["FIORENTINA RISTORANTE E PIZZARIA",6,"table",""],["FRANGO PREDILETO",5,"table",""],["FRIGIDEIRA GRILL",2,"table",""],["GALETO SÃO LUIZ",8,"table","saipos"],["GALETUS - MARCA",5,"table","saipos"],["GELATI ARTIGIANALE",6,"table",""],["GELATO BORELLI",7,"table",""],["GO YAKISOBA",8,"table",""],["GRACCO BURGER",18,"table",""],["GRUPO - DI LORENZA",5,"qsr",""],["GRUPO ALYSSON MULLER",20,"qsr","aloha"],["GRUPO AMERICAN BURGER BH",18,"table",""],["GRUPO BURGUINHO BAURU",17,"qsr",""],["GRUPO CAFÉ E UM CHÊRO",14,"table",""],["GRUPO CALEBITO",11,"qsr",""],["GRUPO CHANG",4,"qsr",""],["GRUPO DECK",12,"qsr",""],["GRUPO ILHA DA KOSTA",5,"qsr",""],["GRUPO IRAJÁ",15,"qsr",""],["GRUPO KANPEK TOASTED",6,"qsr",""],["GRUPO LORD BURGER",8,"table",""],["GRUPO NAU E MANGAI",14,"qsr",""],["GRUPO PÁPRICA",5,"table",""],["GRUPO RAINHA DAS MARMITAS",51,"qsr",""],["GRUPO REGALO PIZZERIA",6,"qsr",""],["GRUPO ROKKON",17,"qsr",""],["GRUPO SALAD BOWL",5,"table",""],["GRUPO SOHO AM - CONTA PAI",10,"qsr",""],["GRUPO TUNA",20,"qsr",""],["HAJIME SUSHI",12,"table",""],["HASHI EXPRESS",6,"table","totvs"],["HOLY PIZZA FORTALEZA",7,"table","gcom"],["HORA DO PASTEL - CONTA MARCA",4,"qsr",""],["HOT DOG DU PIRU - SC",10,"qsr","saipos"],["HOT DOG YRACEMA",7,"qsr",""],["IMPERIO DO ACAI",10,"qsr","saipos"],["IMPÉRIO HAMBURGUERIA",8,"table",""],["INPOT - CONTA PAI",10,"table","ciss"],["JAPESCA SUSHI",15,"table",""],["JAPIDINHO",10,"table",""],["JET PIZZAS",3,"table","saipos"],["JON PIZZA CO - MARCA",3,"table",""],["KADALORA",6,"table",""],["KINA DO FEIJAO VERDE",3,"table","teknisa"],["KK",4,"table",""],["KOMBIS HOT DOG",4,"qsr",""],["LA MOLE",2,"table","ciss"],["LACA BURGUER",5,"table","totvs"],["LAHMAJUN",3,"table",""],["LET'S EAT",6,"table",""],["LIFEBOX",5,"table",""],["MAGRELO LANCHES",10,"qsr","saipos"],["MAMMA MIA RS",4,"table",""],["MARCA CAMARGO FOOD",5,"table",""],["MARK HAMBURGUERIA",12,"table",""],["MARMITARIA BH",8,"qsr","saipos"],["MAUI POKE HOUSE",4,"table",""],["MEGA ACAI",10,"qsr",""],["MEGA LANCHES",8,"qsr",""],["MENU POKE",3,"table",""],["MEXICANÍSSIMO RISTORANTE",6,"table",""],["MR MAKI",8,"table","saipos"],["MR TEXAS PIZZA PAN",6,"table","saipos"],["NA BRASA COLUMBIA",4,"table","aloha"],["NAKASA DELIVERY",3,"table",""],["NAKAYOSHI RIBEIRÃO PRETO",8,"table",""],["NARA LAMEN",8,"table",""],["NEW HAKATA",7,"table",""],["NIPOPESCA",6,"table",""],["O FARAÓ AM",8,"table",""],["O NOSSO CHURRASQUETO",8,"table",""],["OFICINA DAS PIZZAS",8,"table",""],["OHANA SUSHI - GRUPO",6,"table",""],["ORC BURGER JAÚ",6,"table",""],["PADARIA MONZA",9,"cafe",""],["PAPPARELLA PIZZARIA",3,"table",""],["PARMEGIANNO",5,"table",""],["PASTÉIS DE VENTO CIA",2,"table","saipos"],["PASTEL CHEFINHOS",3,"qsr","ciss"],["PASTEL E YAKISSOBA DA MI",8,"qsr",""],["PATI POKE POKE",3,"qsr","saipos"],["Grupo Pecora",6,"qsr",""],["PEIXE NA REDE",2,"table","saipos"],["PETISKOZ",5,"table",""],["PITTSBURG",6,"table",""],["PIZZA SCUOLA",3,"table",""],["PIZZARIA E ESFIHARIA VILA VELHA",5,"table",""],["PIZZARIA PERONI",12,"table",""],["PLANALTO DO CHOPP",8,"table",""],["POINT DO ACAI",13,"qsr",""],["PRESS - CONTA GRUPO",8,"qsr",""],["QUINA DO FUTURO",6,"table",""],["RED BURGER",9,"table",""],["REDE EJC ORIGINAL - CONTA MARCA",3,"table",""],["REDE GOURMET",2,"table",""],["REI DA PIZZA - CONTA MARCA",7,"table",""],["REI DO ACAI",11,"qsr",""],["REI DO SUSHI",8,"table",""],["RISTORANTE MARIA ANTONIETA",7,"table","saipos"],["REZENDOG FAST FOOD",9,"qsr",""],["RINCONCITO PERUANO",7,"table",""],["ROCK BURGER - CONTA MARCA",10,"table",""],["SABOR CASEIRO",7,"table",""],["SAGRADO BOULANGERIE",3,"table",""],["SAIKOU SUSHI EXPRESS",11,"table",""],["SAL E BRASA NATAL",8,"table",""],["SAMCROS BURGUER - CONTA MARCA",5,"table",""],["SEVERO GARAGE - CONTA MARCA",3,"table",""],["SIRENE FISH CHIPS",6,"table",""],["SOCIAL CLUBE",2,"table",""],["Sodiê",3,"table",""],["SUSHI DA PRAÇA",12,"table",""],["TABUA DE CARNE",4,"table",""],["TAKE A JUICE CONTA MARCA",6,"table",""],["THE POKE - CONTA MARCA",9,"qsr","saipos"],["TIO ARMENIO",5,"table","saipos"],["TONYS GRILL",2,"table",""],["TOP PIZZA",7,"table",""],["TOPPU SUSHI",6,"table",""],["TORTELLE ESFIHARIA",9,"table","saipos"],["TRUDYSSSS PIZZARIA E RISTORANTE - CONTA PAI",5,"table",""],["VEGAS PIZZARIA E ESFIHARIA",10,"table",""],["VIGNOLI",6,"table","gcom"],["VIVA GULA",3,"table",""],["WORLD COOKIES - CONTA MARCA",2,"cafe",""],["YOSUGIRU",6,"table",""],["ZI TEREZA",8,"table",""],["A Esperança Pizzaria",4,"table",""],["Açaí Puríssimo",5,"table","gcom"],["Adore Brigaderia Gourmet",7,"table",""],["Al Capizza 24H",4,"table",""],["Aleixo Pizzaria",7,"table",""],["Alemao Sp",8,"table","saipos"],["Alento",2,"table",""],["Alife Nino (Grupo Drumattos)",22,"qsr",""],["All Natural",8,"table",""],["American Cookies",5,"cafe",""],["Amir",6,"table","saipos"],["Andiamo",5,"table",""],["Árabis Esfiharia",12,"table",""],["Augustinho Burger",12,"table",""],["Bacio Di Latte",220,"table",""],["Baked Potato",8,"table",""],["Bala No Alvo - Marca",7,"table",""],["Banana Food",6,"table","saipos"],["Barolo Trattoria Curitiba",3,"table",""],["Baruk Esfiha E Shawarmas",11,"table",""],["Bengo Açaí",6,"table",""],["Bibi Sucos",7,"table","saipos"],["Big X Picanha",6,"table",""],["Black Dog",3,"qsr",""],["Boali (Grupo Boali)",7,"qsr",""],["Bob Esponja (Nickelodeon)",7,"table",""],["Bob'S (Bffc)",650,"qsr",""],["Bocattino Box",6,"table","totvs"],["Botanikafe (Grupo Botanikafe)",4,"table",""],["Boteco Curitiba",8,"table",""],["Bottega Bernacca",2,"table",""],["Brasileirinho Delivery Comida Típica",6,"table","aloha"],["Brasserie Victória",8,"table","linx"],["Bravo Gastronomia",6,"table","saipos"],["Brutus- Cp",5,"table","saipos"],["Bubble Mix",6,"table",""],["Buffalos Grill",5,"table","saipos"],["Burdog",4,"qsr",""],["Cacau Show",4713,"qsr","saipos"],["Café Cultura",7,"table","saipos"],["Camarada Camarão (Grupo Drumattos)",5,"qsr",""],["Candreva Bar",5,"table",""],["Cantina Do Délio - Curitiba",2,"table","aloha"],["Cantina Gigio Pinheiros",6,"table",""],["Canton",4,"table",""],["Caramelo Hamburgueria E Lanches",16,"table",""],["Carol Coxinhas",2,"table",""],["Casa Da Feijoada Do Paulinho",8,"table","saipos"],["Casa Da Sobremesa Norte-Sul",7,"table","aloha"],["Caseratto Food",4,"table","saipos"],["Castelo Alemão - Marca",5,"table",""],["Cereja Grill",6,"table",""],["Chef Sushi - Conta Marca",8,"table",""],["Cheppitos",6,"table",""],["Chocomia Sweet Atelier - Marca Oficial",5,"table",""],["Churrascaria América Grill",7,"table",""],["Coco Bambu",99,"qsr",""],["Comendador Burguer",6,"table","saipos"],["Comodoro Burguer",3,"table","saipos"],["CHURRASCARIA SÃO JUDAS TADEU",5,"table",""],["Cremolatto",6,"table",""],["Cristal Pizza",9,"table",""],["Daásu Sushi",12,"table",""],["Delírio Tropical",7,"table",""],["Detroit Pizzaria Cp",8,"table",""],["Di Frango",3,"table",""],["Di Napoli",4,"table","linx"],["Divino Fogão",7,"table",""],["Dna Da Pizza",6,"table",""],["Dog King",2,"qsr",""],["Dolcissimo",3,"table",""],["Dominos",220,"qsr",""],["Don Corleone",5,"table",""],["Don Pepe Di Napoli",4,"table","saipos"],["Estação Das Pizzas",2,"table",""],["Estação Grill",4,"table",""],["Estella Burger",6,"table",""],["Excelencia Do Pao",4,"table",""],["Ferro E Farinha",8,"table",""],["Fichips Food",2,"table",""],["Frank & Charles",4,"table",""],["Frutaria São Paulo",3,"table",""],["Futuro Refeitório",6,"table","saipos"],["Galeto Mamma Mia",7,"table",""],["Galetos",7,"table",""],["Gigante Nordestino",4,"table","ciss"],["Giraffas",400,"qsr",""],["Gordão Lanches - Norte Sul",3,"table",""],["Gourmet Avenida - Cp",8,"table",""],["Grão Espresso",5,"table",""],["Greenjoy",3,"table","totvs"],["Grupo Agua Doce Cachacaria",10,"cafe",""],["Grupo Alices",23,"qsr",""],["Grupo Atlântico",5,"qsr",""],["Grupo Atrio",23,"qsr","saipos"],["Grupo Attimo",9,"qsr",""],["Grupo Belas Artes",9,"qsr","saipos"],["Grupo BHF",15,"qsr",""],["Grupo Crm (Kopenhagen)",23,"qsr",""],["Grupo Di Roma Florianópolis",25,"qsr",""],["Grupo Django Hamburgueria",14,"table",""],["Grupo Dock",22,"qsr",""],["Grupo Fasano",30,"table","saipos"],["Grupo Impettus",13,"qsr",""],["Grupo Ito",21,"qsr","saipos"],["Grupo Iz",14,"qsr",""],["Grupo Lago",25,"qsr",""],["Grupo Lanchão Cia",10,"qsr",""],["Grupo Matilda",15,"qsr","saipos"],["Grupo Mono (Sunomono)",18,"qsr",""],["Grupo Mori",24,"qsr","saipos"],["Grupo Mult",18,"qsr",""],["Grupo Nori (Es)",16,"qsr",""],["Grupo O Brazeiro",25,"qsr",""],["Grupo Pizza E Cia",2,"table",""],["Grupo Qg",24,"qsr",""],["Grupo Romana",24,"qsr","saipos"],["Grupo Rueda",6,"qsr",""],["Grupo saints",24,"qsr",""],["Grupo Taikan Fast Sushi",7,"table",""],["Grupo Taisho",5,"qsr",""],["Grupo The Curadoria",10,"qsr",""],["Grupo Top",20,"qsr",""],["Grupo Trema",18,"qsr","saipos"],["Grupo Trends Kitchen",14,"qsr","saipos"],["Grupo Varanda",21,"qsr",""],["Grupo Villa Sucreê",20,"qsr","saipos"],["Guarita Bar",7,"table",""],["Gula Gula",15,"table",""],["Botanikafe",4,"table",""],["Gurume",10,"table",""],["Habib's",600,"qsr","totvs"],["Halipar Croasonho",70,"qsr","saipos"],["Halipar Griletto",150,"table",""],["Halipar Jinjin",73,"qsr",""],["Halipar Montana",130,"table","saipos"],["Hiro",4,"table",""],["Kopenhagen",870,"cafe",""],["Inspire Brands (Dunkin)",20,"qsr",""],["Isabela Akkari",12,"table",""],["Itzza",4,"table",""],["Janela Bar",28,"qsr",""],["Jappa da Quitanda",7,"table",""],["Jardim De Napoli",2,"table","saipos"],["Johnny Joy",50,"qsr","saipos"],["Johns Burguer",2,"table",""],["Jojo Ramen",4,"table",""],["Jsk Burguer",11,"qsr","saipos"],["Ken Taki Kandoo",4,"table","saipos"],["Kosushi",5,"table","aloha"],["Koto By Makoto",3,"table","aloha"],["Kouzina",2,"table",""],["La Braciera Pizzaria",7,"table",""],["La Guapa",36,"qsr",""],["Le Blond",1,"table",""],["Lecadô",35,"qsr",""],["Lemax Hamburgueria",12,"table",""],["Leve Mirin",1,"table",""],["Makoto Brasil",2,"table","saipos"],["Mana Poke (Grupo Boali)",70,"table","aloha"],["Manekineko",5,"table","totvs"],["Mania De Churrasco",115,"table","teknisa"],["Marcos A Padaria Maringá",2,"table","saipos"],["Matsuya",11,"table","teknisa"],["Mega Matte",150,"qsr","gcom"],["Mei Mei",40,"table",""],["Meu Chef Lanches - Marca",6,"qsr","saipos"],["Oakberry",560,"qsr",""],["Pati Piva",6,"cafe",""],["Pobre Juan",19,"table",""],["Subway",1559,"qsr","saipos"],["Sushi Leblon",1,"table",""],["Templo Da Carne Marcos Bassi",1,"table",""],["Zapata Mexican Bar",6,"table",""],["Bom Beef",49,"qsr","saipos"],["Boulangerie Carioca",9,"qsr","saipos"],["Burger King",1225,"qsr","saipos"],["KFC",260,"qsr",""],["Naturale",4,"qsr",""],["Outback",188,"table",""],["Popeyes",93,"qsr","aloha"],["Sukiya",29,"qsr",""],["Empadinha Barnabé",14,"qsr","saipos"],["O Forneiro",2,"table",""],["La Borratxeria",6,"table",""],["SB Franquias (Sal e Brasa)",44,"qsr",""],["Patroni Pizzaria",225,"qsr","saipos"],["O Açaí (Açaí Formosa)",125,"qsr",""],["Oggi Sorvetes",1312,"qsr",""],["O Matuto Express",13,"table","saipos"],["Grupo Madureira",17,"table",""],["Pecorino Bar & Trattoria",12,"qsr",""],["New Dog",1,"qsr",""],["Milk Mellow",2,"qsr",""],["Pabu Izakaya",1,"table","aloha"],["Mitsuba",1,"table",""],["Nacional Lanches",1,"qsr","saipos"],["Paellas Pepe",1,"table",""],["Pitico",1,"qsr","saipos"],["Pizza Do Pão",1,"qsr",""],["Pizza Pazza",16,"table",""],["Pizzadog",8,"qsr",""],["Pizzaria Abaré",16,"qsr",""],["Pizzaria Camelo",9,"table","aloha"],["Pizzaria do Samba",13,"table","saipos"],["Poke To Wok",4,"table",""],["Poke Up",3,"table",""],["Qualitta Food Service",7,"qsr",""],["Quick Temaki",3,"table","saipos"],["Quiero Cafe",80,"qsr",""],["Quinta Da Oliva",2,"table","saipos"],["Rei Do Mate",340,"qsr",""],["Ristorante Cacilda",1,"table",""],["Ricco Burger",11,"table",""],["Ritz",3,"table",""],["Roasted Potato",32,"qsr",""],["Rock'N Grill Curitiba",8,"table",""],["Rock&Ribs",7,"table",""],["Sala Vip",13,"delivery","saipos"],["Sassa Sushi",5,"table",""],["Si Senor",20,"table","saipos"],["Spedini Curitiba",18,"table","saipos"],["Stefan Behar",2,"cafe","saipos"],["Sterna Cafe",90,"qsr","saipos"],["Sushi Go",18,"table","totvs"],["Sushi Papaia",3,"delivery",""],["Temakeria Com (Grupo Temakeria)",22,"table","saipos"],["Temaki Fry",19,"table",""],["Tentazione Pizzaria",3,"delivery",""],["Tiobak",16,"qsr","saipos"],["Tortelli",3,"delivery",""],["Torteria",4,"cafe",""],["Tragga",3,"table","aloha"],["Trattoria De Origem",2,"table",""],["Tropical Banana",13,"qsr","saipos"],["T.T. Burger (Thomas Troisgros)",18,"table",""],["Varanda 1389",2,"table",""],["Bacio di Latte",220,"table",""]];
+// BP match is now handled by Step 0 extraction engine
+
+// ══════════════════════════════════════
+// DORES
+// ══════════════════════════════════════
+// Banco de dores/soluções possíveis (usadas para matching com texto extraído)
+const DORES_BANK=[
+  {id:'d1',txt:'Gestão de múltiplas lojas e cardápios com preços diferentes por canal',sol:'Cadastro centralizado com edição massiva e push em nuvem para todas as lojas',ben:'Agilidade na rede',keys:['cardápio','cardapio','menu','preço','preco','multi-loja','múltiplas lojas','multiplas lojas','canal']},
+  {id:'d2',txt:'Pedidos descentralizados entre balcão, totem e delivery',sol:'PDV integrado + Hub Delivery + Totem em plataforma única',ben:'Operação unificada',keys:['pedido','descentraliz','balcão','balcao','totem','delivery','canais']},
+  {id:'d3',txt:'KDS sem indicadores de tempo ou balanceamento por praça',sol:'KDS por estação com tempo de produção, balanceamento e fallback automático',ben:'Produção otimizada',keys:['kds','cozinha','praça','praca','produção','producao','comanda']},
+  {id:'d4',txt:'Ruptura de estoque com insumos e sem baixa automática',sol:'Inventário com baixa automática, alertas parametrizáveis e fichas técnicas',ben:'Menos perdas',keys:['estoque','insumo','ruptura','baixa','inventário','inventario','cmv','ficha técnica']},
+  {id:'d5',txt:'Falta de visibilidade operacional em tempo real na rede',sol:'3SGo (app gestão) + Dashboards + Relatórios atualizados a cada 15 min',ben:'Decisões rápidas',keys:['visibilidade','tempo real','dashboard','real time','3sgo','gestão','gestao']},
+  {id:'d6',txt:'Relatórios engessados e sem granularidade por loja e canal',sol:'Relatórios gerenciais por loja, canal, operador e período + BI',ben:'Controle total',keys:['relatório','relatorio','bi','kpi','indicador','dado','report']},
+  {id:'d7',txt:'Complexidade e lentidão nos pagamentos',sol:'SmartPOS com pagamentos flexíveis por pessoa, item ou mesa',ben:'Experiência fluida',keys:['pagamento','tef','cartão','cartao','maquininha','adquirente','pix']},
+  {id:'d8',txt:'Baixa retenção de clientes e promoções sem recorrência',sol:'CRM com fidelidade, promoções personalizadas e acompanhamento de base',ben:'Clientes recorrentes',keys:['fideliz','fidelidade','crm','retenção','retencao','engajamento','marketing','recorrência','recorrencia']},
+  {id:'d9',txt:'Sistemas fragmentados e sem integração entre módulos',sol:'Plataforma única 3S com PDV, KDS, Totem, Delivery e BackOffice integrados',ben:'Operação conectada',keys:['fragmenta','integra','sistema','legado','desconectad','vários sistema','varios sistema']},
+  {id:'d10',txt:'Filas longas e demora no atendimento',sol:'Totem de autoatendimento + POS Mobile para atendimento descentralizado',ben:'Atendimento ágil',keys:['fila','espera','atendimento','demor','agilidade','lentidão']},
+  {id:'d11',txt:'Erros operacionais e retrabalho na produção',sol:'KDS digital + comandas eletrônicas eliminam falhas de comunicação',ben:'Zero retrabalho',keys:['erro','retrabalho','falha','comanda','perda']},
+  {id:'d12',txt:'Gestão de delivery fragmentada entre múltiplos agregadores',sol:'Hub Delivery nativo com integração direta iFood, Rappi e Open Delivery',ben:'Delivery centralizado',keys:['delivery','ifood','rappi','uber eats','marketplace','agregador','hub']},
+];
+
+// Dores ativas — inicialmente vazio (preenchido via extração ou manualmente)
+let DORES=[];
+let _dorCounter=100;
+
+function renderDores(){
+  const dG=document.getElementById('dGrid');
+  dG.innerHTML='';
+
+  if(DORES.length===0){
+    // Mensagem + botão para adicionar manualmente
+    const empty=document.createElement('div');
+    empty.style.cssText='grid-column:1/-1;text-align:center;padding:20px;color:var(--gray);font-size:13px;';
+    empty.innerHTML='<div style="margin-bottom:10px;">Nenhuma dor identificada. Importe documentos no Step 1 ou adicione manualmente.</div>';
+    dG.appendChild(empty);
+  } else {
+    DORES.forEach(d=>{
+      const div=document.createElement('div');div.className='chk sel';
+      div.innerHTML='<input type="checkbox" id="'+d.id+'" checked><span>'+d.txt+'</span>'+
+        '<button style="background:none;border:none;color:var(--gray);cursor:pointer;font-size:14px;font-weight:700;padding:0 2px;margin-left:auto;flex-shrink:0;" title="Remover dor" data-did="'+d.id+'">×</button>';
+      div.addEventListener('click',e=>{
+        if(e.target.tagName==='INPUT'||e.target.tagName==='BUTTON')return;
+        const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);
+      });
+      div.querySelector('input').addEventListener('change',function(){div.classList.toggle('sel',this.checked);});
+      div.querySelector('button').addEventListener('click',function(){
+        DORES=DORES.filter(x=>x.id!==d.id);
+        renderDores();
+      });
+      dG.appendChild(div);
+    });
+  }
+
+  // Always show add button
+  const addDiv=document.createElement('div');
+  addDiv.style.cssText='grid-column:1/-1;display:flex;gap:8px;margin-top:6px;';
+  addDiv.innerHTML=
+    '<button class="btn btn-o" style="font-size:11px;padding:7px 14px;" onclick="addDorFromBank()">+ Adicionar dor do banco</button>'+
+    '<button class="btn btn-o" style="font-size:11px;padding:7px 14px;" onclick="addCustomDor()">+ Dor personalizada</button>';
+  dG.appendChild(addDiv);
+}
+
+function addDorFromBank(){
+  const activeIds=new Set(DORES.map(d=>d.id));
+  const available=DORES_BANK.filter(d=>!activeIds.has(d.id));
+  if(!available.length){alert('Todas as dores do banco já foram adicionadas.');return;}
+
+  // Show a dropdown-like prompt
+  const items=available.map((d,i)=>(i+1)+'. '+d.txt).join('\n');
+  const choice=prompt('Selecione o número da dor:\n\n'+items);
+  if(!choice)return;
+  const idx=parseInt(choice)-1;
+  if(idx>=0&&idx<available.length){
+    DORES.push({...available[idx]});
+    renderDores();
+  }
+}
+
+function addCustomDor(){
+  const txt=prompt('Descreva a dor/desafio:');
+  if(!txt||!txt.trim())return;
+  const sol=prompt('Como a 3S resolve? (solução):','');
+  const ben=prompt('Benefício principal:','');
+  DORES.push({id:'dc_'+(++_dorCounter),txt:txt.trim(),sol:sol||'Solução personalizada com a plataforma 3S',ben:ben||'Eficiência operacional'});
+  renderDores();
+}
+
+// Match dores from extracted text
+function matchDoresFromText(txt){
+  const t=txt.toLowerCase();
+  const matched=[];
+  DORES_BANK.forEach(d=>{
+    if(d.keys.some(k=>t.includes(k))){
+      matched.push({...d});
+    }
+  });
+  return matched;
+}
+
+renderDores();
+
+// ══════════════════════════════════════
+// CONCORRENTES
+// ══════════════════════════════════════
+const CONC={
+  linx:{nm:'Linx Degust',pos:'Cloud-first (Azure), foco em varejo expandindo para food.',
+    pontos:[
+      {cat:'Arquitetura',conc:'100% cloud — sem modo offline robusto',trs:'Arquitetura híbrida: opera offline e sincroniza ao voltar'},
+      {cat:'Delivery',conc:'Hub Delivery 2.0 para marketplaces',trs:'Hub Delivery nativo + integração direta iFood, Rappi, OD'},
+      {cat:'Multi-loja',conc:'Painel multi-unidade web',trs:'Gestão centralizada com edição massiva e push em nuvem'},
+      {cat:'Financeiro',conc:'Requer ecossistema Linx para conciliação',trs:'Conciliação independente, sem dependência de ecossistema'},
+    ]},
+  saipos:{nm:'Saipos',pos:'Cloud-native para PME, foco em democratização.',
+    pontos:[
+      {cat:'Escala',conc:'Foco em PME — limitado para grandes redes',trs:'Desenvolvido para redes: 130+ marcas, 2.400+ lojas'},
+      {cat:'Arquitetura',conc:'Cloud puro — vulnerável a instabilidade de internet',trs:'Arquitetura híbrida robusta com fallback offline'},
+      {cat:'CMV',conc:'Controle básico, sem cascata de ingredientes',trs:'Fichas técnicas com custo e margem por item'},
+      {cat:'Suporte a rede',conc:'Implantação self-service',trs:'Implantação assistida + suporte dedicado para redes'},
+    ]},
+  totvs:{nm:'TOTVS Food Service (Chef)',pos:'Cloud-native com integração ERP TOTVS.',
+    pontos:[
+      {cat:'Dependência',conc:'Requer licença ERP TOTVS para integração plena',trs:'Plataforma independente, sem pré-requisitos'},
+      {cat:'Delivery',conc:'Integração via terceiro (Hyperlocal), não nativa',trs:'Hub Delivery nativo e integrado ao PDV'},
+      {cat:'Especialização',conc:'Foco em alimentação corporativa e catering',trs:'Especialista em food service comercial (QSR, casual, franquias)'},
+      {cat:'Agilidade',conc:'Deploy depende de stack TOTVS',trs:'Implantação ágil, independente de ERP'},
+    ]},
+  colibri:{nm:'Colibri',pos:'Startup "Square brasileiro" — software + hardware + adquirência.',
+    pontos:[
+      {cat:'Maturidade',conc:'Startup em crescimento, menor maturidade',trs:'130+ marcas ativas, R$ 16 BI faturamento/ano processado'},
+      {cat:'Delivery',conc:'Integração delivery via terceiros',trs:'Hub Delivery nativo com integração direta'},
+      {cat:'Arquitetura',conc:'Offline + sincronização',trs:'Arquitetura híbrida robusta (superior)'},
+      {cat:'Escala',conc:'Foco em independentes e franquias emergentes',trs:'Escala comprovada: 4 de 10 top fast-food usam 3S'},
+    ]},
+  aloha:{nm:'Aloha (NCR Voyix)',pos:'POS enterprise global, foco em operações complexas.',
+    pontos:[
+      {cat:'Delivery BR',conc:'iFood só via Deliverect (custo extra + latência)',trs:'Integração nativa iFood, Rappi, OD — sem intermediário'},
+      {cat:'Custo',conc:'~R$ 350-750/mês + setup + Deliverect à parte',trs:'Precificação competitiva com tudo integrado'},
+      {cat:'Localização',conc:'Produto americano adaptado para Brasil',trs:'100% brasileiro, compliance fiscal nativo (NFC-e, SAT)'},
+      {cat:'Integrações BR',conc:'Poucas integrações brasileiras nativas',trs:'Ecossistema completo para o mercado brasileiro'},
+    ]},
+  teknisa:{nm:'Teknisa',pos:'ERP enterprise institucional (hospitais, catering, escolar).',
+    pontos:[
+      {cat:'Foco',conc:'Food service institucional — não é PDV comercial',trs:'Especialista em restaurantes, bares, franquias comerciais'},
+      {cat:'Interface',conc:'Interface desktop (legado)',trs:'Interface moderna, responsiva, cloud + offline'},
+      {cat:'Fichas técnicas',conc:'Nível hospitalar (valores nutricionais, lotes)',trs:'Fichas técnicas comerciais (custo, margem, rentabilidade)'},
+      {cat:'Agilidade',conc:'Deploy complexo, perfil enterprise pesado',trs:'Implantação ágil com suporte dedicado'},
+    ]},
+  nola:{nm:'Nola',pos:'Ecossistema cloud para hamburguerias e food service.',
+    pontos:[
+      {cat:'Versatilidade',conc:'Foco em hamburguerias limita versatilidade',trs:'Multi-segmento: QSR, casual, cafeterias, franquias'},
+      {cat:'Arquitetura',conc:'Cloud puro',trs:'Arquitetura híbrida com fallback offline'},
+      {cat:'Escala',conc:'Ideal para redes de 10-30 lojas',trs:'Escala comprovada para redes de 200+ lojas'},
+      {cat:'Multi-marca',conc:'Cada marca virtual pode exigir plano separado',trs:'Gestão multi-marca integrada'},
+    ]},
+  gcom:{nm:'GCOM PDV Food',pos:'Cloud-based 360° (PDV + BackOffice + Financeiro) para PME.',
+    pontos:[
+      {cat:'Escala',conc:'Foco PME, até 20 unidades',trs:'Desenvolvido para redes maiores: 130+ marcas ativas'},
+      {cat:'CMV',conc:'Controle básico, sem cascata',trs:'BackOffice robusto com inventário avançado + fichas técnicas'},
+      {cat:'ERP',conc:'ERP Lite básico incluso',trs:'BackOffice completo com DRE, estoque e conciliação'},
+      {cat:'Delivery',conc:'Hub multi-marketplace genérico',trs:'Hub Delivery nativo com integração certificada iFood'},
+    ]},
+  ciss:{nm:'CISS S.A.',pos:'Solução de varejo expandindo para food service.',
+    pontos:[
+      {cat:'Especialização',conc:'Origem varejo — food service é extensão, não core',trs:'100% especialista em food service'},
+      {cat:'Dependência',conc:'Sem ERP CISS, precisa configurar APIs (fricção)',trs:'Plataforma independente, pronta para uso'},
+      {cat:'Food service',conc:'Menor especialização em food service puro',trs:'Produto desenhado para restaurantes desde o início'},
+      {cat:'Escala',conc:'Foco em operações menores e food trucks',trs:'Escala para redes nacionais com 200+ lojas'},
+    ]},
+};
+
+// ══════════════════════════════════════
+// ECOSSISTEMA
+// ══════════════════════════════════════
+const FIXE_MODS=[
+  {id:'fx_fid',nm:'Fidelidade 360',desc:'Selos, pontuação, cashback, gift back via Wallet/WhatsApp/Web/APP',v:199},
+  {id:'fx_app',nm:'Super APP Whitelabel',desc:'App próprio da marca nas lojas iOS e Android',v:999},
+  {id:'fx_camp',nm:'Campanhas & Ativações',desc:'Régua de comunicação com push, e-mail, SMS e WhatsApp',v:0},
+  {id:'fx_nps',nm:'Pesquisa NPS',desc:'NPS relacional, transacional e bonificado com report automático',v:129},
+  {id:'fx_gift',nm:'Cartão Presente',desc:'Gift card PF (clientes) e PJ/RH (empresas para colaboradores)',v:1699},
+  {id:'fx_bot',nm:'WhatsApp BOT',desc:'Autoatendimento inteligente com árvore de fluxos personalizados',v:0},
+];
+// Fixe modules sub-grid
+const fG=document.getElementById('fixeGrid');
+FIXE_MODS.forEach(m=>{
+  const div=document.createElement('div');div.className='chk';
+  const precoHtml=m.v>0?`<br><span style="font-size:10px;color:var(--purple);font-weight:600;">R$ ${m.v.toFixed(2).replace('.',',')}/mês</span>`:'';
+  div.innerHTML=`<input type="checkbox" id="${m.id}"><span><strong>${m.nm}</strong>${precoHtml}<br><span style="font-size:10px;color:var(--gray);">${m.desc}</span></span>`;
+  div.addEventListener('click',ev=>{if(ev.target.tagName==='INPUT')return;const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);});
+  div.querySelector('input').addEventListener('change',function(){div.classList.toggle('sel',this.checked);});
+  fG.appendChild(div);
+});
+function toggleFixe(){document.getElementById('fixeModulos').style.display=gc('eco_fixe')?'block':'none';}
+
+// ══════════════════════════════════════
+// MÓDULOS
+// ══════════════════════════════════════
+// Catálogo de todos os módulos — cada variação de quantidade é um item separado
+const MOD_CATALOG=[
+  // PDV
+  {id:'pdv_3',nm:'PDV — Até 3',v:350,grp:'PDV',cat:'ess'},
+  {id:'pdv_5',nm:'PDV — Até 5',v:450,grp:'PDV',cat:'ess'},
+  {id:'pdv_ilim',nm:'PDV — Ilimitado',v:650,grp:'PDV',cat:'ess'},
+  {id:'pdv_adic',nm:'PDV — Adicional',v:49.90,grp:'PDV',cat:'add'},
+  // KDS
+  {id:'kds_1',nm:'KDS — 1',v:80,grp:'KDS',cat:'ess'},
+  {id:'kds_3',nm:'KDS — Até 3',v:160,grp:'KDS',cat:'ess'},
+  {id:'kds_ilim',nm:'KDS — Ilimitado',v:280,grp:'KDS',cat:'ess'},
+  {id:'kds_adic',nm:'KDS — Adicional',v:60,grp:'KDS',cat:'add'},
+  // Totem
+  {id:'totem_1',nm:'Totem — 1',v:100,grp:'Totem',cat:'ess'},
+  {id:'totem_3',nm:'Totem — Até 3',v:180,grp:'Totem',cat:'ess'},
+  {id:'totem_ilim',nm:'Totem — Ilimitado',v:360,grp:'Totem',cat:'ess'},
+  {id:'totem_adic',nm:'Totem — Adicional',v:65,grp:'Totem',cat:'add'},
+  // Marketplace
+  {id:'mkt_ifood',nm:'Marketplace — iFood',v:60,grp:'Marketplace',cat:'ess'},
+  {id:'mkt_ifood_od',nm:'Marketplace — iFood / Open Delivery',v:90,grp:'Marketplace',cat:'ess'},
+  {id:'mkt_ifood_rappi',nm:'Marketplace — iFood / Rappi',v:90,grp:'Marketplace',cat:'ess'},
+  {id:'mkt_full',nm:'Marketplace — iFood / Rappi / OD',v:110,grp:'Marketplace',cat:'ess'},
+  {id:'mkt_rappi',nm:'Marketplace — Rappi',v:60,grp:'Marketplace',cat:'ess'},
+  {id:'mkt_rappi_od',nm:'Marketplace — Rappi / Open Delivery',v:90,grp:'Marketplace',cat:'ess'},
+  {id:'mkt_od',nm:'Marketplace — Open Delivery',v:60,grp:'Marketplace',cat:'ess'},
+  // TEF
+  {id:'tef_1',nm:'TEF — 1ª integração',v:104.20,grp:'TEF',cat:'ess'},
+  {id:'tef_2a4',nm:'TEF — Integrações adicionais (2-4)',v:25.22,grp:'TEF',cat:'add'},
+  {id:'tef_5a20',nm:'TEF — Integrações adicionais (5-20)',v:21.93,grp:'TEF',cat:'add'},
+  // Impressoras
+  {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,grp:'Impressoras',cat:'ess'},
+  {id:'imp_ilim',nm:'Produção Impressoras — Ilimitado',v:100,grp:'Impressoras',cat:'ess'},
+  // POS Mobile
+  {id:'pos_3',nm:'POS Mobile — Até 3',v:100,grp:'POS Mobile',cat:'add'},
+  {id:'pos_5',nm:'POS Mobile — Até 5',v:150,grp:'POS Mobile',cat:'add'},
+  {id:'pos_ilim',nm:'POS Mobile — Ilimitado',v:350,grp:'POS Mobile',cat:'add'},
+  // Outros adicionais
+  {id:'3sgo',nm:'3SGo — App gestão',v:60,grp:null,cat:'add'},
+  {id:'bi_simples',nm:'3S BI — Simples',v:120,grp:'3S BI',cat:'add'},
+  {id:'bi_admin',nm:'3S BI — Administrador',v:220,grp:'3S BI',cat:'add'},
+  {id:'kinesis',nm:'3S Connection — Kinesis',v:300,grp:null,cat:'add'},
+  {id:'eats_d',nm:'3S Eats — Delivery',v:180,grp:'3S Eats',cat:'add'},
+  {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,grp:'3S Eats',cat:'add'},
+  {id:'eats_combo',nm:'3S Eats — Combo Super App',v:300,grp:'3S Eats',cat:'add'},
+  {id:'marca',nm:'Marca Adicional',v:100,grp:null,cat:'add'},
+  {id:'nav_extra',nm:'Navegação Extra Adicional',v:250,grp:null,cat:'add'},
+];
+
+function catById(id){return MOD_CATALOG.find(c=>c.id===id);}
+
+// Módulos ativos na proposta (essenciais — sempre contam na mensalidade)
+let ME=[
+  {id:'pdv_3',v:350,ix:false},
+  {id:'kds_3',v:160,ix:false},
+  {id:'totem_3',v:180,ix:false},
+  {id:'mkt_full',v:110,ix:false},
+  {id:'tef_1',v:104.20,ix:false},
+];
+
+// Adicionais (ativados por checkbox)
+let MA=[
+  {id:'3sgo',nm:'3SGo — App gestão',v:60,on:false,ix:false},
+  {id:'bi_simples',nm:'3S BI — Simples',v:120,on:false,ix:false},
+  {id:'kinesis',nm:'3S Connection — Kinesis',v:300,on:false,ix:false},
+  {id:'eats_d',nm:'3S Eats — Delivery',v:180,on:false,ix:false},
+  {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,on:false,ix:false},
+  {id:'pos_3',nm:'POS Mobile — Até 3',v:100,on:false,ix:false},
+  {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,on:false,ix:false},
+  {id:'marca',nm:'Marca Adicional',v:100,on:false,ix:false},
+];
+
+function getModNm(m){const c=catById(m.id);return c?c.nm:(m.nm||m.id);}
+
+function rMods(cid,mods){
+  const el=document.getElementById(cid);el.innerHTML='';
+  const isEss=(cid==='mEss');
+
+  if(isEss){
+    // ── ESSENCIAIS: always active, isentar + remove ──
+    mods.forEach((m,idx)=>{
+      const nm=getModNm(m);
+      const r=document.createElement('div');r.className='mr';
+      const ixClass=m.ix?'ix-btn isento':'ix-btn';
+      const ixLabel=m.ix?'ISENTO':'Isentar';
+
+      r.innerHTML=
+        '<div style="display:flex;align-items:center;flex:1;min-width:0;">'+
+          '<span style="font-size:12px;font-weight:500;'+(m.ix?'text-decoration:line-through;color:var(--gray);':'color:var(--dark-gray);')+'">'+nm+'</span>'+
+        '</div>'+
+        '<div style="display:flex;align-items:center;gap:4px;">'+
+          '<div class="pr"><input type="number" id="v_'+m.id+'" value="'+(m.ix?0:m.v)+'" min="0" step="0.01" '+(m.ix?'disabled style="background:#DCFCE7;color:#059669;"':'')+
+          '></div>'+
+          '<div class="mr-acts">'+
+            '<button class="'+ixClass+'" title="Isentar módulo">'+ixLabel+'</button>'+
+            '<button class="rm-btn" title="Remover módulo">×</button>'+
+          '</div>'+
+        '</div>';
+
+      const vInput=r.querySelector('input[type=number]');
+      if(vInput) vInput.addEventListener('input',function(){
+        if(!m.ix) m.v=parseFloat(this.value)||0;
+        calc();
+      });
+
+      r.querySelector('.ix-btn').addEventListener('click',function(){
+        m.ix=!m.ix;
+        if(m.ix){m._origV=m.v;}else{m.v=m._origV||m.v;}
+        refreshMods();calc();
+      });
+
+      r.querySelector('.rm-btn').addEventListener('click',function(){
+        ME.splice(idx,1);
+        refreshMods();calc();
+      });
+
+      el.appendChild(r);
+    });
+
+    // ── ADD MODULE BUTTON ──
+    const addDiv=document.createElement('div');addDiv.className='add-mod';
+    const btn=document.createElement('button');
+    btn.textContent='+ Adicionar módulo';
+    btn.addEventListener('click',function(e){e.stopPropagation();showEssCatalog(this);});
+    addDiv.appendChild(btn);
+    el.appendChild(addDiv);
+
+  } else {
+    // ── ADICIONAIS: checkbox list ──
+    mods.forEach(m=>{
+      const r=document.createElement('div');r.className='mr';
+      const ixClass=m.ix?'ix-btn isento':'ix-btn';
+      const ixLabel=m.ix?'ISENTO':'Isentar';
+      r.innerHTML=
+        '<label><input type="checkbox" id="m_'+m.id+'" '+(m.on?'checked':'')+
+        '> <span '+(m.ix?'style="text-decoration:line-through;color:var(--gray);"':'')+'>'+m.nm+'</span></label>'+
+        '<div style="display:flex;align-items:center;gap:4px;">'+
+          '<div class="pr"><input type="number" id="v_'+m.id+'" value="'+(m.ix?0:m.v)+'" min="0" step="0.01" '+
+          (m.ix?'disabled style="background:#DCFCE7;color:#059669;"':'')+
+          '></div>'+
+          '<div class="mr-acts">'+
+            '<button class="'+ixClass+'" title="Isentar módulo">'+ixLabel+'</button>'+
+          '</div>'+
+        '</div>';
+      r.querySelector('input[type=checkbox]').addEventListener('change',calc);
+      r.querySelector('input[type=number]').addEventListener('input',calc);
+      r.querySelector('.ix-btn').addEventListener('click',function(){
+        m.ix=!m.ix;
+        if(m.ix){m._origV=m.v;}else{m.v=m._origV||m.v;}
+        refreshMods();calc();
+      });
+      el.appendChild(r);
+    });
+  }
+}
+
+// Dropdown catalog — grouped, clean layout
+function showEssCatalog(anchorBtn){
+  const old=document.getElementById('essCatalogDrop');
+  if(old){old.remove();return;}
+
+  const activeIds=new Set(ME.map(m=>m.id));
+  // Also exclude groups already present
+  const activeGrps=new Set(ME.map(m=>{const c=catById(m.id);return c?c.grp:null;}).filter(Boolean));
+  const available=MOD_CATALOG.filter(c=>!activeIds.has(c.id));
+  if(!available.length){
+    anchorBtn.textContent='Todos os módulos já adicionados';
+    setTimeout(()=>{anchorBtn.textContent='+ Adicionar módulo';},2000);
+    return;
+  }
+
+  const drop=document.createElement('div');
+  drop.id='essCatalogDrop';
+  drop.style.cssText='position:absolute;left:0;right:0;background:#fff;border:1.5px solid var(--border-light);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.12);padding:8px 0;margin-top:4px;max-height:280px;overflow-y:auto;z-index:50;';
+
+  // Group by grp
+  const groups=new Map();
+  available.forEach(c=>{
+    const g=c.grp||'Outros';
+    if(!groups.has(g))groups.set(g,[]);
+    groups.get(g).push(c);
+  });
+
+  groups.forEach((items,grpName)=>{
+    // Group header
+    const hdr=document.createElement('div');
+    hdr.style.cssText='padding:6px 14px 3px;font-size:9px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;'+(grpName!==groups.keys().next().value?'border-top:1px solid #F3F4F6;margin-top:4px;':'');
+    hdr.textContent=grpName;
+    drop.appendChild(hdr);
+
+    items.forEach(cat=>{
+      const item=document.createElement('div');
+      item.style.cssText='padding:7px 14px;font-size:12px;color:var(--dark-gray);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .12s;';
+      item.innerHTML='<span style="font-weight:500;">'+cat.nm+'</span><span style="font-size:11px;color:var(--gray);font-weight:600;white-space:nowrap;margin-left:12px;">R$ '+cat.v.toFixed(2).replace('.',',')+'</span>';
+      item.addEventListener('mouseenter',()=>{item.style.background='#F3F4F6';});
+      item.addEventListener('mouseleave',()=>{item.style.background='';});
+      item.addEventListener('click',()=>{
+        // Remove items from same group in ME if replacing
+        if(cat.grp){
+          for(let i=ME.length-1;i>=0;i--){
+            const ec=catById(ME[i].id);
+            if(ec&&ec.grp===cat.grp)ME.splice(i,1);
+          }
+        }
+        ME.push({id:cat.id,v:cat.v,ix:false});
+        drop.remove();
+        refreshMods();calc();
+      });
+      drop.appendChild(item);
+    });
+  });
+
+  // Position relative to parent
+  anchorBtn.parentElement.style.position='relative';
+  anchorBtn.parentElement.appendChild(drop);
+
+  const closer=function(e){if(!drop.contains(e.target)&&e.target!==anchorBtn){drop.remove();document.removeEventListener('click',closer);}};
+  setTimeout(()=>document.addEventListener('click',closer),10);
+}
+
+function refreshMods(){
+  rMods('mEss',ME);rMods('mAdd',MA);
+  document.querySelectorAll('#s3 input').forEach(el=>{el.addEventListener('input',calc);el.addEventListener('change',calc);});
+}
+
+// ══════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════
+function fmt(n){return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:2});}
+function fK(n){return Math.abs(n)>=1e6?'R$ '+(n/1e6).toFixed(1).replace('.',',')+' M':Math.abs(n)>=1e3?'R$ '+(n/1e3).toFixed(1).replace('.',',')+' k':fmt(n);}
+function fP(n){return(n*100).toFixed(1).replace('.',',')+' %';}
+function gv(id){return parseFloat(document.getElementById(id).value)||0;}
+function gc(id){const e=document.getElementById(id);return e?e.checked:false;}
+
+// ══════════════════════════════════════
+// MARGIN ENGINE
+// ══════════════════════════════════════
+const PR={srvT:-60,sup:-72,cImpl:-2265,tPDV:.0565,tOut:.1125,stf:((1/47)*-143000)*2};
+function sim(p){
+  const{lj,ct,ro,ms,su,ins,ixS,ixI,rb,ic}=p;
+  let tRL=0,tOP=0,pv=0;
+  for(let m=1;m<=ct;m++){
+    let r=m<=ro?Math.min(Math.ceil(lj/ro*m),lj):lj;
+    const nw=Math.max(r-pv,0);pv=r;
+    const rP=r*ms,rI=nw*(ixI?0:ins),rS=(m===1&&!ixS)?su:0;
+    const rT=rP+rI+rS;
+    const reb=r>0?-(rb/100)*(rP+rS):0;
+    const imp=-(rP*PR.tPDV)-((rI+rS)*PR.tOut);
+    const rl=rT+reb+imp;
+    const cO=r*PR.srvT+r*PR.sup+nw*PR.cImpl+reb;
+    const ca=(m===1?PR.stf:0)+(ic>0?-ic:0);
+    tRL+=rl;tOP+=rl+cO+ca;
+  }
+  return tRL?tOP/tRL:0;
+}
+
+// ══════════════════════════════════════
+// CALC
+// ══════════════════════════════════════
+function calc(){
+  let ms=0;const al=[];
+  // Essenciais: always active
+  ME.forEach(m=>{const v=m.ix?0:(gv('v_'+m.id)||m.v);ms+=v;al.push({nm:getModNm(m),v:v,ix:m.ix,origV:m._origV||m.v});});
+  // Adicionais: only if checked
+  MA.forEach(m=>{if(gc('m_'+m.id)){const v=m.ix?0:gv('v_'+m.id);ms+=v;al.push({nm:m.nm,v:v,ix:m.ix,origV:m._origV||m.v});}});
+  document.getElementById('mTot').textContent=fmt(ms);
+  const lj=gv('g_lojas'),ct=gv('g_contrato'),ro=gv('g_rollout');
+  const su=gv('g_setup'),ins=gv('g_inst'),ixS=gc('ix_setup'),ixI=gc('ix_inst');
+  const rb=gv('g_reb'),ic=gv('g_inc');
+  const mg=sim({lj,ct,ro,ms,su,ins,ixS,ixI,rb,ic});
+  const sv=(ixS?su:0)+(ixI?ins*lj:0);
+  document.getElementById('b_mens').textContent=fmt(ms);
+  document.getElementById('b_rede').textContent=fK(ms*lj);
+  document.getElementById('b_save').textContent=fK(sv);
+  const mE=document.getElementById('b_marg');mE.textContent=fP(mg);
+  const mgPct=mg*100;
+  let mColor,mClass;
+  if(mgPct>=65){mColor='#10B981';mClass='ok';}
+  else if(mgPct>=60){mColor='#F59E0B';mClass='warn';}
+  else{mColor='#EF4444';mClass='bad';}
+  mE.style.color=mColor;
+  mE.parentElement.className='mi';
+}
+
+// Sync step1 → step2
+function syncParams(){
+  document.getElementById('g_lojas').value=document.getElementById('p_lojas').value;
+  document.getElementById('g_contrato').value=document.getElementById('p_contrato').value;
+  document.getElementById('g_rollout').value=document.getElementById('p_rollout').value;
+}
+
+// ══════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════
+function go(n){
+  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
+  document.getElementById('s'+n).classList.add('on');
+  [1,2,3,4].forEach(i=>{const d=document.getElementById('sd'+i);if(d){d.classList.remove('active','done');if(i<n)d.classList.add('done');if(i===n)d.classList.add('active');}});
+  window.scrollTo(0,0);
+  if(n===3){syncParams();refreshMods();calc();}
+  if(n===4)genPres();
+}
+
+
+// ══════════════════════════════════════
+// BUILD DYNAMIC OPERATION CARDS
+// ══════════════════════════════════════
+function buildOpCards(nome,lj,seg,dores){
+  const cards=[];
+  // Card 1: Segment-based
+  const segCards={
+    'qsr':{t:'Quick Service',d:'Operação de balcão rápida com alto volume de pedidos simultâneos'},
+    'table':{t:'Table Service',d:'Atendimento à mesa com gestão de comandas, divisão de conta e controle de praças'},
+    'delivery':{t:'Delivery First',d:'Operação focada em delivery com múltiplos agregadores e cozinha otimizada'},
+    'cafe':{t:'Cafeteria / Doceria',d:'Operação com alta rotatividade de clientes e múltiplos canais de venda'},
+  };
+  const segCard=segCards[seg]||segCards['qsr'];
+  cards.push(segCard);
+
+  // Card 2: Scale
+  if(lj>1){
+    cards.push({t:'Rede com '+lj+'+ unidades',d:'Padronização de cardápio, preços e processos exigindo gestão centralizada e visibilidade em tempo real'});
+  }else{
+    cards.push({t:'Operação local',d:'Controle total da operação com agilidade na tomada de decisão'});
+  }
+
+  // Card 3 & 4: Based on actual dores selected
+  const dorCards=[
+    {ids:['d2','d5'],t:'Multicanalidade',d:'Balcão, totem, delivery (iFood, Rappi) e apps próprios simultâneos precisam de integração'},
+    {ids:['d1','d6'],t:'Gestão centralizada',d:'Múltiplas lojas e canais exigem visibilidade e controle unificados'},
+    {ids:['d4'],t:'Controle de estoque',d:'Insumos exigem controle rigoroso com baixa automática e fichas técnicas'},
+    {ids:['d3'],t:'Produção otimizada',d:'KDS e gestão de cozinha sem papel para reduzir erros e acelerar entregas'},
+    {ids:['d7'],t:'Pagamentos ágeis',d:'SmartPOS com pagamentos flexíveis para reduzir filas e agilizar operação'},
+    {ids:['d8'],t:'Fidelização de clientes',d:'CRM e programas de recorrência para aumentar retenção e ticket médio'},
+  ];
+
+  const usedTitles=new Set(cards.map(c=>c.t));
+  for(const dc of dorCards){
+    if(cards.length>=4) break;
+    if(dores.some(d=>dc.ids.includes(d.id)) && !usedTitles.has(dc.t)){
+      cards.push({t:dc.t,d:dc.d});
+      usedTitles.add(dc.t);
+    }
+  }
+
+  // Fill remaining slots with generic relevant cards
+  const fallbacks=[
+    {t:'Multicanalidade',d:'Balcão, totem, delivery e apps próprios simultâneos'},
+    {t:'Controle operacional',d:'Visibilidade em tempo real de vendas, estoque e produção em toda a rede'},
+    {t:'Experiência do cliente',d:'Padronização do atendimento e personalização para aumentar satisfação'},
+  ];
+  for(const fb of fallbacks){
+    if(cards.length>=4) break;
+    if(!usedTitles.has(fb.t)){cards.push(fb);usedTitles.add(fb.t);}
+  }
+
+  return cards.slice(0,4);
+}
+
+// ══════════════════════════════════════
+// GENERATE PRESENTATION HTML
+// ══════════════════════════════════════
+function genPres(){
+  let nome=document.getElementById('p_nome').value||'Cliente';
+  // Remove "Contato Principal" and any text after it
+  nome=nome.replace(/\s*[•·\-–—|]\s*contato\s+principal.*/i,'').replace(/\s*contato\s*principal.*/i,'').trim();
+  if(!nome)nome='Cliente';
+  const lj=gv('g_lojas'),ct=gv('g_contrato'),ro=gv('g_rollout');
+  const rb=gv('g_reb');
+  const setupVal=gv('g_setup'),instVal=gv('g_inst');
+  const ixSetup=gc('ix_setup'),ixInst=gc('ix_inst');
+
+  // Active modules
+  let ms=0;const svcList=[];const svcEss=[];const svcAdd=[];
+  ME.forEach(m=>{const v=m.ix?0:(gv('v_'+m.id)||m.v);ms+=v;const item={nm:getModNm(m),v,ix:m.ix||false,origV:m._origV||m.v};svcList.push(item);svcEss.push(item);});
+  MA.forEach(m=>{if(gc('m_'+m.id)){const v=m.ix?0:gv('v_'+m.id);ms+=v;const item={nm:m.nm,v,ix:m.ix||false,origV:m._origV||m.v};svcList.push(item);svcAdd.push(item);}});
+
+  // Selected dores
+  const dSel=DORES.filter(d=>gc(d.id));
+
+  // Highlights
+  const hl=[];
+  if(rb>0)hl.push(`Rebate ${rb}% na mensalidade`);
+  if(gc('ix_setup'))hl.push('Setup isento');
+  if(gc('ix_inst'))hl.push('Instalação isenta');
+  if(!hl.length)hl.push('Condições padrão de tabela');
+
+  const dorItems=dSel.map(d=>`<div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:rgba(233,32,46,.2);border-radius:10px;margin-bottom:8px;backdrop-filter:blur(4px);"><span style="color:#F87171;font-weight:800;font-size:16px;flex-shrink:0;width:24px;text-align:center;">✕</span><span style="font-size:13px;line-height:1.4;">${d.txt}</span></div>`).join('');
+  const solRows=dSel.map((d,i)=>`<tr style="background:${i%2?'#fff':'#FFF5F5'};"><td style="padding:14px 16px;font-weight:600;color:#890119;font-size:12px;line-height:1.4;">${d.txt}</td><td style="padding:14px 16px;font-size:12px;color:#374151;line-height:1.4;">${d.sol}</td><td style="padding:14px 16px;font-size:12px;color:#10B981;font-weight:600;">${d.ben}</td></tr>`).join('');
+  const hlItems=hl.map(h=>`<li style="padding:4px 0 4px 18px;position:relative;font-size:13px;"><span style="position:absolute;left:0;color:#10B981;font-weight:700;">✓</span>${h}</li>`).join('');
+
+  const stats=[{v:'+300',l:'cidades'},{v:'130+',l:'marcas'},{v:'+2.400',l:'lojas ativas'},{v:'R$ 16 BI',l:'faturamento/ano'},{v:'4 de 10',l:'top fast-food usam 3S'},{v:'150%',l:'crescimento 22-25'}];
+  const statsHtml=stats.map(s=>`<div style="background:#FFF5F5;border-radius:12px;padding:18px 20px;box-shadow:0 1px 6px rgba(233,32,46,.04);"><div style="font-size:22px;font-weight:800;color:#e9202e;">${s.v}</div><div style="font-size:11px;color:#6B7280;margin-top:4px;">${s.l}</div></div>`).join('');
+
+  // Dynamic operation cards based on extracted content
+  const opCards=buildOpCards(nome,lj,document.getElementById('p_seg').value,dSel);
+  const opHtml=opCards.map(c=>`<div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 2px 10px rgba(233,32,46,.05);border:1px solid rgba(233,32,46,.06);"><div style="font-size:15px;font-weight:700;color:#e9202e;margin-bottom:6px;">${c.t}</div><div style="font-size:12px;color:#374151;line-height:1.5;">${c.d}</div></div>`).join('');
+
+  // Concorrente selecionado
+  const concId=document.getElementById('p_conc').value;
+  const concData=concId?CONC[concId]:null;
+  let concSlide='';
+  if(concData){
+    const compRows=concData.pontos.map(p=>`
+      <div style="display:grid;grid-template-columns:120px 1fr 1fr;gap:0;border-bottom:1px solid rgba(233,32,46,.06);">
+        <div style="padding:12px 14px;font-size:11px;font-weight:700;color:#e9202e;background:#FFF5F5;">${p.cat}</div>
+        <div style="padding:12px 14px;font-size:11px;color:#6B7280;border-left:1px solid rgba(233,32,46,.06);">${p.conc}</div>
+        <div style="padding:12px 14px;font-size:11px;color:#2D0A0E;font-weight:600;border-left:1px solid rgba(233,32,46,.06);background:rgba(16,185,129,.04);">${p.trs}</div>
+      </div>`).join('');
+    concSlide=`
+<!-- COMPARATIVO -->
+<div class="pg" style="background:#fff;">
+  <div class="inner">
+    <div style="display:inline-block;background:linear-gradient(135deg,#EF4444,#DC2626);color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:4px 14px;border-radius:20px;margin-bottom:12px;">Análise competitiva</div>
+    <h2 style="font-size:28px;font-weight:800;color:#890119;margin-bottom:6px;">3S Checkout vs ${concData.nm}</h2>
+    <p style="font-size:13px;color:#6B7280;margin-bottom:24px;max-width:640px;">${concData.pos}</p>
+    <div style="border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid rgba(233,32,46,.08);">
+      <div style="display:grid;grid-template-columns:120px 1fr 1fr;background:#890119;color:#fff;">
+        <div style="padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;"></div>
+        <div style="padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-left:1px solid rgba(255,255,255,.1);">${concData.nm}</div>
+        <div style="padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-left:1px solid rgba(255,255,255,.1);">3S Checkout</div>
+      </div>
+      ${compRows}
+    </div>
+  </div>
+</div>`;
+  }
+
+  // Ecossistema
+  const hasFX=gc('eco_fixe');
+  const fixeSel=FIXE_MODS.filter(m=>gc(m.id));
+  let ecoSlide='';
+
+  // Slide Fixe CRM — Visual com mockups + benefícios em profundidade
+  if(hasFX && fixeSel.length){
+    const hasFid=fixeSel.some(m=>m.id==='fx_fid');
+    const hasApp=fixeSel.some(m=>m.id==='fx_app');
+    const hasNps=fixeSel.some(m=>m.id==='fx_nps');
+    const hasBot=fixeSel.some(m=>m.id==='fx_bot');
+    const hasCamp=fixeSel.some(m=>m.id==='fx_camp');
+    const hasGift=fixeSel.some(m=>m.id==='fx_gift');
+
+    // Wallet mockup (Fidelidade)
+    const walletMock=hasFid?`<div style="width:160px;flex-shrink:0;"><div style="background:linear-gradient(145deg,#2D0A0E,#890119);border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(45,10,14,.4);"><div style="padding:12px 12px 8px;display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:#FF6B7A;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:800;">F</div><div style="font-size:9px;color:rgba(255,255,255,.6);">Wallet</div></div><div style="padding:0 12px;"><div style="background:linear-gradient(135deg,#e9202e,#FF4D5E);border-radius:8px;padding:10px;margin-bottom:8px;"><div style="font-size:7px;color:rgba(255,255,255,.5);text-transform:uppercase;">Seus Pontos</div><div style="font-size:18px;font-weight:900;color:#fff;">1.250</div><div style="display:flex;gap:3px;margin-top:4px;"><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);"></div><div style="width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);"></div></div></div></div><div style="padding:0 12px 10px;"><div style="background:rgba(255,107,122,.15);border-radius:6px;padding:6px 8px;font-size:7px;color:rgba(255,255,255,.7);">🎁 Cashback R$ 12,50</div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">Fidelidade 360</div></div>`:'';
+
+    // APP mockup
+    const appMock=hasApp?`<div style="width:160px;flex-shrink:0;"><div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.12);border:1px solid rgba(0,0,0,.06);"><div style="background:linear-gradient(135deg,#e9202e,#C41528);padding:10px;text-align:center;"><div style="font-size:10px;font-weight:700;color:#fff;">${nome}</div><div style="font-size:6px;color:rgba(255,255,255,.5);">Seu App Exclusivo</div></div><div style="padding:8px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px;"><div style="background:#FFF5F5;border-radius:6px;padding:6px;text-align:center;font-size:10px;">🍽️<div style="font-size:6px;color:#6B7280;">Cardápio</div></div><div style="background:#FFF5F5;border-radius:6px;padding:6px;text-align:center;font-size:10px;">🎫<div style="font-size:6px;color:#6B7280;">Cupons</div></div><div style="background:#FFF5F5;border-radius:6px;padding:6px;text-align:center;font-size:10px;">📍<div style="font-size:6px;color:#6B7280;">Lojas</div></div><div style="background:#FFF5F5;border-radius:6px;padding:6px;text-align:center;font-size:10px;">⭐<div style="font-size:6px;color:#6B7280;">Pontos</div></div></div><div style="background:linear-gradient(135deg,#10B981,#059669);border-radius:6px;padding:6px;text-align:center;font-size:7px;font-weight:600;color:#fff;">Peça agora!</div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">Super APP</div></div>`:'';
+
+    // WhatsApp BOT mockup
+    const botMock=hasBot?`<div style="width:160px;flex-shrink:0;"><div style="background:#ECE5DD;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.12);"><div style="background:#075E54;padding:8px 10px;display:flex;align-items:center;gap:6px;"><div style="width:20px;height:20px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:800;">W</div><div style="font-size:9px;font-weight:600;color:#fff;">${nome}</div></div><div style="padding:8px;"><div style="background:#fff;border-radius:0 6px 6px 6px;padding:5px 8px;margin-bottom:4px;max-width:85%;font-size:7px;color:#374151;">Olá! 👋 Como posso ajudar?</div><div style="background:#DCF8C6;border-radius:6px 0 6px 6px;padding:5px 8px;margin-bottom:4px;margin-left:auto;max-width:70%;font-size:7px;color:#374151;">Meus pontos</div><div style="background:#fff;border-radius:0 6px 6px 6px;padding:5px 8px;max-width:85%;font-size:7px;color:#374151;">1.250 pontos! 🎉</div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">WhatsApp BOT</div></div>`:'';
+
+    // NPS mockup
+    const npsScaleHtml=[0,1,2,3,4,5,6,7,8,9,10].map(i=>'<div style="width:11px;height:11px;border-radius:2px;background:'+(i>=9?'#10B981':i>=7?'#F59E0B':'#EF4444')+';display:flex;align-items:center;justify-content:center;font-size:5px;color:#fff;font-weight:700;">'+i+'</div>').join('');
+    const npsMock=hasNps?`<div style="width:160px;flex-shrink:0;"><div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.12);border:1px solid rgba(0,0,0,.06);"><div style="padding:12px 10px 8px;text-align:center;"><div style="font-size:9px;font-weight:700;color:#890119;">Como foi sua experiência?</div></div><div style="padding:0 10px 10px;"><div style="display:flex;justify-content:center;gap:2px;margin-bottom:6px;">${npsScaleHtml}</div><div style="background:#F0FDF4;border-radius:6px;padding:6px;text-align:center;"><div style="font-size:16px;font-weight:900;color:#10B981;">NPS 78</div><div style="font-size:6px;color:#6B7280;">Excelência</div></div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">Pesquisa NPS</div></div>`:'';
+
+    // Campanhas mockup
+    const campMock=hasCamp?`<div style="width:160px;flex-shrink:0;"><div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.12);border:1px solid rgba(0,0,0,.06);"><div style="background:linear-gradient(135deg,#F59E0B,#EF4444);padding:8px;text-align:center;font-size:9px;font-weight:700;color:#fff;">📢 Campanhas Ativas</div><div style="padding:8px;"><div style="background:#FEF3C7;border-radius:6px;padding:6px;margin-bottom:4px;border-left:2px solid #F59E0B;"><div style="font-size:7px;font-weight:600;color:#92400E;">Happy Hour -20%</div></div><div style="background:#F0FDF4;border-radius:6px;padding:6px;margin-bottom:4px;border-left:2px solid #10B981;"><div style="font-size:7px;font-weight:600;color:#065F46;">Boas-vindas</div></div><div style="background:#FFF5F5;border-radius:6px;padding:6px;border-left:2px solid #e9202e;"><div style="font-size:7px;font-weight:600;color:#890119;">Aniversariante</div></div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">Campanhas</div></div>`:'';
+
+    // Gift Card mockup
+    const giftMock=hasGift?`<div style="width:160px;flex-shrink:0;"><div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.12);border:1px solid rgba(0,0,0,.06);"><div style="padding:10px;"><div style="background:linear-gradient(145deg,#890119,#e9202e);border-radius:8px;padding:10px;position:relative;overflow:hidden;"><div style="font-size:6px;color:rgba(255,255,255,.5);text-transform:uppercase;">Gift Card</div><div style="font-size:12px;font-weight:900;color:#fff;margin-top:2px;">${nome}</div><div style="font-size:14px;font-weight:800;color:#FF6B7A;margin-top:4px;">R$ 100</div></div><div style="margin-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:3px;"><div style="background:#FFF5F5;border-radius:4px;padding:4px;text-align:center;font-size:6px;font-weight:600;color:#e9202e;">PF</div><div style="background:#FFF5F5;border-radius:4px;padding:4px;text-align:center;font-size:6px;font-weight:600;color:#e9202e;">PJ/RH</div></div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">Cartão Presente</div></div>`:'';
+
+    const allMocks=[walletMock,appMock,botMock,npsMock,campMock,giftMock].filter(m=>m).join('');
+
+    // Benefits section based on selected modules
+    const fxBenefits=[];
+    if(hasFid)fxBenefits.push({icon:'🏆',title:'Fidelidade que gera recorrência',desc:'Selos, pontuação e cashback transformam visitas esporádicas em hábito. Clientes acumulam e voltam para resgatar.'});
+    if(hasApp)fxBenefits.push({icon:'📱',title:'Seu canal direto com o cliente',desc:'App whitelabel nas lojas iOS e Android com cardápio, pedidos, cupons e programa de pontos — sem intermediários.'});
+    if(hasCamp)fxBenefits.push({icon:'📢',title:'Comunicação automatizada',desc:'Réguas de push, e-mail, SMS e WhatsApp segmentadas por comportamento: boas-vindas, reativação, aniversário.'});
+    if(hasNps)fxBenefits.push({icon:'📊',title:'NPS como motor de melhoria',desc:'Pesquisa relacional e transacional com report automático. Identifique detratores antes que virem reclamações públicas.'});
+    if(hasGift)fxBenefits.push({icon:'🎁',title:'Gift card como canal de receita',desc:'Cartões PF para clientes e PJ/RH para empresas. Gera receita antecipada e atrai novos públicos.'});
+    if(hasBot)fxBenefits.push({icon:'🤖',title:'Atendimento 24/7 sem equipe',desc:'Autoatendimento inteligente via WhatsApp: consulta de pontos, cardápio, horários e reservas em fluxo automatizado.'});
+    const benefitsHtml=fxBenefits.map(b=>`<div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#e9202e,#FF6B7A);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">${b.icon}</div><div><div style="font-size:12px;font-weight:700;color:#890119;margin-bottom:2px;">${b.title}</div><div style="font-size:10px;color:#6B7280;line-height:1.4;">${b.desc}</div></div></div>`).join('');
+
+    ecoSlide+=`
+<div class="pg" style="background:linear-gradient(180deg,#fff 0%,#FFF5F5 100%);">
+  <div class="inner">
+    <div style="display:inline-block;background:linear-gradient(135deg,#FF4D5E,#A50D1B);color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:4px 14px;border-radius:20px;margin-bottom:12px;">Fidelização</div>
+    <h2 style="font-size:26px;font-weight:800;color:#890119;margin-bottom:4px;">Fixe CRM — Recorrência para o ${nome}</h2>
+    <p style="font-size:12px;color:#6B7280;margin-bottom:18px;max-width:640px;">85% dos clientes preferem estabelecimentos com programa de fidelidade. Integração nativa com o PDV 3S para uma experiência 360°.</p>
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+      ${allMocks}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      ${benefitsHtml.length>0?`<div style="display:flex;flex-direction:column;gap:12px;">${fxBenefits.slice(0,Math.ceil(fxBenefits.length/2)).map(b=>`<div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#e9202e,#FF6B7A);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">${b.icon}</div><div><div style="font-size:12px;font-weight:700;color:#890119;margin-bottom:2px;">${b.title}</div><div style="font-size:10px;color:#6B7280;line-height:1.4;">${b.desc}</div></div></div>`).join('')}</div><div style="display:flex;flex-direction:column;gap:12px;">${fxBenefits.slice(Math.ceil(fxBenefits.length/2)).map(b=>`<div style="display:flex;gap:10px;align-items:flex-start;"><div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#e9202e,#FF6B7A);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">${b.icon}</div><div><div style="font-size:12px;font-weight:700;color:#890119;margin-bottom:2px;">${b.title}</div><div style="font-size:10px;color:#6B7280;line-height:1.4;">${b.desc}</div></div></div>`).join('')}</div>`:''}
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <div style="background:#2D0A0E;border-radius:10px;padding:14px;text-align:center;flex:1;"><div style="font-size:24px;font-weight:900;color:#FF6B7A;">+60%</div><div style="font-size:8px;color:rgba(255,255,255,.5);margin-top:2px;">concentram compras em lojas com fidelidade</div></div>
+      <div style="background:#2D0A0E;border-radius:10px;padding:14px;text-align:center;flex:1;"><div style="font-size:24px;font-weight:900;color:#FF6B7A;">72%</div><div style="font-size:8px;color:rgba(255,255,255,.5);margin-top:2px;">indicam para amigos e familiares</div></div>
+      <div style="background:#F0FDF4;border-radius:10px;padding:14px;text-align:center;flex:1;"><div style="font-size:9px;font-weight:700;color:#10B981;margin-bottom:3px;">Integração PDV 3S</div><div style="font-size:8px;color:#374151;line-height:1.3;">Cada venda alimenta automaticamente pontos, cashback e réguas de comunicação</div></div>
+    </div>
+  </div>
+</div>`;
+  }
+
+  // FORTALEZAS 3S — slides do onboarding com SVG animados
+  const FORT_SVG={
+    hub:'<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><style>.flt{animation:float 3s ease-in-out infinite}.flt2{animation:float 3s ease-in-out infinite .5s}.flt3{animation:float 3s ease-in-out infinite 1s}.pls{animation:pulse 2s ease-in-out infinite}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}</style><circle cx="100" cy="100" r="40" fill="#e9202e" opacity=".1" class="pls"/><circle cx="100" cy="100" r="28" fill="#e9202e" opacity=".15"/><text x="100" y="105" text-anchor="middle" fill="#e9202e" font-size="14" font-weight="800" font-family="Inter">PDV</text><g class="flt"><rect x="30" y="30" width="36" height="24" rx="6" fill="#FF6B7A" opacity=".9"/><text x="48" y="46" text-anchor="middle" fill="#fff" font-size="7" font-weight="700" font-family="Inter">iFood</text></g><g class="flt2"><rect x="134" y="30" width="36" height="24" rx="6" fill="#F59E0B" opacity=".9"/><text x="152" y="46" text-anchor="middle" fill="#fff" font-size="7" font-weight="700" font-family="Inter">Rappi</text></g><g class="flt3"><rect x="30" y="146" width="36" height="24" rx="6" fill="#10B981" opacity=".9"/><text x="48" y="162" text-anchor="middle" fill="#fff" font-size="6" font-weight="700" font-family="Inter">99Food</text></g><g class="flt"><rect x="134" y="146" width="36" height="24" rx="6" fill="#890119" opacity=".9"/><text x="152" y="162" text-anchor="middle" fill="#fff" font-size="7" font-weight="700" font-family="Inter">App</text></g><line x1="68" y1="42" x2="80" y2="85" stroke="#e9202e" stroke-width="1.5" opacity=".3" stroke-dasharray="4 2"/><line x1="132" y1="42" x2="120" y2="85" stroke="#e9202e" stroke-width="1.5" opacity=".3" stroke-dasharray="4 2"/><line x1="68" y1="158" x2="80" y2="115" stroke="#e9202e" stroke-width="1.5" opacity=".3" stroke-dasharray="4 2"/><line x1="132" y1="158" x2="120" y2="115" stroke="#e9202e" stroke-width="1.5" opacity=".3" stroke-dasharray="4 2"/></svg>',
+    cardapio:'<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><style>.cld{animation:float 4s ease-in-out infinite}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}.sync{animation:syncPulse 2s ease-in-out infinite}@keyframes syncPulse{0%,100%{opacity:.3}50%{opacity:.8}}</style><g class="cld"><ellipse cx="100" cy="50" rx="50" ry="25" fill="#e9202e" opacity=".08"/><ellipse cx="100" cy="50" rx="36" ry="18" fill="#e9202e" opacity=".12"/><text x="100" y="55" text-anchor="middle" fill="#e9202e" font-size="11" font-weight="700" font-family="Inter">☁ Nuvem</text></g><rect x="40" y="100" width="50" height="70" rx="6" fill="#FFF5F5" stroke="#e9202e" stroke-width="1.5"/><text x="65" y="118" text-anchor="middle" fill="#890119" font-size="7" font-weight="700" font-family="Inter">Loja A</text><rect x="48" y="125" width="34" height="4" rx="2" fill="#FFE5E7"/><rect x="48" y="133" width="28" height="4" rx="2" fill="#FFE5E7"/><rect x="48" y="141" width="32" height="4" rx="2" fill="#FFE5E7"/><rect x="48" y="149" width="20" height="4" rx="2" fill="#FFE5E7"/><rect x="110" y="100" width="50" height="70" rx="6" fill="#FFF5F5" stroke="#e9202e" stroke-width="1.5"/><text x="135" y="118" text-anchor="middle" fill="#890119" font-size="7" font-weight="700" font-family="Inter">Loja B</text><rect x="118" y="125" width="34" height="4" rx="2" fill="#FFE5E7"/><rect x="118" y="133" width="28" height="4" rx="2" fill="#FFE5E7"/><rect x="118" y="141" width="32" height="4" rx="2" fill="#FFE5E7"/><rect x="118" y="149" width="20" height="4" rx="2" fill="#FFE5E7"/><line x1="65" y1="100" x2="80" y2="68" stroke="#e9202e" stroke-width="1" class="sync" stroke-dasharray="3 2"/><line x1="135" y1="100" x2="120" y2="68" stroke="#e9202e" stroke-width="1" class="sync" stroke-dasharray="3 2"/><circle cx="65" cy="95" r="3" fill="#10B981" class="sync"/><circle cx="135" cy="95" r="3" fill="#10B981" class="sync"/></svg>',
+    dados:'<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><style>.bar{animation:grow .8s ease-out forwards}.b1{animation-delay:.1s}.b2{animation-delay:.2s}.b3{animation-delay:.3s}.b4{animation-delay:.4s}.b5{animation-delay:.5s}@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}.dot{animation:blink 1.5s ease-in-out infinite}@keyframes blink{0%,100%{opacity:.4}50%{opacity:1}}</style><rect x="25" y="25" width="150" height="110" rx="10" fill="#FFF5F5" stroke="#e9202e" stroke-width="1.5"/><text x="100" y="42" text-anchor="middle" fill="#890119" font-size="8" font-weight="700" font-family="Inter">Dashboard em Tempo Real</text><g transform="translate(0,135)"><rect x="40" y="0" width="16" height="-50" rx="3" fill="#e9202e" opacity=".7" class="bar b1" transform-origin="40 0"/><rect x="62" y="0" width="16" height="-70" rx="3" fill="#e9202e" opacity=".8" class="bar b2" transform-origin="62 0"/><rect x="84" y="0" width="16" height="-40" rx="3" fill="#FF6B7A" opacity=".7" class="bar b3" transform-origin="84 0"/><rect x="106" y="0" width="16" height="-60" rx="3" fill="#e9202e" opacity=".9" class="bar b4" transform-origin="106 0"/><rect x="128" y="0" width="16" height="-80" rx="3" fill="#890119" opacity=".8" class="bar b5" transform-origin="128 0"/></g><circle cx="55" cy="160" r="4" fill="#10B981" class="dot"/><text x="64" y="163" fill="#6B7280" font-size="7" font-family="Inter">Live</text><circle cx="100" cy="160" r="4" fill="#e9202e" class="dot" style="animation-delay:.5s"/><text x="109" y="163" fill="#6B7280" font-size="7" font-family="Inter">Vendas</text><rect x="25" y="175" width="150" height="16" rx="4" fill="#FFE5E7"/><rect x="25" y="175" width="95" height="16" rx="4" fill="linear-gradient(90deg,#e9202e,#FF6B7A)" opacity=".6"/><text x="100" y="186" text-anchor="middle" fill="#890119" font-size="7" font-weight="600" font-family="Inter">63% da meta</text></svg>',
+    totem:'<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><style>.tscr{animation:screenGlow 3s ease-in-out infinite}@keyframes screenGlow{0%,100%{opacity:.85}50%{opacity:1}}.tap{animation:tapPulse 2s ease-in-out infinite}@keyframes tapPulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.3);opacity:0}}</style><rect x="60" y="15" width="80" height="140" rx="8" fill="#374151"/><rect x="64" y="19" width="72" height="110" rx="5" fill="#fff" class="tscr"/><rect x="70" y="25" width="60" height="10" rx="3" fill="#e9202e" opacity=".15"/><text x="100" y="33" text-anchor="middle" fill="#890119" font-size="6" font-weight="700" font-family="Inter">MENU</text><rect x="70" y="42" width="26" height="22" rx="4" fill="#FFF5F5" stroke="#FFE5E7" stroke-width="1"/><text x="83" y="57" text-anchor="middle" fill="#374151" font-size="5" font-family="Inter">Combo 1</text><rect x="100" y="42" width="26" height="22" rx="4" fill="#FFF5F5" stroke="#FFE5E7" stroke-width="1"/><text x="113" y="57" text-anchor="middle" fill="#374151" font-size="5" font-family="Inter">Combo 2</text><rect x="70" y="70" width="26" height="22" rx="4" fill="#FFF5F5" stroke="#FFE5E7" stroke-width="1"/><text x="83" y="85" text-anchor="middle" fill="#374151" font-size="5" font-family="Inter">Açaí M</text><rect x="100" y="70" width="26" height="22" rx="4" fill="#FFF5F5" stroke="#FFE5E7" stroke-width="1"/><text x="113" y="85" text-anchor="middle" fill="#374151" font-size="5" font-family="Inter">Açaí G</text><rect x="70" y="100" width="56" height="16" rx="4" fill="#10B981"/><text x="98" y="111" text-anchor="middle" fill="#fff" font-size="7" font-weight="700" font-family="Inter">PAGAR</text><rect x="88" y="135" width="24" height="6" rx="3" fill="#6B7280" opacity=".3"/><rect x="95" y="155" width="10" height="30" fill="#6B7280" opacity=".2"/><rect x="80" y="183" width="40" height="6" rx="3" fill="#6B7280" opacity=".15"/><circle cx="140" cy="60" r="12" fill="none" stroke="#e9202e" stroke-width="1.5" class="tap"/><circle cx="140" cy="60" r="4" fill="#e9202e" opacity=".5"/><text x="140" y="80" text-anchor="middle" fill="#e9202e" font-size="6" font-weight="600" font-family="Inter">Touch</text></svg>',
+    kds:'<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><style>.kcard{animation:slideIn .6s ease-out forwards;opacity:0}.k1{animation-delay:.2s}.k2{animation-delay:.5s}.k3{animation-delay:.8s}@keyframes slideIn{to{opacity:1;transform:translateX(0)}}from{opacity:0;transform:translateX(-10px)}.tmr{animation:countdown 4s linear infinite}@keyframes countdown{0%{width:90%}100%{width:10%}}</style><rect x="15" y="20" width="170" height="120" rx="8" fill="#374151"/><rect x="19" y="24" width="162" height="100" rx="5" fill="#2D0A0E"/><text x="100" y="40" text-anchor="middle" fill="#FF6B7A" font-size="8" font-weight="700" font-family="Inter">🍳 KDS — Praça Quente</text><g class="kcard k1"><rect x="25" y="48" width="48" height="36" rx="4" fill="rgba(233,32,46,.15)" stroke="#e9202e" stroke-width=".5"/><text x="49" y="59" text-anchor="middle" fill="#fff" font-size="5" font-weight="600" font-family="Inter">#0042</text><text x="49" y="68" text-anchor="middle" fill="#FF6B7A" font-size="5" font-family="Inter">2x Burger</text><text x="49" y="76" text-anchor="middle" fill="#10B981" font-size="5" font-family="Inter">1x Fritas</text><rect x="30" y="79" width="38" height="3" rx="1" fill="rgba(255,255,255,.1)"/><rect x="30" y="79" width="28" height="3" rx="1" fill="#10B981" class="tmr"/></g><g class="kcard k2"><rect x="77" y="48" width="48" height="36" rx="4" fill="rgba(233,32,46,.15)" stroke="#FF6B7A" stroke-width=".5"/><text x="101" y="59" text-anchor="middle" fill="#fff" font-size="5" font-weight="600" font-family="Inter">#0043</text><text x="101" y="68" text-anchor="middle" fill="#FF6B7A" font-size="5" font-family="Inter">1x Açaí G</text><text x="101" y="76" text-anchor="middle" fill="#10B981" font-size="5" font-family="Inter">3x Toppings</text><rect x="82" y="79" width="38" height="3" rx="1" fill="rgba(255,255,255,.1)"/><rect x="82" y="79" width="32" height="3" rx="1" fill="#F59E0B"/></g><g class="kcard k3"><rect x="129" y="48" width="48" height="36" rx="4" fill="rgba(233,32,46,.15)" stroke="#e9202e" stroke-width=".5"/><text x="153" y="59" text-anchor="middle" fill="#fff" font-size="5" font-weight="600" font-family="Inter">#0044</text><text x="153" y="68" text-anchor="middle" fill="#FF6B7A" font-size="5" font-family="Inter">1x Pizza</text><text x="153" y="76" text-anchor="middle" fill="#10B981" font-size="5" font-family="Inter">Delivery</text><rect x="134" y="79" width="38" height="3" rx="1" fill="rgba(255,255,255,.1)"/><rect x="134" y="79" width="36" height="3" rx="1" fill="#EF4444"/></g><text x="49" y="100" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="6" font-family="Inter">Balcão</text><text x="101" y="100" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="6" font-family="Inter">Totem</text><text x="153" y="100" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="6" font-family="Inter">iFood</text><rect x="25" y="108" width="48" height="8" rx="3" fill="#10B981" opacity=".2"/><text x="49" y="114" text-anchor="middle" fill="#10B981" font-size="5" font-weight="600" font-family="Inter">✓ Pronto</text><circle cx="50" cy="158" r="16" fill="#FFF5F5" stroke="#e9202e" stroke-width="1.5"/><text x="50" y="162" text-anchor="middle" fill="#e9202e" font-size="10" font-weight="800" font-family="Inter">0</text><text x="50" y="180" text-anchor="middle" fill="#6B7280" font-size="6" font-family="Inter">Erros</text><circle cx="100" cy="158" r="16" fill="#FFF5F5" stroke="#10B981" stroke-width="1.5"/><text x="100" y="162" text-anchor="middle" fill="#10B981" font-size="8" font-weight="800" font-family="Inter">4:32</text><text x="100" y="180" text-anchor="middle" fill="#6B7280" font-size="6" font-family="Inter">TMA</text><circle cx="150" cy="158" r="16" fill="#FFF5F5" stroke="#e9202e" stroke-width="1.5"/><text x="150" y="162" text-anchor="middle" fill="#e9202e" font-size="8" font-weight="800" font-family="Inter">42</text><text x="150" y="180" text-anchor="middle" fill="#6B7280" font-size="6" font-family="Inter">Pedidos</text></svg>',
+  };
+  const fortalezas=[
+    {tag:'Hub de Delivery',titulo:'Hub de Delivery integrado ao PDV',desc:'Todos os canais de venda fora da loja concentrados em um único lugar, com integração nativa aos principais agregadores do mercado.',svg:'hub',
+     beneficios:['Gestão centralizada de múltiplos marketplaces','Operação de diversas marcas na mesma cozinha','Pause produtos em todos os canais de forma rápida','Cadastro único com preços diferenciados para delivery e salão','Agilidade na mudança de cardápio e preços']},
+    {tag:'Gestão de Cardápio',titulo:'Cardápio centralizado na nuvem',desc:'Gerencie preços, promoções e informações individuais de cada loja. Altere e envie mudanças para uma loja, um grupo ou todas as lojas de onde estiver.',svg:'cardapio',
+     beneficios:['Atualização e gestão 100% na nuvem','Gerenciamento de todos os canais em um único lugar (totem, digital, marketplaces, app e PDV)','Preços e produtos diferentes por loja','Promoções por dia, horário, valor da compra ou regras próprias de negócio']},
+    {tag:'Dados & Inteligência',titulo:'Inteligência operacional em tempo real',desc:'Não apenas software de vendas — um ecossistema de inteligência que transforma cada transação em dado estratégico para decisões baseadas em lucratividade real.',svg:'dados',
+     beneficios:['Data Streaming e visibilidade em tempo real','Integridade e precisão nos dados de vendas','Ecossistema conectado via Kinesis/BI','Rastreabilidade total: do insumo ao KPI']},
+    {tag:'Totem',titulo:'Totem de autoatendimento agnóstico',desc:'Apresente produtos e promoções integrados ao PDV e cozinha. Diferencial: nossa solução roda em Windows e Android.',svg:'totem',
+     beneficios:['Redução de mão de obra no atendimento','Aumento do ticket médio com sugestões de combos e adicionais','Personalização rápida com identidade visual ou campanhas específicas','Redução de filas no balcão em horários de pico']},
+    {tag:'KDS',titulo:'KDS — Gestão de cozinha sem papel',desc:'Monitor inteligente que substitui comandas físicas por telas digitais integradas. Centraliza pedidos em tempo real por ordem de chegada, tempo limite e praças.',svg:'kds',
+     beneficios:['Erro zero na produção: acaba com ruídos de caligrafia e perda de comandas','Controle de praças: itens certos para os locais certos automaticamente','Rastreabilidade de turnos: tempo exato de preparo por item','Comanda digital, app do garçom e delivery integrados']},
+  ];
+  const fortSlide=fortalezas.map(f=>{
+    const bItems=f.beneficios.map(b=>`<div style="display:flex;align-items:flex-start;gap:8px;padding:5px 0;"><div style="color:#10B981;font-weight:700;font-size:10px;flex-shrink:0;margin-top:1px;">✓</div><div style="font-size:11px;color:#374151;line-height:1.4;">${b}</div></div>`).join('');
+    return `
+<div class="pg" style="background:#fff;">
+  <div class="inner">
+    <div style="display:inline-block;background:linear-gradient(135deg,#e9202e,#C41528);color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:4px 14px;border-radius:20px;margin-bottom:12px;">Nossas Fortalezas</div>
+    <h2 style="font-size:28px;font-weight:800;color:#890119;margin-bottom:8px;">${f.titulo}</h2>
+    <p style="font-size:13px;color:#6B7280;margin-bottom:24px;max-width:700px;line-height:1.5;">${f.desc}</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="background:#FFF5F5;border-radius:12px;padding:20px;">
+        <div style="font-size:10px;font-weight:700;color:#e9202e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Principais benefícios</div>
+        ${bItems}
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+        <div style="width:100%;max-width:280px;">${FORT_SVG[f.svg]}</div>
+      </div>
+    </div>
+  </div>
+</div>`;
+  }).join('');
+
+  // Fixe CRM for proposal
+  const fixeTotalMensal=hasFX&&fixeSel.length?fixeSel.reduce((s,m)=>s+m.v,0):0;
+  const fixePropostaHtml=hasFX&&fixeSel.length?`
+      <div style="background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 1px 8px rgba(233,32,46,.05);">
+        <div style="font-size:10px;font-weight:700;color:#FF4D5E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">CRM Fixe</div>
+        ${fixeSel.filter(m=>m.v>0).map(m=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(233,32,46,.06);font-size:12px;"><span style="color:#890119;font-weight:500;">${m.nm}</span><span style="font-weight:700;color:#e9202e;">R$ ${m.v.toFixed(2).replace('.',',')}</span></div>`).join('')}
+        ${fixeSel.filter(m=>m.v===0).map(m=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(233,32,46,.06);font-size:12px;"><span style="color:#890119;font-weight:500;">${m.nm}</span><span style="font-size:10px;color:#10B981;font-weight:600;">Incluso</span></div>`).join('')}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;margin-top:4px;font-size:13px;font-weight:700;"><span style="color:#890119;">Total CRM/mês</span><span style="color:#e9202e;">R$ ${fixeTotalMensal.toFixed(2).replace('.',',')}</span></div>
+      </div>`:'';
+
+  // Service lists for proposal
+  const meBullets=svcEss.map(m=>{
+    if(m.ix){
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:12px;"><div style="display:flex;align-items:center;gap:8px;"><span style="color:#10B981;font-weight:700;font-size:10px;flex-shrink:0;">✓</span><span style="color:#890119;">'+m.nm+'</span></div><span style="font-size:10px;"><span style="text-decoration:line-through;color:#9CA3AF;margin-right:4px;">R$ '+m.origV.toFixed(2).replace('.',',')+'</span><span style="color:#10B981;font-weight:600;">ISENTO</span></span></div>';
+    }
+    return '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;"><span style="color:#10B981;font-weight:700;font-size:10px;flex-shrink:0;">✓</span><span style="color:#890119;">'+m.nm+'</span></div>';
+  }).join('');
+
+  const _tir=(instVal*lj);const totalImplRede=_tir.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const isensList=[];
+  if(ixSetup)isensList.push({item:'Setup da marca',de:setupVal});
+  if(ixInst)isensList.push({item:'Implantação ('+lj+' lojas)',de:instVal*lj});
+  // Add module isenções
+  svcList.filter(m=>m.ix).forEach(m=>{
+    isensList.push({item:m.nm+' (mensal/loja)',de:m.origV});
+  });
+  let totalEconomia=(ixSetup?setupVal:0)+(ixInst?instVal*lj:0);
+  svcList.filter(m=>m.ix).forEach(m=>{totalEconomia+=m.origV*lj*ct;});
+
+  // Slide toggles
+  const SL=id=>{const el=document.getElementById(id);return el?el.checked:true;};
+
+  // Build sections conditionally
+  const secCapa=SL('sl_capa')?`
+<!-- CAPA -->
+<div class="pg" style="background:#2D0A0E;color:#fff;">
+  <div style="position:absolute;top:-100px;right:-60px;width:420px;height:420px;border-radius:50%;background:rgba(255,107,122,.1);"></div>
+  <div style="position:absolute;bottom:-70px;left:-70px;width:340px;height:340px;border-radius:50%;background:rgba(193,21,40,.07);"></div>
+  <div class="inner" style="position:relative;z-index:1;">
+    <h1 style="font-size:clamp(36px,5vw,54px);font-weight:900;max-width:640px;line-height:1.08;">A solução completa para sua operação!</h1>
+    <div style="font-size:clamp(22px,3vw,32px);font-weight:700;color:#FF6B7A;margin-top:18px;">${nome}</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.4);margin-top:14px;">Proposta Comercial — iFood Salão | 3S Checkout</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.25);margin-top:5px;">Julho 2026</div>
+  </div>
+</div>`:'';
+
+  const secQuem=SL('sl_quem')?`
+<!-- QUEM SOMOS -->
+<div class="pg" style="background:#fff;">
+  <div class="inner">
+    <h2 style="font-size:32px;font-weight:800;color:#890119;margin-bottom:10px;">Quem somos</h2>
+    <p style="font-size:14px;color:#6B7280;max-width:640px;line-height:1.6;margin-bottom:32px;">Somos a solução completa para o seu restaurante! Através das nossas soluções e integrações, você pode otimizar seus processos, entregar a melhor experiência e potencializar suas vendas.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">${statsHtml}</div>
+  </div>
+</div>`:'';
+
+  const secOp=SL('sl_op')?`
+<!-- OPERAÇÃO -->
+<div class="pg" style="background:#fff;">
+  <div class="inner">
+    <h2 style="font-size:30px;font-weight:800;color:#890119;margin-bottom:10px;">Como está a operação do ${nome}?</h2>
+    <p style="font-size:14px;color:#6B7280;max-width:640px;line-height:1.6;margin-bottom:28px;">Entendemos os desafios de uma rede com ${lj}+ lojas de quick service. Operações de açaí e bowls exigem velocidade, padronização e controle rigoroso.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">${opHtml}</div>
+  </div>
+</div>`:'';
+
+  const secDores=SL('sl_dores')?`
+<!-- DORES -->
+<div class="pg" style="background:#2D0A0E;color:#fff;">
+  <div class="inner">
+    <h2 style="font-size:30px;font-weight:800;margin-bottom:24px;">Dores identificadas — ${nome}</h2>
+    ${dorItems}
+  </div>
+</div>`:'';
+
+  const secSol=SL('sl_sol')?`
+<!-- SOLUÇÕES -->
+<div class="pg" style="background:#fff;">
+  <div class="inner">
+    <h2 style="font-size:30px;font-weight:800;color:#890119;margin-bottom:20px;">Como a 3S resolve cada dor</h2>
+    <table style="width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);">
+      <thead><tr style="background:#e9202e;color:#fff;"><th style="padding:12px 16px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Dor</th><th style="padding:12px 16px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Como ajudamos</th><th style="padding:12px 16px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Benefício</th></tr></thead>
+      <tbody>${solRows}</tbody>
+    </table>
+  </div>
+</div>`:'';
+
+  const secFort=SL('sl_fort')?fortSlide:'';
+  const secComp=SL('sl_comp')?concSlide:'';
+  const secEco=SL('sl_eco')?ecoSlide:'';
+
+  const secProp=SL('sl_prop')?`
+<!-- PROPOSTA -->
+<div class="pg" style="background:#FFF5F5;">
+  <div class="inner" style="max-width:900px;">
+    <div style="text-align:center;margin-bottom:16px;">
+      <div style="display:inline-block;background:linear-gradient(135deg,#e9202e,#C41528);color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:4px 14px;border-radius:20px;margin-bottom:6px;">Proposta comercial</div>
+      <h2 style="font-size:26px;font-weight:800;color:#890119;">Proposta ${nome}</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+
+      <!-- LEFT: Contrato + Investimento Inicial -->
+      <div style="background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 8px rgba(233,32,46,.05);">
+        <div style="font-size:10px;font-weight:700;color:#e9202e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Contrato</div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(233,32,46,.06);font-size:12px;"><span style="color:#6B7280;">Tempo de contrato</span><span style="font-weight:700;color:#890119;">${ct} meses</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(233,32,46,.06);font-size:12px;"><span style="color:#6B7280;">Lojas</span><span style="font-weight:700;color:#890119;">${lj} unidades</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(233,32,46,.06);font-size:12px;"><span style="color:#6B7280;">Rollout</span><span style="font-weight:700;color:#890119;">${ro} meses</span></div>
+
+        <div style="font-size:10px;font-weight:700;color:#6B7280;text-transform:uppercase;letter-spacing:.3px;margin:10px 0 6px;padding-top:8px;border-top:1.5px solid rgba(233,32,46,.08);">Investimento inicial</div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(233,32,46,.06);font-size:12px;">
+          <span style="color:#890119;">Setup da marca</span>
+          <span style="font-weight:700;color:#890119;">${ixSetup?'<span style="text-decoration:line-through;color:#9CA3AF;margin-right:4px;">R$ '+setupVal.toFixed(2).replace('.',',')+'</span><span style="color:#10B981;">ISENTO</span>':'R$ '+setupVal.toFixed(2).replace('.',',')}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(233,32,46,.06);font-size:12px;">
+          <span style="color:#890119;">Implantação (${lj} lojas)</span>
+          <span style="font-weight:700;color:#890119;">${ixInst?'<span style="text-decoration:line-through;color:#9CA3AF;margin-right:4px;">R$ '+(instVal*lj).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span><span style="color:#10B981;">ISENTO</span>':'R$ '+(instVal*lj).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;margin-top:2px;font-size:13px;font-weight:700;">
+          <span style="color:#890119;">Total inicial</span>
+          <span style="color:#e9202e;">${((ixSetup?0:setupVal)+(ixInst?0:instVal*lj)).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Serviços inclusos (lista compacta sem valores individuais) -->
+      <div style="background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 8px rgba(233,32,46,.05);">
+        <div style="font-size:10px;font-weight:700;color:#e9202e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Serviços inclusos</div>
+        ${meBullets}
+        ${svcAdd.length?'<div style="font-size:10px;font-weight:700;color:#C41528;text-transform:uppercase;letter-spacing:.5px;margin:8px 0 4px;padding-top:6px;border-top:1.5px solid rgba(233,32,46,.08);">Adicionais</div>'+svcAdd.map(m=>m.ix?'<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;font-size:12px;"><div style="display:flex;align-items:center;gap:8px;"><span style="color:#FF6B7A;font-weight:700;font-size:10px;flex-shrink:0;">+</span><span style="color:#890119;">'+m.nm+'</span></div><span style="font-size:10px;"><span style="text-decoration:line-through;color:#9CA3AF;margin-right:4px;">R$ '+(m._origV||m.v).toFixed(2).replace('.',',')+`</span><span style="color:#10B981;font-weight:600;">ISENTO</span></span></div>`:'<div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;"><span style="color:#FF6B7A;font-weight:700;font-size:10px;flex-shrink:0;">+</span><span style="color:#890119;">'+m.nm+'</span></div>').join(''):''}
+
+        ${hlItems?'<div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(233,32,46,.06);"><div style="font-size:9px;font-weight:600;color:#6B7280;text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px;">Condições especiais</div><ul style="list-style:none;padding:0;margin:0;">'+hlItems+'</ul></div>':''}
+      </div>
+    </div>
+
+    <!-- BOTTOM: Resumo financeiro compacto -->
+    <div style="background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 8px rgba(233,32,46,.05);">
+      <div style="display:grid;grid-template-columns:${(hasFX&&fixeSel.length)?'1fr 1fr 1fr':'1fr 1fr'};gap:0;align-items:stretch;">
+
+        <!-- Mensalidade 3S -->
+        <div style="padding:0 16px 0 0;${(hasFX&&fixeSel.length)||isensList.length?'border-right:1.5px solid rgba(233,32,46,.08);':''}">
+          <div style="font-size:10px;font-weight:700;color:#e9202e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Mensalidade 3S / loja</div>
+          <div style="font-size:22px;font-weight:900;color:#e9202e;">R$ ${ms.toFixed(2).replace('.',',')}</div>
+          <div style="font-size:10px;color:#6B7280;margin-top:2px;">Total rede: ${fK(ms*lj)}/mês</div>
+        </div>
+
+        ${(hasFX&&fixeSel.length)?`
+        <!-- Ecossistema Fixe CRM -->
+        <div style="padding:0 16px;${isensList.length?'border-right:1.5px solid rgba(233,32,46,.08);':''}">
+          <div style="font-size:10px;font-weight:700;color:#FF4D5E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Ecossistema Fixe CRM</div>
+          <div style="font-size:22px;font-weight:900;color:#FF4D5E;">R$ ${fixeTotalMensal.toFixed(2).replace('.',',')}</div>
+          <div style="font-size:10px;color:#6B7280;margin-top:2px;">/mês por operação</div>
+        </div>`:''}
+
+        <!-- Isenções ou espaço -->
+        ${isensList.length?`
+        <div style="padding:0 0 0 16px;">
+          <div style="font-size:10px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Isenções</div>
+          <div style="font-size:22px;font-weight:900;color:#10B981;">R$ ${totalEconomia.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+          <div style="font-size:10px;color:#6B7280;margin-top:2px;">economia total</div>
+        </div>`:`
+        <div style="padding:0 0 0 16px;display:flex;flex-direction:column;justify-content:center;">
+        </div>`}
+      </div>
+
+      <!-- Footer bar: segregated -->
+      <div style="background:linear-gradient(135deg,#2D0A0E,#890119);border-radius:10px;padding:12px 18px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="display:flex;gap:20px;align-items:center;">
+          <div>
+            <div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;">Mensalidade 3S</div>
+            <div style="font-size:16px;font-weight:800;color:#fff;margin-top:1px;">R$ ${ms.toFixed(2).replace('.',',')}</div>
+          </div>
+          ${(hasFX&&fixeSel.length)?`
+          <div style="width:1px;height:28px;background:rgba(255,255,255,.15);"></div>
+          <div>
+            <div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;">Fixe CRM</div>
+            <div style="font-size:16px;font-weight:800;color:#FF6B7A;margin-top:1px;">R$ ${fixeTotalMensal.toFixed(2).replace('.',',')}</div>
+          </div>`:''}
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;">Total / loja / mês</div>
+          <div style="font-size:24px;font-weight:900;color:#fff;margin-top:1px;">R$ ${(ms+fixeTotalMensal).toFixed(2).replace('.',',')}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`:'';
+
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${nome} — Proposta 3S Checkout</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-snap-type:y mandatory;overflow-y:scroll;scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;color:#374151;background:#fff;}
+.pg{min-height:100vh;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:56px 48px;position:relative;overflow:hidden;}
+.pg .inner{width:100%;max-width:900px;}
+@media(max-width:768px){.pg{padding:40px 20px;}}
+.nav{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:9px;}
+.nav a{width:9px;height:9px;border-radius:50%;background:rgba(233,32,46,.2);display:block;transition:all .3s;}
+.nav a.on{background:#FF6B7A;transform:scale(1.4);}
+@media print{html{scroll-snap-type:none;}.pg{min-height:auto;page-break-after:always;padding:36px;}.nav{display:none;}}
+</style>
+</head><body>
+
+<nav class="nav" id="nv"></nav>
+
+${secCapa}
+${secQuem}
+${secOp}
+${secDores}
+${secSol}
+${secFort}
+${secComp}
+${secEco}
+
+${secProp}
+<script>
+const pgs=document.querySelectorAll('.pg');
+const nv=document.getElementById('nv');
+pgs.forEach((p,i)=>{if(!p.id)p.id='zx'+i;const a=document.createElement('a');a.href='#'+p.id;nv.appendChild(a);});
+const ds=nv.querySelectorAll('a');
+const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=[...pgs].indexOf(e.target);ds.forEach((d,j)=>d.classList.toggle('on',j===i));}});},{threshold:.45});
+pgs.forEach(p=>ob.observe(p));
+<\/script>
+</body></html>`;
+
+  document.getElementById('pFrame').srcdoc=html;
+  window._presHTML=html;
+}
+
+function xport(){
+  const w=window.open('','_blank');
+  w.document.write(window._presHTML);
+  w.document.close();
+}
+
+
+// ══════════════════════════════════════
+// STEP 0 — UPLOAD & EXTRACTION ENGINE
+// ══════════════════════════════════════
+const uploadedFiles=[];
+let extractedData={nome:'',lojas:0,seg:'',conc:'',dores:[],bpMatch:null};
+
+// Tab switching
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  if(tab==='upload'){
+    document.getElementById('tabUpload').style.display='';
+    document.getElementById('tabPaste').style.display='none';
+    document.querySelectorAll('.tab-btn')[0].classList.add('active');
+  }else{
+    document.getElementById('tabUpload').style.display='none';
+    document.getElementById('tabPaste').style.display='';
+    document.querySelectorAll('.tab-btn')[1].classList.add('active');
+  }
+}
+
+// PDF.js worker
+// CDN library status
+const _hasPDF=(typeof pdfjsLib!=='undefined');
+const _hasMammoth=(typeof mammoth!=='undefined');
+if(_hasPDF) pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+if(!_hasPDF||!_hasMammoth){
+  const w=document.createElement('div');
+  w.style.cssText='background:#FEF3C7;border:1px solid #F59E0B;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#92400E;';
+  w.innerHTML='<strong>Aviso:</strong> Bibliotecas de leitura de PDF'+((!_hasMammoth)?' e Word':'')+' não carregaram. Use a opção <strong>Colar Texto</strong> ou verifique sua conexão.';
+  const s1=document.getElementById('s1');
+  if(s1) s1.insertBefore(w,s1.querySelector('.card'));
+}
+
+// File drag & drop
+const dz=document.getElementById('dropZone');
+if(dz){
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');handleFiles(e.dataTransfer.files);});
+  document.getElementById('fileInput').addEventListener('change',e=>handleFiles(e.target.files));
+}
+
+function handleFiles(files){
+  Array.from(files).slice(0,3-uploadedFiles.length).forEach(f=>{
+    const ext=f.name.split('.').pop().toLowerCase();
+    if(!['pdf','docx','doc','txt'].includes(ext)){alert('Formato não suportado: '+ext);return;}
+    uploadedFiles.push({file:f,name:f.name,status:'processing',text:''});
+    renderFileList();
+    processFile(f,uploadedFiles.length-1);
+  });
+}
+
+function renderFileList(){
+  const fl=document.getElementById('fileList');
+  fl.innerHTML=uploadedFiles.map((f,i)=>`
+    <div class="file-item">
+      <div><span class="fi-name">${f.name}</span></div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="fi-status ${f.status==='done'?'ok':'proc'}">${f.status==='done'?'Extraído':'<span class="spinner"></span> Processando...'}</span>
+        <button class="fi-rm" onclick="removeFile(${i})">×</button>
+      </div>
+    </div>`).join('');
+}
+
+function removeFile(i){
+  uploadedFiles.splice(i,1);
+  renderFileList();
+  if(uploadedFiles.length===0){document.getElementById('extractResult').style.display='none';document.getElementById('btnExtract').style.display='none';}
+  else if(uploadedFiles.every(f=>f.status==='done')) runExtraction();
+}
+
+async function processFile(file,idx){
+  const ext=file.name.split('.').pop().toLowerCase();
+  if(ext==='pdf'&&!_hasPDF){uploadedFiles[idx].text='[PDF.js não carregou — cole o texto manualmente]';uploadedFiles[idx].status='done';renderFileList();if(uploadedFiles.every(f=>f.status==='done'))runExtraction();return;}
+  if(ext==='docx'&&!_hasMammoth){uploadedFiles[idx].text='[mammoth.js não carregou — cole o texto manualmente]';uploadedFiles[idx].status='done';renderFileList();if(uploadedFiles.every(f=>f.status==='done'))runExtraction();return;}
+  try{
+    if(ext==='pdf'){
+      const buf=await file.arrayBuffer();
+      const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+      let txt='';
+      for(let p=1;p<=pdf.numPages;p++){
+        const page=await pdf.getPage(p);
+        const tc=await page.getTextContent();
+        txt+=tc.items.map(it=>it.str).join(' ')+'\n';
+      }
+      uploadedFiles[idx].text=txt;
+    }else if(ext==='docx'){
+      const buf=await file.arrayBuffer();
+      const result=await mammoth.extractRawText({arrayBuffer:buf});
+      uploadedFiles[idx].text=result.value;
+    }else{
+      uploadedFiles[idx].text=await file.text();
+    }
+    uploadedFiles[idx].status='done';
+    renderFileList();
+    if(uploadedFiles.every(f=>f.status==='done')) runExtraction();
+  }catch(err){
+    console.error('Error processing',file.name,err);
+    uploadedFiles[idx].status='done';
+    uploadedFiles[idx].text='[Erro na extração]';
+    renderFileList();
+  }
+}
+
+function processText(txt){
+  if(!txt.trim()){alert('Cole algum conteúdo primeiro.');return;}
+  uploadedFiles.length=0;
+  uploadedFiles.push({file:null,name:'Texto colado',status:'done',text:txt});
+  renderFileList();
+  runExtraction();
+}
+
+// ── EXTRACTION ENGINE ──
+function runExtraction(){
+  const allText=uploadedFiles.map(f=>f.text).join('\n\n');
+  extractedData=extractFromText(allText);
+  // Populate DORES from extracted text
+  DORES=matchDoresFromText(allText);
+  renderDores();
+  showExtracted();
+}
+
+function extractFromText(txt){
+  const t=txt.toLowerCase();
+  const result={nome:'',lojas:0,seg:'',conc:'',dores:[],bpMatch:null,rawText:txt};
+
+  // 1. Try to match brand name from BP database
+  let bestMatch=null, bestScore=0;
+  for(const bp of BP){
+    const marca=bp[0].toLowerCase();
+    if(t.includes(marca)){
+      const score=marca.length;
+      if(score>bestScore){bestScore=score;bestMatch=bp;}
+    }
+  }
+  if(bestMatch){
+    result.nome=bestMatch[0];
+    result.lojas=bestMatch[1];
+    result.seg=bestMatch[2];
+    result.conc=bestMatch[3];
+    result.bpMatch=bestMatch;
+  }
+
+  // 2. If no BP match, try to extract brand name heuristically
+  if(!result.nome){
+    // Look for patterns like "marca: X", "rede: X", "cliente: X", "empresa: X"
+    const namePatterns=[
+      /(?:marca|rede|cliente|empresa|prospect|bandeira|franquia)\s*[:;\-–]\s*([A-ZÁÉÍÓÚÃÕÂÊÇ][^\n,;]{2,40})/i,
+      /(?:sobre\s+(?:a|o)\s+)([A-ZÁÉÍÓÚÃÕÂÊÇ][A-Za-záéíóúãõâêçü\s&']{2,30})/i,
+    ];
+    for(const pat of namePatterns){
+      const m=txt.match(pat);
+      if(m){result.nome=m[1].trim();break;}
+    }
+  }
+
+  // 3. Extract store count
+  if(!result.lojas){
+    const lojaPatterns=[
+      /(\d{1,4})\s*(?:lojas?|unidades?|restaurantes?|pdvs?|pontos?\s*de\s*venda)/i,
+      /(?:lojas?|unidades?|restaurantes?|pdvs?)\s*[:;\-–]?\s*(\d{1,4})/i,
+      /(?:possui|tem|opera|com)\s+(\d{1,4})\s+(?:lojas?|unidades?|restaurantes?)/i,
+    ];
+    for(const pat of lojaPatterns){
+      const m=txt.match(pat);
+      if(m){result.lojas=parseInt(m[1]||m[2]);break;}
+    }
+  }
+
+  // 4. Extract segment
+  if(!result.seg){
+    const segMap={
+      'qsr':['fast food','fast-food','fastfood','quick service','qsr','fast casual','lanchonete','hamburgueria','açaí','acai','pastel','hot dog','hotdog','pizza rápida','esfiha','esfiharia','cookie','sorvete','gelato','frozen','poke','temaki','yakisoba'],
+      'table':['table service','full service','restaurante','trattoria','ristorante','steakhouse','churrascaria','rodízio','rodizio','buffet','pizzaria','sushi','japonês','japones','italiano','mexicano','árabe','padaria','bistrô','bistro','gastrobar','gastropub','grill','cantina'],
+      'delivery':['delivery','dark kitchen','ghost kitchen','cloud kitchen','virtual kitchen','delivery first','só delivery','apenas delivery','cozinha virtual'],
+      'cafe':['café','cafeteria','coffee','doceria','confeitaria','patisserie','boulangerie','brigaderia','casa de chá','tea','bakery','padaria artesanal'],
+    };
+    for(const[seg,keys]of Object.entries(segMap)){
+      if(keys.some(k=>t.includes(k))){result.seg=seg;break;}
+    }
+  }
+
+  // 5. Extract competitor
+  if(!result.conc){
+    const concMap={
+      'linx':['linx','degust','linx degust'],
+      'saipos':['saipos'],
+      'totvs':['totvs','chef totvs','totvs chef'],
+      'colibri':['colibri','abrahao','abraão'],
+      'aloha':['aloha','ncr','ncr voyix'],
+      'teknisa':['teknisa'],
+      'nola':['nola'],
+      'gcom':['gcom','gcom pdv'],
+      'ciss':['ciss'],
+    };
+    for(const[id,keys]of Object.entries(concMap)){
+      if(keys.some(k=>t.includes(k))){result.conc=id;break;}
+    }
+  }
+
+  return result;
+}
+
+// ══════════════════════════════════════
+// SHOW EXTRACTED DATA
+// ══════════════════════════════════════
+function showExtracted(){
+  const d=extractedData;
+  const el=document.getElementById('extractResult');
+  if(!el)return;
+
+  const items=[];
+  if(d.nome) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Marca</span><span style="font-weight:600;color:var(--dark-gray);">'+d.nome+'</span>'+(d.bpMatch?'<span style="font-size:9px;background:#10B981;color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;">Match BP</span>':'')+'</div>');
+  if(d.lojas) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Lojas</span><span style="font-weight:600;color:var(--dark-gray);">'+d.lojas+'</span></div>');
+  if(d.seg) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Segmento</span><span style="font-weight:600;color:var(--dark-gray);">'+d.seg+'</span></div>');
+  if(d.conc) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Concorrente</span><span style="font-weight:600;color:var(--dark-gray);">'+d.conc+'</span></div>');
+  if(DORES.length) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Dores</span><span style="font-weight:600;color:var(--dark-gray);">'+DORES.length+' identificadas</span></div>');
+
+  if(items.length){
+    el.innerHTML='<div class="card" style="border-left:3px solid var(--green);"><div class="card-t"><span class="n" style="background:var(--green);">✓</span> Dados extraídos</div>'+items.join('')+'<button class="btn btn-p" style="margin-top:14px;width:100%;" onclick="applyExtracted()">Aplicar dados e prosseguir →</button></div>';
+    el.style.display='block';
+  } else {
+    el.innerHTML='<div class="card" style="border-left:3px solid var(--red);"><div class="card-t"><span class="n" style="background:var(--red);">!</span> Nenhum dado identificado</div><p style="font-size:12px;color:var(--gray);">Não foi possível extrair informações automaticamente. Prossiga para configurar manualmente.</p><button class="btn btn-o" style="margin-top:12px;" onclick="go(2)">Configurar manualmente →</button></div>';
+    el.style.display='block';
+  }
+}
+
+function applyExtracted(){
+  const d=extractedData;
+  if(d.nome) document.getElementById('p_nome').value=d.nome;
+  if(d.lojas){
+    document.getElementById('p_lojas').value=d.lojas;
+    document.getElementById('g_lojas').value=d.lojas;
+  }
+  if(d.seg) document.getElementById('p_seg').value=d.seg;
+  if(d.conc) document.getElementById('p_conc').value=d.conc;
+  // DORES already populated by runExtraction → matchDoresFromText
+  renderDores();
+  go(2);
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+refreshMods();
+calc();
+</script>
+</body>
+</html>
