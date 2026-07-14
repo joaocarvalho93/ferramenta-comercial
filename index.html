@@ -184,7 +184,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
       <div class="ext-row"><span class="lbl">Marca</span><span class="val" id="ex_nome">—</span></div>
       <div class="ext-row"><span class="lbl">Lojas</span><span class="val" id="ex_lojas">—</span></div>
       <div class="ext-row"><span class="lbl">Segmento</span><span class="val" id="ex_seg">—</span></div>
-      <div class="ext-row"><span class="lbl">Concorrente</span><span class="val" id="ex_conc">—</span></div>
+      <div class="ext-row"><span class="lbl">PDV atual</span><span class="val" id="ex_conc">—</span></div>
       <div class="ext-row"><span class="lbl">Base BP</span><span class="val" id="ex_bp">—</span></div>
       <div class="ext-dores" id="ex_dores"></div>
     </div>
@@ -224,8 +224,8 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
   </div>
 
   <div class="card">
-    <div class="card-t"><span class="n">3</span> Concorrente atual</div>
-    <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Se o prospect usa um concorrente conhecido, selecione para incluir um slide comparativo.</p>
+    <div class="card-t"><span class="n">3</span> PDV atual</div>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Se o prospect usa um PDV conhecido, selecione para incluir um slide comparativo.</p>
     <div class="fld">
       <select id="p_conc">
         <option value="">Nenhum / não informado</option>
@@ -1433,14 +1433,62 @@ function runExtraction(){
 
 function extractFromText(txt){
   const t=txt.toLowerCase();
+  // Normalize: remove diacritics for accent-insensitive matching
+  const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  const tn=norm(txt);
   const result={nome:'',lojas:0,seg:'',conc:'',dores:[],bpMatch:null,rawText:txt};
 
-  // 1. Try to match brand name from BP database
+  // ── EXTRACT FROM TEXT FIRST (document always wins over BP) ──
+
+  // A. Extract store count from text
+  const lojaPatterns=[
+    /(\d{1,4})\s*(?:lojas?|unidades?|restaurantes?|pdvs?|pontos?\s*de\s*venda)/i,
+    /(?:lojas?|unidades?|restaurantes?|pdvs?)\s*[:;\-–]?\s*(\d{1,4})/i,
+    /(?:possui|tem|opera|com)\s+(\d{1,4})\s+(?:lojas?|unidades?|restaurantes?)/i,
+  ];
+  let docLojas=0;
+  for(const pat of lojaPatterns){
+    const m=txt.match(pat);
+    if(m){docLojas=parseInt(m[1]||m[2]);break;}
+  }
+
+  // B. Extract segment from text
+  let docSeg='';
+  const segMap={
+    'qsr':['fast food','fast-food','fastfood','quick service','qsr','fast casual','lanchonete','hamburgueria','açaí','acai','pastel','hot dog','hotdog','pizza rápida','esfiha','esfiharia','cookie','sorvete','gelato','frozen','poke','temaki','yakisoba'],
+    'table':['table service','full service','restaurante','trattoria','ristorante','steakhouse','churrascaria','rodízio','rodizio','buffet','pizzaria','sushi','japonês','japones','italiano','mexicano','árabe','padaria','bistrô','bistro','gastrobar','gastropub','grill','cantina'],
+    'delivery':['delivery','dark kitchen','ghost kitchen','cloud kitchen','virtual kitchen','delivery first','só delivery','apenas delivery','cozinha virtual'],
+    'cafe':['café','cafeteria','coffee','doceria','confeitaria','patisserie','boulangerie','brigaderia','casa de chá','tea','bakery','padaria artesanal'],
+  };
+  for(const[seg,keys]of Object.entries(segMap)){
+    if(keys.some(k=>t.includes(k))){docSeg=seg;break;}
+  }
+
+  // C. Extract PDV atual (competitor) from text
+  let docConc='';
+  const concMap={
+    'linx':['linx','degust','linx degust'],
+    'saipos':['saipos'],
+    'totvs':['totvs','chef totvs','totvs chef'],
+    'colibri':['colibri','abrahao','abraão'],
+    'aloha':['aloha','ncr','ncr voyix'],
+    'teknisa':['teknisa'],
+    'nola':['nola'],
+    'gcom':['gcom','gcom pdv'],
+    'ciss':['ciss'],
+  };
+  for(const[id,keys]of Object.entries(concMap)){
+    if(keys.some(k=>t.includes(k))){docConc=id;break;}
+  }
+
+  // ── MATCH BP (fallback only — document data takes priority) ──
+
+  // 1. Try to match brand name from BP database (accent-insensitive)
   let bestMatch=null, bestScore=0;
   for(const bp of BP){
-    const marca=bp[0].toLowerCase();
-    if(t.includes(marca)){
-      const score=marca.length;
+    const marcaNorm=norm(bp[0]);
+    if(tn.includes(marcaNorm)){
+      const score=marcaNorm.length;
       if(score>bestScore){bestScore=score;bestMatch=bp;}
     }
   }
@@ -1454,60 +1502,31 @@ function extractFromText(txt){
 
   // 2. If no BP match, try to extract brand name heuristically
   if(!result.nome){
-    // Look for patterns like "marca: X", "rede: X", "cliente: X", "empresa: X"
     const namePatterns=[
-      /(?:marca|rede|cliente|empresa|prospect|bandeira|franquia)\s*[:;\-–]\s*([A-ZÁÉÍÓÚÃÕÂÊÇ][^\n,;]{2,40})/i,
+      /(?:nome\s+da\s+marca|marca|rede|cliente|empresa|prospect|bandeira|franquia)\s*[:;\-–]\s*\n?\s*([A-ZÁÉÍÓÚÃÕÂÊÇa-záéíóúãõâêçü][^\n,;]{2,40})/i,
       /(?:sobre\s+(?:a|o)\s+)([A-ZÁÉÍÓÚÃÕÂÊÇ][A-Za-záéíóúãõâêçü\s&']{2,30})/i,
     ];
     for(const pat of namePatterns){
       const m=txt.match(pat);
-      if(m){result.nome=m[1].trim();break;}
+      if(m){
+        let extracted=m[1].trim();
+        const en=norm(extracted);
+        for(const bp of BP){
+          if(norm(bp[0])===en || norm(bp[0]).includes(en) || en.includes(norm(bp[0]))){
+            result.nome=bp[0];result.bpMatch=bp;
+            break;
+          }
+        }
+        if(!result.nome) result.nome=extracted;
+        break;
+      }
     }
   }
 
-  // 3. Extract store count
-  if(!result.lojas){
-    const lojaPatterns=[
-      /(\d{1,4})\s*(?:lojas?|unidades?|restaurantes?|pdvs?|pontos?\s*de\s*venda)/i,
-      /(?:lojas?|unidades?|restaurantes?|pdvs?)\s*[:;\-–]?\s*(\d{1,4})/i,
-      /(?:possui|tem|opera|com)\s+(\d{1,4})\s+(?:lojas?|unidades?|restaurantes?)/i,
-    ];
-    for(const pat of lojaPatterns){
-      const m=txt.match(pat);
-      if(m){result.lojas=parseInt(m[1]||m[2]);break;}
-    }
-  }
-
-  // 4. Extract segment
-  if(!result.seg){
-    const segMap={
-      'qsr':['fast food','fast-food','fastfood','quick service','qsr','fast casual','lanchonete','hamburgueria','açaí','acai','pastel','hot dog','hotdog','pizza rápida','esfiha','esfiharia','cookie','sorvete','gelato','frozen','poke','temaki','yakisoba'],
-      'table':['table service','full service','restaurante','trattoria','ristorante','steakhouse','churrascaria','rodízio','rodizio','buffet','pizzaria','sushi','japonês','japones','italiano','mexicano','árabe','padaria','bistrô','bistro','gastrobar','gastropub','grill','cantina'],
-      'delivery':['delivery','dark kitchen','ghost kitchen','cloud kitchen','virtual kitchen','delivery first','só delivery','apenas delivery','cozinha virtual'],
-      'cafe':['café','cafeteria','coffee','doceria','confeitaria','patisserie','boulangerie','brigaderia','casa de chá','tea','bakery','padaria artesanal'],
-    };
-    for(const[seg,keys]of Object.entries(segMap)){
-      if(keys.some(k=>t.includes(k))){result.seg=seg;break;}
-    }
-  }
-
-  // 5. Extract competitor
-  if(!result.conc){
-    const concMap={
-      'linx':['linx','degust','linx degust'],
-      'saipos':['saipos'],
-      'totvs':['totvs','chef totvs','totvs chef'],
-      'colibri':['colibri','abrahao','abraão'],
-      'aloha':['aloha','ncr','ncr voyix'],
-      'teknisa':['teknisa'],
-      'nola':['nola'],
-      'gcom':['gcom','gcom pdv'],
-      'ciss':['ciss'],
-    };
-    for(const[id,keys]of Object.entries(concMap)){
-      if(keys.some(k=>t.includes(k))){result.conc=id;break;}
-    }
-  }
+  // ── OVERRIDE BP with document data (text always wins) ──
+  if(docLojas) result.lojas=docLojas;
+  if(docSeg) result.seg=docSeg;
+  if(docConc) result.conc=docConc;
 
   return result;
 }
@@ -1524,7 +1543,7 @@ function showExtracted(){
   if(d.nome) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Marca</span><span style="font-weight:600;color:var(--dark-gray);">'+d.nome+'</span>'+(d.bpMatch?'<span style="font-size:9px;background:#10B981;color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;">Match BP</span>':'')+'</div>');
   if(d.lojas) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Lojas</span><span style="font-weight:600;color:var(--dark-gray);">'+d.lojas+'</span></div>');
   if(d.seg) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Segmento</span><span style="font-weight:600;color:var(--dark-gray);">'+d.seg+'</span></div>');
-  if(d.conc) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Concorrente</span><span style="font-weight:600;color:var(--dark-gray);">'+d.conc+'</span></div>');
+  if(d.conc) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">PDV atual</span><span style="font-weight:600;color:var(--dark-gray);">'+d.conc+'</span></div>');
   if(DORES.length) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Dores</span><span style="font-weight:600;color:var(--dark-gray);">'+DORES.length+' identificadas</span></div>');
 
   if(items.length){
@@ -1536,25 +1555,4 @@ function showExtracted(){
   }
 }
 
-function applyExtracted(){
-  const d=extractedData;
-  if(d.nome) document.getElementById('p_nome').value=d.nome;
-  if(d.lojas){
-    document.getElementById('p_lojas').value=d.lojas;
-    document.getElementById('g_lojas').value=d.lojas;
-  }
-  if(d.seg) document.getElementById('p_seg').value=d.seg;
-  if(d.conc) document.getElementById('p_conc').value=d.conc;
-  // DORES already populated by runExtraction → matchDoresFromText
-  renderDores();
-  go(2);
-}
-
-// ══════════════════════════════════════
-// INIT
-// ══════════════════════════════════════
-refreshMods();
-calc();
-</script>
-</body>
-</html>
+function applyExtracte
