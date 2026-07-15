@@ -1288,14 +1288,14 @@ ${secComp}
 ${secEco}
 
 ${secProp}
-<script>
+<scr`+`ipt>
 const pgs=document.querySelectorAll('.pg');
 const nv=document.getElementById('nv');
 pgs.forEach((p,i)=>{if(!p.id)p.id='zx'+i;const a=document.createElement('a');a.href='#'+p.id;nv.appendChild(a);});
 const ds=nv.querySelectorAll('a');
 const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=[...pgs].indexOf(e.target);ds.forEach((d,j)=>d.classList.toggle('on',j===i));}});},{threshold:.45});
 pgs.forEach(p=>ob.observe(p));
-<\/script>
+<\/scr`+`ipt>
 </body></html>`;
 
   document.getElementById('pFrame').srcdoc=html;
@@ -1434,7 +1434,7 @@ function runExtraction(){
 function extractFromText(txt){
   const t=txt.toLowerCase();
   // Normalize: remove diacritics for accent-insensitive matching
-  const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   const tn=norm(txt);
   const result={nome:'',lojas:0,seg:'',conc:'',dores:[],bpMatch:null,rawText:txt};
 
@@ -1555,4 +1555,25 @@ function showExtracted(){
   }
 }
 
-function applyExtracte
+function applyExtracted(){
+  const d=extractedData;
+  if(d.nome) document.getElementById('p_nome').value=d.nome;
+  if(d.lojas){
+    document.getElementById('p_lojas').value=d.lojas;
+    document.getElementById('g_lojas').value=d.lojas;
+  }
+  if(d.seg) document.getElementById('p_seg').value=d.seg;
+  if(d.conc) document.getElementById('p_conc').value=d.conc;
+  // DORES already populated by runExtraction → matchDoresFromText
+  renderDores();
+  go(2);
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+refreshMods();
+calc();
+</script>
+</body>
+<
