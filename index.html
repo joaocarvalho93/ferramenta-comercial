@@ -429,17 +429,74 @@ function addCustomDor(){
   renderDores();
 }
 
-// Match dores from extracted text
+// Match dores from extracted text — only match items flagged as
+// "Crítico / Manual" or "Não possui" in the diagnostic document
 function matchDoresFromText(txt){
   const t=txt.toLowerCase();
   const matched=[];
-  DORES_BANK.forEach(d=>{
-    if(d.keys.some(k=>t.includes(k))){
-      matched.push({...d});
+
+  // Check if this is a structured diagnostic (has status indicators)
+  const isDiagnostic=t.includes('crítico / manual')||t.includes('critico / manual')||t.includes('não possui')||t.includes('nao possui');
+
+  if(isDiagnostic){
+    // STRUCTURED DIAGNOSTIC: Only match dores where the diagnostic
+    // explicitly flags the area as problematic
+    // Build a map of problem areas from the diagnostic
+    const problemAreas=[];
+
+    // Find all lines/sections marked as Crítico/Manual or Não possui
+    const patterns=[
+      /([^⚠❌\n]{5,80}?)[:]\s*[⚠❌]\s*(?:Cr[ií]tico\s*\/\s*Manual|N[aã]o\s+possui)/gi,
+      /[⚠❌]\s*\n?\s*([^⚠❌✅⚪\n]{5,80}?)[:]\s*(?:Cr[ií]tico\s*\/\s*Manual|N[aã]o\s+possui)/gi,
+      /([^⚠❌\n]{5,80}?)\s*[:]\s*\n?\s*(?:Cr[ií]tico\s*\/\s*Manual|N[aã]o\s+possui)/gi,
+    ];
+    for(const pat of patterns){
+      let m;
+      while((m=pat.exec(txt))!==null){
+        problemAreas.push(m[1].toLowerCase().trim());
+      }
     }
-  });
+
+    console.log('[Harry] Diagnóstico estruturado. Áreas problemáticas:', problemAreas.length);
+
+    // Now match DORES_BANK items only if their keywords appear in problem areas
+    DORES_BANK.forEach(d=>{
+      const isRelevant=d.keys.some(k=>{
+        return problemAreas.some(area=>area.includes(k));
+      });
+      // Also check for specific category matches
+      const categoryMatch=problemAreas.some(area=>{
+        if(d.id==='d1') return area.includes('cardápio')||area.includes('cardapio')||area.includes('múltiplas lojas')||area.includes('multiplas lojas')||area.includes('diferentes preços')||area.includes('diferentes precos')||area.includes('canal de venda');
+        if(d.id==='d3') return area.includes('kds')||area.includes('produção')||area.includes('producao');
+        if(d.id==='d4') return area.includes('estoque')||area.includes('cmv')||area.includes('ficha técnica')||area.includes('ficha tecnica')||area.includes('inventário')||area.includes('inventario');
+        if(d.id==='d5') return area.includes('acesso mobile')||area.includes('3sgo')||area.includes('gestão')||area.includes('gestao');
+        if(d.id==='d6') return area.includes('relatório')||area.includes('relatorio')||area.includes('indicador')||area.includes('bi')||area.includes('dre');
+        if(d.id==='d7') return area.includes('tef')||area.includes('pagamento')||area.includes('conciliação')||area.includes('conciliacao');
+        if(d.id==='d9') return area.includes('integração')||area.includes('integracao')||area.includes('erp');
+        if(d.id==='d12') return area.includes('ifood')||area.includes('rappi')||area.includes('marketplace')||area.includes('delivery');
+        return false;
+      });
+
+      if(isRelevant||categoryMatch){
+        matched.push({...d});
+      }
+    });
+  } else {
+    // NON-STRUCTURED TEXT (briefing, free-form notes)
+    // Use keyword matching but require at least 2 keyword hits per dor
+    DORES_BANK.forEach(d=>{
+      const hits=d.keys.filter(k=>t.includes(k)).length;
+      if(hits>=2){
+        matched.push({...d});
+      }
+    });
+  }
+
+  console.log('[Harry] Dores matched:', matched.length, matched.map(d=>d.id));
   return matched;
 }
+
+
 
 renderDores();
 
@@ -1440,25 +1497,64 @@ function extractFromText(txt){
   console.log('[Harry] Iniciando extração. Texto length:', txt.length);
 
   // ══════════════════════════════════════
+  // PHASE 0: Normalize pdf.js single-line output
+  // pdf.js joins all text items with spaces, losing line breaks.
+  // We detect this and re-insert \n before known diagnostic labels.
+  // ══════════════════════════════════════
+  let normalized=txt;
+  const hasLineBreaks=(txt.split('\n').length>5);
+  if(!hasLineBreaks){
+    const labelPatterns=[
+      'Nome da Marca','Faz parte de um Grupo','Quais as outras marcas',
+      'Segmento de Foodservice','Modelo de Operação','Quantidade de Lojas',
+      'Quais destas tecnologias','Qual software de gestão','Qual sistema retaguarda',
+      'Qual CRM','Gestão de Operação','Delivery:','Call Center:',
+      'KDS e Fluxo','Experiência do Cliente','Atendimento Mesa:',
+      'Estoque:','Financeiro:','Relatórios e Indicadores:','Tecnologia:',
+      'Integrações:','Observações Gerais','Perfil da Persona',
+      'Mapeamento de Poder','Urgência do Projeto','Soluções Sugeridas',
+      'Resumo Estratégico','Responsável pela Qualificação','Outros Segmentos',
+      'Pontos de Atenção','Carimbo de data'
+    ];
+    for(const lbl of labelPatterns){
+      const escaped=lbl.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+      const re=new RegExp('\\s+('+escaped+')','gi');
+      normalized=normalized.replace(re,'\n$1');
+    }
+    normalized=normalized.replace(/\s+([⚠✅⚪❌❗⭕])/g,'\n$1');
+    console.log('[Harry] Texto normalizado de linha única para', normalized.split('\n').length, 'linhas');
+  }
+
+  // ══════════════════════════════════════
   // PHASE 1: Parse key:value fields from document
-  // Handles "Campo: Valor", "Campo:: Valor", "Campo::\nValor"
+  // Uses the NEXT label as delimiter to avoid capturing trailing text
   // ══════════════════════════════════════
   const fields={};
-  const lines=txt.split(/\n/);
-  for(let i=0;i<lines.length;i++){
-    const line=lines[i].trim();
-    // Pattern A: "Label: Value" on same line (1 or 2 colons)
-    const sameLineMatch=line.match(/^([A-Za-zÀ-ɏ\s()\/]{3,42}?)\s*[:]{1,2}\s+(.+)$/);
+  const nlines=normalized.split(/\n/);
+  for(let i=0;i<nlines.length;i++){
+    const line=nlines[i].trim();
+    if(!line)continue;
+
+    // Pattern A: "Label:: Value" or "Label: Value" on same line
+    const sameLineMatch=line.match(/^([A-Za-zÀ-ɏ\s()\/]{3,55}?)\s*[:]{1,3}\s+(.+)$/);
     if(sameLineMatch){
-      fields[norm(sameLineMatch[1].trim())]=sameLineMatch[2].trim();
+      const key=norm(sameLineMatch[1].trim());
+      let val=sameLineMatch[2].trim();
+      // CRITICAL: If value contains another known label, truncate before it
+      const nextLabel=val.match(/\s+(Faz\s+parte|Quais\s+as|Segmento\s+de|Modelo\s+de|Quantidade\s+de|Qual\s+software|Qual\s+sistema|Qual\s+CRM|Gestão\s+de|Observa|Pontos\s+de)/i);
+      if(nextLabel){
+        val=val.substring(0,nextLabel.index).trim();
+      }
+      if(val)fields[key]=val;
       continue;
     }
+
     // Pattern B: "Label:" or "Label::" alone, value on next non-empty line
-    const labelOnly=line.match(/^([A-Za-zÀ-ɏ\s()\/]{3,42}?)\s*[:]{1,2}\s*$/);
+    const labelOnly=line.match(/^([A-Za-zÀ-ɏ\s()\/]{3,55}?)\s*[:]{1,3}\s*$/);
     if(labelOnly){
-      for(let j=i+1;j<Math.min(i+4,lines.length);j++){
-        const nextLine=lines[j].trim();
-        if(nextLine){
+      for(let j=i+1;j<Math.min(i+4,nlines.length);j++){
+        const nextLine=nlines[j].trim();
+        if(nextLine && !nextLine.match(/^[⚠✅⚪❌❗⭕]/)){
           fields[norm(labelOnly[1].trim())]=nextLine;
           i=j;
           break;
@@ -1466,52 +1562,75 @@ function extractFromText(txt){
       }
     }
   }
-  console.log('[Harry] Campos extraídos:', JSON.stringify(fields));
+  console.log('[Harry] Campos extraídos:', Object.keys(fields).join(', '));
 
   // ══════════════════════════════════════
   // PHASE 2: Extract structured data from parsed fields
   // ══════════════════════════════════════
 
-  // A. Brand name — exclusively from "Nome da Marca" field
+  // A. Brand name — DIRECT REGEX on raw text (most reliable, avoids parser issues)
   let docNome='';
-  if(fields['nome da marca']){
-    let raw=fields['nome da marca'];
-    // Clean: remove trailing descriptions like "Faz parte de...", "- Conta Pai", etc.
-    raw=raw.replace(/\s+(faz\s+parte|pertence|é\s+uma?|que\s+|possui|opera|tem\s+|localizada?|situada?|com\s+sede).*/i,'');
-    raw=raw.replace(/\s*[-–—]\s*(conta\s+(pai|marca|grupo)|grupo\s+de).*/i,'');
-    raw=raw.trim();
-    docNome=raw;
-    console.log('[Harry] Nome da marca:', docNome);
+  // Strategy: match "Nome da Marca" + 1-3 colons + capture UNTIL next known label or question
+  const nomeDirectMatch=txt.match(/Nome\s+da\s+Marca\s*[:]{1,3}\s*\n?\s*([A-Za-zÀ-ɏ0-9][A-Za-zÀ-ɏ0-9\s&'.'-]{1,40}?)(?:\s+(?:Faz\s+parte|Quais|Segmento|Modelo|Quantidade|Qual|É\s+uma|Pertence|Possui|Localiz|Situa|\n|$))/i);
+  if(nomeDirectMatch){
+    docNome=nomeDirectMatch[1].trim();
+    console.log('[Harry] Nome da marca (regex direto):', docNome);
+  }
+  // Fallback: try field-based extraction
+  if(!docNome){
+    const nomeKey=Object.keys(fields).find(k=>k.includes('nome da marca'));
+    if(nomeKey){
+      let raw=fields[nomeKey];
+      raw=raw.replace(/\s+(faz\s+parte|pertence|e\s+uma?|que\s+|possui|opera|tem\s+|localizada?|situada?|com\s+sede|sao\s+\d|conta\s+com|esta\s+|fica\s+|atua\s+).*/i,'');
+      raw=raw.replace(/\s*[-–—]\s*(conta\s+(pai|marca|grupo)|grupo\s+de).*/i,'');
+      raw=raw.replace(/\s+(faz\s+parte\s+de\s+um|quais|qual|como|onde|quando|quanto).*/i,'');
+      raw=raw.trim();
+      const words=raw.split(/\s+/);
+      if(words.length>5) raw=words.slice(0,4).join(' ');
+      docNome=raw;
+      console.log('[Harry] Nome da marca (fallback campo):', docNome);
+    }
   }
 
-  // B. Store count from fields
-  const lojaKeys=['lojas','unidades','numero de lojas','quantidade de lojas','qtd lojas','qtde lojas','numero de unidades','pontos de venda','pdvs','restaurantes','quantidade de restaurantes'];
+  // B. Store count — try Lojas Próprias + Franqueadas first
   let docLojas=0;
-  for(const k of lojaKeys){
-    if(fields[k]){const n=parseInt(fields[k]);if(n>0){docLojas=n;console.log('[Harry] Lojas via campo:', k, '=', docLojas);break;}}
+  const lojaPropKey=Object.keys(fields).find(k=>k.includes('lojas proprias')||k.includes('quantidade de lojas proprias'));
+  const lojaFranqKey=Object.keys(fields).find(k=>k.includes('lojas franqueadas')||k.includes('quantidade de lojas franqueadas'));
+  if(lojaPropKey){
+    const proprias=parseInt(fields[lojaPropKey])||0;
+    const franqueadas=lojaFranqKey?parseInt(fields[lojaFranqKey])||0:0;
+    docLojas=proprias+franqueadas;
+    console.log('[Harry] Lojas: próprias='+proprias+' franqueadas='+franqueadas+' total='+docLojas);
+  }
+  if(!docLojas){
+    const lojaKeys=['lojas','unidades','numero de lojas','quantidade de lojas','qtd lojas','qtde lojas','numero de unidades','pontos de venda','pdvs','restaurantes','quantidade de restaurantes'];
+    for(const k of lojaKeys){
+      if(fields[k]){const n=parseInt(fields[k]);if(n>0){docLojas=n;break;}}
+    }
   }
 
   // C. Segment from fields
-  const segKeys=['segmento','tipo','tipo de operacao','modelo','formato','categoria','culinaria','tipo de culinaria'];
+  const segKeys=['segmento de foodservice principal','segmento','tipo','tipo de operacao','modelo','formato','categoria','culinaria','tipo de culinaria'];
   let docSeg='';
   const segMap={
     'qsr':['fast food','fast-food','fastfood','quick service','qsr','fast casual','lanchonete','hamburgueria','açaí','acai','pastel','hot dog','hotdog','pizza rápida','esfiha','esfiharia','cookie','sorvete','gelato','frozen','poke','temaki','yakisoba','açaiteria','acaiteria','sorveteria'],
-    'table':['table service','full service','restaurante','trattoria','ristorante','steakhouse','churrascaria','rodízio','rodizio','buffet','pizzaria','sushi','japonês','japones','italiano','mexicano','árabe','padaria','bistrô','bistro','gastrobar','gastropub','grill','cantina','bar','pub'],
+    'table':['table service','full service','restaurante','trattoria','ristorante','steakhouse','churrascaria','rodízio','rodizio','buffet','pizzaria','sushi','japonês','japones','italiano','mexicano','árabe','padaria','bistrô','bistro','gastrobar','gastropub','grill','cantina','bar','pub','casual'],
     'delivery':['delivery','dark kitchen','ghost kitchen','cloud kitchen','virtual kitchen','delivery first','só delivery','apenas delivery','cozinha virtual'],
     'cafe':['café','cafeteria','coffee','doceria','confeitaria','patisserie','boulangerie','brigaderia','casa de chá','tea','bakery','padaria artesanal'],
   };
   for(const k of segKeys){
-    if(fields[k]){
-      const fv=fields[k].toLowerCase();
+    const fieldKey=Object.keys(fields).find(fk=>fk.includes(k));
+    if(fieldKey){
+      const fv=fields[fieldKey].toLowerCase();
       for(const[seg,keywords]of Object.entries(segMap)){
         if(keywords.some(kw=>fv.includes(kw))){docSeg=seg;break;}
       }
-      if(docSeg){console.log('[Harry] Segmento via campo:', k, '=', docSeg);break;}
+      if(docSeg){console.log('[Harry] Segmento:', docSeg);break;}
     }
   }
 
   // D. PDV/Competitor from fields
-  const concKeys=['pdv atual','pdv','sistema atual','software atual','concorrente','concorrente atual','solucao atual','sistema de pdv','plataforma atual','erp atual','sistema pos','pos atual'];
+  const concKeys=['qual software de gestao','pdv atual','pdv','sistema atual','software atual','concorrente','concorrente atual','solucao atual','sistema de pdv','plataforma atual','erp atual','sistema pos','pos atual'];
   let docConc='';
   const concMap={
     'linx':['linx','degust','linx degust'],
@@ -1525,10 +1644,11 @@ function extractFromText(txt){
     'ciss':['ciss'],
   };
   for(const k of concKeys){
-    if(fields[k]){
-      const fv=fields[k].toLowerCase();
+    const fieldKey=Object.keys(fields).find(fk=>fk.includes(k));
+    if(fieldKey){
+      const fv=fields[fieldKey].toLowerCase();
       for(const[id,keywords]of Object.entries(concMap)){
-        if(keywords.some(kw=>fv.includes(kw))){docConc=id;console.log('[Harry] PDV via campo:', k, '=', docConc);break;}
+        if(keywords.some(kw=>fv.includes(kw))){docConc=id;console.log('[Harry] PDV:', docConc);break;}
       }
       if(docConc)break;
     }
@@ -1545,17 +1665,17 @@ function extractFromText(txt){
     ];
     for(const pat of lojaPatterns){
       const m=txt.match(pat);
-      if(m){docLojas=parseInt(m[1]||m[2]);console.log('[Harry] Lojas via regex:', docLojas);break;}
+      if(m){docLojas=parseInt(m[1]||m[2]);break;}
     }
   }
   if(!docSeg){
     for(const[seg,keys]of Object.entries(segMap)){
-      if(keys.some(k=>t.includes(k))){docSeg=seg;console.log('[Harry] Segmento via texto livre:', docSeg);break;}
+      if(keys.some(k=>t.includes(k))){docSeg=seg;break;}
     }
   }
   if(!docConc){
     for(const[id,keys]of Object.entries(concMap)){
-      if(keys.some(k=>t.includes(k))){docConc=id;console.log('[Harry] PDV via texto livre:', docConc);break;}
+      if(keys.some(k=>t.includes(k))){docConc=id;break;}
     }
   }
   if(!docNome){
@@ -1565,7 +1685,7 @@ function extractFromText(txt){
     ];
     for(const pat of namePatterns){
       const m=txt.match(pat);
-      if(m){docNome=m[1].trim();console.log('[Harry] Nome via regex fallback:', docNome);break;}
+      if(m){docNome=m[1].trim();break;}
     }
   }
 
@@ -1600,4 +1720,58 @@ function extractFromText(txt){
   // ══════════════════════════════════════
   result.nome=docNome||(bestMatch?bestMatch[0]:'');
   result.lojas=docLojas||(bestMatch?bestMatch[1]:0);
-  result.seg=docSeg||(bestM
+  result.seg=docSeg||(bestMatch?bestMatch[2]:'');
+  result.conc=docConc||(bestMatch?bestMatch[3]:'');
+  if(bestMatch) result.bpMatch=bestMatch;
+
+  console.log('[Harry] Resultado final:', JSON.stringify({nome:result.nome, lojas:result.lojas, seg:result.seg, conc:result.conc, bp:!!result.bpMatch}));
+  return result;
+}
+
+// ══════════════════════════════════════
+// SHOW EXTRACTED DATA
+// ══════════════════════════════════════
+function showExtracted(){
+  const d=extractedData;
+  const el=document.getElementById('extractResult');
+  if(!el)return;
+
+  const items=[];
+  if(d.nome) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Marca</span><span style="font-weight:600;color:var(--dark-gray);">'+d.nome+'</span>'+(d.bpMatch?'<span style="font-size:9px;background:#10B981;color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;">Match BP</span>':'')+'</div>');
+  if(d.lojas) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Lojas</span><span style="font-weight:600;color:var(--dark-gray);">'+d.lojas+'</span></div>');
+  if(d.seg) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Segmento</span><span style="font-weight:600;color:var(--dark-gray);">'+d.seg+'</span></div>');
+  if(d.conc) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">PDV atual</span><span style="font-weight:600;color:var(--dark-gray);">'+d.conc+'</span></div>');
+  if(DORES.length) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Dores</span><span style="font-weight:600;color:var(--dark-gray);">'+DORES.length+' identificadas</span></div>');
+
+  if(items.length){
+    el.innerHTML='<div class="card" style="border-left:3px solid var(--green);"><div class="card-t"><span class="n" style="background:var(--green);">✓</span> Dados extraídos</div>'+items.join('')+'<button class="btn btn-p" style="margin-top:14px;width:100%;" onclick="applyExtracted()">Aplicar dados e prosseguir →</button></div>';
+    el.style.display='block';
+  } else {
+    el.innerHTML='<div class="card" style="border-left:3px solid var(--red);"><div class="card-t"><span class="n" style="background:var(--red);">!</span> Nenhum dado identificado</div><p style="font-size:12px;color:var(--gray);">Não foi possível extrair informações automaticamente. Prossiga para configurar manualmente.</p><button class="btn btn-o" style="margin-top:12px;" onclick="go(2)">Configurar manualmente →</button></div>';
+    el.style.display='block';
+  }
+}
+
+function applyExtracted(){
+  const d=extractedData;
+  if(d.nome) document.getElementById('p_nome').value=d.nome;
+  if(d.lojas){
+    document.getElementById('p_lojas').value=d.lojas;
+    document.getElementById('g_lojas').value=d.lojas;
+  }
+  if(d.seg) document.getElementById('p_seg').value=d.seg;
+  document.getElementById('p_conc').value=d.conc;
+  // DORES already populated by runExtraction → matchDoresFromText
+  renderDores();
+  go(2);
+}
+
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+refreshMods();
+calc();
+</script>
+</body>
+</html>
