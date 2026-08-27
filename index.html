@@ -109,6 +109,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 .tab-btn.active{background:var(--dark-gray);color:#fff;border-color:var(--dark-gray);}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid #E5E7EB;border-top-color:var(--dark-gray);border-radius:50%;animation:spin .6s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
 
 
 /* ── MODULE ACTIONS ── */
@@ -219,7 +220,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 
   <div class="card">
     <div class="card-t"><span class="n">2</span> Dores identificadas</div>
-    <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Dores extraídas dos documentos importados. Remova as que não se aplicam ou adicione novas.</p>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Selecione as dores que se aplicam ao prospect. Itens pré-selecionados foram identificados no relatório.</p>
     <div class="chk-grid" id="dGrid"></div>
   </div>
 
@@ -252,6 +253,19 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
   <h2 class="pnl-t">Calculadora Interna</h2>
   <p class="pnl-d">Ajuste módulos, valores, isenções e negociação. Dados internos — não vão para o cliente.</p>
 
+  <!-- Indicador fixo de margem -->
+  <div id="marginSticky" style="position:sticky;top:52px;background:linear-gradient(135deg,#2D0A0E,#890119);border-radius:10px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;color:#fff;z-index:100;box-shadow:0 4px 16px rgba(45,10,14,.3);margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#10B981;animation:pulse 2s infinite;"></div>
+      <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px;">Margem Bruta</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:24px;">
+      <div style="text-align:center;"><div style="font-size:9px;color:rgba(255,255,255,.4);">MENS/LOJA</div><div style="font-size:15px;font-weight:800;" id="st_mens">—</div></div>
+      <div style="text-align:center;"><div style="font-size:9px;color:rgba(255,255,255,.4);">REDE</div><div style="font-size:15px;font-weight:800;" id="st_rede">—</div></div>
+      <div style="text-align:center;"><div style="font-size:9px;color:rgba(255,255,255,.4);">MARGEM</div><div style="font-size:22px;font-weight:900;" id="st_marg">—</div></div>
+    </div>
+  </div>
+
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
     <div class="card">
       <div class="card-t">Parâmetros do Contrato</div>
@@ -266,10 +280,34 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
       </div>
       <label class="tgl"><input type="checkbox" id="ix_setup"> Isentar setup</label>
       <label class="tgl"><input type="checkbox" id="ix_inst"> Isentar instalação</label>
-      <div class="r2" style="margin-top:8px;">
-        <div class="fld"><label>Rebate (%)</label><input type="number" id="g_reb" value="0" min="0" max="100" step="0.5"></div>
-        <div class="fld"><label>Incentivo (R$/mês)</label><input type="number" id="g_inc" value="0" min="0"></div>
+
+      <div style="border-top:1px solid var(--border-light);margin-top:12px;padding-top:12px;">
+        <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Incentivo Anual</div>
+        <div class="r2">
+          <div class="fld"><label>Mês do investimento no ano</label><input type="number" id="g_inc_mes" value="0" min="0" max="12"></div>
+          <div class="fld"><label>Valor anual (R$)</label><input type="number" id="g_inc_anual" value="0" min="0" step="any"></div>
+        </div>
       </div>
+
+      <div style="border-top:1px solid var(--border-light);margin-top:12px;padding-top:12px;">
+        <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Desenvolvimento</div>
+        <div class="fld"><label>Valor total para desenvolvimento (R$)</label><input type="number" id="g_dev" value="0" min="0" step="any"></div>
+      </div>
+
+      <div style="border-top:1px solid var(--border-light);margin-top:12px;padding-top:12px;">
+        <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Rebate</div>
+        <div class="fld"><label>Rebate (%)</label><input type="number" id="g_reb" value="0" min="0" max="100" step="0.5"></div>
+      </div>
+
+      <div style="border-top:1px solid var(--border-light);margin-top:12px;padding-top:12px;">
+        <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Investimento para o Cliente</div>
+        <div class="r2">
+          <div class="fld"><label>Meses de investimento</label><input type="number" id="g_inv_meses" value="0" min="0"></div>
+          <div class="fld"><label>Valor mensal (R$)</label><input type="number" id="g_inv_mensal" value="0" min="0" step="any"></div>
+        </div>
+        <div class="fld"><label>Valor Total (por restaurante)</label><input type="text" id="g_inv_total" value="R$ 0,00" disabled style="background:#F3F4F6;color:var(--dark-gray);font-weight:700;"></div>
+      </div>
+
     </div>
 
     <div class="card">
@@ -280,6 +318,14 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
       <div id="mAdd"></div>
       <div class="m-tot"><span>Mensalidade/loja</span><span id="mTot">—</span></div>
     </div>
+  </div>
+
+  <!-- Produtos adicionais -->
+  <div class="card" style="margin-top:16px;border:1.5px dashed #F59E0B;">
+    <div class="card-t"><span style="background:#F59E0B;color:#fff;width:22px;height:22px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700;">+</span> Produtos adicionais</div>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:8px;">Avalie e recomende conforme a necessidade do cliente. <strong>Não impactam a margem principal.</strong></p>
+    <div id="mCross"></div>
+    <div class="m-tot" style="background:#FEF3C7;color:#92400E;"><span>Adicionais / loja</span><span id="mXTot">—</span></div>
   </div>
 
   <!-- Fixe CRM -->
@@ -293,15 +339,26 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     </div>
   </div>
 
-  <div class="mbar">
-    <div class="mi"><div class="mv" id="b_mens">—</div><div class="ml">Mensalidade/loja</div></div>
-    <div class="mi"><div class="mv" id="b_rede">—</div><div class="ml">Total mensal rede</div></div>
-    <div class="mi"><div class="mv" id="b_save">—</div><div class="ml">Saving isenções</div></div>
-    <div class="mi ok"><div class="mv" id="b_marg">—</div><div class="ml">Margem Bruta (contrato)</div></div>
+  <div style="background:#374151;border-radius:14px;padding:20px 24px;margin-top:16px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#10B981;"></div>
+      <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;">Resumo financeiro</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;">
+      <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#fff;" id="b_mens">—</div><div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">Mensalidade / loja</div></div>
+      <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#fff;" id="b_rede">—</div><div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">Total mensal rede</div></div>
+      <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#10B981;" id="b_marg">—</div><div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">Margem Bruta</div></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:#F59E0B;" id="b_xs_loja">—</div><div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">Adicionais / loja</div></div>
+      <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:#F59E0B;" id="b_xs_rede">—</div><div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">Adicionais rede</div></div>
+      <div style="text-align:center;"><div style="font-size:18px;font-weight:800;color:#FF6B7A;" id="b_xs_total">—</div><div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">Total geral / loja</div></div>
+    </div>
   </div>
 
   <div class="bbar">
     <button class="btn btn-o" onclick="go(2)">← Voltar</button>
+    <button class="btn btn-p" onclick="genProposta()">📄 Gerar Proposta</button>
     <button class="btn btn-g" onclick="go(4)">Gerar Apresentação →</button>
   </div>
 </div>
@@ -327,12 +384,14 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
       <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_comp" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Comparativo</span></label>
       <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_eco" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Ecossistema</span></label>
       <label class="chk sel" style="flex:0 0 auto;"><input type="checkbox" id="sl_prop" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Proposta</span></label>
+      <label class="chk sel" style="flex:0 0 auto;border-color:#F59E0B;"><input type="checkbox" id="sl_cross" checked onchange="this.parentElement.classList.toggle('sel',this.checked);genPres()"><span>Adicionais</span></label>
     </div>
   </div>
 
   <div class="bbar" style="margin-top:0;margin-bottom:16px;justify-content:flex-start;">
     <button class="btn btn-o" onclick="go(3)">← Voltar</button>
-    <button class="btn btn-p" onclick="xport()">Abrir em nova aba (para PDF)</button>
+    <button class="btn btn-p" onclick="xport()">👁 Visualizar</button>
+    <button class="btn btn-g" onclick="xportDownload()">⬇ Download da apresentação</button>
   </div>
   <div id="previewWrap"><iframe id="pFrame" style="border:none;width:100%;height:85vh;"></iframe></div>
 </div>
@@ -371,53 +430,67 @@ function renderDores(){
   const dG=document.getElementById('dGrid');
   dG.innerHTML='';
 
-  if(DORES.length===0){
-    // Mensagem + botão para adicionar manualmente
-    const empty=document.createElement('div');
-    empty.style.cssText='grid-column:1/-1;text-align:center;padding:20px;color:var(--gray);font-size:13px;';
-    empty.innerHTML='<div style="margin-bottom:10px;">Nenhuma dor identificada. Importe documentos no Step 1 ou adicione manualmente.</div>';
-    dG.appendChild(empty);
-  } else {
-    DORES.forEach(d=>{
-      const div=document.createElement('div');div.className='chk sel';
-      div.innerHTML='<input type="checkbox" id="'+d.id+'" checked><span>'+d.txt+'</span>'+
-        '<button style="background:none;border:none;color:var(--gray);cursor:pointer;font-size:14px;font-weight:700;padding:0 2px;margin-left:auto;flex-shrink:0;" title="Remover dor" data-did="'+d.id+'">×</button>';
-      div.addEventListener('click',e=>{
-        if(e.target.tagName==='INPUT'||e.target.tagName==='BUTTON')return;
-        const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);
-      });
-      div.querySelector('input').addEventListener('change',function(){div.classList.toggle('sel',this.checked);});
-      div.querySelector('button').addEventListener('click',function(){
-        DORES=DORES.filter(x=>x.id!==d.id);
-        renderDores();
-      });
-      dG.appendChild(div);
-    });
-  }
+  // Show ALL dores from DORES_BANK as checkboxes
+  // Pre-select those that are in DORES array (from extraction or manual add)
+  const activeIds=new Set(DORES.map(d=>d.id));
 
-  // Always show add button
+  // Also include custom dores (not in bank)
+  const customDores=DORES.filter(d=>!DORES_BANK.find(b=>b.id===d.id));
+
+  // Render bank dores
+  DORES_BANK.forEach(d=>{
+    const isActive=activeIds.has(d.id);
+    const div=document.createElement('div');div.className='chk'+(isActive?' sel':'');
+    div.innerHTML='<input type="checkbox" id="'+d.id+'"'+(isActive?' checked':'')+'><span>'+d.txt+'</span>';
+    div.addEventListener('click',e=>{
+      if(e.target.tagName==='INPUT')return;
+      const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);
+      syncDoresFromUI();
+    });
+    div.querySelector('input').addEventListener('change',function(){
+      div.classList.toggle('sel',this.checked);
+      syncDoresFromUI();
+    });
+    dG.appendChild(div);
+  });
+
+  // Render custom dores (user-added, not from bank)
+  customDores.forEach(d=>{
+    const div=document.createElement('div');div.className='chk sel';
+    div.innerHTML='<input type="checkbox" id="'+d.id+'" checked><span>'+d.txt+'</span>'+
+      '<button style="background:none;border:none;color:var(--gray);cursor:pointer;font-size:14px;font-weight:700;padding:0 2px;margin-left:auto;flex-shrink:0;" title="Remover dor" data-did="'+d.id+'">×</button>';
+    div.addEventListener('click',e=>{
+      if(e.target.tagName==='INPUT'||e.target.tagName==='BUTTON')return;
+      const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);
+    });
+    div.querySelector('input').addEventListener('change',function(){div.classList.toggle('sel',this.checked);});
+    div.querySelector('button').addEventListener('click',function(){
+      DORES=DORES.filter(x=>x.id!==d.id);
+      renderDores();
+    });
+    dG.appendChild(div);
+  });
+
+  // Button to add custom dor
   const addDiv=document.createElement('div');
   addDiv.style.cssText='grid-column:1/-1;display:flex;gap:8px;margin-top:6px;';
-  addDiv.innerHTML=
-    '<button class="btn btn-o" style="font-size:11px;padding:7px 14px;" onclick="addDorFromBank()">+ Adicionar dor do banco</button>'+
-    '<button class="btn btn-o" style="font-size:11px;padding:7px 14px;" onclick="addCustomDor()">+ Dor personalizada</button>';
+  addDiv.innerHTML='<button class="btn btn-o" style="font-size:11px;padding:7px 14px;" onclick="addCustomDor()">+ Adicionar dor personalizada</button>';
   dG.appendChild(addDiv);
 }
 
-function addDorFromBank(){
-  const activeIds=new Set(DORES.map(d=>d.id));
-  const available=DORES_BANK.filter(d=>!activeIds.has(d.id));
-  if(!available.length){alert('Todas as dores do banco já foram adicionadas.');return;}
-
-  // Show a dropdown-like prompt
-  const items=available.map((d,i)=>(i+1)+'. '+d.txt).join('\n');
-  const choice=prompt('Selecione o número da dor:\n\n'+items);
-  if(!choice)return;
-  const idx=parseInt(choice)-1;
-  if(idx>=0&&idx<available.length){
-    DORES.push({...available[idx]});
-    renderDores();
-  }
+// Sync DORES array based on current checkbox state of bank items
+function syncDoresFromUI(){
+  const newDores=[];
+  DORES_BANK.forEach(d=>{
+    const el=document.getElementById(d.id);
+    if(el&&el.checked) newDores.push({...d});
+  });
+  // Keep custom dores that are checked
+  DORES.filter(d=>!DORES_BANK.find(b=>b.id===d.id)).forEach(d=>{
+    const el=document.getElementById(d.id);
+    if(el&&el.checked) newDores.push(d);
+  });
+  DORES=newDores;
 }
 
 function addCustomDor(){
@@ -573,7 +646,7 @@ const CONC={
 // ECOSSISTEMA
 // ══════════════════════════════════════
 const FIXE_MODS=[
-  {id:'fx_fid',nm:'Fidelidade 360',desc:'Selos, pontuação, cashback, gift back via Wallet/WhatsApp/Web/APP',v:199},
+  {id:'fx_fid',nm:'Fidelidade',desc:'Selos, pontuação, cashback, gift back via Wallet/WhatsApp/Web/APP',v:199},
   {id:'fx_app',nm:'Super APP Whitelabel',desc:'App próprio da marca nas lojas iOS e Android',v:999},
   {id:'fx_camp',nm:'Campanhas & Ativações',desc:'Régua de comunicação com push, e-mail, SMS e WhatsApp',v:0},
   {id:'fx_nps',nm:'Pesquisa NPS',desc:'NPS relacional, transacional e bonificado com report automático',v:129},
@@ -586,8 +659,8 @@ FIXE_MODS.forEach(m=>{
   const div=document.createElement('div');div.className='chk';
   const precoHtml=m.v>0?`<br><span style="font-size:10px;color:var(--purple);font-weight:600;">R$ ${m.v.toFixed(2).replace('.',',')}/mês</span>`:'';
   div.innerHTML=`<input type="checkbox" id="${m.id}"><span><strong>${m.nm}</strong>${precoHtml}<br><span style="font-size:10px;color:var(--gray);">${m.desc}</span></span>`;
-  div.addEventListener('click',ev=>{if(ev.target.tagName==='INPUT')return;const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);});
-  div.querySelector('input').addEventListener('change',function(){div.classList.toggle('sel',this.checked);});
+  div.addEventListener('click',ev=>{if(ev.target.tagName==='INPUT')return;const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);calc();});
+  div.querySelector('input').addEventListener('change',function(){div.classList.toggle('sel',this.checked);calc();});
   fG.appendChild(div);
 });
 function toggleFixe(){document.getElementById('fixeModulos').style.display=gc('eco_fixe')?'block':'none';}
@@ -654,16 +727,22 @@ let ME=[
   {id:'tef_1',v:104.20,ix:false},
 ];
 
-// Adicionais (ativados por checkbox)
+// Adicionais (ativados por checkbox — entram na margem)
 let MA=[
-  {id:'3sgo',nm:'3SGo — App gestão',v:60,on:false,ix:false},
-  {id:'bi_simples',nm:'3S BI — Simples',v:120,on:false,ix:false},
   {id:'kinesis',nm:'3S Connection — Kinesis',v:300,on:false,ix:false},
-  {id:'eats_d',nm:'3S Eats — Delivery',v:180,on:false,ix:false},
-  {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,on:false,ix:false},
   {id:'pos_3',nm:'POS Mobile — Até 3',v:100,on:false,ix:false},
   {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,on:false,ix:false},
   {id:'marca',nm:'Marca Adicional',v:100,on:false,ix:false},
+];
+
+// Cross-sell (avaliados separadamente — NÃO entram na margem principal)
+let MX=[
+  {id:'3sgo',nm:'3SGo — App gestão',v:60,on:false,grp:'3S GO'},
+  {id:'bi_simples',nm:'3S BI — Simples',v:120,on:false,grp:'3S BI'},
+  {id:'bi_admin',nm:'3S BI — Administrador',v:220,on:false,grp:'3S BI'},
+  {id:'eats_d',nm:'3S Eats — Delivery',v:180,on:false,grp:'3S Eats'},
+  {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,on:false,grp:'3S Eats'},
+  {id:'eats_combo',nm:'3S Eats — Combo Super App',v:300,on:false,grp:'3S Eats'},
 ];
 
 function getModNm(m){const c=catById(m.id);return c?c.nm:(m.nm||m.id);}
@@ -814,8 +893,25 @@ function showEssCatalog(anchorBtn){
   setTimeout(()=>document.addEventListener('click',closer),10);
 }
 
+function rCross(){
+  const el=document.getElementById('mCross');el.innerHTML='';
+  MX.forEach(m=>{
+    const r=document.createElement('div');r.className='mr';
+    r.innerHTML=
+      '<label><input type="checkbox" id="mx_'+m.id+'" '+(m.on?'checked':'')+
+      '> <span>'+m.nm+'</span></label>'+
+      '<div style="display:flex;align-items:center;gap:4px;">'+
+        '<div class="pr"><input type="number" id="vx_'+m.id+'" value="'+m.v+'" min="0" step="0.01"></div>'+
+        '<span style="font-size:9px;color:#F59E0B;font-weight:600;white-space:nowrap;">'+m.grp+'</span>'+
+      '</div>';
+    r.querySelector('input[type=checkbox]').addEventListener('change',function(){m.on=this.checked;calc();});
+    r.querySelector('input[type=number]').addEventListener('input',function(){m.v=parseFloat(this.value)||0;calc();});
+    el.appendChild(r);
+  });
+}
+
 function refreshMods(){
-  rMods('mEss',ME);rMods('mAdd',MA);
+  rMods('mEss',ME);rMods('mAdd',MA);rCross();
   document.querySelectorAll('#s3 input').forEach(el=>{el.addEventListener('input',calc);el.addEventListener('change',calc);});
 }
 
@@ -833,7 +929,7 @@ function gc(id){const e=document.getElementById(id);return e?e.checked:false;}
 // ══════════════════════════════════════
 const PR={srvT:-60,sup:-72,cImpl:-2265,tPDV:.0565,tOut:.1125,stf:((1/47)*-143000)*2};
 function sim(p){
-  const{lj,ct,ro,ms,su,ins,ixS,ixI,rb,ic}=p;
+  const{lj,ct,ro,ms,su,ins,ixS,ixI,rb,incAnual,incMes,devVal,invMeses,invMensal}=p;
   let tRL=0,tOP=0,pv=0;
   for(let m=1;m<=ct;m++){
     let r=m<=ro?Math.min(Math.ceil(lj/ro*m),lj):lj;
@@ -844,7 +940,11 @@ function sim(p){
     const imp=-(rP*PR.tPDV)-((rI+rS)*PR.tOut);
     const rl=rT+reb+imp;
     const cO=r*PR.srvT+r*PR.sup+nw*PR.cImpl+reb;
-    const ca=(m===1?PR.stf:0)+(ic>0?-ic:0);
+    // Custos adicionais: desenvolvimento (mês 1), incentivo anual (mês específico), investimento cliente (primeiros X meses)
+    let ca=(m===1?PR.stf:0);
+    if(m===1&&devVal>0) ca+=-devVal;
+    if(incAnual>0&&incMes>0&&((m%12)===incMes||(incMes===12&&m%12===0))) ca+=-incAnual;
+    if(invMensal>0&&invMeses>0&&m<=invMeses) ca+=-invMensal;
     tRL+=rl;tOP+=rl+cO+ca;
   }
   return tRL?tOP/tRL:0;
@@ -862,12 +962,13 @@ function calc(){
   document.getElementById('mTot').textContent=fmt(ms);
   const lj=gv('g_lojas'),ct=gv('g_contrato'),ro=gv('g_rollout');
   const su=gv('g_setup'),ins=gv('g_inst'),ixS=gc('ix_setup'),ixI=gc('ix_inst');
-  const rb=gv('g_reb'),ic=gv('g_inc');
-  const mg=sim({lj,ct,ro,ms,su,ins,ixS,ixI,rb,ic});
-  const sv=(ixS?su:0)+(ixI?ins*lj:0);
+  const rb=gv('g_reb');
+  const incAnual=gv('g_inc_anual'),incMes=gv('g_inc_mes');
+  const devVal=gv('g_dev');
+  const invMesesC=gv('g_inv_meses'),invMensalC=gv('g_inv_mensal');
+  const mg=sim({lj,ct,ro,ms,su,ins,ixS,ixI,rb,incAnual,incMes,devVal,invMeses:invMesesC,invMensal:invMensalC});
   document.getElementById('b_mens').textContent=fmt(ms);
   document.getElementById('b_rede').textContent=fK(ms*lj);
-  document.getElementById('b_save').textContent=fK(sv);
   const mE=document.getElementById('b_marg');mE.textContent=fP(mg);
   const mgPct=mg*100;
   let mColor,mClass;
@@ -876,6 +977,33 @@ function calc(){
   else{mColor='#EF4444';mClass='bad';}
   mE.style.color=mColor;
   mE.parentElement.className='mi';
+
+  // Sticky margin indicator
+  const stMens=document.getElementById('st_mens');
+  const stRede=document.getElementById('st_rede');
+  const stMarg=document.getElementById('st_marg');
+  if(stMens){stMens.textContent=fmt(ms);}
+  if(stRede){stRede.textContent=fK(ms*lj);}
+  if(stMarg){stMarg.textContent=fP(mg);stMarg.style.color=mColor;}
+
+  // Cross-sell — separado da margem
+  let xs=0;
+  MX.forEach(m=>{if(m.on){xs+=m.v;}});
+  // Fixe CRM consolidado no cross-sell
+  let fixeXs=0;
+  if(gc('eco_fixe')){FIXE_MODS.forEach(m=>{if(gc(m.id))fixeXs+=m.v;});}
+  const xsConsolidado=xs+fixeXs;
+  document.getElementById('mXTot').textContent=fmt(xs);
+  document.getElementById('b_xs_loja').textContent=fmt(xsConsolidado);
+  document.getElementById('b_xs_rede').textContent=fK(xsConsolidado*lj);
+  document.getElementById('b_xs_total').textContent=fmt(ms+xsConsolidado);
+
+  // Investimento para o cliente — cálculo automático (por restaurante)
+  const invMeses=gv('g_inv_meses'),invMensal=gv('g_inv_mensal');
+  const invTotalRest=lj>0?(invMensal*invMeses)/lj:0;
+  const invEl=document.getElementById('g_inv_total');
+  if(invEl) invEl.value=fmt(invTotalRest);
+
 }
 
 // Sync step1 → step2
@@ -1037,7 +1165,7 @@ function genPres(){
     const hasGift=fixeSel.some(m=>m.id==='fx_gift');
 
     // Wallet mockup (Fidelidade)
-    const walletMock=hasFid?`<div style="width:160px;flex-shrink:0;"><div style="background:linear-gradient(145deg,#2D0A0E,#890119);border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(45,10,14,.4);"><div style="padding:12px 12px 8px;display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:#FF6B7A;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:800;">F</div><div style="font-size:9px;color:rgba(255,255,255,.6);">Wallet</div></div><div style="padding:0 12px;"><div style="background:linear-gradient(135deg,#e9202e,#FF4D5E);border-radius:8px;padding:10px;margin-bottom:8px;"><div style="font-size:7px;color:rgba(255,255,255,.5);text-transform:uppercase;">Seus Pontos</div><div style="font-size:18px;font-weight:900;color:#fff;">1.250</div><div style="display:flex;gap:3px;margin-top:4px;"><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);"></div><div style="width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);"></div></div></div></div><div style="padding:0 12px 10px;"><div style="background:rgba(255,107,122,.15);border-radius:6px;padding:6px 8px;font-size:7px;color:rgba(255,255,255,.7);">🎁 Cashback R$ 12,50</div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">Fidelidade 360</div></div>`:'';
+    const walletMock=hasFid?`<div style="width:160px;flex-shrink:0;"><div style="background:linear-gradient(145deg,#2D0A0E,#890119);border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(45,10,14,.4);"><div style="padding:12px 12px 8px;display:flex;align-items:center;gap:6px;"><div style="width:22px;height:22px;border-radius:50%;background:#FF6B7A;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:800;">F</div><div style="font-size:9px;color:rgba(255,255,255,.6);">Wallet</div></div><div style="padding:0 12px;"><div style="background:linear-gradient(135deg,#e9202e,#FF4D5E);border-radius:8px;padding:10px;margin-bottom:8px;"><div style="font-size:7px;color:rgba(255,255,255,.5);text-transform:uppercase;">Seus Pontos</div><div style="font-size:18px;font-weight:900;color:#fff;">1.250</div><div style="display:flex;gap:3px;margin-top:4px;"><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:#FF6B7A;border:1px solid #fff;"></div><div style="width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);"></div><div style="width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);"></div></div></div></div><div style="padding:0 12px 10px;"><div style="background:rgba(255,107,122,.15);border-radius:6px;padding:6px 8px;font-size:7px;color:rgba(255,255,255,.7);">🎁 Cashback R$ 12,50</div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">Fidelidade</div></div>`:'';
 
     // APP mockup
     const appMock=hasApp?`<div style="width:160px;flex-shrink:0;"><div style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.12);border:1px solid rgba(0,0,0,.06);"><div style="background:linear-gradient(135deg,#e9202e,#C41528);padding:10px;text-align:center;"><div style="font-size:10px;font-weight:700;color:#fff;">${nome}</div><div style="font-size:6px;color:rgba(255,255,255,.5);">Seu App Exclusivo</div></div><div style="padding:8px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px;"><div style="background:#FFF5F5;border-radius:6px;padding:6px;text-align:center;font-size:10px;">🍽️<div style="font-size:6px;color:#6B7280;">Cardápio</div></div><div style="background:#FFF5F5;border-radius:6px;padding:6px;text-align:center;font-size:10px;">🎫<div style="font-size:6px;color:#6B7280;">Cupons</div></div><div style="background:#FFF5F5;border-radius:6px;padding:6px;text-align:center;font-size:10px;">📍<div style="font-size:6px;color:#6B7280;">Lojas</div></div><div style="background:#FFF5F5;border-radius:6px;padding:6px;text-align:center;font-size:10px;">⭐<div style="font-size:6px;color:#6B7280;">Pontos</div></div></div><div style="background:linear-gradient(135deg,#10B981,#059669);border-radius:6px;padding:6px;text-align:center;font-size:7px;font-weight:600;color:#fff;">Peça agora!</div></div></div><div style="text-align:center;margin-top:6px;font-size:8px;font-weight:600;color:#e9202e;">Super APP</div></div>`:'';
@@ -1171,7 +1299,7 @@ function genPres(){
     <h1 style="font-size:clamp(36px,5vw,54px);font-weight:900;max-width:640px;line-height:1.08;">A solução completa para sua operação!</h1>
     <div style="font-size:clamp(22px,3vw,32px);font-weight:700;color:#FF6B7A;margin-top:18px;">${nome}</div>
     <div style="font-size:14px;color:rgba(255,255,255,.4);margin-top:14px;">Proposta Comercial — iFood Salão | 3S Checkout</div>
-    <div style="font-size:12px;color:rgba(255,255,255,.25);margin-top:5px;">Julho 2026</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.25);margin-top:5px;">${new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^\w/,c=>c.toUpperCase())}</div>
   </div>
 </div>`:'';
 
@@ -1316,6 +1444,38 @@ function genPres(){
   </div>
 </div>`:'';
 
+  // Cross-sell slide
+  const xsSel=MX.filter(m=>m.on);
+  const xsTotal=xsSel.reduce((s,m)=>s+m.v,0);
+  const secCross=(SL('sl_cross')&&xsSel.length)?`
+<div class="pg" style="background:linear-gradient(180deg,#FFFBEB 0%,#FEF3C7 100%);">
+  <div class="inner" style="max-width:900px;">
+    <div style="display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:4px 14px;border-radius:20px;margin-bottom:12px;">Soluções complementares</div>
+    <h2 style="font-size:28px;font-weight:800;color:#92400E;margin-bottom:6px;">Potencialize sua operação</h2>
+    <p style="font-size:13px;color:#6B7280;max-width:640px;line-height:1.5;margin-bottom:24px;">Soluções adicionais para maximizar os resultados da sua operação e expandir suas capacidades de gestão e inteligência.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:24px;">
+      ${xsSel.map(m=>`
+      <div style="background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 2px 12px rgba(217,119,6,.08);border:1px solid rgba(245,158,11,.2);">
+        <div style="font-size:9px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">${m.grp}</div>
+        <div style="font-size:14px;font-weight:700;color:#92400E;margin-bottom:6px;">${m.nm}</div>
+        <div style="font-size:18px;font-weight:900;color:#F59E0B;">R$ ${m.v.toFixed(2).replace('.',',')}<span style="font-size:10px;color:#6B7280;font-weight:400;">/mês</span></div>
+      </div>`).join('')}
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:16px 20px;box-shadow:0 2px 10px rgba(0,0,0,.04);">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:.5px;">Investimento adicional / loja</div>
+          <div style="font-size:24px;font-weight:900;color:#F59E0B;margin-top:2px;">R$ ${xsTotal.toFixed(2).replace('.',',')}<span style="font-size:11px;color:#6B7280;font-weight:400;"> /mês</span></div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:10px;color:#6B7280;">Total com soluções adicionais</div>
+          <div style="font-size:20px;font-weight:800;color:#92400E;">R$ ${(ms+xsTotal).toFixed(2).replace('.',',')}<span style="font-size:10px;color:#6B7280;font-weight:400;"> /loja/mês</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`:'';
+
   const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${nome} — Proposta 3S Checkout</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -1345,6 +1505,7 @@ ${secComp}
 ${secEco}
 
 ${secProp}
+${secCross}
 <scr`+`ipt>
 const pgs=document.querySelectorAll('.pg');
 const nv=document.getElementById('nv');
@@ -1364,7 +1525,162 @@ function xport(){
   w.document.write(window._presHTML);
   w.document.close();
 }
+function xportDownload(){
+  if(!window._presHTML){alert('Gere a apresentação primeiro.');return;}
+  const nome=document.getElementById('p_nome').value.trim()||'proposta';
+  const fileName=nome.replace(/[^a-zA-Z0-9À-ɏ\s-]/g,'').replace(/\s+/g,'_')+'_3S_Checkout.html';
+  const blob=new Blob([window._presHTML],{type:'application/octet-stream'});
+  if(window.navigator&&window.navigator.msSaveOrOpenBlob){window.navigator.msSaveOrOpenBlob(blob,fileName);return;}
+  const url=window.URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.style.display='none';
+  a.href=url;
+  a.setAttribute('download',fileName);
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+}
 
+
+// ══════════════════════════════════════
+// GERAR PROPOSTA (one-page separada)
+// ══════════════════════════════════════
+function genProposta(){
+  const nome=document.getElementById('p_nome').value.trim()||'Cliente';
+  const lj=gv('g_lojas'),ct=gv('g_contrato'),ro=gv('g_rollout');
+  const setupVal=gv('g_setup'),instVal=gv('g_inst');
+  const ixSetup=gc('ix_setup'),ixInst=gc('ix_inst');
+  const rb=gv('g_reb');
+  const incMes=gv('g_inc_mes'),incAnual=gv('g_inc_anual');
+  const devVal=gv('g_dev');
+  const invMeses=gv('g_inv_meses'),invMensal=gv('g_inv_mensal');
+  const invTotal=lj>0?(invMensal*invMeses)/lj:0;
+
+  // Mensalidade base
+  let ms=0;const modEss=[];const modAdd=[];
+  ME.forEach(m=>{const v=m.ix?0:(gv('v_'+m.id)||m.v);const origV=m._origV||m.v;ms+=v;modEss.push({nm:getModNm(m),v,ix:m.ix,origV});});
+  MA.forEach(m=>{if(gc('m_'+m.id)){const v=m.ix?0:gv('v_'+m.id);const origV=m._origV||m.v;ms+=v;modAdd.push({nm:m.nm,v,ix:m.ix,origV});}});
+
+  // Cross-sell
+  const xsSel=MX.filter(m=>m.on);
+  const xsTotal=xsSel.reduce((s,m)=>s+m.v,0);
+
+  // Fixe
+  const hasFX=gc('eco_fixe');
+  const fixeSel=FIXE_MODS.filter(m=>gc(m.id));
+  const fixeTotal=hasFX&&fixeSel.length?fixeSel.reduce((s,m)=>s+m.v,0):0;
+  const addTotal=xsTotal+fixeTotal;
+
+  // Isenções — inclui módulos isentos
+  const isensList=[];
+  if(ixSetup)isensList.push({item:'Setup da marca',de:setupVal});
+  if(ixInst)isensList.push({item:'Instalação ('+lj+' lojas)',de:instVal*lj});
+  modEss.filter(m=>m.ix).forEach(m=>isensList.push({item:m.nm,de:m.origV||0}));
+  modAdd.filter(m=>m.ix).forEach(m=>isensList.push({item:m.nm,de:m.origV||0}));
+  let totalEconomia=isensList.reduce((s,i)=>s+i.de,0);
+
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${nome} — Proposta Comercial 3S</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+@page{size:A4;margin:20mm 15mm;}
+body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;margin:0;}
+.toolbar{position:fixed;top:0;left:0;right:0;background:#2D0A0E;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.toolbar span{color:#fff;font-size:12px;font-weight:600;}
+.toolbar button{background:#e9202e;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;}
+.toolbar button:hover{background:#c4151f;}
+.page{background:#fff;max-width:210mm;width:100%;margin:60px auto 40px;padding:40px 44px;position:relative;}
+.page::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e9202e,#FF6B7A,#F59E0B);}
+.header{text-align:center;margin-bottom:28px;}
+.header h1{font-size:24px;font-weight:900;color:#890119;}
+.header p{font-size:11px;color:#6B7280;margin-top:4px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+.box{border-radius:10px;padding:16px 18px;margin-bottom:16px;}
+.box-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:5px 0;}
+.row-border{border-bottom:1px solid rgba(0,0,0,.05);}
+.row-total{padding:8px 0;margin-top:6px;border-top:1.5px solid rgba(0,0,0,.08);font-weight:800;font-size:12px;}
+.isento-val{color:#9CA3AF;text-decoration:line-through;margin-right:6px;}
+.isento-tag{color:#10B981;font-size:9px;font-weight:700;text-transform:uppercase;}
+.summary{background:linear-gradient(135deg,#2D0A0E,#890119);border-radius:10px;padding:18px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;text-align:center;color:#fff;margin-top:16px;}
+.s-label{font-size:8px;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.5);}
+.s-value{font-size:20px;font-weight:900;margin-top:3px;}
+@media print{.toolbar{display:none!important;}.page{margin:0;padding:28px 32px;max-width:none;}}
+</style></head><body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
+<div class="toolbar">
+  <span>Proposta Comercial — ${nome}</span>
+  <button onclick="downloadPDF()">Baixar PDF</button>
+</div>
+<script>
+function downloadPDF(){
+  const el=document.querySelector('.page');
+  const opt={margin:[10,10,10,10],filename:'Proposta_${nome.replace(/[^a-zA-Z0-9]/g,'_')}.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};
+  html2pdf().set(opt).from(el).save();
+}
+<\/script>
+<div class="page">
+  <div class="header">
+    <h1>Proposta Comercial — ${nome}</h1>
+    <p>iFood Salão | 3S Checkout — ${new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^\\w/,c=>c.toUpperCase())}</p>
+  </div>
+
+  <div class="grid2">
+    <div class="box" style="background:#F3F4F6;margin-bottom:0;">
+      <div class="box-title" style="color:#6B7280;">Contrato</div>
+      <div class="row row-border"><span style="color:#6B7280;">Lojas</span><span style="font-weight:700;">${lj}</span></div>
+      <div class="row row-border"><span style="color:#6B7280;">Prazo</span><span style="font-weight:700;">${ct} meses</span></div>
+      <div class="row"><span style="color:#6B7280;">Rollout</span><span style="font-weight:700;">${ro} meses</span></div>
+    </div>
+    <div class="box" style="background:#F3F4F6;margin-bottom:0;">
+      <div class="box-title" style="color:#6B7280;">Investimento Inicial</div>
+      <div class="row row-border"><span style="color:#6B7280;">Setup</span><span style="font-weight:700;">${ixSetup?'<span class="isento-val">R$ '+setupVal.toFixed(2).replace('.',',')+'</span><span class="isento-tag">ISENTO</span>':'R$ '+setupVal.toFixed(2).replace('.',',')}</span></div>
+      <div class="row row-border"><span style="color:#6B7280;">Instalação/loja</span><span style="font-weight:700;">${ixInst?'<span class="isento-val">R$ '+instVal.toFixed(2).replace('.',',')+'</span><span class="isento-tag">ISENTO</span>':'R$ '+instVal.toFixed(2).replace('.',',')}</span></div>
+      <div class="row row-total"><span>Total inicial</span><span style="color:#890119;">${((ixSetup?0:setupVal)+(ixInst?0:instVal*lj)).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</span></div>
+    </div>
+  </div>
+
+  <div class="box" style="background:#FFF5F5;">
+    <div class="box-title" style="color:#e9202e;">Mensalidade / loja</div>
+    ${modEss.map(m=>'<div class="row row-border"><span style="color:#890119;">'+m.nm+'</span><span style="font-weight:600;">'+(m.ix?'<span class="isento-val">R$ '+m.origV.toFixed(2).replace('.',',')+'</span><span class="isento-tag">ISENTO</span>':'<span style="color:#e9202e;">R$ '+m.v.toFixed(2).replace('.',',')+'</span>')+'</span></div>').join('')}
+    ${modAdd.length?'<div style="font-size:8px;font-weight:700;color:#C41528;text-transform:uppercase;margin:10px 0 4px;">Adicionais operacionais</div>'+modAdd.map(m=>'<div class="row row-border"><span style="color:#890119;">'+m.nm+'</span><span style="font-weight:600;">'+(m.ix?'<span class="isento-val">R$ '+m.origV.toFixed(2).replace('.',',')+'</span><span class="isento-tag">ISENTO</span>':'<span style="color:#e9202e;">R$ '+m.v.toFixed(2).replace('.',',')+'</span>')+'</span></div>').join(''):''}
+    <div class="row row-total"><span style="color:#890119;">Total mensalidade</span><span style="color:#e9202e;">R$ ${ms.toFixed(2).replace('.',',')}</span></div>
+  </div>
+
+  ${(addTotal>0)?`<div class="box" style="background:#FFFBEB;">
+    <div class="box-title" style="color:#D97706;">Produtos adicionais / loja</div>
+    ${xsSel.map(m=>'<div class="row row-border"><span style="color:#92400E;">'+m.nm+'</span><span style="font-weight:600;color:#D97706;">R$ '+m.v.toFixed(2).replace('.',',')+'</span></div>').join('')}
+    ${(hasFX&&fixeSel.length)?fixeSel.filter(m=>m.v>0).map(m=>'<div class="row row-border"><span style="color:#92400E;">'+m.nm+'</span><span style="font-weight:600;color:#D97706;">R$ '+m.v.toFixed(2).replace('.',',')+'</span></div>').join(''):''}
+    <div class="row row-total"><span style="color:#92400E;">Total adicionais</span><span style="color:#D97706;">R$ ${addTotal.toFixed(2).replace('.',',')}</span></div>
+  </div>`:''}
+
+  ${(isensList.length||rb>0||incAnual>0||devVal>0||invTotal>0)?`<div class="box" style="background:#F0FDF4;">
+    <div class="box-title" style="color:#10B981;">Benefícios</div>
+    <div style="display:grid;grid-template-columns:${isensList.length&&(rb>0||incAnual>0||devVal>0||invTotal>0)?'1fr 1fr':'1fr'};gap:20px;">
+      ${isensList.length?'<div><div style="font-size:8px;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Isenções</div>'+isensList.map(i=>'<div class="row row-border"><span style="color:#065F46;">'+i.item+'</span><span style="font-weight:600;color:#10B981;">R$ '+i.de.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</span></div>').join('')+'</div>':''}
+      ${(rb>0||incAnual>0||devVal>0||invTotal>0)?'<div>'+
+        (rb>0?'<div style="font-size:8px;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Rebate</div><div class="row row-border"><span style="color:#065F46;">Rebate na mensalidade</span><span style="font-weight:600;color:#10B981;">'+rb+'%</span></div>':'')+
+        (incAnual>0?'<div style="font-size:8px;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;margin-top:12px;">Incentivo Anual</div><div class="row row-border"><span style="color:#065F46;">Mês do investimento</span><span style="font-weight:600;color:#10B981;">'+incMes+'º mês</span></div><div class="row row-border"><span style="color:#065F46;">Valor anual</span><span style="font-weight:600;color:#10B981;">R$ '+incAnual.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</span></div>':'')+
+        (devVal>0?'<div style="font-size:8px;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;margin-top:12px;">Desenvolvimento</div><div class="row row-border"><span style="color:#065F46;">Investimento em desenvolvimento</span><span style="font-weight:600;color:#10B981;">R$ '+devVal.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</span></div>':'')+
+        (invTotal>0?'<div style="font-size:8px;font-weight:700;color:#065F46;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;margin-top:12px;">Investimento para o Cliente</div><div class="row row-border"><span style="color:#065F46;">Período</span><span style="font-weight:600;color:#10B981;">'+invMeses+' meses</span></div><div class="row row-border"><span style="color:#065F46;">Valor mensal</span><span style="font-weight:600;color:#10B981;">R$ '+invMensal.toLocaleString('pt-BR',{minimumFractionDigits:2})+'</span></div><div class="row row-border"><span style="color:#065F46;">Valor total</span><span style="font-weight:600;color:#10B981;">R$ '+(invMensal*invMeses).toLocaleString('pt-BR',{minimumFractionDigits:2})+'</span></div>':'')+
+      '</div>':''}
+    </div>
+  </div>`:''}
+
+  <div class="summary">
+    <div><div class="s-label">Mensalidade / loja</div><div class="s-value" style="color:#fff;">R$ ${ms.toFixed(2).replace('.',',')}</div></div>
+    <div><div class="s-label">Adicionais / loja</div><div class="s-value" style="color:#F59E0B;">R$ ${addTotal.toFixed(2).replace('.',',')}</div></div>
+    <div><div class="s-label">Total / loja / mês</div><div class="s-value" style="color:#FF6B7A;">R$ ${(ms+addTotal).toFixed(2).replace('.',',')}</div></div>
+  </div>
+</div>
+</body></html>`;
+
+  const w=window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+}
 
 // ══════════════════════════════════════
 // STEP 0 — UPLOAD & EXTRACTION ENGINE
