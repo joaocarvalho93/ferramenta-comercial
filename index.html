@@ -141,7 +141,8 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <div class="sd active" id="sd1" onclick="go(1)">1</div><div class="sl"></div>
     <div class="sd" id="sd2" onclick="go(2)">2</div><div class="sl"></div>
     <div class="sd" id="sd3" onclick="go(3)">3</div><div class="sl"></div>
-    <div class="sd" id="sd4" onclick="go(4)">4</div>
+    <div class="sd" id="sd4" onclick="go(4)">4</div><div class="sl"></div>
+    <div class="sd" id="sd5" onclick="go(5)">📁</div>
   </div>
 </header>
 
@@ -358,7 +359,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 
   <div class="bbar">
     <button class="btn btn-o" onclick="go(2)">← Voltar</button>
-    <button class="btn btn-p" onclick="genProposta()">📄 Gerar Proposta</button>
+    <button class="btn btn-p" onclick="genProposta();salvarPropostaAtual();">📄 Gerar Proposta</button>
     <button class="btn btn-g" onclick="go(4)">Gerar Apresentação →</button>
   </div>
 </div>
@@ -394,6 +395,21 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <button class="btn btn-g" onclick="xportDownload()">⬇ Download da apresentação</button>
   </div>
   <div id="previewWrap"><iframe id="pFrame" style="border:none;width:100%;height:85vh;"></iframe></div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 5 — PROPOSTAS SALVAS              -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s5">
+  <h2 class="pnl-t">Propostas Salvas</h2>
+  <p class="pnl-d">Histórico de propostas geradas. Clique para recarregar na calculadora ou visualizar.</p>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="card-t" style="margin:0;">Propostas</div>
+      <button class="btn btn-o" style="font-size:11px;padding:6px 12px;" onclick="clearPropostas()">Limpar tudo</button>
+    </div>
+    <div id="propostasGrid"></div>
+  </div>
 </div>
 
 <script>
@@ -694,9 +710,8 @@ const MOD_CATALOG=[
   {id:'mkt_rappi_od',nm:'Marketplace — Rappi / Open Delivery',v:90,grp:'Marketplace',cat:'ess'},
   {id:'mkt_od',nm:'Marketplace — Open Delivery',v:60,grp:'Marketplace',cat:'ess'},
   // TEF
-  {id:'tef_1',nm:'TEF — 1ª integração',v:104.20,grp:'TEF',cat:'ess'},
-  {id:'tef_2a4',nm:'TEF — Integrações adicionais (2-4)',v:25.22,grp:'TEF',cat:'add'},
-  {id:'tef_5a20',nm:'TEF — Integrações adicionais (5-20)',v:21.93,grp:'TEF',cat:'add'},
+  {id:'tef_1',nm:'TEF — Primeira integração',v:140,grp:'TEF',cat:'ess'},
+  {id:'tef_adic',nm:'TEF — Integrações adicionais',v:39,grp:'TEF',cat:'add'},
   // Impressoras
   {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,grp:'Impressoras',cat:'ess'},
   {id:'imp_ilim',nm:'Produção Impressoras — Ilimitado',v:100,grp:'Impressoras',cat:'ess'},
@@ -724,7 +739,7 @@ let ME=[
   {id:'kds_3',v:160,ix:false},
   {id:'totem_3',v:180,ix:false},
   {id:'mkt_full',v:110,ix:false},
-  {id:'tef_1',v:104.20,ix:false},
+  {id:'tef_1',v:140,ix:false},
 ];
 
 // Adicionais (ativados por checkbox — entram na margem)
@@ -1019,10 +1034,11 @@ function syncParams(){
 function go(n){
   document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
   document.getElementById('s'+n).classList.add('on');
-  [1,2,3,4].forEach(i=>{const d=document.getElementById('sd'+i);if(d){d.classList.remove('active','done');if(i<n)d.classList.add('done');if(i===n)d.classList.add('active');}});
+  [1,2,3,4,5].forEach(i=>{const d=document.getElementById('sd'+i);if(d){d.classList.remove('active','done');if(i<n)d.classList.add('done');if(i===n)d.classList.add('active');}});
   window.scrollTo(0,0);
   if(n===3){syncParams();refreshMods();calc();}
   if(n===4)genPres();
+  if(n===5)renderPropostasSalvas();
 }
 
 
@@ -2082,6 +2098,119 @@ function applyExtracted(){
   go(2);
 }
 
+
+// ══════════════════════════════════════
+// PROPOSTAS SALVAS (localStorage)
+// ══════════════════════════════════════
+function getPropostas(){return JSON.parse(localStorage.getItem('propostas_3s')||'[]');}
+function savePropostas(arr){localStorage.setItem('propostas_3s',JSON.stringify(arr));}
+
+function salvarPropostaAtual(){
+  const nome=document.getElementById('p_nome').value.trim()||'Cliente';
+  const lj=gv('g_lojas'),ct=gv('g_contrato'),ro=gv('g_rollout');
+  const setupVal=gv('g_setup'),instVal=gv('g_inst');
+  const ixSetup=gc('ix_setup'),ixInst=gc('ix_inst');
+  const rb=gv('g_reb');
+  const incAnual=gv('g_inc_anual'),incMes=gv('g_inc_mes');
+  const devVal=gv('g_dev');
+  const invMeses=gv('g_inv_meses'),invMensal=gv('g_inv_mensal');
+
+  // Calcular mensalidade
+  let ms=0;
+  ME.forEach(m=>{if(!m.ix)ms+=m.v;});
+  MA.forEach(m=>{if(m.on&&!m.ix)ms+=m.v;});
+
+  // Módulos ativos
+  const modulos=ME.map(m=>{const c=catById(m.id);return c?c.nm:m.id;});
+  MA.filter(m=>m.on).forEach(m=>modulos.push(m.nm));
+
+  // Cross-sell
+  let addTotal=0;
+  MX.filter(m=>m.on).forEach(m=>{addTotal+=m.v;modulos.push(m.nm);});
+
+  const proposta={
+    id:Date.now(),
+    data:new Date().toLocaleDateString('pt-BR'),
+    hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    nome,lj,ct,ro,
+    setup:setupVal,inst:instVal,ixSetup,ixInst,
+    ms,addTotal,
+    rb,incAnual,incMes,devVal,invMeses,invMensal,
+    modulos,
+    // Dados para restaurar
+    meIds:ME.map(m=>m.id),
+    maOn:MA.map(m=>({id:m.id,on:m.on,ix:m.ix})),
+    mxOn:MX.map(m=>({id:m.id,on:m.on})),
+  };
+
+  const arr=getPropostas();
+  arr.unshift(proposta);
+  savePropostas(arr);
+  renderPropostasSalvas();
+}
+
+function renderPropostasSalvas(){
+  const grid=document.getElementById('propostasGrid');
+  if(!grid)return;
+  const arr=getPropostas();
+  if(!arr.length){
+    grid.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray);font-size:13px;">Nenhuma proposta salva ainda.<br>Gere uma proposta na Calculadora para salvá-la aqui.</div>';
+    return;
+  }
+  grid.innerHTML=arr.map((p,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--border-light);border-radius:10px;margin-bottom:8px;background:var(--white);transition:box-shadow .2s;" onmouseenter="this.style.boxShadow='0 2px 12px rgba(0,0,0,.08)'" onmouseleave="this.style.boxShadow='none'">
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;font-size:14px;color:var(--dark-gray);margin-bottom:2px;">${p.nome}</div>
+        <div style="font-size:11px;color:var(--gray);">${p.data} ${p.hora} · ${p.lj} lojas · ${p.ct} meses · R$ ${p.ms.toFixed(2).replace('.',',')}/loja</div>
+        <div style="font-size:10px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.modulos.join(' · ')}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0;">
+        <button class="btn btn-o" style="font-size:10px;padding:5px 10px;" onclick="carregarProposta(${i})" title="Carregar na calculadora">↩ Carregar</button>
+        <button style="background:none;border:none;color:#EF4444;cursor:pointer;font-size:16px;font-weight:700;padding:2px 6px;" onclick="deletarProposta(${i})" title="Excluir">×</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function carregarProposta(idx){
+  const arr=getPropostas();
+  const p=arr[idx];if(!p)return;
+
+  document.getElementById('p_nome').value=p.nome;
+  document.getElementById('g_lojas').value=p.lj;
+  document.getElementById('g_contrato').value=p.ct;
+  document.getElementById('g_rollout').value=p.ro;
+  document.getElementById('g_setup').value=p.setup;
+  document.getElementById('g_inst').value=p.inst;
+  document.getElementById('ix_setup').checked=p.ixSetup;
+  document.getElementById('ix_inst').checked=p.ixInst;
+  document.getElementById('g_reb').value=p.rb||0;
+  document.getElementById('g_inc_anual').value=p.incAnual||0;
+  document.getElementById('g_inc_mes').value=p.incMes||0;
+  document.getElementById('g_dev').value=p.devVal||0;
+  document.getElementById('g_inv_meses').value=p.invMeses||0;
+  document.getElementById('g_inv_mensal').value=p.invMensal||0;
+
+  // Restaurar módulos
+  if(p.maOn){p.maOn.forEach(s=>{const m=MA.find(x=>x.id===s.id);if(m){m.on=s.on;m.ix=s.ix;}});}
+  if(p.mxOn){p.mxOn.forEach(s=>{const m=MX.find(x=>x.id===s.id);if(m){m.on=s.on;}});}
+
+  go(3);
+}
+
+function deletarProposta(idx){
+  if(!confirm('Excluir esta proposta?'))return;
+  const arr=getPropostas();
+  arr.splice(idx,1);
+  savePropostas(arr);
+  renderPropostasSalvas();
+}
+
+function clearPropostas(){
+  if(!confirm('Limpar todas as propostas salvas?'))return;
+  localStorage.removeItem('propostas_3s');
+  renderPropostasSalvas();
+}
 
 // ══════════════════════════════════════
 // INIT
