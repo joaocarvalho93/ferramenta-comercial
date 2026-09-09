@@ -1,12 +1,14 @@
 {
   "id": 1788980653504,
   "data": "09/09/2026",
-  "hora": "16:04",
+  "hora": "16:20",
+  "dataCriacao": "2026-09-09T19:20:34.803Z",
+  "dataModificacao": "2026-09-09T19:20:34.804Z",
   "nome": "Teste",
   "lj": 25,
   "ct": 60,
   "ro": 2,
-  "responsavel": "joao.carlos@ifood.com.br",
+  "responsavel": "",
   "segmento": "qsr",
   "culinaria": "pizzaria",
   "estado": "PR",
@@ -14,8 +16,8 @@
   "inst": 1622,
   "ixSetup": true,
   "ixInst": true,
-  "ms": 690,
-  "addTotal": 220,
+  "ms": 940,
+  "addTotal": 340,
   "rb": 0,
   "incAnual": 0,
   "incMes": 0,
@@ -28,6 +30,7 @@
     "Totem — Até 3",
     "Marketplace — iFood / Rappi / OD",
     "TEF — Primeira integração",
+    "3S BI — Simples",
     "3S BI — Administrador"
   ],
   "meIds": [
@@ -66,7 +69,7 @@
     },
     {
       "id": "bi_simples",
-      "on": false
+      "on": true
     },
     {
       "id": "bi_admin",
