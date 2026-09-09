@@ -34,48 +34,75 @@
     {
       "id": "kinesis",
       "on": false,
-      "ix": false
+      "ix": false,
+      "v": 300
     },
     {
       "id": "pos_3",
       "on": false,
-      "ix": false
+      "ix": false,
+      "v": 100
     },
     {
       "id": "imp_3",
       "on": false,
-      "ix": false
+      "ix": false,
+      "v": 60
     },
     {
       "id": "marca",
       "on": false,
-      "ix": false
+      "ix": false,
+      "v": 100
     }
   ],
   "mxOn": [
     {
       "id": "3sgo",
-      "on": false
+      "on": false,
+      "v": 60
     },
     {
       "id": "bi_simples",
-      "on": true
+      "on": true,
+      "v": 120
     },
     {
       "id": "bi_admin",
-      "on": false
+      "on": false,
+      "v": 220
     },
     {
       "id": "eats_d",
-      "on": true
+      "on": true,
+      "v": 180
     },
     {
       "id": "eats_m",
-      "on": false
+      "on": false,
+      "v": 180
     },
     {
       "id": "eats_combo",
-      "on": false
+      "on": false,
+      "v": 300
+    }
+  ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 525,
+      "ix": false
+    },
+    {
+      "id": "mkt_ifood_od",
+      "v": 135,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "v": 90,
+      "ix": false
     }
   ]
 }
