@@ -1,0 +1,95 @@
+{
+  "id": 1788992936665,
+  "data": "09/09/2026",
+  "hora": "19:28",
+  "dataCriacao": "2026-09-09T22:28:56.631Z",
+  "dataModificacao": "2026-09-09T22:28:56.631Z",
+  "nome": "Grupo Bercy (KDS)",
+  "lj": 9,
+  "ct": 60,
+  "ro": 3,
+  "responsavel": "joao.carlos@ifood.com.br",
+  "segmento": "Alimentacao",
+  "culinaria": "Diversos",
+  "estado": "SP",
+  "setup": 2500,
+  "inst": 0,
+  "ixSetup": false,
+  "ixInst": true,
+  "ms": 840,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Ilimitado",
+    "POS Mobile — Ate 5",
+    "KDS — Ilimitado",
+    "Marca Adicional — ate 3 lojas",
+    "Marketplace — Open Delivery"
+  ],
+  "meIds": [
+    "pdv_ilim",
+    "kds_ilim"
+  ],
+  "maOn": [
+    {
+      "id": "kinesis",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "pos_3",
+      "on": true,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "marca",
+      "on": true,
+      "ix": false
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": false
+    },
+    {
+      "id": "bi_simples",
+      "on": false
+    },
+    {
+      "id": "bi_admin",
+      "on": false
+    },
+    {
+      "id": "eats_d",
+      "on": false
+    },
+    {
+      "id": "eats_m",
+      "on": false
+    },
+    {
+      "id": "eats_combo",
+      "on": false
+    }
+  ],
+  "moveEvent": true,
+  "moveOfertas": [
+    "Isencao total de Setup (R$2.500)",
+    "Isencao de 3S Eats (assinando em setembro/2026)",
+    "Desconto adicional: R$840 -> R$790/loja/mes (-6.0%)",
+    "2 meses de carencia na mensalidade (lojas piloto)"
+  ],
+  "moveCondicao": "MOVE — Setup isento + 3S Eats gratis + desconto de R$50/loja/mes + 2 meses carencia no piloto. Validade: 16/09/2026",
+  "moveValidade": "2026-09-16T22:28:56.631Z"
+}
