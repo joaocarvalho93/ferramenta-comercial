@@ -38,48 +38,58 @@
     {
       "id": "kinesis",
       "on": false,
-      "ix": false
+      "ix": false,
+      "v": 300
     },
     {
       "id": "pos_3",
       "on": true,
-      "ix": false
+      "ix": false,
+      "v": 100
     },
     {
       "id": "imp_3",
       "on": true,
-      "ix": false
+      "ix": false,
+      "v": 60
     },
     {
       "id": "marca",
       "on": true,
-      "ix": false
+      "ix": false,
+      "v": 100
     }
   ],
   "mxOn": [
     {
       "id": "3sgo",
-      "on": false
+      "on": false,
+      "v": 60
     },
     {
       "id": "bi_simples",
-      "on": false
+      "on": false,
+      "v": 120
     },
     {
       "id": "bi_admin",
-      "on": false
+      "on": false,
+      "v": 220
     },
     {
       "id": "eats_d",
-      "on": false
+      "on": false,
+      "v": 180
     },
     {
       "id": "eats_m",
-      "on": false
+      "on": false,
+      "v": 180
     },
     {
       "id": "eats_combo",
-      "on": false
+      "on": false,
+      "v": 300
     }
   ],
   "moveEvent": true,
@@ -90,5 +100,12 @@
     "2 meses de carencia na mensalidade (lojas piloto)"
   ],
   "moveCondicao": "MOVE — Setup isento + 3S Eats gratis + desconto de R$50/loja/mes + 2 meses carencia no piloto. Validade: 16/09/2026",
-  "moveValidade": "2026-09-16T22:28:56.631Z"
+  "moveValidade": "2026-09-16T22:28:56.631Z",
+  "meData": [
+    {
+      "id": "pdv_ilim",
+      "v": 480,
+      "ix": false
+    }
+  ]
 }
