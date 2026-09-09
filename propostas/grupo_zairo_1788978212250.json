@@ -1,17 +1,23 @@
 {
   "id": 1788978212250,
   "data": "09/09/2026",
-  "hora": "15:23",
+  "hora": "20:44",
+  "dataCriacao": "2026-09-09T23:44:15.096Z",
+  "dataModificacao": "2026-09-09T23:44:15.097Z",
   "nome": "Grupo Zairo",
   "lj": 1,
   "ct": 60,
   "ro": 2,
+  "responsavel": "",
+  "segmento": "",
+  "culinaria": "",
+  "estado": "",
   "setup": 2500,
   "inst": 1622,
   "ixSetup": false,
   "ixInst": false,
-  "ms": 750,
-  "addTotal": 0,
+  "ms": 450,
+  "addTotal": 300,
   "rb": 0,
   "incAnual": 0,
   "incMes": 0,
@@ -30,12 +36,41 @@
     "mkt_ifood_od",
     "imp_3"
   ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 300,
+      "ix": false
+    },
+    {
+      "id": "mkt_ifood_od",
+      "v": 90,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "v": 60,
+      "ix": false
+    }
+  ],
   "maOn": [
     {
-      "id": "kinesis",
+      "id": "pdv_adic",
       "on": false,
       "ix": false,
-      "v": 300
+      "v": 49.9
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65
     },
     {
       "id": "pos_3",
@@ -44,16 +79,28 @@
       "v": 100
     },
     {
-      "id": "imp_3",
+      "id": "pos_5",
       "on": false,
       "ix": false,
-      "v": 60
+      "v": 150
+    },
+    {
+      "id": "pos_ilim",
+      "on": false,
+      "ix": false,
+      "v": 350
     },
     {
       "id": "marca",
       "on": false,
       "ix": false,
       "v": 100
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250
     }
   ],
   "mxOn": [
@@ -73,6 +120,16 @@
       "v": 220
     },
     {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300
+    },
+    {
       "id": "eats_d",
       "on": true,
       "v": 180
@@ -86,24 +143,16 @@
       "id": "eats_combo",
       "on": false,
       "v": 300
-    }
-  ],
-  "meData": [
-    {
-      "id": "pdv_3",
-      "v": 350,
-      "ix": false
     },
     {
-      "id": "mkt_ifood_od",
-      "v": 90,
-      "ix": false
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000
     },
     {
-      "id": "imp_3",
-      "v": 60,
-      "ix": false
+      "id": "crm_fid",
+      "on": false,
+      "v": 199.9
     }
-  ],
-  "_migrateV": 3
+  ]
 }
