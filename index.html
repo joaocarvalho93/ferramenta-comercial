@@ -293,6 +293,33 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 .obj-timer{font-size:28px;font-weight:900;color:var(--purple);text-align:center;margin-bottom:12px;}
 .obj-timer.warn{color:#EF4444;animation:pulse 1s infinite;}
 .obj-q{font-size:15px;font-weight:700;color:var(--dark-gray);margin-bottom:16px;line-height:1.5;text-align:center;padding:16px;background:#F3F4F6;border-radius:10px;font-style:italic;}
+
+/* ── BUSCA BASE DE CONHECIMENTO ── */
+.rag-wrap{max-width:700px;margin:0 auto 28px;position:relative;}
+.rag-input-row{display:flex;gap:8px;align-items:center;}
+.rag-input{flex:1;padding:12px 16px;border:1.5px solid var(--border-light);border-radius:12px;font-size:14px;font-family:'Inter',sans-serif;color:var(--dark-gray);background:#fff;transition:all .2s;}
+.rag-input:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px rgba(233,32,46,.1);}
+.rag-input::placeholder{color:#9CA3AF;}
+.rag-send{width:40px;height:40px;border-radius:10px;border:none;background:var(--purple);color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.rag-send:hover{background:var(--acai);}
+.rag-res-card{background:#fff;border:1px solid var(--border-light);border-radius:10px;padding:14px;margin-bottom:8px;animation:ragFadeIn .2s ease;}
+@keyframes ragFadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.rag-res-card:hover{border-color:var(--purple);box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.rag-res-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.rag-res-tag.modulo{background:#DBEAFE;color:#2563EB;}
+.rag-res-tag.func{background:#F3E8FF;color:#7C3AED;}
+.rag-res-tag.dor{background:#FEE2E2;color:#DC2626;}
+.rag-res-tag.conc{background:#FEF3C7;color:#D97706;}
+.rag-res-tag.obj{background:#FFEDD5;color:#C2410C;}
+.rag-res-tag.cliente{background:#DCFCE7;color:#059669;}
+.rag-res-tag.gmv{background:#E0E7FF;color:#4338CA;}
+.rag-res-tag.cross{background:#FCE7F3;color:#BE185D;}
+.rag-res-tag.integ{background:#CCFBF1;color:#0D9488;}
+.rag-res-title{font-size:13px;font-weight:700;color:var(--dark-gray);margin-bottom:3px;}
+.rag-res-body{font-size:12px;color:var(--gray);line-height:1.5;}
+.rag-res-body strong{color:var(--dark-gray);font-weight:600;}
+.rag-empty{text-align:center;padding:20px;font-size:13px;color:var(--gray);}
+.rag-count{font-size:11px;color:var(--gray);margin-bottom:8px;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
@@ -307,9 +334,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <button onclick="go(5)" id="hm5">Propostas</button>
     <div class="hdr-sep"></div>
     <button onclick="go(6)" id="hm6">Conhecimento</button>
-    <button onclick="go(7)" id="hm7">Calculadora</button>
     <button onclick="go(8)" id="hm8">Deep Dive</button>
-    <button onclick="go(9)" id="hm9">Pré-Vendas</button>
     <button onclick="go(10)" id="hm10">Clientes</button>
     <button onclick="go(11)" id="hm11">Gamificação</button>
   </div>
@@ -338,30 +363,18 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
         <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Base de Conhecimento</div>
         <div style="font-size:11px;color:var(--gray);line-height:1.4;">Módulos do ecossistema 3S, funcionalidades e argumentação.</div>
       </div>
-      <div class="card" onclick="go(7)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
-        <div style="font-size:30px;margin-bottom:8px;">🔢</div>
-        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Calculadora 3S</div>
-        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Busca GMV por marca e simulação de receita.</div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
       <div class="card" onclick="go(8)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
         <div style="font-size:30px;margin-bottom:8px;">🔍</div>
         <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Deep Dive 3S</div>
         <div style="font-size:11px;color:var(--gray);line-height:1.4;">Funcionalidades, cross-sell e integrações em detalhe.</div>
       </div>
-      <div class="card" onclick="go(9)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
-        <div style="font-size:30px;margin-bottom:8px;">📋</div>
-        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Pré-Vendas</div>
-        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Formulário de diagnóstico pré-venda.</div>
-      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
       <div class="card" onclick="go(10)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
         <div style="font-size:30px;margin-bottom:8px;">👥</div>
         <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Base de Clientes</div>
         <div style="font-size:11px;color:var(--gray);line-height:1.4;">Consulte os 235 clientes ativos da base 3S.</div>
       </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
       <div class="card" onclick="go(11)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
         <div style="font-size:30px;margin-bottom:8px;">🏆</div>
         <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Gamificação</div>
@@ -713,40 +726,6 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 </div>
 
 <!-- ══════════════════════════════════════ -->
-<!-- STEP 7 — CALCULADORA 3S (GMV)         -->
-<!-- ══════════════════════════════════════ -->
-<div class="pnl" id="s7">
-  <h2 class="pnl-t">Calculadora 3S</h2>
-  <p class="pnl-d">Busque o GMV de uma marca e simule a mensalidade estimada.</p>
-  <div class="card">
-    <div class="card-t">Buscar marca por GMV</div>
-    <div class="gmv-search-wrap">
-      <input type="text" id="gmvSearchInput" placeholder="Digite o nome da marca..." autocomplete="off" oninput="gmvAutocomplete(this.value)">
-      <div class="gmv-dropdown" id="gmvDropdown"></div>
-    </div>
-    <div class="gmv-result" id="gmvResult">
-      <div style="margin-top:16px;padding:20px;background:#F3F4F6;border-radius:10px;">
-        <div style="font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;">GMV Anual</div>
-        <div class="gmv-big" id="gmvBigValue">—</div>
-        <div class="gmv-label" id="gmvBrandName">—</div>
-      </div>
-      <div class="gmv-sim" id="gmvSimPanel">
-        <div style="font-size:12px;font-weight:700;color:var(--dark-gray);margin-bottom:10px;">Simulação de Mensalidade</div>
-        <div class="r2">
-          <div class="fld"><label>Qtd lojas estimada</label><input type="number" id="gmvSimLojas" value="10" min="1" onchange="gmvSimCalc()"></div>
-          <div class="fld"><label>Taxa (%)</label><input type="number" id="gmvSimTaxa" value="0.1" min="0" max="100" step="0.01" onchange="gmvSimCalc()"></div>
-        </div>
-        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-          <div style="text-align:center;padding:12px;background:#fff;border-radius:8px;"><div style="font-size:10px;color:var(--gray);">GMV/Loja/Mês</div><div style="font-size:16px;font-weight:800;color:var(--dark-gray);" id="gmvSimPerStore">—</div></div>
-          <div style="text-align:center;padding:12px;background:#fff;border-radius:8px;"><div style="font-size:10px;color:var(--gray);">Receita Estimada/Mês</div><div style="font-size:16px;font-weight:800;color:var(--green);" id="gmvSimRevenue">—</div></div>
-          <div style="text-align:center;padding:12px;background:#fff;border-radius:8px;"><div style="font-size:10px;color:var(--gray);">Receita/Loja/Mês</div><div style="font-size:16px;font-weight:800;color:var(--purple);" id="gmvSimPerStoreMo">—</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════ -->
 <!-- STEP 8 — DEEP DIVE 3S                 -->
 <!-- ══════════════════════════════════════ -->
 <div class="pnl" id="s8">
@@ -762,20 +741,6 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
   <div class="dd-content" id="ddTab2"></div>
 </div>
 
-<!-- ══════════════════════════════════════ -->
-<!-- STEP 9 — PRÉ-VENDAS                   -->
-<!-- ══════════════════════════════════════ -->
-<div class="pnl" id="s9">
-  <h2 class="pnl-t">Pré-Vendas</h2>
-  <p class="pnl-d">Formulário de diagnóstico pré-venda para mapear a operação do prospect.</p>
-  <div class="card" style="padding:0;overflow:hidden;min-height:600px;">
-    <iframe id="preVendasFrame" src="https://docs.google.com/forms/d/e/1FAIpQLSe_placeholder/viewform?embedded=true" style="width:100%;height:700px;border:none;"></iframe>
-    <div style="padding:20px;text-align:center;">
-      <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Configure a URL do Google Forms no campo abaixo:</p>
-      <div class="fld"><input type="text" id="preVendasUrl" placeholder="Cole aqui a URL do Google Forms embedado..." onchange="updatePreVendasUrl(this.value)"></div>
-    </div>
-  </div>
-</div>
 
 <!-- ══════════════════════════════════════ -->
 <!-- STEP 10 — BASE DE CLIENTES             -->
@@ -1631,7 +1596,7 @@ function go(n){
   document.getElementById('s'+n).classList.add('on');
   // Atualizar menu ativo
   document.querySelectorAll('.hdr-menu button').forEach(b=>b.classList.remove('hm-active'));
-  const hmMap={0:'hm0',1:'hm5',2:'hm5',3:'hm5',4:'hm5',5:'hm5',6:'hm6',7:'hm7',8:'hm8',9:'hm9',10:'hm10',11:'hm11'};
+  const hmMap={0:'hm0',1:'hm5',2:'hm5',3:'hm5',4:'hm5',5:'hm5',6:'hm6',8:'hm8',10:'hm10',11:'hm11'};
   const hmBtn=document.getElementById(hmMap[n]);
   if(hmBtn)hmBtn.classList.add('hm-active');
   window.scrollTo(0,0);
@@ -3374,38 +3339,6 @@ function kbBackToList(){document.getElementById('kbListView').style.display='';d
 const GMV_TOP200=[
 ["MCDONALDS",5646147544],["BURGER KING",2106048164],["SUBWAY",1322050679],["OUTBACK",565821594],["MADERO",550166968],["KFC",510801080],["HABIBS",473197583],["CHINA IN BOX",463822741],["PIZZA HUT",424445127],["SPOLETO",360102664],["COCO BAMBU",336249488],["MANA POKE",304940759],["EATOPIA",291763322],["BOBS",290385910],["ITALIN HOUSE",284432066],["DOMINOS",282203541],["VIP SUSHI",265625626],["OSNIR HAMBURGUER",262273800],["CACAU SHOW",218756136],["ALMANARA",198872938],["FORNERIA ORIGINAL",196637224],["GIRAFFAS",168510085],["SODIE",166320703],["O BURGUES",165360263],["POPEYES",162594576],["JERONIMO",161531167],["MILKY MOO",160936609],["CASA DE BOLOS",160584371],["BACIO DI LATTE",144092162],["CHIQUINHO SORVETES",141029833],["BOM BEEF BURGERS",139740633],["PAPILA POKE",139403212],["PIZZA PRIME",135467078],["GRUPO CESAR",130656358],["SUNOMONO",126968699],["MINI KALZONE",121008255],["MANIA DE CHURRASCO",120842143],["SUSHI RAO",111884601],["OAKBERRY",108534203],["LIG-LIG",105774561],["CAMARADA CAMARAO",105393880],["GREENJOY",104248811],["ESFIHA IMIGRANTES",103935101],["VIVENDA DO CAMARAO",101132484],["BULLGUER",100707374],["BIBI SUCOS",100166860],["EX-TOURO",96308897],["PIZZARIA CAMELO",96172481],["TT BURGER",93279820],["GENDAI",92675267],["MAMMA JAMMA",92478663],["RASCAL",91361127],["MEATZ",90202647],["FRANGO NO POTE",88236914],["THE BEST ACAI",83540960],["OGGI SORVETES",82563489],["NUMBER ONE CHICKEN",82020826],["BOALI",80964138],["FABRICA DE BOLO",79658974],["GRILETTO",73942536],["1900 PIZZERIA",73883733],["CABANA BURGER",73323907],["KONI",67729057],["MESTRE DO FRANGO",66008706],["SUSHILOKO",65789899],["HOME SUSHI HOME",65681171],["GRUPO MULT",64457524],["ABBRACCIO",63725664],["MONTANA GRILL",63639946],["BRAZ PIZZARIA",60168874],["SEU VIDAL",59263375],["DI ROMA PIZZA",57677389],["LA BRASA BURGUER",56505224],["LA GUAPA EMPANADAS",56255042],["TUTTI PIZZA",55854971],["BAGGIO",55703442],["LIFEBOX",54957710],["OLGA RI",54336744],["TATA SUSHI",54125560],["NINE NINE BURGER",53580152],["O MATUTO EXPRESS",52436212],["BKO",52236027],["DELIRIO TROPICAL",51983579],["GULA GULA",51917147],["SUSHI GO",51553112],["JSK BURGERS",51227862],["INSALATA",50210449],["QUIERO CAFE",48828548],["PIADINA ROMAGNOLA",48733710],["PIZZARIA ABARE",48075844],["KOPENHAGEN",47942766],["PECORINO TRATTORIA",47764343],["ALEMAO SP",46816760],["COMENDADOR BURGUER",46682094],["RAGAZZO",46164035],["GOKEI POKE",45887928],["LAHMAJUN",45117376],["TEMAKI FRY",45106208],["NANICA",44859054],["KRISPY KREME",44320065],["TACO BELL",43976873],["GALETOS",42858178],["ATLANTICO",42514257],["GURUME",41753396],["DON PEPE DI NAPOLI",41445853],["SUKIYA",40144537],["JOHNS BURGUER",39981147],["DOG KING",39139120],["CHEPPITOS",39086169],["AGUA DOCE CACHACARIA",38611710],["PIZZA LA BRACIERA",37981991],["TEMAKERIA CIA",37500488],["ITSUKI SUSHI",37213452],["ISABELA AKKARI",37024104],["BRAVA SUSHI",36959575],["LINDT",36845052],["ACHAPA",36665990],["KOTO BY MAKOTO",36235819],["VERIDIANA PIZZARIA",36097516],["SUSHI POR 0.99",35857801],["PARME PIZZA",35589755],["FRUTARIA SAO PAULO",35042769],["VILLA GRANO",34742874],["BOCA DO FORNO",34462645],["PASTEL E YAKISSOBA DA MI",34454137],["NATIVAS",34253739]
 ];
-let _gmvSelected=null;
-function gmvAutocomplete(val){
-  const dd=document.getElementById('gmvDropdown');
-  if(!val||val.length<2){dd.classList.remove('open');return;}
-  const q=val.toUpperCase();
-  const matches=GMV_TOP200.filter(g=>g[0].includes(q)).slice(0,10);
-  if(!matches.length){dd.classList.remove('open');return;}
-  dd.innerHTML=matches.map((g,i)=>`<div class="gmv-item" onclick="gmvSelect(${i},'${g[0].replace(/'/g,"\\'")}',${g[1]})"><span class="gmv-brand">${g[0]}</span><span class="gmv-val">R$ ${(g[1]/1e6).toFixed(1)} Mi</span></div>`).join('');
-  dd.classList.add('open');
-}
-function gmvSelect(i,brand,val){
-  _gmvSelected={brand,val};
-  document.getElementById('gmvSearchInput').value=brand;
-  document.getElementById('gmvDropdown').classList.remove('open');
-  document.getElementById('gmvBigValue').textContent='R$ '+(val/1e6).toFixed(1)+' Mi';
-  document.getElementById('gmvBrandName').textContent=brand;
-  document.getElementById('gmvResult').classList.add('on');
-  gmvSimCalc();
-}
-function gmvSimCalc(){
-  if(!_gmvSelected)return;
-  const lojas=parseInt(document.getElementById('gmvSimLojas').value)||1;
-  const taxa=parseFloat(document.getElementById('gmvSimTaxa').value)||0;
-  const gmvMesLoja=_gmvSelected.val/12/lojas;
-  const receitaMes=_gmvSelected.val/12*(taxa/100);
-  const receitaLoja=receitaMes/lojas;
-  document.getElementById('gmvSimPerStore').textContent='R$ '+(gmvMesLoja/1e3).toFixed(1)+'k';
-  document.getElementById('gmvSimRevenue').textContent='R$ '+(receitaMes).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
-  document.getElementById('gmvSimPerStoreMo').textContent='R$ '+receitaLoja.toFixed(2).replace('.',',');
-}
-document.getElementById('gmvSearchInput').addEventListener('blur',()=>{setTimeout(()=>document.getElementById('gmvDropdown').classList.remove('open'),200);});
-
 // ══════════════════════════════════════
 // MÓDULO 8: DEEP DIVE 3S
 // ══════════════════════════════════════
@@ -3458,13 +3391,6 @@ function closeModal(){document.getElementById('modalOverlay').classList.remove('
 // ══════════════════════════════════════
 // MÓDULO 9: PRÉ-VENDAS
 // ══════════════════════════════════════
-function updatePreVendasUrl(url){
-  if(url&&url.includes('google.com/forms')){
-    document.getElementById('preVendasFrame').src=url;
-    showToast('URL do formulário atualizada!','#10B981');
-  }
-}
-
 // ══════════════════════════════════════
 // MÓDULO 10: BASE DE CLIENTES
 // ══════════════════════════════════════
@@ -3821,6 +3747,8 @@ function backToGmMenu(){
   const qCard=document.querySelector('#quizWrap .card');if(qCard)qCard.style.display='';
   const oCard=document.querySelector('#objWrap .card');if(oCard)oCard.style.display='';
 }
+
+
 
 </script>
 </body>
