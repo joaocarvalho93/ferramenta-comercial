@@ -1,22 +1,22 @@
 {
   "id": 1788978212250,
   "data": "09/09/2026",
-  "hora": "20:44",
+  "hora": "20:45",
   "dataCriacao": "2026-09-09T23:44:15.096Z",
-  "dataModificacao": "2026-09-09T23:44:15.097Z",
+  "dataModificacao": "2026-09-09T23:45:36.682Z",
   "nome": "Grupo Zairo",
   "lj": 1,
   "ct": 60,
   "ro": 2,
-  "responsavel": "",
+  "responsavel": "joao.carlos@ifood.com.br",
   "segmento": "",
   "culinaria": "",
-  "estado": "",
+  "estado": "SP",
   "setup": 2500,
   "inst": 1622,
   "ixSetup": false,
   "ixInst": false,
-  "ms": 450,
+  "ms": 500,
   "addTotal": 300,
   "rb": 0,
   "incAnual": 0,
@@ -154,6 +154,5 @@
       "on": false,
       "v": 199.9
     }
-  ],
-  "_migrateV": 3
+  ]
 }
