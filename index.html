@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>3S Checkout — Ferramenta Comercial</title>
+<title>3S Checkout — Caixa de Ferramentas</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{--purple:#e9202e;--violet:#C41528;--magenta:#FF6B7A;--acai:#890119;--dark:#2D0A0E;--white:#FFF;--off-white:#F9FAFB;--light-purp:#E5E7EB;--gray:#6B7280;--dark-gray:#374151;--green:#10B981;--red:#EF4444;--card-bg:#F3F4F6;--border-light:#D1D5DB;--accent-light:#F3F4F6;}
@@ -12,13 +12,13 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 
 /* ── HEADER ── */
 .hdr{background:var(--dark);color:#fff;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.2);}
-.hdr h1{font-size:16px;font-weight:700;}
+.hdr h1{font-size:16px;font-weight:700;cursor:pointer;}
 .hdr .tag{background:var(--purple);font-size:10px;padding:3px 10px;border-radius:12px;font-weight:600;margin-left:10px;}
-.stepper{display:flex;align-items:center;gap:6px;}
-.sd{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:rgba(255,255,255,.08);color:rgba(255,255,255,.35);transition:all .3s;cursor:pointer;}
-.sd.active{background:var(--magenta);color:#fff;}
-.sd.done{background:var(--green);color:#fff;}
-.sl{width:20px;height:2px;background:rgba(255,255,255,.12);}
+.hdr-menu{display:flex;align-items:center;gap:4px;}
+.hdr-menu button{background:none;border:none;color:rgba(255,255,255,.5);font-size:12px;font-weight:600;font-family:'Inter',sans-serif;padding:6px 12px;border-radius:7px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.hdr-menu button:hover{background:rgba(255,255,255,.1);color:#fff;}
+.hdr-menu button.hm-active{background:rgba(255,107,122,.2);color:#FF6B7A;}
+.hdr-sep{width:1px;height:16px;background:rgba(255,255,255,.12);margin:0 2px;}
 
 /* ── PANELS ── */
 .pnl{display:none;max-width:1100px;margin:0 auto;padding:32px 28px 70px;}
@@ -142,28 +142,27 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 .gh-status.off{background:#FEE2E2;color:#EF4444;}
 .gh-status.loading{background:#FEF3C7;color:#D97706;}
 
+/* ── STEP FLOW ── */
+.step-flow{display:flex;align-items:center;justify-content:center;gap:10px;}
+.step-flow .sf-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;border:2px solid var(--border-light);color:var(--gray);cursor:pointer;transition:all .15s;}
+.step-flow .sf-num:hover{border-color:var(--dark-gray);color:var(--dark-gray);}
+.step-flow .sf-num.sf-active{background:var(--purple);color:#fff;border-color:var(--purple);cursor:default;}
+.step-flow .sf-num.sf-done{background:var(--dark-gray);color:#fff;border-color:var(--dark-gray);}
+.step-flow .sf-line{width:28px;height:1.5px;background:var(--border-light);flex-shrink:0;}
+.step-flow .sf-line.sf-line-done{background:var(--dark-gray);}
+
 /* ── PROPOSTAS GRID (GitHub) ── */
 .pg-card{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--border-light);border-radius:10px;margin-bottom:8px;background:var(--white);transition:all .2s;}
 .pg-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08);border-color:#D1D5DB;}
 .pg-card .pg-info{flex:1;min-width:0;}
-.pg-card .pg-nome{font-weight:700;font-size:14px;color:var(--dark-gray);margin-bottom:2px;}
-.pg-card .pg-meta{font-size:11px;color:var(--gray);}
-.pg-card .pg-mods{font-size:10px;color:var(--gray);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pg-card .pg-nome{font-weight:700;font-size:14px;color:var(--dark-gray);margin-bottom:4px;}
+.pg-card .pg-detail{display:flex;flex-direction:column;gap:1px;margin-bottom:3px;}
+.pg-card .pg-detail-item{font-size:11px;color:var(--gray);}
+.pg-card .pg-detail-item strong{color:var(--dark-gray);font-weight:600;}
+.pg-card .pg-dates{display:flex;gap:14px;font-size:10px;color:var(--gray);opacity:.7;margin-top:1px;}
 .pg-card .pg-acts{display:flex;gap:6px;flex-shrink:0;}
 .pg-card .pg-acts button{font-size:10px;padding:5px 10px;}
 
-/* ── MODAL ── */
-.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.45);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
-.modal-bg.open{opacity:1;pointer-events:auto;}
-.modal-box{background:var(--white);border-radius:16px;padding:28px;max-width:600px;width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:translateY(20px);transition:transform .2s;}
-.modal-bg.open .modal-box{transform:translateY(0);}
-.modal-box h3{font-size:18px;font-weight:800;color:var(--dark-gray);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
-.modal-box h3 button{background:none;border:none;font-size:22px;cursor:pointer;color:var(--gray);line-height:1;}
-.modal-box .fld-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-@media(max-width:500px){.modal-box .fld-row{grid-template-columns:1fr;}}
-.modal-box .fld label{font-size:11px;font-weight:600;color:var(--gray);margin-bottom:3px;display:block;}
-.modal-box .fld input{width:100%;padding:7px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;color:var(--dark-gray);}
-.modal-box .fld input:focus{outline:none;border-color:var(--dark-gray);}
 
 /* ── SEARCH BAR ── */
 .search-bar{display:flex;gap:8px;margin-bottom:14px;}
@@ -174,6 +173,126 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 /* ── TOAST ── */
 .toast{position:fixed;bottom:24px;right:24px;background:var(--dark-gray);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:600;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
+
+/* ── MÓDULOS: BASE DE CONHECIMENTO ── */
+.kb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:800px){.kb-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:500px){.kb-grid{grid-template-columns:1fr;}}
+.kb-card{background:var(--white);border:1.5px solid var(--border-light);border-radius:12px;padding:20px;cursor:pointer;transition:all .2s;text-align:center;}
+.kb-card:hover{border-color:var(--purple);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.kb-card .kb-icon{font-size:32px;margin-bottom:8px;}
+.kb-card .kb-name{font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;}
+.kb-card .kb-cat{font-size:10px;font-weight:600;color:var(--purple);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.kb-card .kb-desc{font-size:11px;color:var(--gray);line-height:1.4;}
+.kb-detail{display:none;}
+.kb-detail.on{display:block;}
+.kb-back{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--purple);cursor:pointer;margin-bottom:16px;padding:4px 0;}
+.kb-back:hover{text-decoration:underline;}
+.kb-section{background:var(--white);border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:14px;}
+.kb-section h3{font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:10px;}
+.kb-benefit{padding:10px 0;border-bottom:1px solid #E5E7EB;}
+.kb-benefit:last-child{border-bottom:none;}
+.kb-benefit strong{font-size:12px;color:var(--dark-gray);}
+.kb-benefit p{font-size:11px;color:var(--gray);margin-top:2px;line-height:1.4;}
+.kb-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.kb-pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:12px;background:#E5E7EB;color:var(--dark-gray);cursor:pointer;transition:all .15s;}
+.kb-pill:hover{background:var(--purple);color:#fff;}
+
+/* ── MÓDULOS: CALCULADORA GMV ── */
+.gmv-search-wrap{position:relative;}
+.gmv-search-wrap input{width:100%;padding:12px 16px;border:1.5px solid var(--border-light);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;color:var(--dark-gray);}
+.gmv-search-wrap input:focus{outline:none;border-color:var(--dark-gray);box-shadow:0 0 0 3px rgba(55,65,81,.1);}
+.gmv-dropdown{position:absolute;top:100%;left:0;right:0;background:#fff;border:1.5px solid var(--border-light);border-radius:0 0 10px 10px;max-height:220px;overflow-y:auto;z-index:50;display:none;box-shadow:0 4px 16px rgba(0,0,0,.1);}
+.gmv-dropdown.open{display:block;}
+.gmv-item{padding:10px 16px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;border-bottom:1px solid #F3F4F6;}
+.gmv-item:hover{background:#F3F4F6;}
+.gmv-item .gmv-brand{font-weight:600;color:var(--dark-gray);}
+.gmv-item .gmv-val{font-size:12px;color:var(--gray);}
+.gmv-result{margin-top:20px;display:none;}
+.gmv-result.on{display:block;}
+.gmv-big{font-size:28px;font-weight:900;color:var(--dark-gray);margin-bottom:4px;}
+.gmv-label{font-size:12px;color:var(--gray);}
+.gmv-sim{margin-top:16px;background:#F3F4F6;border-radius:10px;padding:16px;}
+.gmv-sim .r2{margin-top:10px;}
+
+/* ── MÓDULOS: DEEP DIVE ── */
+.dd-tabs{display:flex;gap:0;margin-bottom:20px;}
+.dd-tab{padding:10px 20px;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;border:1.5px solid var(--border-light);background:var(--white);color:var(--gray);cursor:pointer;transition:all .2s;}
+.dd-tab:first-child{border-radius:8px 0 0 8px;}
+.dd-tab:last-child{border-radius:0 8px 8px 0;}
+.dd-tab.active{background:var(--dark-gray);color:#fff;border-color:var(--dark-gray);}
+.dd-content{display:none;}
+.dd-content.on{display:block;}
+.dd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media(max-width:700px){.dd-grid{grid-template-columns:1fr;}}
+.dd-card{background:var(--white);border:1.5px solid var(--border-light);border-radius:10px;padding:16px;cursor:pointer;transition:all .2s;}
+.dd-card:hover{border-color:var(--purple);box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.dd-card h4{font-size:13px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;}
+.dd-card p{font-size:11px;color:var(--gray);line-height:1.4;}
+
+/* ── MÓDULOS: MODAL GENÉRICO ── */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;border-radius:14px;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;padding:24px;position:relative;}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--gray);font-weight:700;}
+.modal-close:hover{color:var(--dark-gray);}
+.modal-box h3{font-size:16px;font-weight:700;color:var(--dark-gray);margin-bottom:12px;padding-right:30px;}
+.modal-box p{font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:10px;}
+
+/* ── MÓDULOS: BASE DE CLIENTES ── */
+.cl-filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.cl-filters input,.cl-filters select{padding:8px 12px;border:1.5px solid var(--border-light);border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;color:var(--dark-gray);background:#fff;}
+.cl-filters input{flex:1;min-width:200px;}
+.cl-filters input:focus{outline:none;border-color:var(--dark-gray);box-shadow:0 0 0 3px rgba(55,65,81,.1);}
+.cl-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border-light);}
+.cl-table{width:100%;border-collapse:collapse;font-size:12px;}
+.cl-table th{background:#F3F4F6;padding:10px 12px;text-align:left;font-weight:600;color:var(--dark-gray);border-bottom:1.5px solid var(--border-light);cursor:pointer;white-space:nowrap;user-select:none;}
+.cl-table th:hover{background:#E5E7EB;}
+.cl-table th .sort-arrow{font-size:10px;margin-left:3px;opacity:.4;}
+.cl-table th.sorted .sort-arrow{opacity:1;color:var(--purple);}
+.cl-table td{padding:8px 12px;border-bottom:1px solid #F3F4F6;color:var(--dark-gray);}
+.cl-table tr:hover td{background:#F9FAFB;}
+.cl-status{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;white-space:nowrap;}
+.cl-status.op{background:#DCFCE7;color:#059669;}
+.cl-status.churn{background:#FEE2E2;color:#EF4444;}
+.cl-status.hold{background:#FEF3C7;color:#D97706;}
+.cl-status.piloto{background:#DBEAFE;color:#2563EB;}
+.cl-mods{display:flex;flex-wrap:wrap;gap:3px;}
+.cl-mod{font-size:9px;padding:2px 6px;border-radius:6px;background:#E5E7EB;color:var(--dark-gray);white-space:nowrap;}
+.cl-pag{display:flex;align-items:center;justify-content:space-between;margin-top:12px;font-size:12px;color:var(--gray);}
+.cl-pag button{background:none;border:1.5px solid var(--border-light);border-radius:6px;padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;color:var(--dark-gray);font-family:'Inter',sans-serif;}
+.cl-pag button:hover{background:#F3F4F6;}
+.cl-pag button:disabled{opacity:.3;cursor:default;}
+
+/* ── MÓDULOS: GAMIFICAÇÃO ── */
+.gm-menu{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:500px;margin:0 auto;}
+.gm-card{background:var(--white);border:2px solid transparent;border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.gm-card:hover{border-color:var(--purple);transform:translateY(-2px);}
+.gm-card .gm-icon{font-size:36px;margin-bottom:10px;}
+.gm-card h4{font-size:16px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;}
+.gm-card p{font-size:12px;color:var(--gray);line-height:1.4;}
+.quiz-wrap,.obj-wrap{display:none;}
+.quiz-wrap.on,.obj-wrap.on{display:block;}
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.quiz-progress{font-size:12px;color:var(--gray);font-weight:600;}
+.quiz-score{font-size:12px;font-weight:700;color:var(--green);}
+.quiz-q{font-size:15px;font-weight:700;color:var(--dark-gray);margin-bottom:16px;line-height:1.5;}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{padding:12px 16px;border:1.5px solid var(--border-light);border-radius:10px;font-size:13px;cursor:pointer;transition:all .15s;color:var(--dark-gray);background:#fff;text-align:left;font-family:'Inter',sans-serif;}
+.quiz-opt:hover{border-color:var(--dark-gray);background:#F9FAFB;}
+.quiz-opt.correct{border-color:#10B981;background:#DCFCE7;color:#059669;font-weight:600;}
+.quiz-opt.wrong{border-color:#EF4444;background:#FEE2E2;color:#EF4444;}
+.quiz-opt.disabled{pointer-events:none;opacity:.6;}
+.quiz-explain{margin-top:12px;padding:12px;background:#F3F4F6;border-radius:8px;font-size:12px;color:var(--dark-gray);line-height:1.5;display:none;}
+.quiz-explain.on{display:block;}
+.quiz-next{margin-top:14px;display:none;}
+.quiz-next.on{display:block;}
+.quiz-final{text-align:center;padding:30px 0;}
+.quiz-final h3{font-size:22px;font-weight:800;color:var(--dark-gray);margin-bottom:8px;}
+.quiz-final p{font-size:14px;color:var(--gray);margin-bottom:20px;}
+.obj-timer{font-size:28px;font-weight:900;color:var(--purple);text-align:center;margin-bottom:12px;}
+.obj-timer.warn{color:#EF4444;animation:pulse 1s infinite;}
+.obj-q{font-size:15px;font-weight:700;color:var(--dark-gray);margin-bottom:16px;line-height:1.5;text-align:center;padding:16px;background:#F3F4F6;border-radius:10px;font-style:italic;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
@@ -181,14 +300,18 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 <body>
 
 <header class="hdr">
-  <div style="display:flex;align-items:center;"><h1>3S Checkout<span class="tag">Ferramenta Comercial</span></h1></div>
-  <div class="stepper">
-    <div class="sd active" id="sd0" onclick="go(0)">🏠</div><div class="sl"></div>
-    <div class="sd" id="sd1" onclick="go(1)">1</div><div class="sl"></div>
-    <div class="sd" id="sd2" onclick="go(2)">2</div><div class="sl"></div>
-    <div class="sd" id="sd3" onclick="go(3)">3</div><div class="sl"></div>
-    <div class="sd" id="sd4" onclick="go(4)">4</div><div class="sl"></div>
-    <div class="sd" id="sd5" onclick="go(5)">📁</div>
+  <div style="display:flex;align-items:center;"><h1 onclick="go(0)">3S Checkout<span class="tag">Caixa de Ferramentas</span></h1></div>
+  <div class="hdr-menu" id="hdrMenu">
+    <button onclick="go(0)" id="hm0" class="hm-active">Início</button>
+    <div class="hdr-sep"></div>
+    <button onclick="go(5)" id="hm5">Propostas</button>
+    <div class="hdr-sep"></div>
+    <button onclick="go(6)" id="hm6">Conhecimento</button>
+    <button onclick="go(7)" id="hm7">Calculadora</button>
+    <button onclick="go(8)" id="hm8">Deep Dive</button>
+    <button onclick="go(9)" id="hm9">Pré-Vendas</button>
+    <button onclick="go(10)" id="hm10">Clientes</button>
+    <button onclick="go(11)" id="hm11">Gamificação</button>
   </div>
 </header>
 
@@ -198,70 +321,128 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 <div class="pnl on" id="s0">
   <div style="text-align:center;margin-bottom:32px;">
     <h2 style="font-size:28px;font-weight:900;color:var(--dark-gray);margin-bottom:6px;">3S Checkout</h2>
-    <p style="font-size:14px;color:var(--gray);max-width:480px;margin:0 auto;line-height:1.5;">Ferramenta comercial para construção de propostas, análise de viabilidade e gestão de oportunidades.</p>
+    <p style="font-size:14px;color:var(--gray);max-width:480px;margin:0 auto;line-height:1.5;">Caixa de ferramentas para construção de propostas, análise de viabilidade e gestão de oportunidades.</p>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:700px;margin:0 auto;">
-    <!-- Módulo: Nova Proposta -->
-    <div class="card home-card" onclick="go(1)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:28px 20px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
-      <div style="font-size:36px;margin-bottom:10px;">📝</div>
-      <div style="font-size:16px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Nova Proposta</div>
-      <div style="font-size:12px;color:var(--gray);line-height:1.4;">Importar documentos, identificar dores, calcular módulos e gerar proposta comercial.</div>
+  <!-- Seção: Ferramentas -->
+  <div style="max-width:700px;margin:0 auto 24px;">
+    <div style="font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Ferramentas</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+      <div class="card" onclick="go(5)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:30px;margin-bottom:8px;">📝</div>
+        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Propostas</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Criar, editar e gerenciar propostas comerciais.</div>
+      </div>
+      <div class="card" onclick="go(6)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:30px;margin-bottom:8px;">📖</div>
+        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Base de Conhecimento</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Módulos do ecossistema 3S, funcionalidades e argumentação.</div>
+      </div>
+      <div class="card" onclick="go(7)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:30px;margin-bottom:8px;">🔢</div>
+        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Calculadora 3S</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Busca GMV por marca e simulação de receita.</div>
+      </div>
     </div>
-
-    <!-- Módulo: Propostas Salvas -->
-    <div class="card home-card" onclick="go(5)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:28px 20px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
-      <div style="font-size:36px;margin-bottom:10px;">📁</div>
-      <div style="font-size:16px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Propostas Salvas</div>
-      <div style="font-size:12px;color:var(--gray);line-height:1.4;">Consultar, editar e gerenciar propostas armazenadas no repositório do time.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
+      <div class="card" onclick="go(8)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:30px;margin-bottom:8px;">🔍</div>
+        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Deep Dive 3S</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Funcionalidades, cross-sell e integrações em detalhe.</div>
+      </div>
+      <div class="card" onclick="go(9)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:30px;margin-bottom:8px;">📋</div>
+        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Pré-Vendas</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Formulário de diagnóstico pré-venda.</div>
+      </div>
+      <div class="card" onclick="go(10)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:30px;margin-bottom:8px;">👥</div>
+        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Base de Clientes</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Consulte os 235 clientes ativos da base 3S.</div>
+      </div>
     </div>
-
-    <!-- Módulo: Glossário (em breve) -->
-    <div class="card" style="text-align:center;padding:28px 20px;opacity:.5;cursor:default;">
-      <div style="font-size:36px;margin-bottom:10px;">📖</div>
-      <div style="font-size:16px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Glossário</div>
-      <div style="font-size:12px;color:var(--gray);line-height:1.4;">Terminologia 3S, módulos, funcionalidades e argumentação comercial.</div>
-      <div style="margin-top:8px;"><span style="font-size:10px;font-weight:600;color:var(--purple);background:rgba(233,32,46,.08);padding:3px 10px;border-radius:10px;">Em breve</span></div>
-    </div>
-
-    <!-- Módulo: Gamificação (em breve) -->
-    <div class="card" style="text-align:center;padding:28px 20px;opacity:.5;cursor:default;">
-      <div style="font-size:36px;margin-bottom:10px;">🏆</div>
-      <div style="font-size:16px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Gamificação</div>
-      <div style="font-size:12px;color:var(--gray);line-height:1.4;">Ranking do time, metas de propostas e desafios comerciais.</div>
-      <div style="margin-top:8px;"><span style="font-size:10px;font-weight:600;color:var(--purple);background:rgba(233,32,46,.08);padding:3px 10px;border-radius:10px;">Em breve</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;">
+      <div class="card" onclick="go(11)" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:24px 16px;" onmouseenter="this.style.borderColor='var(--purple)';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:30px;margin-bottom:8px;">🏆</div>
+        <div style="font-size:14px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Gamificação</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Quiz e desafio de objeções para treinar o time.</div>
+      </div>
     </div>
   </div>
 
-  <!-- Config GitHub (admin) -->
-  <details style="max-width:700px;margin:28px auto 0;" class="gh-cfg" id="ghCfgPanel">
-    <summary>
-      Configuração do Repositório
-      <span class="gh-status off" id="ghStatus">Desconectado</span>
-    </summary>
-    <div class="gh-fields">
-      <div class="fld"><label>Owner (usuário/org)</label><input type="text" id="gh_owner" placeholder="seu-usuario"></div>
-      <div class="fld"><label>Repositório</label><input type="text" id="gh_repo" placeholder="propostas-3s"></div>
-      <div class="fld"><label>Token (PAT)</label><input type="password" id="gh_token" placeholder="ghp_xxxxx"></div>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:12px;">
-      <button class="btn btn-p" style="font-size:11px;padding:6px 14px;" onclick="ghSaveConfig()">Salvar</button>
-      <button class="btn btn-o" style="font-size:11px;padding:6px 14px;" onclick="ghTestConnection()">Testar conexão</button>
-      <button class="btn btn-o" style="font-size:11px;padding:6px 14px;" onclick="ghInitRepo()">Inicializar repo</button>
-    </div>
-    <p style="font-size:10px;color:var(--gray);margin-top:8px;">Token com permissão <strong>public_repo</strong>. <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=3S+Propostas" target="_blank" style="color:var(--purple);">Criar token →</a></p>
-  </details>
+  <!-- Config GitHub (oculto — usa GH_DEFAULTS embutido) -->
+  <div id="ghCfgPanel" style="display:none;">
+    <input type="hidden" id="gh_owner"><input type="hidden" id="gh_repo"><input type="hidden" id="gh_token">
+    <span id="ghStatus"></span>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════ -->
-<!-- STEP 1 — IMPORTAR DOCUMENTOS           -->
+<!-- STEP 1 — DADOS DO CLIENTE              -->
 <!-- ══════════════════════════════════════ -->
 <div class="pnl" id="s1">
-  <h2 class="pnl-t">Importar Documentos</h2>
-  <p class="pnl-d">Anexe o relatório de pré-vendas e/ou o briefing da primeira reunião. A ferramenta vai extrair automaticamente os dados do prospect.</p>
+  <h2 class="pnl-t">Dados do Cliente</h2>
+  <p class="pnl-d">Preencha as informações principais do prospect. Campos marcados com * são obrigatórios.</p>
 
   <div class="card">
-    <div class="card-t"><span class="n">1</span> Fonte dos dados</div>
+    <div class="card-t"><span class="n">1</span> Informações obrigatórias</div>
+    <div class="r2">
+      <div class="fld"><label>Nome da marca *</label><input type="text" id="p_nome" value="" placeholder="Ex: Oakberry, Subway..." autocomplete="off"></div>
+      <div class="fld"><label>Restaurantes atuais *</label><input type="number" id="p_lojas" value="" min="1" placeholder="Qtd lojas"></div>
+    </div>
+    <div class="r2">
+      <div class="fld"><label>Meses de contrato *</label><input type="number" id="p_contrato" value="60" min="12" max="120"></div>
+      <div class="fld"><label>Meses de rollout *</label><input type="number" id="p_rollout" value="2" min="1" max="60"></div>
+    </div>
+    <div class="fld" style="margin-top:4px;">
+      <label>Responsável pela proposta *</label>
+      <div style="display:flex;gap:8px;" id="respWrap">
+        <select id="p_resp_select" style="flex:1;" onchange="onRespSelect(this)">
+          <option value="">Selecionar responsável</option>
+          <option value="__novo__">+ Novo responsável</option>
+        </select>
+        <input type="email" id="p_resp_input" placeholder="nome@ifood.com.br" style="flex:1;display:none;" autocomplete="email">
+        <button class="btn btn-o" id="p_resp_save_btn" style="display:none;font-size:11px;padding:6px 12px;white-space:nowrap;" onclick="salvarNovoResp()">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="n">2</span> Informações complementares</div>
+    <div class="r2">
+      <div class="fld"><label>Segmento</label><select id="p_seg"><option value="" selected>Selecionar segmento</option><option value="qsr">Quick Service (QSR)</option><option value="table">Table Service</option><option value="delivery">Delivery First</option><option value="cafe">Cafeteria / Doceria</option></select></div>
+      <div class="fld"><label>Culinária</label><select id="p_cul"><option value="" selected>Selecionar culinária</option><option value="hamburgueria">Hamburgueria</option><option value="pizzaria">Pizzaria</option><option value="japonesa">Japonesa / Sushi</option><option value="brasileira">Brasileira</option><option value="italiana">Italiana</option><option value="mexicana">Mexicana</option><option value="arabe">Árabe / Esfiha</option><option value="chinesa">Chinesa</option><option value="acai">Açaí / Bowls</option><option value="cafe">Cafeteria / Doceria</option><option value="sorvete">Sorvete / Gelato</option><option value="padaria">Padaria</option><option value="churrascaria">Churrascaria</option><option value="frutos_mar">Frutos do Mar</option><option value="vegana">Vegana / Saudável</option><option value="pastel">Pastelaria</option><option value="hotdog">Hot Dog</option><option value="marmita">Marmitaria</option><option value="cookie">Cookie / Confeitaria</option><option value="poke">Poke / Havaiana</option><option value="outra">Outra</option></select></div>
+    </div>
+    <div class="fld">
+      <label>Estado</label>
+      <select id="p_uf"><option value="" selected>Selecionar</option><option>SP</option><option>RJ</option><option>MG</option><option>RS</option><option>PR</option><option>SC</option><option>BA</option><option>CE</option><option>PE</option><option>GO</option><option>DF</option><option>PA</option><option>AM</option><option>ES</option><option>Outro</option></select>
+    </div>
+  </div>
+
+  <div id="s1ValidationMsg" style="display:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#DC2626;font-weight:500;"></div>
+
+  <div class="bbar" style="justify-content:space-between;">
+    <div class="step-flow">
+      <div class="sf-num sf-active">1</div>
+      <div class="sf-line"></div>
+      <div class="sf-num" style="opacity:.4;pointer-events:none;">2</div>
+      <div class="sf-line"></div>
+      <div class="sf-num" style="opacity:.4;pointer-events:none;">3</div>
+    </div>
+    <button class="btn btn-p" onclick="validarStep1()">Próximo →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 2 — IMPORTAR DOCUMENTOS & DORES  -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s2">
+  <h2 class="pnl-t">Complementar Proposta</h2>
+  <p class="pnl-d">Importe um relatório para preencher automaticamente ou configure manualmente as dores e o PDV atual.</p>
+
+  <div class="card">
+    <div class="card-t"><span class="n">1</span> Importar dados (opcional)</div>
+    <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Anexe o relatório de pré-vendas ou cole o texto para extrair automaticamente dores e informações adicionais.</p>
     <div class="tab-switch">
       <button class="tab-btn active" onclick="switchTab('upload')">Anexar Arquivos</button>
       <button class="tab-btn" onclick="switchTab('paste')">Colar Texto</button>
@@ -286,45 +467,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     </div>
   </div>
 
-  <div id="extractResult" style="display:none;">
-    <div class="card extract-preview">
-      <h3>Dados extraídos automaticamente</h3>
-      <p style="font-size:11px;color:var(--gray);margin-bottom:14px;">Confira os dados identificados. Eles serão preenchidos no Step 1 para revisão.</p>
-      <div class="ext-row"><span class="lbl">Marca</span><span class="val" id="ex_nome">—</span></div>
-      <div class="ext-row"><span class="lbl">Lojas</span><span class="val" id="ex_lojas">—</span></div>
-      <div class="ext-row"><span class="lbl">Segmento</span><span class="val" id="ex_seg">—</span></div>
-      <div class="ext-row"><span class="lbl">PDV atual</span><span class="val" id="ex_conc">—</span></div>
-      <div class="ext-row"><span class="lbl">Base BP</span><span class="val" id="ex_bp">—</span></div>
-      <div class="ext-dores" id="ex_dores"></div>
-    </div>
-  </div>
-
-  <div class="bbar">
-    <button class="btn btn-o" onclick="go(2)" style="font-size:12px;">Pular — preencher manualmente</button>
-    <button class="btn btn-p" id="btnExtract" onclick="applyExtracted();go(2)" style="display:none;">Aplicar e prosseguir →</button>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════ -->
-<!-- STEP 2 — CONFIGURAÇÃO DO PROSPECT     -->
-<!-- ══════════════════════════════════════ -->
-<div class="pnl" id="s2">
-  <h2 class="pnl-t">Configuração do Prospect</h2>
-  <p class="pnl-d">Revise os dados extraídos ou preencha manualmente. Selecione as dores identificadas.</p>
-
-  <div class="card">
-    <div class="card-t"><span class="n">1</span> Dados do Cliente</div>
-    <div class="r3">
-      <div class="fld"><label>Nome da marca</label><input type="text" id="p_nome" value="" placeholder="Preenchido automaticamente via docs" autocomplete="off"></div>
-      <div class="fld"><label>Segmento</label><select id="p_seg"><option value="qsr" selected>Quick Service (QSR)</option><option value="table">Table Service</option><option value="delivery">Delivery First</option><option value="cafe">Cafeteria / Doceria</option></select></div>
-      <div class="fld"><label>Estado</label><select id="p_uf"><option selected>SP</option><option>RJ</option><option>MG</option><option>Outro</option></select></div>
-    </div>
-    <div class="r3">
-      <div class="fld"><label>Restaurantes atuais</label><input type="number" id="p_lojas" value="200" min="1"></div>
-      <div class="fld"><label>Meses de contrato</label><input type="number" id="p_contrato" value="60" min="12" max="120"></div>
-      <div class="fld"><label>Meses de rollout</label><input type="number" id="p_rollout" value="2" min="1" max="60"></div>
-    </div>
-  </div>
+  <div id="extractResult" style="display:none;"></div>
 
   <div class="card">
     <div class="card-t"><span class="n">2</span> Dores identificadas</div>
@@ -351,7 +494,16 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     </div>
   </div>
 
-  <div class="bbar"><button class="btn btn-p" onclick="go(3)">Próximo: Calculadora →</button></div>
+  <div class="bbar" style="justify-content:space-between;">
+    <div class="step-flow">
+      <div class="sf-num sf-done" onclick="go(1)">1</div>
+      <div class="sf-line sf-line-done"></div>
+      <div class="sf-num sf-active">2</div>
+      <div class="sf-line"></div>
+      <div class="sf-num" style="opacity:.4;pointer-events:none;">3</div>
+    </div>
+    <button class="btn btn-p" onclick="go(3)">Próximo →</button>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════ -->
@@ -464,10 +616,19 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     </div>
   </div>
 
-  <div class="bbar">
-    <button class="btn btn-o" onclick="go(2)">← Voltar</button>
-    <button class="btn btn-p" onclick="genProposta();salvarPropostaAtual();">📄 Gerar Proposta</button>
-    <button class="btn btn-g" onclick="go(4)">Gerar Apresentação →</button>
+  <div class="bbar" style="justify-content:space-between;">
+    <div class="step-flow">
+      <div class="sf-num sf-done" onclick="go(1)">1</div>
+      <div class="sf-line sf-line-done"></div>
+      <div class="sf-num sf-done" onclick="go(2)">2</div>
+      <div class="sf-line sf-line-done"></div>
+      <div class="sf-num sf-active">3</div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-o" id="btnVoltarPropostas" onclick="go(5)" style="display:none;border-color:var(--purple);color:var(--purple);">← Propostas</button>
+      <button class="btn btn-p" onclick="genProposta();salvarPropostaAtual();">📄 Gerar Proposta</button>
+      <button class="btn btn-g" onclick="go(4)">Gerar Apresentação →</button>
+    </div>
   </div>
 </div>
 
@@ -508,15 +669,18 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 <!-- STEP 5 — PROPOSTAS SALVAS              -->
 <!-- ══════════════════════════════════════ -->
 <div class="pnl" id="s5">
-  <h2 class="pnl-t">Propostas Salvas</h2>
-  <p class="pnl-d">Consulte, edite e gerencie as propostas do time. <span style="font-size:11px;color:var(--gray);">Configuração do repositório na <a href="#" onclick="go(0);return false;" style="color:var(--purple);">Home</a>.</span></p>
+  <h2 class="pnl-t">Propostas</h2>
+  <p class="pnl-d">Crie novas propostas ou gerencie as existentes salvas pelo time.</p>
+
+  <div style="margin-bottom:16px;">
+    <button class="btn btn-p" onclick="novaPropostaFromMenu()" style="font-size:13px;padding:10px 24px;">📝 Nova Proposta</button>
+  </div>
 
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-      <div class="card-t" style="margin:0;">Propostas</div>
+      <div class="card-t" style="margin:0;">Propostas Salvas</div>
       <div style="display:flex;gap:6px;align-items:center;">
-        <button class="btn btn-o" style="font-size:11px;padding:6px 12px;" onclick="ghSync()" id="btnSync" title="Sincronizar com GitHub">↻ Sync</button>
-        <button class="btn btn-o" style="font-size:11px;padding:6px 12px;color:#EF4444;border-color:#EF4444;" onclick="clearPropostas()">Limpar local</button>
+        <button class="btn btn-o" style="font-size:11px;padding:6px 12px;" onclick="ghSync()" id="btnSync" title="Sincronizar propostas">↻ Sync</button>
       </div>
     </div>
     <div class="search-bar">
@@ -532,38 +696,196 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
   </div>
 </div>
 
-<!-- Modal de Edição -->
-<div class="modal-bg" id="editModal">
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 6 — BASE DE CONHECIMENTO        -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s6">
+  <div id="kbListView">
+    <h2 class="pnl-t">Base de Conhecimento</h2>
+    <p class="pnl-d">Explore os módulos do ecossistema 3S Checkout. Clique em um card para ver detalhes.</p>
+    <div class="kb-grid" id="kbGrid"></div>
+  </div>
+  <div id="kbDetailView" class="kb-detail">
+    <div class="kb-back" onclick="kbBackToList()">← Voltar à lista</div>
+    <div id="kbDetailContent"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 7 — CALCULADORA 3S (GMV)         -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s7">
+  <h2 class="pnl-t">Calculadora 3S</h2>
+  <p class="pnl-d">Busque o GMV de uma marca e simule a mensalidade estimada.</p>
+  <div class="card">
+    <div class="card-t">Buscar marca por GMV</div>
+    <div class="gmv-search-wrap">
+      <input type="text" id="gmvSearchInput" placeholder="Digite o nome da marca..." autocomplete="off" oninput="gmvAutocomplete(this.value)">
+      <div class="gmv-dropdown" id="gmvDropdown"></div>
+    </div>
+    <div class="gmv-result" id="gmvResult">
+      <div style="margin-top:16px;padding:20px;background:#F3F4F6;border-radius:10px;">
+        <div style="font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;">GMV Anual</div>
+        <div class="gmv-big" id="gmvBigValue">—</div>
+        <div class="gmv-label" id="gmvBrandName">—</div>
+      </div>
+      <div class="gmv-sim" id="gmvSimPanel">
+        <div style="font-size:12px;font-weight:700;color:var(--dark-gray);margin-bottom:10px;">Simulação de Mensalidade</div>
+        <div class="r2">
+          <div class="fld"><label>Qtd lojas estimada</label><input type="number" id="gmvSimLojas" value="10" min="1" onchange="gmvSimCalc()"></div>
+          <div class="fld"><label>Taxa (%)</label><input type="number" id="gmvSimTaxa" value="0.1" min="0" max="100" step="0.01" onchange="gmvSimCalc()"></div>
+        </div>
+        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+          <div style="text-align:center;padding:12px;background:#fff;border-radius:8px;"><div style="font-size:10px;color:var(--gray);">GMV/Loja/Mês</div><div style="font-size:16px;font-weight:800;color:var(--dark-gray);" id="gmvSimPerStore">—</div></div>
+          <div style="text-align:center;padding:12px;background:#fff;border-radius:8px;"><div style="font-size:10px;color:var(--gray);">Receita Estimada/Mês</div><div style="font-size:16px;font-weight:800;color:var(--green);" id="gmvSimRevenue">—</div></div>
+          <div style="text-align:center;padding:12px;background:#fff;border-radius:8px;"><div style="font-size:10px;color:var(--gray);">Receita/Loja/Mês</div><div style="font-size:16px;font-weight:800;color:var(--purple);" id="gmvSimPerStoreMo">—</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 8 — DEEP DIVE 3S                 -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s8">
+  <h2 class="pnl-t">Deep Dive 3S</h2>
+  <p class="pnl-d">Explore funcionalidades, produtos de cross-sell e integrações do ecossistema.</p>
+  <div class="dd-tabs">
+    <button class="dd-tab active" onclick="ddTab(0)">Funcionalidades</button>
+    <button class="dd-tab" onclick="ddTab(1)">Cross-Sell</button>
+    <button class="dd-tab" onclick="ddTab(2)">Integrações</button>
+  </div>
+  <div class="dd-content on" id="ddTab0"></div>
+  <div class="dd-content" id="ddTab1"></div>
+  <div class="dd-content" id="ddTab2"></div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 9 — PRÉ-VENDAS                   -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s9">
+  <h2 class="pnl-t">Pré-Vendas</h2>
+  <p class="pnl-d">Formulário de diagnóstico pré-venda para mapear a operação do prospect.</p>
+  <div class="card" style="padding:0;overflow:hidden;min-height:600px;">
+    <iframe id="preVendasFrame" src="https://docs.google.com/forms/d/e/1FAIpQLSe_placeholder/viewform?embedded=true" style="width:100%;height:700px;border:none;"></iframe>
+    <div style="padding:20px;text-align:center;">
+      <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Configure a URL do Google Forms no campo abaixo:</p>
+      <div class="fld"><input type="text" id="preVendasUrl" placeholder="Cole aqui a URL do Google Forms embedado..." onchange="updatePreVendasUrl(this.value)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 10 — BASE DE CLIENTES             -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s10">
+  <h2 class="pnl-t">Base de Clientes</h2>
+  <p class="pnl-d">Consulte os clientes ativos da 3S Checkout com busca, filtros e ordenação.</p>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+      <div class="card-t" style="margin:0;">Clientes 3S</div>
+      <div style="font-size:11px;color:var(--gray);" id="clCountInfo">—</div>
+    </div>
+    <div class="cl-filters">
+      <input type="text" id="clSearch" placeholder="Buscar por marca ou submarca..." oninput="clFilter()">
+      <select id="clStatusFilter" onchange="clFilter()"><option value="">Todos os status</option><option value="Em operação">Em operação</option><option value="Churn">Churn</option><option value="Hold">Hold</option><option value="Piloto">Piloto</option></select>
+      <select id="clCuisineFilter" onchange="clFilter()"><option value="">Todas as culinárias</option></select>
+    </div>
+    <div class="cl-table-wrap">
+      <table class="cl-table" id="clTable">
+        <thead><tr>
+          <th onclick="clSort('marca')">Marca <span class="sort-arrow">↕</span></th>
+          <th onclick="clSort('sub')">Submarca <span class="sort-arrow">↕</span></th>
+          <th onclick="clSort('status')">Status <span class="sort-arrow">↕</span></th>
+          <th onclick="clSort('contrato')">1º Contrato <span class="sort-arrow">↕</span></th>
+          <th onclick="clSort('mensal')">Mensal 2026 <span class="sort-arrow">↕</span></th>
+          <th>Módulos</th>
+        </tr></thead>
+        <tbody id="clBody"></tbody>
+      </table>
+    </div>
+    <div class="cl-pag">
+      <span id="clPagInfo">—</span>
+      <div style="display:flex;gap:6px;">
+        <button onclick="clPagPrev()" id="clPrevBtn" disabled>← Anterior</button>
+        <button onclick="clPagNext()" id="clNextBtn">Próximo →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- STEP 11 — GAMIFICAÇÃO                  -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s11">
+  <h2 class="pnl-t">Gamificação</h2>
+  <p class="pnl-d">Teste seus conhecimentos sobre o ecossistema 3S e pratique respostas a objeções.</p>
+  <div id="gmMenu" class="gm-menu">
+    <div class="gm-card" onclick="startQuiz()">
+      <div class="gm-icon">🧠</div>
+      <h4>Quiz 3S</h4>
+      <p>18 perguntas randomizadas sobre o ecossistema.</p>
+    </div>
+    <div class="gm-card" onclick="startObjChallenge()">
+      <div class="gm-icon">🎯</div>
+      <h4>Desafio de Objeções</h4>
+      <p>10 cenários com timer de 30 segundos.</p>
+    </div>
+  </div>
+  <div class="quiz-wrap" id="quizWrap">
+    <div class="card">
+      <div class="quiz-header">
+        <span class="quiz-progress" id="quizProgress">Pergunta 1 de 10</span>
+        <span class="quiz-score" id="quizScore">0 acertos</span>
+      </div>
+      <div class="quiz-q" id="quizQuestion">—</div>
+      <div class="quiz-opts" id="quizOpts"></div>
+      <div class="quiz-explain" id="quizExplain"></div>
+      <div class="quiz-next" id="quizNextWrap"><button class="btn btn-p" onclick="quizNext()">Próxima →</button></div>
+    </div>
+    <div class="quiz-final" id="quizFinal" style="display:none;">
+      <div class="card" style="padding:40px;">
+        <h3 id="quizFinalTitle">—</h3>
+        <p id="quizFinalText">—</p>
+        <div style="display:flex;gap:10px;justify-content:center;">
+          <button class="btn btn-p" onclick="startQuiz()">Jogar novamente</button>
+          <button class="btn btn-o" onclick="backToGmMenu()">← Voltar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="obj-wrap" id="objWrap">
+    <div class="card">
+      <div class="quiz-header">
+        <span class="quiz-progress" id="objProgress">Objeção 1 de 10</span>
+        <span class="quiz-score" id="objScore">0 acertos</span>
+      </div>
+      <div class="obj-timer" id="objTimer">30</div>
+      <div class="obj-q" id="objQuestion">—</div>
+      <div class="quiz-opts" id="objOpts"></div>
+      <div class="quiz-explain" id="objExplain"></div>
+      <div class="quiz-next" id="objNextWrap"><button class="btn btn-p" onclick="objNext()">Próxima →</button></div>
+    </div>
+    <div class="quiz-final" id="objFinal" style="display:none;">
+      <div class="card" style="padding:40px;">
+        <h3 id="objFinalTitle">—</h3>
+        <p id="objFinalText">—</p>
+        <div style="display:flex;gap:10px;justify-content:center;">
+          <button class="btn btn-p" onclick="startObjChallenge()">Jogar novamente</button>
+          <button class="btn btn-o" onclick="backToGmMenu()">← Voltar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal genérico -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
   <div class="modal-box">
-    <h3>Editar Proposta <button onclick="closeEditModal()">×</button></h3>
-    <input type="hidden" id="edit_idx">
-    <input type="hidden" id="edit_gh_path">
-    <input type="hidden" id="edit_gh_sha">
-    <div class="fld" style="margin-bottom:14px;"><label>Cliente</label><input type="text" id="edit_nome"></div>
-    <div class="fld-row">
-      <div class="fld"><label>Lojas</label><input type="number" id="edit_lj" min="1"></div>
-      <div class="fld"><label>Contrato (meses)</label><input type="number" id="edit_ct" min="1"></div>
-    </div>
-    <div class="fld-row">
-      <div class="fld"><label>Rollout (meses)</label><input type="number" id="edit_ro" min="0"></div>
-      <div class="fld"><label>Rebate (%)</label><input type="number" id="edit_rb" min="0" step="0.1"></div>
-    </div>
-    <div class="fld-row">
-      <div class="fld"><label>Setup da marca (R$)</label><input type="number" id="edit_setup" min="0" step="0.01"></div>
-      <div class="fld"><label>Implantação/loja (R$)</label><input type="number" id="edit_inst" min="0" step="0.01"></div>
-    </div>
-    <div class="fld-row">
-      <div class="fld"><label>Investimento mensal (R$)</label><input type="number" id="edit_invMensal" min="0" step="0.01"></div>
-      <div class="fld"><label>Investimento (meses)</label><input type="number" id="edit_invMeses" min="0"></div>
-    </div>
-    <div style="margin-top:8px;padding:12px;background:#F3F4F6;border-radius:8px;">
-      <div style="font-size:11px;font-weight:600;color:var(--gray);margin-bottom:4px;">Módulos</div>
-      <div style="font-size:12px;color:var(--dark-gray);" id="edit_mods_display"></div>
-    </div>
-    <div class="bbar" style="margin-top:18px;">
-      <button class="btn btn-o" onclick="closeEditModal()">Cancelar</button>
-      <button class="btn btn-p" onclick="saveEditModal()">Salvar alterações</button>
-    </div>
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
   </div>
 </div>
 
@@ -1091,6 +1413,18 @@ function refreshMods(){
 // ══════════════════════════════════════
 // HELPERS
 // ══════════════════════════════════════
+function formatDataProposta(val){
+  if(!val)return '—';
+  // Se for ISO string, formatar bonito
+  try{
+    const d=new Date(val);
+    if(!isNaN(d.getTime())){
+      return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})+' às '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    }
+  }catch(e){}
+  // Fallback: retornar o valor como string (ex: "09/09/2026")
+  return val;
+}
 function fmt(n){return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:2});}
 function fK(n){return Math.abs(n)>=1e6?'R$ '+(n/1e6).toFixed(1).replace('.',',')+' M':Math.abs(n)>=1e3?'R$ '+(n/1e3).toFixed(1).replace('.',',')+' k':fmt(n);}
 function fP(n){return(n*100).toFixed(1).replace('.',',')+' %';}
@@ -1187,16 +1521,214 @@ function syncParams(){
 }
 
 // ══════════════════════════════════════
+// RESPONSÁVEL — persistência de e-mails
+// ══════════════════════════════════════
+function getResponsaveis(){return JSON.parse(localStorage.getItem('resp_emails_3s')||'[]');}
+function saveResponsavel(email){
+  const arr=getResponsaveis();
+  if(!arr.includes(email)){arr.push(email);localStorage.setItem('resp_emails_3s',JSON.stringify(arr));}
+}
+function loadRespSelect(){
+  const sel=document.getElementById('p_resp_select');
+  if(!sel)return;
+  const current=sel.value;
+  // Limpar e reconstruir
+  sel.innerHTML='<option value="">Selecionar responsável</option>';
+  getResponsaveis().forEach(e=>{
+    const opt=document.createElement('option');opt.value=e;opt.textContent=e;sel.appendChild(opt);
+  });
+  const novoOpt=document.createElement('option');novoOpt.value='__novo__';novoOpt.textContent='+ Novo responsável';sel.appendChild(novoOpt);
+  if(current&&current!=='__novo__')sel.value=current;
+}
+function onRespSelect(sel){
+  const inp=document.getElementById('p_resp_input');
+  const btn=document.getElementById('p_resp_save_btn');
+  if(sel.value==='__novo__'){
+    inp.style.display='';btn.style.display='';inp.focus();
+  }else{
+    inp.style.display='none';btn.style.display='none';inp.value='';
+  }
+}
+function salvarNovoResp(){
+  const inp=document.getElementById('p_resp_input');
+  const email=inp.value.trim().toLowerCase();
+  if(!email||!email.includes('@')){showToast('Digite um e-mail válido','#EF4444');return;}
+  saveResponsavel(email);
+  loadRespSelect();
+  document.getElementById('p_resp_select').value=email;
+  inp.style.display='none';
+  document.getElementById('p_resp_save_btn').style.display='none';
+  inp.value='';
+  showToast('Responsável salvo!','#10B981');
+}
+function getResponsavelAtual(){
+  const sel=document.getElementById('p_resp_select');
+  if(sel.value==='__novo__'){
+    const inp=document.getElementById('p_resp_input');
+    return inp.value.trim().toLowerCase();
+  }
+  return sel.value;
+}
+
+// ══════════════════════════════════════
+// STEP 1 VALIDATION
+// ══════════════════════════════════════
+function validarStep1(){
+  const nome=document.getElementById('p_nome').value.trim();
+  const lojas=document.getElementById('p_lojas').value.trim();
+  const contrato=document.getElementById('p_contrato').value.trim();
+  const rollout=document.getElementById('p_rollout').value.trim();
+  const resp=getResponsavelAtual();
+  const erros=[];
+  if(!nome)erros.push('Nome da marca');
+  if(!lojas||parseInt(lojas)<1)erros.push('Restaurantes atuais');
+  if(!contrato||parseInt(contrato)<12)erros.push('Meses de contrato');
+  if(!rollout||parseInt(rollout)<1)erros.push('Meses de rollout');
+  if(!resp||!resp.includes('@'))erros.push('Responsável pela proposta');
+  const msgEl=document.getElementById('s1ValidationMsg');
+  if(erros.length){
+    msgEl.innerHTML='Preencha os campos obrigatórios: <strong>'+erros.join(', ')+'</strong>';
+    msgEl.style.display='block';
+    return;
+  }
+  msgEl.style.display='none';
+
+  // Verificar duplicata — se NÃO estamos editando uma proposta existente
+  if(!_editandoPropostaGh && _allPropostas.length>0){
+    const existente=_allPropostas.find(p=>(p.nome||'').toLowerCase()===nome.toLowerCase());
+    if(existente){
+      const idx=_allPropostas.indexOf(existente);
+      msgEl.innerHTML='Já existe uma proposta para <strong>"'+nome+'"</strong>. '+
+        '<button class="btn btn-o" style="font-size:11px;padding:5px 12px;margin-left:8px;vertical-align:middle;" onclick="carregarProposta('+idx+')">✏ Editar existente</button>'+
+        '<button class="btn btn-o" style="font-size:11px;padding:5px 12px;margin-left:4px;vertical-align:middle;" onclick="document.getElementById(\'s1ValidationMsg\').style.display=\'none\';go(2);">Criar nova mesmo assim</button>';
+      msgEl.style.display='block';
+      msgEl.style.background='#FEF3C7';
+      msgEl.style.borderColor='#F59E0B';
+      msgEl.style.color='#92400E';
+      return;
+    }
+  }
+
+  go(2);
+}
+
+// Carregar propostas ao iniciar para detecção de duplicatas no Step 1
+async function preloadPropostas(){
+  if(ghIsConfigured()){
+    try{
+      const ghP=await ghListPropostas();
+      if(ghP!==null&&ghP.length>0){_allPropostas=ghP;return;}
+    }catch(e){console.warn('preload error:',e);}
+  }
+  _allPropostas=getPropostas();
+}
+
+// ══════════════════════════════════════
 // NAVIGATION
 // ══════════════════════════════════════
 function go(n){
   document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
   document.getElementById('s'+n).classList.add('on');
-  [0,1,2,3,4,5].forEach(i=>{const d=document.getElementById('sd'+i);if(d){d.classList.remove('active','done');if(i<n)d.classList.add('done');if(i===n)d.classList.add('active');}});
+  // Atualizar menu ativo
+  document.querySelectorAll('.hdr-menu button').forEach(b=>b.classList.remove('hm-active'));
+  const hmMap={0:'hm0',1:'hm5',2:'hm5',3:'hm5',4:'hm5',5:'hm5',6:'hm6',7:'hm7',8:'hm8',9:'hm9',10:'hm10',11:'hm11'};
+  const hmBtn=document.getElementById(hmMap[n]);
+  if(hmBtn)hmBtn.classList.add('hm-active');
   window.scrollTo(0,0);
-  if(n===3){syncParams();refreshMods();calc();}
+  if(n===1)_editandoPropostaGh=null;
+  if(n===3){syncParams();refreshMods();calc();const vp=document.getElementById('btnVoltarPropostas');if(vp)vp.style.display=_editandoPropostaGh?'':'none';}
   if(n===4)genPres();
   if(n===5)renderPropostasSalvas();
+  if(n===6)renderKB();
+  if(n===10)clFilter();
+  if(n===11)backToGmMenu();
+}
+
+// Função para ir para "Nova Proposta" a partir do menu (sempre reseta)
+function novaPropostaFromMenu(){
+  resetFormulario();
+  go(1);
+}
+
+// ══════════════════════════════════════
+// RESET FORMULÁRIO (limpa tudo para nova proposta)
+// ══════════════════════════════════════
+function resetFormulario(){
+  // Step 1 — Dados do Cliente
+  document.getElementById('p_nome').value='';
+  document.getElementById('p_lojas').value='';
+  document.getElementById('p_contrato').value='60';
+  document.getElementById('p_rollout').value='2';
+  document.getElementById('p_seg').value='';
+  document.getElementById('p_cul').value='';
+  document.getElementById('p_uf').value='';
+  // Responsável — resetar select mas manter opções salvas
+  loadRespSelect();
+  document.getElementById('p_resp_select').value='';
+  document.getElementById('p_resp_input').style.display='none';
+  document.getElementById('p_resp_input').value='';
+  document.getElementById('p_resp_save_btn').style.display='none';
+  const msgEl=document.getElementById('s1ValidationMsg');
+  if(msgEl){msgEl.style.display='none';msgEl.style.background='';msgEl.style.borderColor='';msgEl.style.color='';}
+
+  // Step 2 — Upload / Dores / PDV
+  document.getElementById('p_conc').value='';
+  uploadedFiles.length=0;
+  const fl=document.getElementById('fileList');if(fl)fl.innerHTML='';
+  const er=document.getElementById('extractResult');if(er){er.style.display='none';er.innerHTML='';}
+  const pa=document.getElementById('pasteArea');if(pa)pa.value='';
+  extractedData={nome:'',lojas:0,seg:'',conc:'',dores:[],bpMatch:null};
+  DORES=[];
+  renderDores();
+
+  // Step 3 — Calculadora
+  document.getElementById('g_lojas').value='200';
+  document.getElementById('g_contrato').value='60';
+  document.getElementById('g_rollout').value='2';
+  document.getElementById('g_setup').value='3000';
+  document.getElementById('g_inst').value='1622';
+  document.getElementById('ix_setup').checked=false;
+  document.getElementById('ix_inst').checked=false;
+  document.getElementById('g_reb').value='0';
+  document.getElementById('g_inc_anual').value='0';
+  document.getElementById('g_inc_mes').value='0';
+  document.getElementById('g_dev').value='0';
+  document.getElementById('g_inv_meses').value='0';
+  document.getElementById('g_inv_mensal').value='0';
+
+  // Resetar módulos para default
+  ME=[
+    {id:'pdv_3',v:350,ix:false},
+    {id:'kds_3',v:160,ix:false},
+    {id:'totem_3',v:180,ix:false},
+    {id:'mkt_full',v:110,ix:false},
+    {id:'tef_1',v:140,ix:false},
+  ];
+  MA=[
+    {id:'kinesis',nm:'3S Connection — Kinesis',v:300,on:false,ix:false},
+    {id:'pos_3',nm:'POS Mobile — Até 3',v:100,on:false,ix:false},
+    {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,on:false,ix:false},
+    {id:'marca',nm:'Marca Adicional',v:100,on:false,ix:false},
+  ];
+  MX=[
+    {id:'3sgo',nm:'3SGo — App gestão',v:60,on:false,grp:'3S GO'},
+    {id:'bi_simples',nm:'3S BI — Simples',v:120,on:false,grp:'3S BI'},
+    {id:'bi_admin',nm:'3S BI — Administrador',v:220,on:false,grp:'3S BI'},
+    {id:'eats_d',nm:'3S Eats — Delivery',v:180,on:false,grp:'3S Eats'},
+    {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,on:false,grp:'3S Eats'},
+    {id:'eats_combo',nm:'3S Eats — Combo Super App',v:300,on:false,grp:'3S Eats'},
+  ];
+
+  // Fixe CRM
+  document.getElementById('eco_fixe').checked=false;
+  toggleFixe();
+  FIXE_MODS.forEach(m=>{const el=document.getElementById(m.id);if(el){el.checked=false;const chk=el.closest('.chk');if(chk)chk.classList.remove('sel');}});
+
+  // Limpar referência de edição
+  _editandoPropostaGh=null;
+
+  // Recarregar propostas (para duplicata funcionar)
+  preloadPropostas();
 }
 
 
@@ -1928,7 +2460,7 @@ function renderFileList(){
 function removeFile(i){
   uploadedFiles.splice(i,1);
   renderFileList();
-  if(uploadedFiles.length===0){document.getElementById('extractResult').style.display='none';document.getElementById('btnExtract').style.display='none';}
+  if(uploadedFiles.length===0){document.getElementById('extractResult').style.display='none';}
   else if(uploadedFiles.every(f=>f.status==='done')) runExtraction();
 }
 
@@ -1980,6 +2512,9 @@ function runExtraction(){
   // Populate DORES from extracted text
   DORES=matchDoresFromText(allText);
   renderDores();
+  // Auto-aplicar PDV e segmento ao extrair (sem esperar o botão "Aplicar")
+  if(extractedData.conc) document.getElementById('p_conc').value=extractedData.conc;
+  if(extractedData.seg) document.getElementById('p_seg').value=extractedData.seg;
   showExtracted();
 }
 
@@ -2231,34 +2766,41 @@ function showExtracted(){
   const el=document.getElementById('extractResult');
   if(!el)return;
 
+  // Nomes de PDV para exibir de forma legível
+  const concNomes={'linx':'Linx Degust','saipos':'Saipos','totvs':'TOTVS Chef','colibri':'Colibri','aloha':'Aloha (NCR)','teknisa':'Teknisa','nola':'Nola','gcom':'GCOM','ciss':'CISS'};
+
   const items=[];
-  if(d.nome) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Marca</span><span style="font-weight:600;color:var(--dark-gray);">'+d.nome+'</span>'+(d.bpMatch?'<span style="font-size:9px;background:#10B981;color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;">Match BP</span>':'')+'</div>');
-  if(d.lojas) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Lojas</span><span style="font-weight:600;color:var(--dark-gray);">'+d.lojas+'</span></div>');
+  // Marca NÃO mostrada aqui — já vem do Step 1
   if(d.seg) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Segmento</span><span style="font-weight:600;color:var(--dark-gray);">'+d.seg+'</span></div>');
-  if(d.conc) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">PDV atual</span><span style="font-weight:600;color:var(--dark-gray);">'+d.conc+'</span></div>');
+  if(d.conc) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">PDV atual</span><span style="font-weight:600;color:var(--dark-gray);">'+(concNomes[d.conc]||d.conc)+'</span></div>');
   if(DORES.length) items.push('<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);"><span style="font-size:10px;font-weight:600;color:var(--gray);width:100px;">Dores</span><span style="font-weight:600;color:var(--dark-gray);">'+DORES.length+' identificadas</span></div>');
 
   if(items.length){
-    el.innerHTML='<div class="card" style="border-left:3px solid var(--green);"><div class="card-t"><span class="n" style="background:var(--green);">✓</span> Dados extraídos</div>'+items.join('')+'<button class="btn btn-p" style="margin-top:14px;width:100%;" onclick="applyExtracted()">Aplicar dados e prosseguir →</button></div>';
+    el.innerHTML='<div class="card" style="border-left:3px solid var(--green);"><div class="card-t"><span class="n" style="background:var(--green);">✓</span> Dados extraídos</div>'+items.join('')+'<button class="btn btn-p" style="margin-top:14px;width:100%;" onclick="applyExtracted()">Aplicar dados extraídos</button></div>';
     el.style.display='block';
   } else {
-    el.innerHTML='<div class="card" style="border-left:3px solid var(--red);"><div class="card-t"><span class="n" style="background:var(--red);">!</span> Nenhum dado identificado</div><p style="font-size:12px;color:var(--gray);">Não foi possível extrair informações automaticamente. Prossiga para configurar manualmente.</p><button class="btn btn-o" style="margin-top:12px;" onclick="go(2)">Configurar manualmente →</button></div>';
+    el.innerHTML='<div class="card" style="border-left:3px solid var(--red);"><div class="card-t"><span class="n" style="background:var(--red);">!</span> Nenhum dado identificado</div><p style="font-size:12px;color:var(--gray);">Não foi possível extrair informações automaticamente. Preencha as dores e o PDV manualmente abaixo.</p></div>';
     el.style.display='block';
   }
 }
 
 function applyExtracted(){
   const d=extractedData;
-  if(d.nome) document.getElementById('p_nome').value=d.nome;
+  // NÃO sobrescrever nome da marca se já preenchido manualmente no Step 1
+  const nomeAtual=document.getElementById('p_nome').value.trim();
+  if(d.nome && !nomeAtual) document.getElementById('p_nome').value=d.nome;
   if(d.lojas){
-    document.getElementById('p_lojas').value=d.lojas;
-    document.getElementById('g_lojas').value=d.lojas;
+    const lojasAtual=document.getElementById('p_lojas').value.trim();
+    if(!lojasAtual || parseInt(lojasAtual)===0){
+      document.getElementById('p_lojas').value=d.lojas;
+      document.getElementById('g_lojas').value=d.lojas;
+    }
   }
   if(d.seg) document.getElementById('p_seg').value=d.seg;
   document.getElementById('p_conc').value=d.conc;
   // DORES already populated by runExtraction → matchDoresFromText
   renderDores();
-  go(2);
+  showToast('Dados extraídos aplicados!','#10B981');
 }
 
 
@@ -2429,7 +2971,7 @@ async function ghListPropostas(){
 // ══════════════════════════════════════
 // SALVAR PROPOSTA (LOCAL + GITHUB)
 // ══════════════════════════════════════
-function salvarPropostaAtual(){
+function buildPropostaObj(){
   const nome=document.getElementById('p_nome').value.trim()||'Cliente';
   const lj=gv('g_lojas'),ct=gv('g_contrato'),ro=gv('g_rollout');
   const setupVal=gv('g_setup'),instVal=gv('g_inst');
@@ -2449,11 +2991,29 @@ function salvarPropostaAtual(){
   let addTotal=0;
   MX.filter(m=>m.on).forEach(m=>{addTotal+=m.v;modulos.push(m.nm);});
 
-  const proposta={
+  const resp=getResponsavelAtual();
+  const seg=document.getElementById('p_seg').value;
+  const cul=document.getElementById('p_cul').value;
+  const uf=document.getElementById('p_uf').value;
+
+  // Salvar responsável para uso futuro
+  if(resp&&resp.includes('@'))saveResponsavel(resp);
+
+  const agora=new Date();
+  const dataFormatada=agora.toLocaleDateString('pt-BR');
+  const horaFormatada=agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  return {
     id:Date.now(),
-    data:new Date().toLocaleDateString('pt-BR'),
-    hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    data:dataFormatada,
+    hora:horaFormatada,
+    dataCriacao:agora.toISOString(),
+    dataModificacao:agora.toISOString(),
     nome,lj,ct,ro,
+    responsavel:resp,
+    segmento:seg,
+    culinaria:cul,
+    estado:uf,
     setup:setupVal,inst:instVal,ixSetup,ixInst,
     ms,addTotal,
     rb,incAnual,incMes,devVal,invMeses,invMensal,
@@ -2462,21 +3022,76 @@ function salvarPropostaAtual(){
     maOn:MA.map(m=>({id:m.id,on:m.on,ix:m.ix})),
     mxOn:MX.map(m=>({id:m.id,on:m.on})),
   };
+}
 
-  // Salvar local
+// Variável para rastrear se estamos editando uma proposta existente
+let _editandoPropostaGh=null; // {path, sha} se veio de "Editar Proposta"
+
+async function salvarPropostaAtual(){
+  const proposta=buildPropostaObj();
+  const nome=proposta.nome;
+
+  // Se estamos editando uma proposta existente (veio do "Editar"), atualizar ela
+  if(_editandoPropostaGh&&_editandoPropostaGh.path){
+    // Manter o id original e data de criação
+    if(_editandoPropostaGh.id) proposta.id=_editandoPropostaGh.id;
+    if(_editandoPropostaGh.dataCriacao) proposta.dataCriacao=_editandoPropostaGh.dataCriacao;
+    if(_editandoPropostaGh.data) proposta.data=_editandoPropostaGh.data;
+    proposta.dataModificacao=new Date().toISOString();
+
+    // Salvar local
+    const arr=getPropostas();
+    const localIdx=arr.findIndex(x=>x.id===proposta.id);
+    if(localIdx>=0){arr[localIdx]=proposta;}else{arr.unshift(proposta);}
+    savePropostas(arr);
+
+    // Atualizar no GitHub
+    if(ghIsConfigured()){
+      const cleaned={...proposta};
+      ghSaveFile(_editandoPropostaGh.path,cleaned,_editandoPropostaGh.sha,`Atualizar: ${nome}`)
+        .then(r=>{console.log('GitHub update OK:',r);showToast('Proposta atualizada no GitHub!','#10B981');})
+        .catch(e=>{console.error('GitHub update error:',e);showToast('Erro GitHub: '+e.message,'#EF4444');});
+    }
+    _editandoPropostaGh=null;
+    return;
+  }
+
+  // Verificar duplicata — existe proposta com mesmo nome?
+  if(ghIsConfigured()&&_allPropostas.length>0){
+    const existente=_allPropostas.find(p=>(p.nome||'').toLowerCase()===nome.toLowerCase());
+    if(existente&&existente._gh_path){
+      const atualizar=confirm(`Já existe uma proposta para "${nome}".\n\nDeseja atualizar a proposta existente?\n\n• OK = Atualizar existente\n• Cancelar = Criar nova versão`);
+      if(atualizar){
+        // Atualizar existente — preservar data de criação
+        proposta.id=existente.id||proposta.id;
+        if(existente.dataCriacao) proposta.dataCriacao=existente.dataCriacao;
+        if(existente.data) proposta.data=existente.data;
+        proposta.dataModificacao=new Date().toISOString();
+        const arr=getPropostas();
+        const localIdx=arr.findIndex(x=>x.id===proposta.id);
+        if(localIdx>=0){arr[localIdx]=proposta;}else{arr.unshift(proposta);}
+        savePropostas(arr);
+
+        const cleaned={...proposta};
+        ghSaveFile(existente._gh_path,cleaned,existente._gh_sha,`Atualizar: ${nome}`)
+          .then(r=>{console.log('GitHub update OK:',r);showToast('Proposta atualizada!','#10B981');})
+          .catch(e=>{console.error('GitHub update error:',e);showToast('Erro GitHub: '+e.message,'#EF4444');});
+        return;
+      }
+    }
+  }
+
+  // Criar nova proposta
   const arr=getPropostas();
   arr.unshift(proposta);
   savePropostas(arr);
 
-  // Salvar no GitHub (async, não bloqueia)
   if(ghIsConfigured()){
     const path=ghFileName(proposta);
     ghSaveFile(path,proposta,null,`Nova proposta: ${nome}`)
       .then(r=>{console.log('GitHub save OK:',r);showToast('Salvo no GitHub!','#10B981');})
       .catch(e=>{console.error('GitHub save error:',e);showToast('Erro GitHub: '+e.message,'#EF4444');});
   }
-
-  renderPropostasSalvas();
 }
 
 // ══════════════════════════════════════
@@ -2549,23 +3164,32 @@ function filterPropostas(){
     return;
   }
 
-  const srcLabel=_propostasSource==='github'?'<span style="background:#DBEAFE;color:#2563EB;font-size:9px;font-weight:600;padding:1px 6px;border-radius:8px;margin-left:4px;">GitHub</span>':'<span style="background:#F3F4F6;color:var(--gray);font-size:9px;font-weight:600;padding:1px 6px;border-radius:8px;margin-left:4px;">Local</span>';
-
-  grid.innerHTML=`<div style="font-size:10px;color:var(--gray);margin-bottom:8px;">${arr.length} proposta${arr.length>1?'s':''} ${srcLabel}</div>`+
+  grid.innerHTML=`<div style="font-size:10px;color:var(--gray);margin-bottom:8px;">${arr.length} proposta${arr.length>1?'s':''}</div>`+
     arr.map((p,i)=>{
       const ms=(p.ms||0).toFixed(2).replace('.',',');
-      const totalRede=((p.ms||0)*(p.lj||1)).toFixed(2).replace('.',',');
-      const ghInfo=p._gh_path?` data-gh-path="${p._gh_path}" data-gh-sha="${p._gh_sha}"`:'';
-      return `<div class="pg-card"${ghInfo}>
+      // Formatar datas
+      const dataCriacao=formatDataProposta(p.dataCriacao||p.data);
+      const dataModif=formatDataProposta(p.dataModificacao);
+      // Mostrar "Modificado" só se for diferente da criação
+      const mostrouModif=p.dataModificacao&&p.dataCriacao&&p.dataModificacao!==p.dataCriacao;
+      return `<div class="pg-card">
         <div class="pg-info">
           <div class="pg-nome">${p.nome||'—'}</div>
-          <div class="pg-meta">${p.data||''} ${p.hora||''} · ${p.lj||0} lojas · ${p.ct||0} meses · R$ ${ms}/loja · Rede: R$ ${totalRede}/mês</div>
-          <div class="pg-mods">${(p.modulos||[]).join(' · ')}</div>
+          <div class="pg-detail">
+            <div class="pg-detail-item">Mensalidade: <strong>R$ ${ms}</strong></div>
+            <div class="pg-detail-item">Tempo de contrato: <strong>${p.ct||0} meses</strong></div>
+            <div class="pg-detail-item">Qtd de lojas: <strong>${p.lj||0}</strong></div>
+          </div>
+          <div class="pg-dates">
+            <span>Criado: ${dataCriacao}</span>
+            ${mostrouModif?'<span>Modificado: '+dataModif+'</span>':''}
+            ${p.responsavel?'<span>Responsável: '+p.responsavel+'</span>':''}
+          </div>
         </div>
         <div class="pg-acts">
-          <button class="btn btn-o" onclick="editarProposta(${i})" title="Editar">✏ Editar</button>
-          <button class="btn btn-o" onclick="carregarProposta(${i})" title="Carregar na calculadora">↩ Carregar</button>
-          <button class="btn btn-o" style="color:#EF4444;border-color:#EF4444;" onclick="deletarProposta(${i})" title="Excluir">× Excluir</button>
+          <button class="btn btn-o" onclick="carregarProposta(${i})" title="Editar proposta">✏</button>
+          <button class="btn btn-o" onclick="downloadProposta(${i})" title="Baixar proposta">⬇</button>
+          <button class="btn btn-o" onclick="deletarProposta(${i})" title="Excluir proposta" style="color:#EF4444;border-color:#EF4444;">✕</button>
         </div>
       </div>`;
     }).join('');
@@ -2591,7 +3215,22 @@ async function ghSync(){
 function carregarProposta(idx){
   const p=_allPropostas[idx];if(!p)return;
 
+  // Guardar referência GitHub para atualizar ao salvar
+  if(p._gh_path&&p._gh_sha){
+    _editandoPropostaGh={path:p._gh_path,sha:p._gh_sha,id:p.id,dataCriacao:p.dataCriacao,data:p.data};
+  }else{
+    _editandoPropostaGh=null;
+  }
+
   document.getElementById('p_nome').value=p.nome;
+  document.getElementById('p_lojas').value=p.lj;
+  document.getElementById('p_contrato').value=p.ct;
+  document.getElementById('p_rollout').value=p.ro;
+  // Novos campos
+  if(p.segmento)document.getElementById('p_seg').value=p.segmento;
+  if(p.culinaria)document.getElementById('p_cul').value=p.culinaria;
+  if(p.estado)document.getElementById('p_uf').value=p.estado;
+  if(p.responsavel){loadRespSelect();document.getElementById('p_resp_select').value=p.responsavel;}
   document.getElementById('g_lojas').value=p.lj;
   document.getElementById('g_contrato').value=p.ct;
   document.getElementById('g_rollout').value=p.ro;
@@ -2609,66 +3248,36 @@ function carregarProposta(idx){
   if(p.maOn){p.maOn.forEach(s=>{const m=MA.find(x=>x.id===s.id);if(m){m.on=s.on;m.ix=s.ix;}});}
   if(p.mxOn){p.mxOn.forEach(s=>{const m=MX.find(x=>x.id===s.id);if(m){m.on=s.on;}});}
 
+  refreshMods();
   go(3);
+  showToast('Proposta "'+p.nome+'" carregada para edição','var(--dark-gray)');
 }
 
+// Modal de edição removido — edição agora é feita via carregarProposta → calculadora
+
 // ══════════════════════════════════════
-// EDITAR PROPOSTA (MODAL)
+// DOWNLOAD PROPOSTA (JSON resumo)
 // ══════════════════════════════════════
-function editarProposta(idx){
+function downloadProposta(idx){
   const p=_allPropostas[idx];if(!p)return;
-  document.getElementById('edit_idx').value=idx;
-  document.getElementById('edit_gh_path').value=p._gh_path||'';
-  document.getElementById('edit_gh_sha').value=p._gh_sha||'';
-  document.getElementById('edit_nome').value=p.nome||'';
-  document.getElementById('edit_lj').value=p.lj||0;
-  document.getElementById('edit_ct').value=p.ct||0;
-  document.getElementById('edit_ro').value=p.ro||0;
-  document.getElementById('edit_rb').value=p.rb||0;
-  document.getElementById('edit_setup').value=p.setup||0;
-  document.getElementById('edit_inst').value=p.inst||0;
-  document.getElementById('edit_invMensal').value=p.invMensal||0;
-  document.getElementById('edit_invMeses').value=p.invMeses||0;
-  document.getElementById('edit_mods_display').textContent=(p.modulos||[]).join(' · ')||'Nenhum módulo';
-  document.getElementById('editModal').classList.add('open');
-}
-function closeEditModal(){document.getElementById('editModal').classList.remove('open');}
-
-async function saveEditModal(){
-  const idx=parseInt(document.getElementById('edit_idx').value);
-  const p=_allPropostas[idx];if(!p)return;
-
-  // Atualizar campos
-  p.nome=document.getElementById('edit_nome').value.trim()||p.nome;
-  p.lj=parseFloat(document.getElementById('edit_lj').value)||p.lj;
-  p.ct=parseFloat(document.getElementById('edit_ct').value)||p.ct;
-  p.ro=parseFloat(document.getElementById('edit_ro').value)||0;
-  p.rb=parseFloat(document.getElementById('edit_rb').value)||0;
-  p.setup=parseFloat(document.getElementById('edit_setup').value)||0;
-  p.inst=parseFloat(document.getElementById('edit_inst').value)||0;
-  p.invMensal=parseFloat(document.getElementById('edit_invMensal').value)||0;
-  p.invMeses=parseFloat(document.getElementById('edit_invMeses').value)||0;
-
-  // Salvar no GitHub
-  const ghPath=document.getElementById('edit_gh_path').value;
-  const ghSha=document.getElementById('edit_gh_sha').value;
-  if(ghIsConfigured()&&ghPath&&ghSha){
-    try{
-      const cleaned={...p};delete cleaned._gh_path;delete cleaned._gh_sha;
-      const res=await ghSaveFile(ghPath,cleaned,ghSha,`Editar: ${p.nome}`);
-      p._gh_sha=res.content.sha;
-      showToast('Atualizado no GitHub!','#10B981');
-    }catch(e){showToast('Erro GitHub: '+e.message,'#EF4444');}
-  }else{
-    // Salvar local
-    const arr=getPropostas();
-    const localIdx=arr.findIndex(x=>x.id===p.id);
-    if(localIdx>=0){arr[localIdx]=p;savePropostas(arr);}
-    showToast('Atualizado localmente','#10B981');
-  }
-
-  closeEditModal();
-  filterPropostas();
+  // Carregar proposta na calculadora e gerar apresentação para download
+  // Opção rápida: exportar JSON com dados da proposta
+  const nome=p.nome||'proposta';
+  const fileName=nome.replace(/[^a-zA-Z0-9À-ɏ\s-]/g,'').replace(/\s+/g,'_')+'_proposta.json';
+  const exportData={...p};
+  delete exportData._gh_path;
+  delete exportData._gh_sha;
+  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
+  const url=window.URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.style.display='none';
+  a.href=url;
+  a.setAttribute('download',fileName);
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+  showToast('Proposta baixada!','#10B981');
 }
 
 // ══════════════════════════════════════
@@ -2720,6 +3329,499 @@ function showToast(msg,color){
 refreshMods();
 calc();
 ghLoadConfig();
+// Pré-carregar propostas para detecção de duplicatas no Step 1
+preloadPropostas();
+// Carregar select de responsáveis salvos
+loadRespSelect();
+
+// ══════════════════════════════════════
+// MÓDULO 6: BASE DE CONHECIMENTO
+// ══════════════════════════════════════
+const GLOSSARIO=[
+{id:"overview",name:"Visão Geral do Ecossistema 3S",icon:"◈",category:"Visão Geral",short_desc:"Um ecossistema integrado para cada frente do food service",what_is:"A 3S oferece uma plataforma integrada que cobre todas as frentes de uma operação de food service — do atendimento ao cliente até a gestão estratégica. Cada solução foi desenvolvida para eliminar gargalos, aumentar eficiência e gerar inteligência de negócio em tempo real.",benefits:[{title:"Atendimento",desc:"PDV, Totem de Autoatendimento e Mobile Delivery para capturar pedidos em qualquer canal."},{title:"Produção",desc:"KDS e Impressora para comunicar pedidos à cozinha com precisão e agilidade."},{title:"Conformidade",desc:"NFC-e para emissão fiscal digital, segura e em conformidade com a SEFAZ."},{title:"Gestão",desc:"Backoffice em nuvem para cardápio, estoque, finanças e relatórios administrativos."},{title:"Inteligência",desc:"TMA e Kinesis/BI para monitorar performance e tomar decisões baseadas em dados."}],pillars:["Atendimento","Produção","Conformidade","Gestão","Inteligência"],related:["pdv","kds","totem","mobile","nfce","backoffice","tma","kinesis"]},
+{id:"pdv",name:"PDV — Ponto de Venda",icon:"▣",category:"Checkout",short_desc:"Sistema de caixa central da operação",what_is:"O PDV é o coração operacional do negócio. É o sistema de caixa onde todos os pedidos são registrados, os clientes são cobrados e as notas fiscais são emitidas.",benefits:[{title:"Agilidade no Caixa",desc:"Interface otimizada para registro rápido de pedidos, com atalhos, combos e modifiers configuráveis."},{title:"Emissão Fiscal",desc:"Integração nativa com NFC-e e SAT, garantindo conformidade fiscal em todos os estados."},{title:"Totalmente Integrado",desc:"Conecta-se automaticamente ao KDS, backoffice, delivery e totens."}],related:["kds","backoffice","totem","mobile","nfce"]},
+{id:"kds",name:"KDS — Kitchen Display System",icon:"▤",category:"Produção",short_desc:"Tela digital que organiza o fluxo da cozinha",what_is:"O KDS é a tela digital instalada na cozinha que substitui definitivamente as comandas de papel. Ele exibe os pedidos em tempo real, organizados por prioridade, estação de preparo e tempo de espera.",benefits:[{title:"Menos erros",desc:"Elimina erros de leitura de comandas manuais e mantém o pedido visível para toda a equipe."},{title:"Mais velocidade",desc:"Reduz o tempo médio de atendimento (TMA) com prioridades e estações de preparo organizadas."},{title:"Integração automática",desc:"Integra-se automaticamente ao PDV, com histórico completo e alertas visuais para pedidos urgentes."}],related:["pdv","tma","mobile"]},
+{id:"totem",name:"Totem de Autoatendimento",icon:"▥",category:"Checkout",short_desc:"Pedidos e pagamentos feitos pelo próprio cliente",what_is:"O Totem de Autoatendimento permite que o próprio cliente realize seu pedido e efetue o pagamento de forma autônoma, sem depender de um atendente.",benefits:[{title:"Experiência do Cliente",desc:"Interface intuitiva com fotos dos produtos, personalização de pedidos e múltiplas formas de pagamento."},{title:"Redução de Custos",desc:"Diminui a dependência de caixas humanos em horários de pico."},{title:"Aumento do Ticket Médio",desc:"Sugestões automáticas de upsell e cross-sell durante o fluxo de pedido."}],related:["pdv","kinesis","backoffice"]},
+{id:"mobile",name:"Mobile Delivery & Impressora",icon:"▰",category:"Checkout",short_desc:"Venda e entrega em qualquer canal, com emissão fiscal",what_is:"O PDV Mobile transforma smartphones e tablets em terminais de venda completos, permitindo que operadores aceitem pedidos e gerenciem entregas diretamente pelo celular.",benefits:[{title:"Todos os canais em um só lugar",desc:"Pedidos de múltiplos canais ficam centralizados, com gestão de entregas e rotas."},{title:"Operação resiliente",desc:"Permite operação offline com sincronização automática quando a conexão é restabelecida."},{title:"Impressão integrada",desc:"Emissão de NFC-e, cupons fiscais e comandas de cozinha automáticas."}],related:["pdv","kds","nfce","backoffice"]},
+{id:"nfce",name:"NFC-e — Nota Fiscal Eletrônica",icon:"▧",category:"Conformidade",short_desc:"Emissão fiscal digital integrada à SEFAZ",what_is:"A NFC-e é a Nota Fiscal do Consumidor Eletrônica, a versão digital do cupom fiscal que autentica transações diretamente junto à SEFAZ.",benefits:[{title:"O que substitui",desc:"Elimina a necessidade de SAT e MFE, reduzindo custos com hardware fiscal."},{title:"Como funciona",desc:"O PDV envia a nota diretamente à SEFAZ via internet, recebendo autorização em segundos com QR Code."},{title:"Vantagem competitiva",desc:"Menor custo operacional, menos equipamentos físicos e total conformidade tributária."}],related:["pdv","mobile","backoffice"]},
+{id:"backoffice",name:"Backoffice — Gestão em Nuvem",icon:"▦",category:"Gestão",short_desc:"Centro de comando administrativo do negócio",what_is:"O Backoffice 3S é o centro de comando administrativo do negócio. Acessível de qualquer lugar via nuvem, concentra todas as informações críticas da operação.",benefits:[{title:"Cardápio Digital",desc:"Gerencie preços, categorias, fotos e disponibilidade de itens em tempo real."},{title:"Controle de Estoque",desc:"Monitore insumos, receba alertas de reposição e integre a ficha técnica para cálculo de custos."},{title:"Finanças & Relatórios",desc:"DRE, fluxo de caixa e relatórios de vendas por período, produto, canal e operador."}],related:["pdv","kinesis","tma"]},
+{id:"tma",name:"Gestão de Pedidos — TMA",icon:"◷",category:"Inteligência",short_desc:"Monitoramento do tempo de atendimento em tempo real",what_is:"O Tempo Médio de Atendimento (TMA) é monitorado em tempo real, do momento do pedido até a entrega ao cliente.",benefits:[{title:"Visão em tempo real",desc:"Acompanhe o atendimento do pedido à entrega e identifique rapidamente os pontos de atenção."},{title:"Menos gargalos",desc:"Alertas sobre pedidos atrasados permitem ações corretivas imediatas na operação."},{title:"Métricas acionáveis",desc:"Analise a performance por período, operador e estação."}],related:["kds","pdv","kinesis","backoffice"]},
+{id:"kinesis",name:"Kinesis / BI — Business Intelligence",icon:"◒",category:"Inteligência",short_desc:"Dados transformados em insights para a estratégia",what_is:"A plataforma de Business Intelligence da 3S transforma dados brutos em insights acionáveis com dashboards interativos e relatórios automáticos.",benefits:[{title:"Dashboards interativos",desc:"Visualize a performance do negócio em painéis claros e intuitivos."},{title:"Análises comparativas",desc:"Compare vendas, rentabilidade por produto e tendências."},{title:"Decisões baseadas em dados",desc:"Transforme dados operacionais em insights acionáveis para a gestão estratégica."}],related:["tma","backoffice","pdv","totem"]}
+];
+
+function renderKB(){
+  const g=document.getElementById('kbGrid');
+  g.innerHTML=GLOSSARIO.map(m=>`<div class="kb-card" onclick="kbShowDetail('${m.id}')"><div class="kb-icon">${m.icon}</div><div class="kb-cat">${m.category}</div><div class="kb-name">${m.name}</div><div class="kb-desc">${m.short_desc}</div></div>`).join('');
+  document.getElementById('kbListView').style.display='';
+  document.getElementById('kbDetailView').classList.remove('on');
+}
+function kbShowDetail(id){
+  const m=GLOSSARIO.find(x=>x.id===id);if(!m)return;
+  document.getElementById('kbListView').style.display='none';
+  const d=document.getElementById('kbDetailView');d.classList.add('on');
+  let html=`<div class="kb-section"><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;"><span style="font-size:28px;">${m.icon}</span><div><div style="font-size:10px;font-weight:600;color:var(--purple);text-transform:uppercase;">${m.category}</div><h3 style="font-size:18px;font-weight:800;color:var(--dark-gray);margin:0;">${m.name}</h3></div></div><p style="font-size:13px;color:var(--gray);line-height:1.6;">${m.what_is}</p></div>`;
+  html+=`<div class="kb-section"><h3>Benefícios</h3>${m.benefits.map(b=>`<div class="kb-benefit"><strong>${b.title}</strong><p>${b.desc}</p></div>`).join('')}</div>`;
+  if(m.related&&m.related.length){
+    html+=`<div class="kb-section"><h3>Módulos Relacionados</h3><div class="kb-pills">${m.related.map(r=>{const rm=GLOSSARIO.find(x=>x.id===r);return rm?`<span class="kb-pill" onclick="kbShowDetail('${r}')">${rm.icon} ${rm.name}</span>`:'';}).join('')}</div></div>`;
+  }
+  document.getElementById('kbDetailContent').innerHTML=html;
+}
+function kbBackToList(){document.getElementById('kbListView').style.display='';document.getElementById('kbDetailView').classList.remove('on');}
+
+// ══════════════════════════════════════
+// MÓDULO 7: CALCULADORA 3S (GMV)
+// ══════════════════════════════════════
+const GMV_TOP200=[
+["MCDONALDS",5646147544],["BURGER KING",2106048164],["SUBWAY",1322050679],["OUTBACK",565821594],["MADERO",550166968],["KFC",510801080],["HABIBS",473197583],["CHINA IN BOX",463822741],["PIZZA HUT",424445127],["SPOLETO",360102664],["COCO BAMBU",336249488],["MANA POKE",304940759],["EATOPIA",291763322],["BOBS",290385910],["ITALIN HOUSE",284432066],["DOMINOS",282203541],["VIP SUSHI",265625626],["OSNIR HAMBURGUER",262273800],["CACAU SHOW",218756136],["ALMANARA",198872938],["FORNERIA ORIGINAL",196637224],["GIRAFFAS",168510085],["SODIE",166320703],["O BURGUES",165360263],["POPEYES",162594576],["JERONIMO",161531167],["MILKY MOO",160936609],["CASA DE BOLOS",160584371],["BACIO DI LATTE",144092162],["CHIQUINHO SORVETES",141029833],["BOM BEEF BURGERS",139740633],["PAPILA POKE",139403212],["PIZZA PRIME",135467078],["GRUPO CESAR",130656358],["SUNOMONO",126968699],["MINI KALZONE",121008255],["MANIA DE CHURRASCO",120842143],["SUSHI RAO",111884601],["OAKBERRY",108534203],["LIG-LIG",105774561],["CAMARADA CAMARAO",105393880],["GREENJOY",104248811],["ESFIHA IMIGRANTES",103935101],["VIVENDA DO CAMARAO",101132484],["BULLGUER",100707374],["BIBI SUCOS",100166860],["EX-TOURO",96308897],["PIZZARIA CAMELO",96172481],["TT BURGER",93279820],["GENDAI",92675267],["MAMMA JAMMA",92478663],["RASCAL",91361127],["MEATZ",90202647],["FRANGO NO POTE",88236914],["THE BEST ACAI",83540960],["OGGI SORVETES",82563489],["NUMBER ONE CHICKEN",82020826],["BOALI",80964138],["FABRICA DE BOLO",79658974],["GRILETTO",73942536],["1900 PIZZERIA",73883733],["CABANA BURGER",73323907],["KONI",67729057],["MESTRE DO FRANGO",66008706],["SUSHILOKO",65789899],["HOME SUSHI HOME",65681171],["GRUPO MULT",64457524],["ABBRACCIO",63725664],["MONTANA GRILL",63639946],["BRAZ PIZZARIA",60168874],["SEU VIDAL",59263375],["DI ROMA PIZZA",57677389],["LA BRASA BURGUER",56505224],["LA GUAPA EMPANADAS",56255042],["TUTTI PIZZA",55854971],["BAGGIO",55703442],["LIFEBOX",54957710],["OLGA RI",54336744],["TATA SUSHI",54125560],["NINE NINE BURGER",53580152],["O MATUTO EXPRESS",52436212],["BKO",52236027],["DELIRIO TROPICAL",51983579],["GULA GULA",51917147],["SUSHI GO",51553112],["JSK BURGERS",51227862],["INSALATA",50210449],["QUIERO CAFE",48828548],["PIADINA ROMAGNOLA",48733710],["PIZZARIA ABARE",48075844],["KOPENHAGEN",47942766],["PECORINO TRATTORIA",47764343],["ALEMAO SP",46816760],["COMENDADOR BURGUER",46682094],["RAGAZZO",46164035],["GOKEI POKE",45887928],["LAHMAJUN",45117376],["TEMAKI FRY",45106208],["NANICA",44859054],["KRISPY KREME",44320065],["TACO BELL",43976873],["GALETOS",42858178],["ATLANTICO",42514257],["GURUME",41753396],["DON PEPE DI NAPOLI",41445853],["SUKIYA",40144537],["JOHNS BURGUER",39981147],["DOG KING",39139120],["CHEPPITOS",39086169],["AGUA DOCE CACHACARIA",38611710],["PIZZA LA BRACIERA",37981991],["TEMAKERIA CIA",37500488],["ITSUKI SUSHI",37213452],["ISABELA AKKARI",37024104],["BRAVA SUSHI",36959575],["LINDT",36845052],["ACHAPA",36665990],["KOTO BY MAKOTO",36235819],["VERIDIANA PIZZARIA",36097516],["SUSHI POR 0.99",35857801],["PARME PIZZA",35589755],["FRUTARIA SAO PAULO",35042769],["VILLA GRANO",34742874],["BOCA DO FORNO",34462645],["PASTEL E YAKISSOBA DA MI",34454137],["NATIVAS",34253739]
+];
+let _gmvSelected=null;
+function gmvAutocomplete(val){
+  const dd=document.getElementById('gmvDropdown');
+  if(!val||val.length<2){dd.classList.remove('open');return;}
+  const q=val.toUpperCase();
+  const matches=GMV_TOP200.filter(g=>g[0].includes(q)).slice(0,10);
+  if(!matches.length){dd.classList.remove('open');return;}
+  dd.innerHTML=matches.map((g,i)=>`<div class="gmv-item" onclick="gmvSelect(${i},'${g[0].replace(/'/g,"\\'")}',${g[1]})"><span class="gmv-brand">${g[0]}</span><span class="gmv-val">R$ ${(g[1]/1e6).toFixed(1)} Mi</span></div>`).join('');
+  dd.classList.add('open');
+}
+function gmvSelect(i,brand,val){
+  _gmvSelected={brand,val};
+  document.getElementById('gmvSearchInput').value=brand;
+  document.getElementById('gmvDropdown').classList.remove('open');
+  document.getElementById('gmvBigValue').textContent='R$ '+(val/1e6).toFixed(1)+' Mi';
+  document.getElementById('gmvBrandName').textContent=brand;
+  document.getElementById('gmvResult').classList.add('on');
+  gmvSimCalc();
+}
+function gmvSimCalc(){
+  if(!_gmvSelected)return;
+  const lojas=parseInt(document.getElementById('gmvSimLojas').value)||1;
+  const taxa=parseFloat(document.getElementById('gmvSimTaxa').value)||0;
+  const gmvMesLoja=_gmvSelected.val/12/lojas;
+  const receitaMes=_gmvSelected.val/12*(taxa/100);
+  const receitaLoja=receitaMes/lojas;
+  document.getElementById('gmvSimPerStore').textContent='R$ '+(gmvMesLoja/1e3).toFixed(1)+'k';
+  document.getElementById('gmvSimRevenue').textContent='R$ '+(receitaMes).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  document.getElementById('gmvSimPerStoreMo').textContent='R$ '+receitaLoja.toFixed(2).replace('.',',');
+}
+document.getElementById('gmvSearchInput').addEventListener('blur',()=>{setTimeout(()=>document.getElementById('gmvDropdown').classList.remove('open'),200);});
+
+// ══════════════════════════════════════
+// MÓDULO 8: DEEP DIVE 3S
+// ══════════════════════════════════════
+const DD_FUNCS=[
+  {title:"PDV Integrado",desc:"Sistema de caixa completo com registro de pedidos, cobrança, emissão fiscal e integração com todos os canais de venda.",detail:"O PDV 3S é o coração da operação, conectado nativamente ao KDS, Totem, Delivery e Backoffice. Funciona em modo híbrido (online e offline), com fallback automático para garantir continuidade mesmo sem internet."},
+  {title:"KDS — Kitchen Display",desc:"Tela digital na cozinha que organiza pedidos por estação, prioridade e tempo de espera.",detail:"Substitui comandas de papel. Exibe pedidos em tempo real com alertas visuais para atrasos, balanceamento entre estações e histórico completo. Reduz erros e otimiza o tempo médio de preparo."},
+  {title:"Totem de Autoatendimento",desc:"Pedido e pagamento autônomos pelo cliente, reduzindo filas e aumentando ticket médio.",detail:"Interface intuitiva com fotos, personalização, upsell automático e múltiplas formas de pagamento (PIX, cartão, voucher). Ideal para operações de alto fluxo."},
+  {title:"Hub Delivery Nativo",desc:"Integração direta com iFood, Rappi e Open Delivery em uma única plataforma.",detail:"Centraliza pedidos de todos os marketplaces sem intermediários. Gestão de entregas, rotas e status em tempo real. Sem custo extra de Deliverect ou similares."},
+  {title:"Backoffice em Nuvem",desc:"Centro de comando administrativo: cardápio, estoque, finanças e relatórios.",detail:"Acesso de qualquer lugar. Edição massiva de cardápio com push para todas as lojas, controle de estoque com fichas técnicas, DRE automatizado e relatórios por canal, produto e operador."},
+  {title:"NFC-e / SAT / MFE",desc:"Emissão fiscal digital integrada e em conformidade com a SEFAZ.",detail:"Suporte nativo a NFC-e, SAT (SP) e MFE. Elimina hardware fiscal desnecessário, reduz custos e garante compliance em todos os estados brasileiros."},
+  {title:"POS Mobile",desc:"Smartphones e tablets como terminais de venda completos.",detail:"Ideal para atendimento na mesa, eventos ou operações móveis. Funciona offline com sincronização automática. Aceita todos os meios de pagamento."},
+  {title:"TMA — Tempo Médio de Atendimento",desc:"Monitoramento em tempo real do pedido à entrega.",detail:"Identifica gargalos por estação, operador e período. Alertas de atraso permitem correções imediatas. Métricas históricas para evolução contínua do serviço."},
+  {title:"Kinesis / BI",desc:"Dashboards interativos e relatórios automáticos para gestão estratégica.",detail:"Transforma dados operacionais em insights acionáveis. Análises comparativas de vendas, rentabilidade, tendências e comportamento do cliente."},
+  {title:"Gestão Multi-loja",desc:"Cadastro centralizado com edição massiva e push em nuvem para toda a rede.",detail:"Controle de cardápio, preços e promoções por loja ou grupo. Relatórios consolidados da rede com drill-down por unidade. Implantação escalável."}
+];
+const DD_CROSS=[
+  {title:"3S Eats — Delivery Próprio",desc:"App com a marca do parceiro para delivery direto, sem comissão de marketplace.",detail:"Canal de venda próprio com app iOS e Android. O parceiro controla a experiência, o cardápio, as promoções e o relacionamento com o cliente. Integrado ao PDV e ao Backoffice.",tag:"Delivery"},
+  {title:"3S Eats — Pedido na Mesa",desc:"Cardápio digital com QR Code para pedido e pagamento na mesa.",detail:"O cliente escaneia o QR Code, navega pelo cardápio com fotos, faz o pedido e paga — tudo pelo celular. Reduz tempo de atendimento e libera a equipe para o serviço.",tag:"Mesa"},
+  {title:"3S Go — App de Gestão",desc:"App móvel para gestores acompanharem a operação de qualquer lugar.",detail:"Dashboard resumido, alertas de vendas, estoque e TMA. Permite acompanhar a performance da rede em tempo real pelo celular. Inclui pedidos e pagamentos via WhatsApp com cashback e fidelidade.",tag:"Gestão"},
+  {title:"3S Connection — Kinesis",desc:"Plataforma avançada de BI com relatórios customizáveis e alertas.",detail:"Vai além do BI básico com dashboards customizáveis, alertas parametrizáveis, relatórios agendados e integração com múltiplas fontes de dados.",tag:"BI"}
+];
+const DD_INTEGS=[
+  {title:"iFood",desc:"Integração nativa e certificada com o maior marketplace do Brasil.",detail:"Receba pedidos diretamente no PDV sem intermediários. Gestão de cardápio, preços e disponibilidade sincronizada."},
+  {title:"Rappi",desc:"Integração direta para receber pedidos Rappi no PDV.",detail:"Pedidos entram no fluxo normal do PDV e KDS automaticamente."},
+  {title:"Open Delivery",desc:"Protocolo aberto para integração com qualquer marketplace.",detail:"Conecte-se a marketplaces que suportam o protocolo Open Delivery sem desenvolvimento customizado."},
+  {title:"Everest",desc:"Integração com a plataforma Everest para gestão de compras e supply chain.",detail:"Automatize pedidos de compra com base no consumo real e fichas técnicas do Backoffice."},
+  {title:"iFood Pago",desc:"Solução de pagamentos integrada ao ecossistema iFood.",detail:"TEF nativo com taxas competitivas, conciliação automática e relatórios unificados."},
+  {title:"F360",desc:"Integração com a plataforma de gestão financeira F360.",detail:"Conciliação de vendas, pagamentos e taxas de forma automatizada."}
+];
+
+function ddTab(idx){
+  document.querySelectorAll('.dd-tab').forEach((t,i)=>{t.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.dd-content').forEach((c,i)=>{c.classList.toggle('on',i===idx);});
+}
+(function initDeepDive(){
+  // Funcionalidades
+  document.getElementById('ddTab0').innerHTML='<div class="dd-grid">'+DD_FUNCS.map(f=>`<div class="dd-card" onclick="openModal('${f.title.replace(/'/g,"\\'")}','${f.detail.replace(/'/g,"\\'")}')"><h4>${f.title}</h4><p>${f.desc}</p></div>`).join('')+'</div>';
+  // Cross-sell
+  document.getElementById('ddTab1').innerHTML='<div class="dd-grid">'+DD_CROSS.map(f=>`<div class="dd-card" onclick="openModal('${f.title.replace(/'/g,"\\'")}','${f.detail.replace(/'/g,"\\'")}')"><div style="display:flex;justify-content:space-between;align-items:start;"><h4>${f.title}</h4><span style="font-size:9px;font-weight:600;padding:3px 8px;border-radius:8px;background:rgba(233,32,46,.08);color:var(--purple);white-space:nowrap;">${f.tag}</span></div><p>${f.desc}</p></div>`).join('')+'</div>';
+  // Integrações
+  document.getElementById('ddTab2').innerHTML='<div class="dd-grid">'+DD_INTEGS.map(f=>`<div class="dd-card" onclick="openModal('${f.title.replace(/'/g,"\\'")}','${f.detail.replace(/'/g,"\\'")}')"><h4>${f.title}</h4><p>${f.desc}</p></div>`).join('')+'</div>';
+})();
+
+function openModal(title,body){
+  document.getElementById('modalContent').innerHTML=`<h3>${title}</h3><p>${body}</p>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+
+// ══════════════════════════════════════
+// MÓDULO 9: PRÉ-VENDAS
+// ══════════════════════════════════════
+function updatePreVendasUrl(url){
+  if(url&&url.includes('google.com/forms')){
+    document.getElementById('preVendasFrame').src=url;
+    showToast('URL do formulário atualizada!','#10B981');
+  }
+}
+
+// ══════════════════════════════════════
+// MÓDULO 10: BASE DE CLIENTES
+// ══════════════════════════════════════
+// [Marca,Submarca,Status,1oContrato,Mensal2025,Mensal2026,modulos]
+const CL_DATA=[
+["10 Pastéis","","Em operação","23/10/2025",390,390,"PDV+BackOffice,KDS,Totem"],
+["Açai Fusion","","Em operação","20/06/2023",500,500,"PDV+BackOffice,Integração Delivery,Totem"],
+["Adiser","BKF","Em operação","04/11/2019",4540,4540,"PDV+BackOffice,PDV Adicional,Integração Delivery,KDS,Totem,TMA"],
+["Afrika","","Em operação","06/01/2025",600,600,"PDV+BackOffice"],
+["Aizome","","Em operação","30/01/2026",null,630,""],
+["Ale Bakery","","Em operação","14/06/2021",400,400,"PDV+BackOffice,Integração Delivery,Totem"],
+["Alemão SP","","Em operação","21/05/2026",null,630,""],
+["Alife","Bastarda","Em operação","12/09/2023",435,435,"PDV+BackOffice,Integração Delivery"],
+["Alife","Casa Tua","Em operação","02/01/2024",435,435,"PDV+BackOffice,Integração Delivery"],
+["Ama.zo","","Churn","09/02/2026",500,500,"PDV+BackOffice,KDS"],
+["America","","Em operação","31/01/2024",730,730,"PDV+BackOffice,Integração Delivery,POS Mobile"],
+["American Cookies","","Em operação","11/03/2026",null,450,""],
+["Antaris Franchising","Boulangerie","Em operação","01/09/2022",450,450,"PDV+BackOffice,Integração Delivery,POS Mobile"],
+["Arabia","","Em operação","07/11/2022",550,550,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile,TMA"],
+["Babbo Américo","","Em operação","08/06/2026",null,630,""],
+["Bachir","","Em operação","08/12/2025",null,500,""],
+["Bar do Adão","","Em operação","28/01/2026",null,690,"PDV Adicional,POS Mobile,Totem"],
+["Bar do Alemão","","Em operação","22/07/2025",590,590,"PDV+BackOffice"],
+["Bar do Juarez","Bar do Juarez","Churn","15/05/2026",null,null,"PDV+BackOffice,POS Mobile,Impressora"],
+["Bella Gulla","","Em operação","18/03/2026",null,null,""],
+["Benjamin A Padaria","","Em operação","04/08/2025",605,null,"PDV+BackOffice,Integração Delivery,POS Mobile,Impressora,Kinesis/BI"],
+["Big Churros","","Em operação","25/04/2025",816,816,"PDV+BackOffice,Integração Delivery,KDS,Totem"],
+["Big Pig","","Churn","04/05/2023",600,655,"PDV+BackOffice,PDV Adicional,Integração Delivery,KDS"],
+["Bloom Fast Good","","Em operação","03/11/2022",650,750,"PDV+BackOffice,Integração Delivery,KDS,Totem"],
+["Boa Mesa","","Em operação","03/06/2024",480,480,"PDV+BackOffice,TMA"],
+["Bom Beef","Bom Beef Burger","Em operação","29/11/2021",590,622,"PDV+BackOffice,Integração Delivery"],
+["Bom Beef","Bom Beef Parrilla","Em operação","11/05/2023",744,774,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS,Kinesis/BI"],
+["Borger Burger","","Em operação","14/12/2022",524,650,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile"],
+["Boteco Paro","","Em operação","31/10/2023",880,880,"PDV+BackOffice"],
+["Boulangerie-Carioca","","Em operação","01/09/2022",450,450,"PDV+BackOffice,PDV Adicional,Impressora"],
+["Bullguer","","Em operação","28/10/2025",810,810,"PDV+BackOffice,Integração Delivery,Totem,Kinesis/BI"],
+["California Coffe","","Em operação","19/09/2025",600,600,""],
+["Camarões","","Churn","15/05/2025",900,900,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS"],
+["Chefe Naza","Chefe Naza","Em operação","27/03/2026",null,380,"PDV+BackOffice"],
+["Chefe Verge","","Em operação","17/06/2025",610,610,"PDV+BackOffice,Integração Delivery,KDS,Totem"],
+["Cheirinho Bom","","Churn","",null,300,"PDV+BackOffice,Integração Delivery"],
+["CIA TC","Sub Astor","Em operação","28/06/2022",896,896,"PDV+BackOffice"],
+["CIA TC","Braz","Em operação","28/06/2022",896,896,"PDV+BackOffice"],
+["CIA TC","Astor","Em operação","28/06/2022",896,896,"PDV+BackOffice"],
+["Clemente Burgers","","Em operação","22/02/2024",560,560,"PDV+BackOffice,Integração Delivery,Totem"],
+["Cour di Crema","","Em operação","28/09/2022",431,350,"PDV+BackOffice,Integração Delivery"],
+["De Nadai Dburger","BKF","Em operação","24/04/2017",602,602,"PDV+BackOffice,PDV Adicional,TMA"],
+["Dipz","","Em operação","01/10/2023",446,450,"PDV+BackOffice,Totem"],
+["Doce Aquarela","Doce Aquarela","Em operação","31/01/2026",null,550,"PDV+BackOffice,Totem"],
+["Doceria Zucker","","Em operação","21/08/2023",425,425,"PDV+BackOffice"],
+["Dog do Barto","","Churn","10/06/2024",740,740,"PDV+BackOffice,Integração Delivery,POS Mobile,Totem"],
+["Dogueria Perdizes","","Em operação","17/11/2022",350,350,"PDV+BackOffice,Integração Delivery"],
+["Emporio Brownie","","Em operação","26/05/2025",850,450,"Integração Delivery,KDS,Totem"],
+["Esfiha Imigrantes","","Em operação","12/08/2025",715,715,"PDV+BackOffice,POS Mobile,Kinesis/BI,TMA"],
+["Falafull","","Em operação","24/04/2022",680,600,"PDV+BackOffice,PDV Adicional,Integração Delivery,KDS,Totem"],
+["Fat Cow","","Em operação","07/12/2023",850,850,"PDV+BackOffice,Integração Delivery,POS Mobile,Totem"],
+["Fat Guys","","Em operação","04/12/2023",785,785,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS,Totem"],
+["Fire House","","Em operação","26/03/2025",500,500,"PDV+BackOffice,Integração Delivery,KDS,Totem"],
+["Formaggio","","Em operação","10/01/2026",859,859,"PDV+BackOffice,PDV Adicional,KDS,Totem"],
+["Frango no pote","","Churn","02/04/2025",630,630,"PDV+BackOffice,Integração Delivery,Totem"],
+["Fronteira","","Churn","12/07/2024",960,960,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS"],
+["Galeteria","","Em operação","10/10/2025",960,960,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS"],
+["General Prime Burger","","Churn","29/10/2024",430,430,"PDV+BackOffice,Integração Delivery"],
+["Go Coffee","","Em operação","01/09/2025",390,390,"PDV+BackOffice,Integração Delivery"],
+["GrindHouse","","Em operação","02/04/2025",470,470,"PDV+BackOffice"],
+["Grupo Antaris","Cuor di Crema","Em operação","20/07/2022",450,350,"PDV+BackOffice,Integração Delivery,POS Mobile"],
+["Grupo Attiva","Casa Fortunata","Em operação","14/06/2024",1044,1044,"PDV+BackOffice,POS Mobile,KDS"],
+["Grupo Attiva","Su","Em operação","07/11/2024",1044,1044,"PDV+BackOffice,POS Mobile,KDS"],
+["Grupo Attiva","Kitchin","Em operação","16/12/2024",1044,1044,"PDV+BackOffice,POS Mobile,KDS"],
+["Gua.co","","Em operação","12/08/2025",520,520,"PDV+BackOffice,Integração Delivery,POS Mobile,Kinesis/BI"],
+["Habib´s","","Em operação","11/08/2026",null,858,""],
+["Hi Poke","","Em operação","10/02/2023",550,550,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile,TMA"],
+["Horizonte","KFC","Em operação","20/08/2025",null,872,"PDV+BackOffice"],
+["Hot N Tender","","Em operação","23/05/2025",420,510,"PDV Adicional,Totem"],
+["Huggs Burger","","Em operação","07/12/2023",750,750,"PDV+BackOffice,Integração Delivery,KDS,Totem"],
+["IMC","Pizza Hut","Em operação","22/07/2024",580,996,"PDV+BackOffice"],
+["Jangada","","Em operação","16/06/2025",830,830,"PDV+BackOffice"],
+["Japa Bowl","","Em operação","25/10/2024",785,785,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS,Totem"],
+["Johnny Rockets","Mex Burritos","Em operação","06/04/2025",400,889,"PDV+BackOffice"],
+["Jonnhy Rockets","Kaori","Em operação","27/02/2024",850,889,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS"],
+["Jonnhy Rockets","Dickeys","Em operação","02/11/2025",830,889,"PDV+BackOffice,Integração Delivery,POS Mobile"],
+["Kao Poke","","Em operação","06/02/2024",740,740,"PDV+BackOffice,Integração Delivery,POS Mobile,Totem"],
+["Krispy Kreme","","Em operação","04/09/2025",1365,1365,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS,Totem,Kinesis/BI"],
+["Le'Entrecote de Paris","","Em operação","04/06/2025",520,430,"PDV+BackOffice,Integração Delivery,POS Mobile"],
+["Mado Burger","","Em operação","24/03/2023",904,904,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS,Totem,Kinesis/BI"],
+["Mama Mercedes","","Em operação","24/08/2022",400,400,"PDV+BackOffice,Integração Delivery,POS Mobile"],
+["Mamma Jamma","","Em operação","29/09/2025",996,1228,"PDV+BackOffice,Integração Delivery,KDS"],
+["Mariposa Gastrobar","","Em operação","10/11/2022",450,450,"PDV+BackOffice"],
+["Matuto","","Em operação","12/06/2026",null,530,"PDV+BackOffice,KDS,Totem"],
+["Melts","","Em operação","20/08/2022",450,450,"PDV+BackOffice"],
+["Meu freeze","","Em operação","12/12/2025",830,830,"PDV+BackOffice,PDV Adicional,KDS,Totem"],
+["Mic Burger","","Em operação","04/05/2023",500,500,"PDV+BackOffice"],
+["Minas Açai","","Em operação","11/07/2023",500,500,"PDV+BackOffice,Totem,TMA"],
+["Nakka Sushi","","Em operação","23/05/2023",430,430,"PDV+BackOffice,PDV Adicional,POS Mobile"],
+["Nanica","","Em operação","28/02/2023",400,442,"PDV+BackOffice,Integração Delivery"],
+["Nattu","","Em operação","06/04/2022",550,550,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS"],
+["Nectar","","Em operação","06/02/2025",1135,1196,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS,Totem"],
+["Nero","","Em operação","10/06/2025",475,475,"PDV+BackOffice,Totem"],
+["Notorious Fish","","Em operação","06/12/2023",680,680,"PDV+BackOffice,POS Mobile,KDS"],
+["O Burguês","","Em operação","05/01/2026",null,730,"PDV+BackOffice"],
+["Ohana","","Em operação","09/03/2026",650,650,"PDV+BackOffice,Integração Delivery,Totem"],
+["Olgari","","Em operação","15/09/2022",577,577,"PDV+BackOffice,Integração Delivery,KDS"],
+["Olive Garden","","Em operação","16/02/2025",540,820,"PDV+BackOffice,Integração Delivery"],
+["Olivers","","Churn","04/03/2024",820,820,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile,KDS"],
+["Outback","Outback","Em operação","21/03/2022",789,700,"PDV+BackOffice"],
+["Outback","Abbraccio","Em operação","21/03/2022",789,700,"PDV+BackOffice"],
+["Outback","Aussie Grill","Em operação","07/11/2022",789,700,"PDV+BackOffice"],
+["Papila Deli","","Em operação","16/06/2025",1150,1319,"PDV+BackOffice,Integração Delivery,Kinesis/BI"],
+["Parada 17","","Em operação","17/06/2021",676,676,"PDV+BackOffice,Integração Delivery,Totem"],
+["Patroni","","Em operação","16/06/2025",null,520,""],
+["Patties","Eatopia","Em operação","25/04/2024",450,450,"PDV+BackOffice,POS Mobile,KDS"],
+["Pauls Boutique","Pauls Boutique","Em operação","31/07/2025",990,990,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile,KDS,Kinesis/BI"],
+["Perdomo","","Em operação","20/05/2026",null,350,"PDV+BackOffice"],
+["Piadina","","Em operação","02/06/2023",800,800,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS,Totem,Kinesis/BI"],
+["Pop Haus","","Em operação","25/03/2022",630,630,"PDV+BackOffice,Integração Delivery,Totem"],
+["Popeyes","","Em operação","10/10/2025",280,279,"PDV+BackOffice"],
+["Rascal","Cortês","Em operação","23/10/2022",713,713,"PDV+BackOffice"],
+["Rascal","Più","Em operação","23/10/2022",650,713,"PDV+BackOffice"],
+["Rascal","Ráscal","Em operação","23/10/2022",713,713,"PDV+BackOffice"],
+["Roister","","Em operação","09/03/2026",null,2709,"PDV+BackOffice,POS Mobile,Impressora,Kinesis/BI"],
+["Salu restaurante","","Em operação","20/01/2026",null,690,"PDV+BackOffice"],
+["Sampa Foods","","Em operação","15/12/2024",670,670,"PDV+BackOffice,PDV Adicional,Integração Delivery"],
+["Sauce Patale","","Em operação","07/11/2024",465,465,"PDV+BackOffice,Integração Delivery"],
+["Si Senõr","","Em operação","28/05/2026",null,580,"PDV+BackOffice,POS Mobile,Impressora"],
+["Spaghettone","","Em operação","09/12/2024",970,510,"PDV+BackOffice,KDS,Totem,Kinesis/BI"],
+["Sucão","","Em operação","16/03/2024",771,561,"PDV+BackOffice,PDV Adicional,Integração Delivery,KDS,Totem,Kinesis/BI"],
+["Sukiya","","Em operação","14/02/2025",1310,810,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile,KDS,TMA"],
+["Taco Bell","","Em operação","13/05/2024",1620,795,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile,Impressora,KDS,Totem,Kinesis/BI"],
+["Teus","","Em operação","27/06/2025",840,840,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS,Kinesis/BI"],
+["Uncle Joes","","Em operação","07/03/2023",400,400,"PDV+BackOffice,KDS"],
+["Usina de Massas","Massas","Em operação","06/01/2026",560,560,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile"],
+["Usina de Massas","Usina de massas","Em operação","12/02/2026",null,784,"PDV+BackOffice,PDV Adicional,Integração Delivery,POS Mobile,Impressora,Totem"],
+["Vinil Burger","","Em operação","09/12/2022",700,700,"PDV+BackOffice,Integração Delivery,KDS,Totem,TMA"],
+["We Coffee","","Em operação","19/03/2023",600,600,"PDV+BackOffice,Integração Delivery,Totem"],
+["Yokocho","","Em operação","29/06/2025",831,831,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS"],
+["Zamp","Burger King","Em operação","09/02/2017",286,286,"PDV+BackOffice,Integração Delivery,TMA"],
+["Zucco","","Em operação","20/01/2026",null,860,"PDV+BackOffice,Integração Delivery,POS Mobile,KDS"],
+["ZAMP","Popeyes","Em operação","10/10/2025",280,279,"PDV+BackOffice"]
+];
+const CUISINE_MAP={"10 Pastéis":"Pastelaria","Adiser":"Lanchonete","Afrika":"Hamburgueria","Aizome":"Japonesa","Albis":"Árabe","Ale Bakery":"Doceria","Alemão SP":"Brasileira","Alife":"Grupo","Ama.zo":"Peruana","America":"Brasileira","American Cookies":"Doceria","Arabia":"Árabe","Babbo Américo":"Italiana","Bachir":"Sorveteria","Bar do Adão":"Bar/Boteco","Bar do Alemão":"Bar/Boteco","Bar do Juarez":"Bar/Boteco","Bella Gulla":"Italiana","Bellini":"Italiana","Benjamin A Padaria":"Doceria","Big Churros":"Churros","Big Pig":"Frango","Bloom Fast Good":"Saudável","Boa Mesa":"Frutos do Mar","Boali":"Brasileira","Bom Beef":"Hamburgueria","Borger Burger":"Hamburgueria","Boteco Paro":"Bar/Boteco","Boulangerie-Carioca":"Padaria","Bullguer":"Hamburgueria","California Coffe":"Cafeteria","Camarões":"Frutos do Mar","CIA TC":"Grupo","Clemente Burgers":"Hamburgueria","Cour di Crema":"Italiana","De Nadai Dburger":"Hamburgueria","Dipz":"Doceria","Doce Aquarela":"Doceria","Doceria Zucker":"Doceria","Dog do Barto":"Bar/Boteco","Dogueria Perdizes":"Hot Dog","Emporio Brownie":"Doceria","Esfiha Imigrantes":"Árabe","Falafull":"Mexicana","Fat Cow":"Hamburgueria","Fat Guys":"Hamburgueria","Fire House":"Hamburgueria","Formaggio":"Italiana","Frango no pote":"Frango","Fronteira":"Hamburgueria","Galeteria":"Frango","General Prime Burger":"Hamburgueria","Go Coffee":"Cafeteria","GrindHouse":"Hamburgueria","Grupo Antaris":"Grupo","Grupo Attiva":"Grupo","Gua.co":"Mexicana","Habib´s":"Árabe","Halipar":"Árabe","Hi Poke":"Poke","Horizonte":"Bar/Boteco","Hot N Tender":"Hot Dog","Huggs Burger":"Hamburgueria","IMC":"Grupo","Jangada":"Bar/Boteco","Japa Bowl":"Japonesa","Johnny Rockets":"Hamburgueria","Jonnhy Rockets":"Hamburgueria","Kao Poke":"Poke","Krispy Kreme":"Doceria","La Braciera":"Pizzaria","La Guapa":"Empanadas","Le'Entrecote de Paris":"Steakhouse","Mado Burger":"Hamburgueria","Mama Mercedes":"Italiana","Mamma Jamma":"Hamburgueria","Mariposa Gastrobar":"Bar/Boteco","Matuto":"Brasileira","Melts":"Doceria","Meu freeze":"Doceria","Mic Burger":"Hamburgueria","Minas Açai":"Açaí","Nakka Sushi":"Japonesa","Nanica":"Saudável","Nattu":"Frango","Nectar":"Saudável","Nero":"Italiana","Notorious Fish":"Frutos do Mar","O Burguês":"Hamburgueria","Ohana":"Japonesa","Olgari":"Saudável","Olive Garden":"Italiana","Olivers":"Saudável","Outback":"Steakhouse","Papila Deli":"Multi-culinária","Parada 17":"Hamburgueria","Patroni":"Pizzaria","Patties":"Hamburgueria","Piadina":"Italiana","Pop Haus":"Bar/Boteco","Popeyes":"Frango","Rascal":"Italiana","Roister":"Bar/Restaurante","Salu restaurante":"Brasileira","Sampa Foods":"Grupo","Sauce Patale":"Hamburgueria","Si Senõr":"Mexicana","Spaghettone":"Italiana","Sucão":"Sucos","Sukiya":"Japonesa","Taco Bell":"Mexicana","Teus":"Brasileira","Uncle Joes":"Hamburgueria","Usina de Massas":"Italiana","Vinil Burger":"Hamburgueria","We Coffee":"Cafeteria","Yokocho":"Japonesa","Zamp":"Grupo","Zucco":"Italiana","ZAMP":"Grupo"};
+
+let _clFiltered=[];
+let _clPage=0;
+const CL_PER_PAGE=25;
+let _clSortField='marca';
+let _clSortAsc=true;
+
+(function initClCuisineFilter(){
+  const cuisines=[...new Set(Object.values(CUISINE_MAP))].sort();
+  const sel=document.getElementById('clCuisineFilter');
+  cuisines.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+})();
+
+function clFilter(){
+  const q=(document.getElementById('clSearch').value||'').toLowerCase();
+  const st=document.getElementById('clStatusFilter').value;
+  const cu=document.getElementById('clCuisineFilter').value;
+  _clFiltered=CL_DATA.filter(r=>{
+    if(q&&!r[0].toLowerCase().includes(q)&&!r[1].toLowerCase().includes(q))return false;
+    if(st&&r[2]!==st)return false;
+    if(cu){const cuisine=CUISINE_MAP[r[0]]||'';if(cuisine!==cu)return false;}
+    return true;
+  });
+  clSortData();
+  _clPage=0;
+  clRender();
+}
+function clSortData(){
+  const fMap={marca:0,sub:1,status:2,contrato:3,mensal:5};
+  const fi=fMap[_clSortField]??0;
+  _clFiltered.sort((a,b)=>{
+    let va=a[fi],vb=b[fi];
+    if(va===null||va===undefined)va='';
+    if(vb===null||vb===undefined)vb='';
+    if(typeof va==='number'&&typeof vb==='number')return _clSortAsc?va-vb:vb-va;
+    return _clSortAsc?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va));
+  });
+}
+function clSort(field){
+  if(_clSortField===field)_clSortAsc=!_clSortAsc;
+  else{_clSortField=field;_clSortAsc=true;}
+  document.querySelectorAll('.cl-table th').forEach(th=>th.classList.remove('sorted'));
+  clFilter();
+}
+function clRender(){
+  const start=_clPage*CL_PER_PAGE;
+  const page=_clFiltered.slice(start,start+CL_PER_PAGE);
+  const body=document.getElementById('clBody');
+  body.innerHTML=page.map(r=>{
+    const stClass=r[2]==='Em operação'?'op':r[2]==='Churn'?'churn':r[2]==='Hold'?'hold':'piloto';
+    const mods=r[6]?r[6].split(',').map(m=>`<span class="cl-mod">${m.trim()}</span>`).join(''):'—';
+    const mensal=r[5]!=null?'R$ '+r[5].toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,'.'):'—';
+    return `<tr><td><strong>${r[0]}</strong></td><td>${r[1]||'—'}</td><td><span class="cl-status ${stClass}">${r[2]}</span></td><td>${r[3]||'—'}</td><td>${mensal}</td><td><div class="cl-mods">${mods}</div></td></tr>`;
+  }).join('');
+  const total=_clFiltered.length;
+  const totalPages=Math.ceil(total/CL_PER_PAGE);
+  document.getElementById('clPagInfo').textContent=`${start+1}–${Math.min(start+CL_PER_PAGE,total)} de ${total}`;
+  document.getElementById('clPrevBtn').disabled=_clPage===0;
+  document.getElementById('clNextBtn').disabled=_clPage>=totalPages-1;
+  document.getElementById('clCountInfo').textContent=total+' clientes';
+}
+function clPagPrev(){if(_clPage>0){_clPage--;clRender();}}
+function clPagNext(){const totalPages=Math.ceil(_clFiltered.length/CL_PER_PAGE);if(_clPage<totalPages-1){_clPage++;clRender();}}
+
+// ══════════════════════════════════════
+// MÓDULO 11: GAMIFICAÇÃO
+// ══════════════════════════════════════
+const QUIZ_QUESTIONS=[
+{q:"O que é o PDV na operação 3S?",o:["O sistema central de caixa para registrar pedidos, cobrar e emitir notas","Uma tela exclusiva da cozinha","Um programa de fidelidade","Um painel de BI"],c:0,e:"O PDV é o coração operacional: registra pedidos, processa a cobrança e participa da emissão fiscal."},
+{q:"Qual é o papel principal do KDS?",o:["Organizar pedidos na cozinha em tempo real por estação, prioridade e espera","Emitir NFC-e diretamente para o cliente","Gerenciar contratos comerciais","Substituir o backoffice"],c:0,e:"O KDS exibe pedidos na produção, substitui comandas de papel e ajuda a equipe a enxergar prioridades e tempos."},
+{q:"O que o Totem de Autoatendimento permite?",o:["Que o cliente faça o pedido e pague de forma autônoma","Que o gestor acompanhe apenas o CMV","Que a cozinha altere o estoque","Que o operador emita relatórios fiscais"],c:0,e:"O Totem permite pedido e pagamento pelo próprio cliente, com interface de produtos e formas de pagamento."},
+{q:"O que é NFC-e?",o:["Nota Fiscal do Consumidor Eletrônica, autorizada junto à SEFAZ","Um dispositivo de impressão de comandas","Um canal de delivery próprio","Uma ferramenta de gestão de fila"],c:0,e:"A NFC-e é o documento fiscal digital enviado pelo PDV à SEFAZ para autorização."},
+{q:"Qual problema o Backoffice 3S ajuda a resolver?",o:["Concentrar cardápio, estoque, finanças e relatórios em um painel na nuvem","Exibir pedidos apenas em uma estação da cozinha","Fazer somente o pagamento no salão","Criar campanhas sem dados da operação"],c:0,e:"O Backoffice funciona como centro de comando administrativo, com acesso em nuvem."},
+{q:"O que o TMA monitora?",o:["O tempo de atendimento, do pedido à entrega, para identificar gargalos","Apenas a rentabilidade por produto","Somente o cadastro de ingredientes","A quantidade de totens instalados"],c:0,e:"TMA é Tempo Médio de Atendimento e ajuda a acompanhar a jornada do pedido."},
+{q:"Para que serve o Kinesis / BI?",o:["Transformar dados operacionais em dashboards e insights para decisão","Registrar pedidos no caixa","Imprimir cupons fiscais","Controlar uma única estação da cozinha"],c:0,e:"Kinesis / BI oferece dashboards, relatórios e análises comparativas."},
+{q:"Qual descrição representa o Mobile Delivery da 3S?",o:["Centraliza canais de delivery e permite operar pedidos pelo celular","É uma tela fixa exclusiva da cozinha","É um substituto do documento fiscal","É um módulo de análise de margem"],c:0,e:"O PDV Mobile transforma smartphones e tablets em terminais de venda."},
+{q:"Qual é o valor central de um ecossistema integrado 3S?",o:["Conectar o fluxo do pedido à entrega e da operação à estratégia","Usar uma ferramenta diferente e isolada para cada etapa","Eliminar a necessidade de entender a operação","Focar somente na emissão fiscal"],c:0,e:"A proposta de valor está na continuidade das informações entre atendimento, produção, gestão e inteligência."},
+{q:"Na segmentação por lojas, qual definição está correta para P?",o:["Até 30 lojas","De 31 a 60 lojas","Mais de 60 lojas","Exatamente 60 lojas"],c:0,e:"P representa operações com até 30 lojas."},
+{q:"Na segmentação por lojas, qual definição está correta para M?",o:["Até 10 lojas","De 31 a 60 lojas","Mais de 100 lojas","Somente uma loja"],c:1,e:"M representa operações com mais de 30 e até 60 lojas."},
+{q:"Na segmentação por lojas, qual definição está correta para G?",o:["Até 30 lojas","Até 60 lojas","Mais de 60 lojas","Entre 31 e 40 lojas"],c:2,e:"G representa operações com mais de 60 lojas."},
+{q:"Em uma conversa competitiva, qual abordagem é mais consistente com a venda consultiva?",o:["Mapear a operação e demonstrar como a integração 3S responde às dores","Fazer ataques não validados à concorrência","Discutir apenas preço antes de entender a necessidade","Prometer funcionalidades não confirmadas"],c:0,e:"A diferenciação deve partir da realidade do parceiro, conectando dores, solução e evidências."},
+{q:"Na comparação de Quick Service com Linx e GCOM, o que deve guiar a conversa?",o:["As necessidades de velocidade, integração e controle","Uma afirmação de que toda concorrência falha","Apenas a quantidade de telas do produto","Uma promessa de resultado sem diagnóstico"],c:0,e:"A batalha de Quick Service deve ser pragmática: entender o contexto e relacionar a 3S aos requisitos."},
+{q:"Na comparação de Mesa com Colibri e Teknisa, qual é uma boa prática?",o:["Explorar o fluxo de atendimento, produção, pagamento e gestão que o parceiro precisa","Ignorar o modelo de atendimento do restaurante","Comparar somente logos","Assumir que o sistema atual não tem nenhum valor"],c:0,e:"A comparação para Mesa deve ser contextual, relacionando o fluxo completo."},
+{q:"Quando faz sentido apresentar o 3S Eats?",o:["Quando o parceiro busca um canal de delivery próprio com sua marca","Quando quer apenas emissão de NFC-e","Quando precisa somente de uma tela de cozinha","Quando o objetivo é substituir um relatório de BI"],c:0,e:"3S Eats é o produto de cross-sell para delivery próprio, com app com a marca do parceiro."},
+{q:"O que o 3S Go acrescenta ao ecossistema?",o:["Pedidos e pagamentos via WhatsApp e canais próprios, com recursos de relacionamento","Uma impressora fiscal sem integração","Somente um terminal de caixa físico","Uma ferramenta exclusiva para inventário"],c:0,e:"3S Go amplia pedidos e pagamentos em WhatsApp e canais próprios, com cashback e fidelidade."},
+{q:"Qual alternativa reúne apenas integrações e parceiros do ecossistema 3S?",o:["Everest, iFood Pago e F360","Vídeo Soft, Everest e Colibri","Linx, GCOM e Teknisa","Rappi, SAT e MFE"],c:0,e:"Everest, iFood Pago e F360 são exemplos de integrações e parceiros conectados ao ecossistema 3S."}
+];
+
+const OBJ_CHALLENGES=[
+{obj:"Já tenho um PDV, não preciso trocar",r:["Entendo. Vamos mapear o que funciona e onde existem gargalos; se houver aderência, demonstramos como a 3S integra a jornada.","A 3S é sempre melhor, então você deve trocar agora.","Troque primeiro e depois avaliamos se resolveu."],c:0,e:"A melhor resposta acolhe o cenário atual e propõe diagnóstico."},
+{obj:"É muito caro para o tamanho da minha operação",r:["Vamos relacionar o investimento às dores prioritárias e ao porte P/M/G, começando pelo escopo com maior aderência.","O preço é fixo e não há necessidade de entender a operação.","Se está caro, basta contratar todos os módulos para ter mais desconto."],c:0,e:"A conversa deve conectar escopo, perfil e valor operacional."},
+{obj:"Meus funcionários não vão saber usar",r:["Vamos considerar a rotina da equipe, mostrar o fluxo e combinar uma implantação que favoreça adoção e treinamento.","A ferramenta é simples; isso não deveria ser uma preocupação.","A equipe terá de se adaptar sozinha depois da venda."],c:0,e:"Adoção depende de contexto, clareza e preparo."},
+{obj:"A implantação vai atrapalhar minha operação",r:["Vamos entender janelas, unidades e prioridades para planejar uma transição compatível com a operação.","A implantação não interfere em nenhuma operação, independentemente do cenário.","A melhor opção é desligar tudo e começar de uma vez."],c:0,e:"Uma implantação responsável considera fases, horários e prioridades do parceiro."},
+{obj:"Não vejo valor no KDS/totem para meu negócio",r:["Vamos investigar filas, erros, tempos e fluxo de pedidos para avaliar se KDS ou Totem atacam alguma dor real.","Todo restaurante precisa dos dois módulos, mesmo sem dor identificada.","Esses módulos só servem para redes muito grandes."],c:0,e:"KDS e Totem têm benefícios diferentes. A recomendação depende de dores e fluxo."},
+{obj:"Já contrato com a concorrência (Linx/GCOM)",r:["O que você valoriza hoje e onde há espaço para melhorar? A partir disso, comparamos o fluxo 3S de forma objetiva.","A concorrência não funciona; vamos ignorar o que você já usa.","Vamos falar apenas da marca 3S, sem olhar para sua operação atual."],c:0,e:"Respeitar o contrato atual e investigar lacunas cria uma comparação útil."},
+{obj:"Não preciso de delivery próprio",r:["Tudo bem. Vamos entender a estratégia de canais; 3S Eats só faz sentido se um canal próprio for prioridade.","3S Eats é obrigatório para qualquer operação.","Sem delivery próprio, a 3S não tem valor."],c:0,e:"3S Eats é cross-sell, não requisito universal."},
+{obj:"O payback é muito demorado",r:["Vamos explicitar premissas, custos e ganhos esperados da operação; sem dados suficientes, não prometemos um prazo.","O payback sempre acontece rapidamente, independentemente do caso.","Para acelerar, devemos omitir custos de implantação da análise."],c:0,e:"Payback precisa de premissas verificáveis. Transparência é melhor do que prometer sem base."},
+{obj:"Não confio em uma solução nova no mercado",r:["Vamos entender quais evidências e critérios de segurança são importantes e propor uma demonstração ou piloto adequado.","Confiança não é necessária quando a proposta parece boa.","A única resposta é afirmar que não existem riscos."],c:0,e:"A objeção pede evidências e redução de risco."},
+{obj:"Vou pensar e te retorno",r:["Claro. Antes, posso confirmar o que falta para decidir e combinar um próximo passo concreto?","Tudo bem, fico aguardando sem registrar nenhum próximo passo.","Vou insistir até você fechar agora."],c:0,e:"A resposta respeita o tempo do parceiro e busca um próximo passo claro."}
+];
+
+// Quiz state
+let _quizQs=[],_quizIdx=0,_quizScore=0,_quizAnswered=false;
+function shuffleArr(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function startQuiz(){
+  document.getElementById('gmMenu').style.display='none';
+  document.getElementById('quizWrap').classList.add('on');
+  document.getElementById('objWrap').classList.remove('on');
+  document.getElementById('quizFinal').style.display='none';
+  _quizQs=shuffleArr(QUIZ_QUESTIONS).slice(0,10);
+  _quizIdx=0;_quizScore=0;_quizAnswered=false;
+  renderQuizQ();
+}
+function renderQuizQ(){
+  const qd=_quizQs[_quizIdx];
+  document.getElementById('quizProgress').textContent=`Pergunta ${_quizIdx+1} de ${_quizQs.length}`;
+  document.getElementById('quizScore').textContent=_quizScore+' acertos';
+  document.getElementById('quizQuestion').textContent=qd.q;
+  // Shuffle options but track correct
+  const opts=qd.o.map((t,i)=>({t,isCorrect:i===qd.c}));
+  const shuffled=shuffleArr(opts);
+  document.getElementById('quizOpts').innerHTML=shuffled.map((o,i)=>`<button class="quiz-opt" onclick="quizAnswer(this,${o.isCorrect?1:0})">${o.t}</button>`).join('');
+  document.getElementById('quizExplain').classList.remove('on');
+  document.getElementById('quizExplain').textContent=qd.e;
+  document.getElementById('quizNextWrap').classList.remove('on');
+  _quizAnswered=false;
+}
+function quizAnswer(btn,isCorrect){
+  if(_quizAnswered)return;
+  _quizAnswered=true;
+  if(isCorrect){btn.classList.add('correct');_quizScore++;}
+  else{btn.classList.add('wrong');document.querySelectorAll('.quiz-opt').forEach(b=>{if(!b.classList.contains('wrong'))b.classList.add('disabled');});}
+  // Highlight correct
+  document.querySelectorAll('.quiz-opt').forEach(b=>{b.style.pointerEvents='none';});
+  document.getElementById('quizScore').textContent=_quizScore+' acertos';
+  document.getElementById('quizExplain').classList.add('on');
+  document.getElementById('quizNextWrap').classList.add('on');
+}
+function quizNext(){
+  _quizIdx++;
+  if(_quizIdx>=_quizQs.length){
+    document.querySelector('#quizWrap .card').style.display='none';
+    const pct=Math.round((_quizScore/_quizQs.length)*100);
+    document.getElementById('quizFinalTitle').textContent=pct>=70?'Parabéns! 🎉':'Continue praticando! 💪';
+    document.getElementById('quizFinalText').textContent=`Você acertou ${_quizScore} de ${_quizQs.length} (${pct}%)`;
+    document.getElementById('quizFinal').style.display='';
+  }else{renderQuizQ();}
+}
+
+// Objection Challenge state
+let _objQs=[],_objIdx=0,_objScore=0,_objAnswered=false,_objTimer=null,_objTime=30;
+function startObjChallenge(){
+  document.getElementById('gmMenu').style.display='none';
+  document.getElementById('objWrap').classList.add('on');
+  document.getElementById('quizWrap').classList.remove('on');
+  document.getElementById('objFinal').style.display='none';
+  _objQs=shuffleArr(OBJ_CHALLENGES);
+  _objIdx=0;_objScore=0;_objAnswered=false;
+  renderObjQ();
+}
+function renderObjQ(){
+  const qd=_objQs[_objIdx];
+  document.getElementById('objProgress').textContent=`Objeção ${_objIdx+1} de ${_objQs.length}`;
+  document.getElementById('objScore').textContent=_objScore+' acertos';
+  document.getElementById('objQuestion').textContent='"'+qd.obj+'"';
+  const opts=qd.r.map((t,i)=>({t,isCorrect:i===qd.c}));
+  const shuffled=shuffleArr(opts);
+  document.getElementById('objOpts').innerHTML=shuffled.map(o=>`<button class="quiz-opt" onclick="objAnswer(this,${o.isCorrect?1:0})">${o.t}</button>`).join('');
+  document.getElementById('objExplain').classList.remove('on');
+  document.getElementById('objExplain').textContent=qd.e;
+  document.getElementById('objNextWrap').classList.remove('on');
+  _objAnswered=false;
+  _objTime=30;
+  document.getElementById('objTimer').textContent='30';
+  document.getElementById('objTimer').classList.remove('warn');
+  if(_objTimer)clearInterval(_objTimer);
+  _objTimer=setInterval(()=>{
+    _objTime--;
+    document.getElementById('objTimer').textContent=_objTime;
+    if(_objTime<=10)document.getElementById('objTimer').classList.add('warn');
+    if(_objTime<=0){clearInterval(_objTimer);if(!_objAnswered){_objAnswered=true;document.querySelectorAll('#objOpts .quiz-opt').forEach(b=>{b.style.pointerEvents='none';b.classList.add('disabled');});document.getElementById('objExplain').classList.add('on');document.getElementById('objNextWrap').classList.add('on');showToast('Tempo esgotado!','#EF4444');}}
+  },1000);
+}
+function objAnswer(btn,isCorrect){
+  if(_objAnswered)return;
+  _objAnswered=true;
+  clearInterval(_objTimer);
+  if(isCorrect){btn.classList.add('correct');_objScore++;}
+  else{btn.classList.add('wrong');}
+  document.querySelectorAll('#objOpts .quiz-opt').forEach(b=>{b.style.pointerEvents='none';});
+  document.getElementById('objScore').textContent=_objScore+' acertos';
+  document.getElementById('objExplain').classList.add('on');
+  document.getElementById('objNextWrap').classList.add('on');
+}
+function objNext(){
+  _objIdx++;
+  if(_objIdx>=_objQs.length){
+    document.querySelector('#objWrap .card').style.display='none';
+    const pct=Math.round((_objScore/_objQs.length)*100);
+    document.getElementById('objFinalTitle').textContent=pct>=70?'Excelente! 🎯':'Pratique mais! 💪';
+    document.getElementById('objFinalText').textContent=`Você acertou ${_objScore} de ${_objQs.length} (${pct}%)`;
+    document.getElementById('objFinal').style.display='';
+  }else{renderObjQ();}
+}
+function backToGmMenu(){
+  if(_objTimer)clearInterval(_objTimer);
+  document.getElementById('gmMenu').style.display='';
+  document.getElementById('quizWrap').classList.remove('on');
+  document.getElementById('objWrap').classList.remove('on');
+  document.getElementById('quizFinal').style.display='none';
+  document.getElementById('objFinal').style.display='none';
+  // Reset card visibility for next play
+  const qCard=document.querySelector('#quizWrap .card');if(qCard)qCard.style.display='';
+  const oCard=document.querySelector('#objWrap .card');if(oCard)oCard.style.display='';
+}
+
 </script>
 </body>
 </html>
