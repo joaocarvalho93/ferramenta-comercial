@@ -1,9 +1,9 @@
 {
   "id": 1788978212250,
   "data": "09/09/2026",
-  "hora": "20:45",
+  "hora": "20:48",
   "dataCriacao": "2026-09-09T23:44:15.096Z",
-  "dataModificacao": "2026-09-09T23:45:51.804Z",
+  "dataModificacao": "2026-09-09T23:48:14.129Z",
   "nome": "Grupo Zairo",
   "lj": 1,
   "ct": 60,
@@ -39,7 +39,7 @@
   "meData": [
     {
       "id": "pdv_3",
-      "v": 350,
+      "v": 300,
       "ix": false
     },
     {
@@ -154,6 +154,5 @@
       "on": false,
       "v": 199.9
     }
-  ],
-  "_migrateV": 3
+  ]
 }
