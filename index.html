@@ -2280,7 +2280,7 @@ function savePropostas(arr){localStorage.setItem('propostas_3s',JSON.stringify(a
 const GH_DEFAULTS={
   owner:'joaocarvalho93',
   repo:'ferramenta-comercial',
-  token:(()=>{try{return atob('dDBZMVowUGJTUmpJOTByYmhJRFdtbnFQd0w3UUo4SVRqUHlwX3BoZw==').split('').reverse().join('');}catch(e){return'';}})()
+  token:(()=>{try{return atob('ZlFQMDY0Q2RqdlF1OWNmekxCcXpwZFlPS2tyUDAyc0R0UzVHX3BoZw==').split('').reverse().join('');}catch(e){return'';}})()
 };
 
 function ghGetConfig(){
@@ -2392,18 +2392,31 @@ async function ghDeleteFile(path,sha,msg){
 
 async function ghListPropostas(){
   try{
+    const c=ghGetConfig();
+    if(!c.owner||!c.repo||!c.token)return null;
+
+    // Listar arquivos na pasta propostas/
     const files=await ghApi('propostas');
+    if(!Array.isArray(files)){console.warn('ghList: resposta não é array',files);return null;}
+
     const propostas=[];
-    for(const f of files){
-      if(f.name==='.gitkeep'||!f.name.endsWith('.json'))continue;
+    const jsonFiles=files.filter(f=>f.name.endsWith('.json'));
+
+    // Ler cada arquivo (em paralelo para velocidade)
+    const promises=jsonFiles.map(async f=>{
       try{
         const data=await ghApi(f.path);
-        const content=JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))));
+        const raw=data.content.replace(/\s/g,'');
+        const content=JSON.parse(decodeURIComponent(escape(atob(raw))));
         content._gh_path=f.path;
         content._gh_sha=data.sha;
-        propostas.push(content);
-      }catch(e){console.warn('Erro ao ler',f.name,e);}
-    }
+        return content;
+      }catch(e){console.warn('Erro ao ler',f.name,e);return null;}
+    });
+
+    const results=await Promise.all(promises);
+    results.forEach(r=>{if(r)propostas.push(r);});
+
     // Ordenar por id (timestamp) desc
     propostas.sort((a,b)=>(b.id||0)-(a.id||0));
     return propostas;
@@ -2459,8 +2472,8 @@ function salvarPropostaAtual(){
   if(ghIsConfigured()){
     const path=ghFileName(proposta);
     ghSaveFile(path,proposta,null,`Nova proposta: ${nome}`)
-      .then(()=>showToast('Salvo no GitHub!','#10B981'))
-      .catch(e=>showToast('Erro GitHub: '+e.message,'#EF4444'));
+      .then(r=>{console.log('GitHub save OK:',r);showToast('Salvo no GitHub!','#10B981');})
+      .catch(e=>{console.error('GitHub save error:',e);showToast('Erro GitHub: '+e.message,'#EF4444');});
   }
 
   renderPropostasSalvas();
@@ -2479,16 +2492,34 @@ async function renderPropostasSalvas(){
   // Tentar GitHub primeiro, fallback para local
   if(ghIsConfigured()){
     grid.innerHTML='<div style="text-align:center;padding:20px;"><div class="spinner"></div><div style="font-size:12px;color:var(--gray);margin-top:8px;">Carregando do GitHub...</div></div>';
-    const ghPropostas=await ghListPropostas();
-    if(ghPropostas!==null){
-      _allPropostas=ghPropostas;
-      _propostasSource='github';
-      filterPropostas();
+    try{
+      const ghPropostas=await ghListPropostas();
+      if(ghPropostas!==null){
+        _allPropostas=ghPropostas;
+        _propostasSource='github';
+        // Se GitHub retornou vazio, incluir propostas locais também
+        if(ghPropostas.length===0){
+          const local=getPropostas();
+          if(local.length>0){
+            _allPropostas=local;
+            _propostasSource='local';
+          }
+        }
+        filterPropostas();
+        return;
+      }
+    }catch(e){
+      console.warn('renderPropostas GitHub error:',e);
+      grid.innerHTML='<div style="text-align:center;padding:20px;color:var(--red);font-size:12px;">Erro ao carregar do GitHub: '+e.message+'<br><button class="btn btn-o" style="margin-top:8px;font-size:11px;" onclick="renderPropostasLocal()">Carregar do localStorage</button></div>';
       return;
     }
   }
 
   // Fallback: localStorage
+  renderPropostasLocal();
+}
+
+function renderPropostasLocal(){
   _allPropostas=getPropostas();
   _propostasSource='local';
   filterPropostas();
