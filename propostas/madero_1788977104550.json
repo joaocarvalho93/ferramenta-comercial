@@ -1,0 +1,83 @@
+{
+  "id": 1788977104550,
+  "data": "09/09/2026",
+  "hora": "15:05",
+  "nome": "Madero",
+  "lj": 200,
+  "ct": 60,
+  "ro": 2,
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": false,
+  "ixInst": false,
+  "ms": 940,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 3",
+    "KDS — Até 3",
+    "Totem — Até 3",
+    "Marketplace — iFood / Rappi / OD",
+    "TEF — Primeira integração"
+  ],
+  "meIds": [
+    "pdv_3",
+    "kds_3",
+    "totem_3",
+    "mkt_full",
+    "tef_1"
+  ],
+  "maOn": [
+    {
+      "id": "kinesis",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": false
+    },
+    {
+      "id": "bi_simples",
+      "on": false
+    },
+    {
+      "id": "bi_admin",
+      "on": false
+    },
+    {
+      "id": "eats_d",
+      "on": false
+    },
+    {
+      "id": "eats_m",
+      "on": false
+    },
+    {
+      "id": "eats_combo",
+      "on": false
+    }
+  ]
+}
