@@ -44,48 +44,85 @@
     {
       "id": "kinesis",
       "on": false,
-      "ix": false
+      "ix": false,
+      "v": 300
     },
     {
       "id": "pos_3",
       "on": false,
-      "ix": false
+      "ix": false,
+      "v": 100
     },
     {
       "id": "imp_3",
       "on": true,
-      "ix": false
+      "ix": false,
+      "v": 60
     },
     {
       "id": "marca",
       "on": false,
-      "ix": false
+      "ix": false,
+      "v": 100
     }
   ],
   "mxOn": [
     {
       "id": "3sgo",
-      "on": true
+      "on": true,
+      "v": 60
     },
     {
       "id": "bi_simples",
-      "on": false
+      "on": false,
+      "v": 120
     },
     {
       "id": "bi_admin",
-      "on": false
+      "on": false,
+      "v": 220
     },
     {
       "id": "eats_d",
-      "on": false
+      "on": false,
+      "v": 180
     },
     {
       "id": "eats_m",
-      "on": false
+      "on": false,
+      "v": 180
     },
     {
       "id": "eats_combo",
-      "on": false
+      "on": false,
+      "v": 300
+    }
+  ],
+  "meData": [
+    {
+      "id": "pdv_ilim",
+      "v": 427.31,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "v": 39.44,
+      "ix": false
+    },
+    {
+      "id": "kds_1",
+      "v": 52.59,
+      "ix": false
+    },
+    {
+      "id": "totem_3",
+      "v": 118.33,
+      "ix": false
+    },
+    {
+      "id": "mkt_full",
+      "v": 72.31,
+      "ix": false
     }
   ]
 }
