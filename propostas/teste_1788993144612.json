@@ -1,0 +1,90 @@
+{
+  "id": 1788993144612,
+  "data": "09/09/2026",
+  "hora": "19:32",
+  "dataCriacao": "2026-09-09T22:32:24.611Z",
+  "dataModificacao": "2026-09-09T22:32:24.611Z",
+  "nome": "Teste",
+  "lj": 23,
+  "ct": 60,
+  "ro": 2,
+  "responsavel": "joao.carlos@ifood.com.br",
+  "segmento": "table",
+  "culinaria": "japonesa",
+  "estado": "PR",
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": false,
+  "ixInst": false,
+  "ms": 940,
+  "addTotal": 300,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 3",
+    "KDS — Até 3",
+    "Totem — Até 3",
+    "Marketplace — iFood / Rappi / OD",
+    "TEF — Primeira integração",
+    "3S Eats — Combo Super App"
+  ],
+  "meIds": [
+    "pdv_3",
+    "kds_3",
+    "totem_3",
+    "mkt_full",
+    "tef_1"
+  ],
+  "maOn": [
+    {
+      "id": "kinesis",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": false
+    },
+    {
+      "id": "bi_simples",
+      "on": false
+    },
+    {
+      "id": "bi_admin",
+      "on": false
+    },
+    {
+      "id": "eats_d",
+      "on": false
+    },
+    {
+      "id": "eats_m",
+      "on": false
+    },
+    {
+      "id": "eats_combo",
+      "on": true
+    }
+  ]
+}
