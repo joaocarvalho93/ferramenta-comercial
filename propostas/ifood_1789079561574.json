@@ -3,7 +3,7 @@
   "data": "10/09/2026",
   "hora": "19:38",
   "dataCriacao": "2026-09-10T22:32:41.574Z",
-  "dataModificacao": "2026-09-10T22:38:03.276Z",
+  "dataModificacao": "2026-09-10T22:38:21.428Z",
   "nome": "iFood",
   "lj": 20,
   "ct": 24,
@@ -13,7 +13,7 @@
   "inst": 1622,
   "ixSetup": true,
   "ixInst": true,
-  "ms": 750,
+  "ms": 570,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -56,7 +56,7 @@
     {
       "id": "totem_3",
       "v": 180,
-      "ix": false
+      "ix": true
     },
     {
       "id": "mkt_full",
@@ -79,5 +79,5 @@
   "moveDescPct": 5,
   "moveCondicao": "Porte P: 1 mês(es) isento(s), −5% desc.",
   "_gh_path": "propostas/ifood_1789079561574.json",
-  "_gh_sha": "5ce86365e954fc68c0112bc6cc4527a5af1db44d"
+  "_gh_sha": "4dd7a1222765a111140a13568a7d09e1607606ca"
 }
