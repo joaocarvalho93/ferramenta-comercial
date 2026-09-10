@@ -3,7 +3,7 @@
   "data": "10/09/2026",
   "hora": "14:45",
   "dataCriacao": "2026-09-10T17:45:10.126Z",
-  "dataModificacao": "2026-09-10T17:45:10.126Z",
+  "dataModificacao": "2026-09-10T17:45:13.578Z",
   "nome": "Teste duplicidade",
   "lj": 1,
   "ct": 60,
@@ -177,5 +177,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_duplicidade_1789062310127.json",
-  "_gh_sha": null
+  "_gh_sha": "509301717ab8e9ee1a7734b16dee8c8afa56e5df"
 }
