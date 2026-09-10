@@ -1,9 +1,9 @@
 {
   "id": 1789079561574,
   "data": "10/09/2026",
-  "hora": "19:32",
+  "hora": "19:33",
   "dataCriacao": "2026-09-10T22:32:41.574Z",
-  "dataModificacao": "2026-09-10T22:32:41.574Z",
+  "dataModificacao": "2026-09-10T22:33:16.793Z",
   "nome": "iFood",
   "lj": 20,
   "ct": 24,
@@ -77,7 +77,5 @@
   "movePorte": "P",
   "moveIsenMeses": 1,
   "moveDescPct": 5,
-  "moveCondicao": "Porte P: 1 mês(es) isento(s), −5% desc.",
-  "_gh_path": "propostas/ifood_1789079561574.json",
-  "_gh_sha": null
+  "moveCondicao": "Porte P: 1 mês(es) isento(s), −5% desc."
 }
