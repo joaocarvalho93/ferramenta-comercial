@@ -59,17 +59,17 @@
     {
       "id": "totem_3",
       "v": 180,
-      "ix": true
+      "ix": false
     },
     {
       "id": "mkt_full",
       "v": 110,
-      "ix": true
+      "ix": false
     },
     {
       "id": "tef_1",
       "v": 140,
-      "ix": true
+      "ix": false
     }
   ],
   "maOn": [
@@ -173,5 +173,6 @@
       "on": false,
       "v": 199.9
     }
-  ]
+  ],
+  "_migrateV": 3
 }
