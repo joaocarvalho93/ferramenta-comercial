@@ -1,9 +1,9 @@
 {
   "id": 1789081477122,
   "data": "10/09/2026",
-  "hora": "20:04",
+  "hora": "20:05",
   "dataCriacao": "2026-09-10T23:04:37.122Z",
-  "dataModificacao": "2026-09-10T23:04:37.122Z",
+  "dataModificacao": "2026-09-10T23:05:44.990Z",
   "nome": "Teste",
   "lj": 20,
   "ct": 24,
@@ -79,5 +79,5 @@
   "moveDescPct": 0,
   "moveCondicao": "Porte P: 0 mês(es) isento(s)",
   "_gh_path": "propostas/teste_1789081477122.json",
-  "_gh_sha": null
+  "_gh_sha": "d1445af6100fdea076554c6087ff984a78a6e21e"
 }
