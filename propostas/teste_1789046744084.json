@@ -1,9 +1,9 @@
 {
   "id": 1789046744084,
   "data": "10/09/2026",
-  "hora": "10:25",
+  "hora": "11:06",
   "dataCriacao": "2026-09-10T13:25:44.083Z",
-  "dataModificacao": "2026-09-10T13:25:44.083Z",
+  "dataModificacao": "2026-09-10T14:06:16.620Z",
   "nome": "Teste",
   "lj": 2,
   "ct": 60,
@@ -16,7 +16,7 @@
   "inst": 1622,
   "ixSetup": false,
   "ixInst": false,
-  "ms": 750,
+  "ms": 830,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -43,7 +43,7 @@
   "meData": [
     {
       "id": "pdv_3",
-      "v": 320,
+      "v": 400,
       "ix": false
     },
     {
@@ -174,5 +174,7 @@
       "v": 199.9
     }
   ],
-  "_migrateV": 3
+  "_migrateV": 3,
+  "_gh_path": "propostas/teste_1789046744084.json",
+  "_gh_sha": "c9d6d934497b2614ae690e4472e898afe56fc256"
 }
