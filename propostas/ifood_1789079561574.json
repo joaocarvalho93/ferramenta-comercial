@@ -1,10 +1,10 @@
 {
   "id": 1789079561574,
   "data": "10/09/2026",
-  "hora": "19:38",
+  "hora": "19:39",
   "dataCriacao": "2026-09-10T22:32:41.574Z",
-  "dataModificacao": "2026-09-10T22:38:21.428Z",
-  "nome": "iFood",
+  "dataModificacao": "2026-09-10T22:39:33.372Z",
+  "nome": "Teste",
   "lj": 20,
   "ct": 24,
   "ro": 1,
@@ -79,5 +79,5 @@
   "moveDescPct": 5,
   "moveCondicao": "Porte P: 1 mês(es) isento(s), −5% desc.",
   "_gh_path": "propostas/ifood_1789079561574.json",
-  "_gh_sha": "4dd7a1222765a111140a13568a7d09e1607606ca"
+  "_gh_sha": "a04884fece2d265760b08c4f414b43fb59ed280c"
 }
