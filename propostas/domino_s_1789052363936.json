@@ -3,7 +3,7 @@
   "data": "10/09/2026",
   "hora": "11:59",
   "dataCriacao": "2026-09-10T14:59:23.935Z",
-  "dataModificacao": "2026-09-10T14:59:23.935Z",
+  "dataModificacao": "2026-09-10T14:59:52.687Z",
   "nome": "Domino's",
   "lj": 220,
   "ct": 60,
@@ -17,7 +17,7 @@
   "ixSetup": true,
   "ixInst": false,
   "ixInstExist": true,
-  "ms": 830,
+  "ms": 835,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -62,7 +62,7 @@
     },
     {
       "id": "tef_1",
-      "v": 140,
+      "v": 145,
       "ix": false
     }
   ],
@@ -168,5 +168,7 @@
       "v": 199.9
     }
   ],
-  "_migrateV": 3
+  "_migrateV": 3,
+  "_gh_path": "propostas/domino_s_1789052363936.json",
+  "_gh_sha": "88957d2546ec5241d58fb85b39051ee15db66f09"
 }
