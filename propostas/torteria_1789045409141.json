@@ -1,0 +1,85 @@
+{
+  "id": 1789045409141,
+  "data": "10/09/2026",
+  "hora": "10:03",
+  "dataCriacao": "2026-09-10T13:03:29.140Z",
+  "dataModificacao": "2026-09-10T13:03:29.140Z",
+  "nome": "Torteria",
+  "lj": 5,
+  "ct": 60,
+  "ro": 2,
+  "responsavel": "lidia.esteves@ifood.com.br",
+  "segmento": "table",
+  "culinaria": "",
+  "estado": "SP",
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": false,
+  "ixInst": true,
+  "ms": 500,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 3",
+    "POS Mobile — Ilimitado",
+    "Produção Impressoras — Ilimitado"
+  ],
+  "meIds": [
+    "pdv_3",
+    "pos_ilim",
+    "imp_ilim"
+  ],
+  "maOn": [
+    {
+      "id": "kinesis",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "on": false,
+      "ix": false
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": false
+    },
+    {
+      "id": "bi_simples",
+      "on": false
+    },
+    {
+      "id": "bi_admin",
+      "on": false
+    },
+    {
+      "id": "eats_d",
+      "on": false
+    },
+    {
+      "id": "eats_m",
+      "on": false
+    },
+    {
+      "id": "eats_combo",
+      "on": false
+    }
+  ]
+}
