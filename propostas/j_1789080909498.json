@@ -3,7 +3,7 @@
   "data": "10/09/2026",
   "hora": "19:55",
   "dataCriacao": "2026-09-10T22:55:09.497Z",
-  "dataModificacao": "2026-09-10T22:55:32.482Z",
+  "dataModificacao": "2026-09-10T22:55:50.384Z",
   "nome": "J",
   "lj": 20,
   "ct": 24,
@@ -13,7 +13,7 @@
   "inst": 1622,
   "ixSetup": false,
   "ixInst": false,
-  "ms": 860,
+  "ms": 570,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -56,12 +56,12 @@
     {
       "id": "totem_3",
       "v": 180,
-      "ix": false
+      "ix": true
     },
     {
       "id": "mkt_full",
       "v": 110,
-      "ix": false
+      "ix": true
     },
     {
       "id": "tef_1",
@@ -77,5 +77,7 @@
   "movePorte": "P",
   "moveIsenMeses": 0,
   "moveDescPct": 0,
-  "moveCondicao": "Porte P: 0 mês(es) isento(s)"
+  "moveCondicao": "Porte P: 0 mês(es) isento(s)",
+  "_gh_path": "propostas/j_1789080909498.json",
+  "_gh_sha": "2cdc21034112d10221055ebab0b7188431d34313"
 }
