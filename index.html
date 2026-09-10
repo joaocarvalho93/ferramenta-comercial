@@ -174,6 +174,22 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 .toast{position:fixed;bottom:24px;right:24px;background:var(--dark-gray);color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:600;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none;}
 .toast.show{transform:translateY(0);opacity:1;}
 
+/* ── MODAL VISUALIZAR PROPOSTA ── */
+#modalProposta{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:600;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:30px 16px;backdrop-filter:blur(4px);}
+#modalProposta.active{display:flex;}
+#modalProposta .mp-box{background:#fff;border-radius:14px;width:100%;max-width:820px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3);margin:auto;}
+#modalProposta .mp-toolbar{position:relative;background:#2D0A0E;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;z-index:10;border-radius:14px 14px 0 0;}
+#modalProposta .mp-toolbar span{color:#fff;font-size:13px;font-weight:600;}
+#modalProposta .mp-toolbar-btns{display:flex;gap:8px;align-items:center;}
+#modalProposta .mp-toolbar-btns button{background:#e9202e;color:#fff;border:none;border-radius:7px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;transition:background .2s;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:5px;}
+#modalProposta .mp-toolbar-btns button:hover{background:#c4151f;}
+#modalProposta .mp-toolbar-btns .btn-close-modal{background:rgba(255,255,255,.15);padding:8px 12px;font-size:14px;}
+#modalProposta .mp-toolbar-btns .btn-close-modal:hover{background:rgba(255,255,255,.3);}
+#modalProposta .mp-content{padding:0;}
+#modalProposta .mp-content .page{max-width:none;margin:0;padding:40px 44px;position:relative;border-radius:0 0 14px 14px;}
+#modalProposta .mp-content .page::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e9202e,#FF6B7A,#F59E0B);}
+@media(max-width:700px){#modalProposta .mp-box{max-width:100%;margin:10px;}#modalProposta .mp-content .page{padding:24px 16px;}}
+
 /* ── MÓDULOS: BASE DE CONHECIMENTO ── */
 .kb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 @media(max-width:800px){.kb-grid{grid-template-columns:repeat(2,1fr);}}
@@ -530,7 +546,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
   <div id="marginSticky" style="position:sticky;top:52px;background:linear-gradient(135deg,#2D0A0E,#890119);border-radius:10px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;color:#fff;z-index:100;box-shadow:0 4px 16px rgba(45,10,14,.3);margin-bottom:16px;">
     <div style="display:flex;align-items:center;gap:12px;">
       <div style="width:8px;height:8px;border-radius:50%;background:#10B981;animation:pulse 2s infinite;"></div>
-      <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px;">Margem Bruta</span>
+      <div><span id="st_nome" style="font-size:13px;font-weight:700;color:#fff;display:block;"></span><span style="font-size:9px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;">Margem Bruta</span></div>
     </div>
     <div style="display:flex;align-items:center;gap:24px;">
       <div style="text-align:center;"><div style="font-size:9px;color:rgba(255,255,255,.4);">MENS/LOJA</div><div style="font-size:15px;font-weight:800;" id="st_mens">—</div></div>
@@ -585,9 +601,9 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 
     <div class="card">
       <div class="card-t">Módulos — ative/desative e edite valores</div>
-      <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">Essenciais</div>
+      <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">Serviços</div>
       <div id="mEss"></div>
-      <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin:8px 0 3px;">Adicionais</div>
+      <div style="font-size:10px;font-weight:600;color:var(--dark-gray);text-transform:uppercase;letter-spacing:.5px;margin:8px 0 3px;">Serviços Adicionais</div>
       <div id="mAdd"></div>
       <div class="m-tot"><span>Mensalidade/loja</span><span id="mTot">—</span></div>
     </div>
@@ -598,7 +614,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <div class="card-t"><span style="background:#F59E0B;color:#fff;width:22px;height:22px;border-radius:50%;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700;">+</span> Produtos adicionais</div>
     <p style="font-size:12px;color:var(--gray);margin-bottom:8px;">Avalie e recomende conforme a necessidade do cliente. <strong>Não impactam a margem principal.</strong></p>
     <div id="mCross"></div>
-    <div class="m-tot" style="background:#FEF3C7;color:#92400E;"><span>Adicionais / loja</span><span id="mXTot">—</span></div>
+    <div class="m-tot" style="background:#FEF3C7;color:#92400E;"><span>Produtos adicionais / loja</span><span id="mXTot">—</span></div>
   </div>
 
   <!-- Fixe CRM -->
@@ -701,6 +717,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
       <select id="ghSort" onchange="filterPropostas()">
         <option value="recente">Mais recentes</option>
         <option value="antigo">Mais antigos</option>
+        <option value="modificado">Última alteração</option>
         <option value="nome">A → Z</option>
         <option value="valor">Maior valor</option>
       </select>
@@ -1131,21 +1148,22 @@ function toggleFixe(){document.getElementById('fixeModulos').style.display=gc('e
 // ══════════════════════════════════════
 // Catálogo de todos os módulos — cada variação de quantidade é um item separado
 const MOD_CATALOG=[
+  // ══ SERVIÇOS (essenciais — entram na mensalidade/margem) ══
   // PDV
   {id:'pdv_3',nm:'PDV — Até 3',v:350,grp:'PDV',cat:'ess'},
   {id:'pdv_5',nm:'PDV — Até 5',v:450,grp:'PDV',cat:'ess'},
   {id:'pdv_ilim',nm:'PDV — Ilimitado',v:650,grp:'PDV',cat:'ess'},
-  {id:'pdv_adic',nm:'PDV — Adicional',v:49.90,grp:'PDV',cat:'add'},
   // KDS
   {id:'kds_1',nm:'KDS — 1',v:80,grp:'KDS',cat:'ess'},
   {id:'kds_3',nm:'KDS — Até 3',v:160,grp:'KDS',cat:'ess'},
   {id:'kds_ilim',nm:'KDS — Ilimitado',v:280,grp:'KDS',cat:'ess'},
-  {id:'kds_adic',nm:'KDS — Adicional',v:60,grp:'KDS',cat:'add'},
+  // Produção com Impressoras
+  {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,grp:'Impressoras',cat:'ess'},
+  {id:'imp_ilim',nm:'Produção Impressoras — Ilimitado',v:100,grp:'Impressoras',cat:'ess'},
   // Totem
   {id:'totem_1',nm:'Totem — 1',v:100,grp:'Totem',cat:'ess'},
   {id:'totem_3',nm:'Totem — Até 3',v:180,grp:'Totem',cat:'ess'},
   {id:'totem_ilim',nm:'Totem — Ilimitado',v:360,grp:'Totem',cat:'ess'},
-  {id:'totem_adic',nm:'Totem — Adicional',v:65,grp:'Totem',cat:'add'},
   // Marketplace
   {id:'mkt_ifood',nm:'Marketplace — iFood',v:60,grp:'Marketplace',cat:'ess'},
   {id:'mkt_ifood_od',nm:'Marketplace — iFood / Open Delivery',v:90,grp:'Marketplace',cat:'ess'},
@@ -1156,53 +1174,67 @@ const MOD_CATALOG=[
   {id:'mkt_od',nm:'Marketplace — Open Delivery',v:60,grp:'Marketplace',cat:'ess'},
   // TEF
   {id:'tef_1',nm:'TEF — Primeira integração',v:140,grp:'TEF',cat:'ess'},
-  {id:'tef_adic',nm:'TEF — Integrações adicionais',v:39,grp:'TEF',cat:'add'},
-  // Impressoras
-  {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,grp:'Impressoras',cat:'ess'},
-  {id:'imp_ilim',nm:'Produção Impressoras — Ilimitado',v:100,grp:'Impressoras',cat:'ess'},
-  // POS Mobile
+  {id:'tef_adic',nm:'TEF — Integrações adicionais',v:39,grp:'TEF',cat:'ess'},
+
+  // ══ SERVIÇOS ADICIONAIS (impactam margem) ══
+  {id:'pdv_adic',nm:'PDV — Adicional',v:49.90,grp:'PDV',cat:'add'},
+  {id:'kds_adic',nm:'KDS — Adicional',v:60,grp:'KDS',cat:'add'},
+  {id:'totem_adic',nm:'Totem — Adicional',v:65,grp:'Totem',cat:'add'},
   {id:'pos_3',nm:'POS Mobile — Até 3',v:100,grp:'POS Mobile',cat:'add'},
   {id:'pos_5',nm:'POS Mobile — Até 5',v:150,grp:'POS Mobile',cat:'add'},
   {id:'pos_ilim',nm:'POS Mobile — Ilimitado',v:350,grp:'POS Mobile',cat:'add'},
-  // Outros adicionais
-  {id:'3sgo',nm:'3SGo — App gestão',v:60,grp:null,cat:'add'},
-  {id:'bi_simples',nm:'3S BI — Simples',v:120,grp:'3S BI',cat:'add'},
-  {id:'bi_admin',nm:'3S BI — Administrador',v:220,grp:'3S BI',cat:'add'},
-  {id:'kinesis',nm:'3S Connection — Kinesis',v:300,grp:null,cat:'add'},
-  {id:'eats_d',nm:'3S Eats — Delivery',v:180,grp:'3S Eats',cat:'add'},
-  {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,grp:'3S Eats',cat:'add'},
-  {id:'eats_combo',nm:'3S Eats — Combo Super App',v:300,grp:'3S Eats',cat:'add'},
   {id:'marca',nm:'Marca Adicional',v:100,grp:null,cat:'add'},
   {id:'nav_extra',nm:'Navegação Extra Adicional',v:250,grp:null,cat:'add'},
+
+  // ══ PRODUTOS ADICIONAIS (NÃO impactam margem) ══
+  {id:'3sgo',nm:'3SGo — Ilimitado por loja',v:60,grp:'3S GO',cat:'prod'},
+  {id:'bi_simples',nm:'3S BI — Simples',v:120,grp:'3S BI',cat:'prod'},
+  {id:'bi_admin',nm:'3S BI — Administrador',v:220,grp:'3S BI',cat:'prod'},
+  {id:'bi_setup',nm:'3S BI — Setup (6 visões)',v:1200,grp:'3S BI',cat:'prod'},
+  {id:'kinesis',nm:'3S Connection — Kinesis',v:300,grp:null,cat:'prod'},
+  {id:'eats_d',nm:'3S Eats — Delivery',v:180,grp:'3S Eats',cat:'prod'},
+  {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,grp:'3S Eats',cat:'prod'},
+  {id:'eats_combo',nm:'3S Eats — Combo Super App',v:300,grp:'3S Eats',cat:'prod'},
+  {id:'eats_setup',nm:'3S Eats — Setup AppStore/Google Play',v:2000,grp:'3S Eats',cat:'prod'},
+  {id:'crm_fid',nm:'CRM — Módulo Fidelidade',v:199.90,grp:'CRM',cat:'prod'},
 ];
 
 function catById(id){return MOD_CATALOG.find(c=>c.id===id);}
 
-// Módulos ativos na proposta (essenciais — sempre contam na mensalidade)
+// Módulos ativos na proposta (SERVIÇOS — sempre contam na mensalidade/margem)
 let ME=[
   {id:'pdv_3',v:350,ix:false},
   {id:'kds_3',v:160,ix:false},
+  {id:'imp_3',v:60,ix:false},
   {id:'totem_3',v:180,ix:false},
   {id:'mkt_full',v:110,ix:false},
   {id:'tef_1',v:140,ix:false},
 ];
 
-// Adicionais (ativados por checkbox — entram na margem)
+// SERVIÇOS ADICIONAIS (ativados por checkbox — impactam margem)
 let MA=[
-  {id:'kinesis',nm:'3S Connection — Kinesis',v:300,on:false,ix:false},
+  {id:'pdv_adic',nm:'PDV — Adicional',v:49.90,on:false,ix:false},
+  {id:'kds_adic',nm:'KDS — Adicional',v:60,on:false,ix:false},
+  {id:'totem_adic',nm:'Totem — Adicional',v:65,on:false,ix:false},
   {id:'pos_3',nm:'POS Mobile — Até 3',v:100,on:false,ix:false},
-  {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,on:false,ix:false},
+  {id:'pos_5',nm:'POS Mobile — Até 5',v:150,on:false,ix:false},
+  {id:'pos_ilim',nm:'POS Mobile — Ilimitado',v:350,on:false,ix:false},
   {id:'marca',nm:'Marca Adicional',v:100,on:false,ix:false},
+  {id:'nav_extra',nm:'Navegação Extra Adicional',v:250,on:false,ix:false},
 ];
 
-// Cross-sell (avaliados separadamente — NÃO entram na margem principal)
+// PRODUTOS ADICIONAIS (NÃO impactam margem principal)
 let MX=[
-  {id:'3sgo',nm:'3SGo — App gestão',v:60,on:false,grp:'3S GO'},
+  {id:'3sgo',nm:'3SGo — Ilimitado por loja',v:60,on:false,grp:'3S GO'},
   {id:'bi_simples',nm:'3S BI — Simples',v:120,on:false,grp:'3S BI'},
   {id:'bi_admin',nm:'3S BI — Administrador',v:220,on:false,grp:'3S BI'},
+  {id:'bi_setup',nm:'3S BI — Setup (6 visões)',v:1200,on:false,grp:'3S BI'},
+  {id:'kinesis',nm:'3S Connection — Kinesis',v:300,on:false,grp:'3S Connection'},
   {id:'eats_d',nm:'3S Eats — Delivery',v:180,on:false,grp:'3S Eats'},
   {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,on:false,grp:'3S Eats'},
   {id:'eats_combo',nm:'3S Eats — Combo Super App',v:300,on:false,grp:'3S Eats'},
+  {id:'eats_setup',nm:'3S Eats — Setup AppStore/Google Play',v:2000,on:false,grp:'3S Eats'},
+  {id:'crm_fid',nm:'CRM — Módulo Fidelidade',v:199.90,on:false,grp:'CRM'},
 ];
 
 function getModNm(m){const c=catById(m.id);return c?c.nm:(m.nm||m.id);}
@@ -1261,8 +1293,9 @@ function rMods(cid,mods){
     el.appendChild(addDiv);
 
   } else {
-    // ── ADICIONAIS: checkbox list ──
-    mods.forEach(m=>{
+    // ── ADICIONAIS: só mostrar itens ativados (on:true), com checkbox + isentar ──
+    const ativados=mods.filter(m=>m.on);
+    ativados.forEach(m=>{
       const r=document.createElement('div');r.className='mr';
       const ixClass=m.ix?'ix-btn isento':'ix-btn';
       const ixLabel=m.ix?'ISENTO':'Isentar';
@@ -1275,17 +1308,30 @@ function rMods(cid,mods){
           '></div>'+
           '<div class="mr-acts">'+
             '<button class="'+ixClass+'" title="Isentar módulo">'+ixLabel+'</button>'+
+            '<button class="rm-btn" title="Remover módulo" style="font-size:14px;">×</button>'+
           '</div>'+
         '</div>';
-      r.querySelector('input[type=checkbox]').addEventListener('change',calc);
-      r.querySelector('input[type=number]').addEventListener('input',calc);
+      r.querySelector('input[type=checkbox]').addEventListener('change',function(){m.on=this.checked;calc();});
+      r.querySelector('input[type=number]').addEventListener('input',function(){if(!m.ix)m.v=parseFloat(this.value)||0;calc();});
       r.querySelector('.ix-btn').addEventListener('click',function(){
         m.ix=!m.ix;
         if(m.ix){m._origV=m.v;}else{m.v=m._origV||m.v;}
         refreshMods();calc();
       });
+      r.querySelector('.rm-btn').addEventListener('click',function(){
+        m.on=false;
+        refreshMods();calc();
+      });
       el.appendChild(r);
     });
+
+    // ── BOTÃO ADD ADICIONAL — dropdown com módulos disponíveis ──
+    const addDiv=document.createElement('div');addDiv.className='add-mod';
+    const btnAdd=document.createElement('button');
+    btnAdd.textContent='+ Adicionar módulo';
+    btnAdd.addEventListener('click',function(e){e.stopPropagation();showAddCatalog(this,mods);});
+    addDiv.appendChild(btnAdd);
+    el.appendChild(addDiv);
   }
 }
 
@@ -1297,7 +1343,8 @@ function showEssCatalog(anchorBtn){
   const activeIds=new Set(ME.map(m=>m.id));
   // Also exclude groups already present
   const activeGrps=new Set(ME.map(m=>{const c=catById(m.id);return c?c.grp:null;}).filter(Boolean));
-  const available=MOD_CATALOG.filter(c=>!activeIds.has(c.id));
+  // Só mostrar módulos essenciais (cat:'ess') — adicionais ficam na seção de adicionais
+  const available=MOD_CATALOG.filter(c=>c.cat==='ess'&&!activeIds.has(c.id));
   if(!available.length){
     anchorBtn.textContent='Todos os módulos já adicionados';
     setTimeout(()=>{anchorBtn.textContent='+ Adicionar módulo';},2000);
@@ -1349,6 +1396,38 @@ function showEssCatalog(anchorBtn){
   anchorBtn.parentElement.style.position='relative';
   anchorBtn.parentElement.appendChild(drop);
 
+  const closer=function(e){if(!drop.contains(e.target)&&e.target!==anchorBtn){drop.remove();document.removeEventListener('click',closer);}};
+  setTimeout(()=>document.addEventListener('click',closer),10);
+}
+
+// Dropdown para adicionar módulos adicionais (MA) — mostra só os que não estão on
+function showAddCatalog(anchorBtn,mods){
+  const old=document.getElementById('addCatalogDrop');
+  if(old){old.remove();return;}
+  const available=mods.filter(m=>!m.on);
+  if(!available.length){
+    anchorBtn.textContent='Todos os adicionais já ativos';
+    setTimeout(()=>{anchorBtn.textContent='+ Adicionar módulo';},2000);
+    return;
+  }
+  const drop=document.createElement('div');
+  drop.id='addCatalogDrop';
+  drop.style.cssText='position:absolute;left:0;right:0;background:#fff;border:1.5px solid var(--border-light);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.12);padding:8px 0;margin-top:4px;max-height:250px;overflow-y:auto;z-index:50;';
+  available.forEach(m=>{
+    const item=document.createElement('div');
+    item.style.cssText='padding:7px 14px;font-size:12px;color:var(--dark-gray);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .12s;';
+    item.innerHTML='<span style="font-weight:500;">'+m.nm+'</span><span style="font-size:11px;color:var(--gray);font-weight:600;white-space:nowrap;margin-left:12px;">R$ '+m.v.toFixed(2).replace('.',',')+'</span>';
+    item.addEventListener('mouseenter',()=>{item.style.background='#F3F4F6';});
+    item.addEventListener('mouseleave',()=>{item.style.background='';});
+    item.addEventListener('click',()=>{
+      m.on=true;
+      drop.remove();
+      refreshMods();calc();
+    });
+    drop.appendChild(item);
+  });
+  anchorBtn.parentElement.style.position='relative';
+  anchorBtn.parentElement.appendChild(drop);
   const closer=function(e){if(!drop.contains(e.target)&&e.target!==anchorBtn){drop.remove();document.removeEventListener('click',closer);}};
   setTimeout(()=>document.addEventListener('click',closer),10);
 }
@@ -1454,9 +1533,11 @@ function calc(){
   const stMens=document.getElementById('st_mens');
   const stRede=document.getElementById('st_rede');
   const stMarg=document.getElementById('st_marg');
+  const stNome=document.getElementById('st_nome');
   if(stMens){stMens.textContent=fmt(ms);}
   if(stRede){stRede.textContent=fK(ms*lj);}
   if(stMarg){stMarg.textContent=fP(mg);stMarg.style.color=mColor;}
+  if(stNome){stNome.textContent=document.getElementById('p_nome').value||'';}
 
   // Cross-sell — separado da margem
   let xs=0;
@@ -1661,27 +1742,36 @@ function resetFormulario(){
   document.getElementById('g_inv_meses').value='0';
   document.getElementById('g_inv_mensal').value='0';
 
-  // Resetar módulos para default
+  // Resetar módulos para default (conforme precificação oficial 3S)
   ME=[
     {id:'pdv_3',v:350,ix:false},
     {id:'kds_3',v:160,ix:false},
+    {id:'imp_3',v:60,ix:false},
     {id:'totem_3',v:180,ix:false},
     {id:'mkt_full',v:110,ix:false},
     {id:'tef_1',v:140,ix:false},
   ];
   MA=[
-    {id:'kinesis',nm:'3S Connection — Kinesis',v:300,on:false,ix:false},
+    {id:'pdv_adic',nm:'PDV — Adicional',v:49.90,on:false,ix:false},
+    {id:'kds_adic',nm:'KDS — Adicional',v:60,on:false,ix:false},
+    {id:'totem_adic',nm:'Totem — Adicional',v:65,on:false,ix:false},
     {id:'pos_3',nm:'POS Mobile — Até 3',v:100,on:false,ix:false},
-    {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,on:false,ix:false},
+    {id:'pos_5',nm:'POS Mobile — Até 5',v:150,on:false,ix:false},
+    {id:'pos_ilim',nm:'POS Mobile — Ilimitado',v:350,on:false,ix:false},
     {id:'marca',nm:'Marca Adicional',v:100,on:false,ix:false},
+    {id:'nav_extra',nm:'Navegação Extra Adicional',v:250,on:false,ix:false},
   ];
   MX=[
-    {id:'3sgo',nm:'3SGo — App gestão',v:60,on:false,grp:'3S GO'},
+    {id:'3sgo',nm:'3SGo — Ilimitado por loja',v:60,on:false,grp:'3S GO'},
     {id:'bi_simples',nm:'3S BI — Simples',v:120,on:false,grp:'3S BI'},
     {id:'bi_admin',nm:'3S BI — Administrador',v:220,on:false,grp:'3S BI'},
+    {id:'bi_setup',nm:'3S BI — Setup (6 visões)',v:1200,on:false,grp:'3S BI'},
+    {id:'kinesis',nm:'3S Connection — Kinesis',v:300,on:false,grp:'3S Connection'},
     {id:'eats_d',nm:'3S Eats — Delivery',v:180,on:false,grp:'3S Eats'},
     {id:'eats_m',nm:'3S Eats — Pedido na mesa',v:180,on:false,grp:'3S Eats'},
     {id:'eats_combo',nm:'3S Eats — Combo Super App',v:300,on:false,grp:'3S Eats'},
+    {id:'eats_setup',nm:'3S Eats — Setup AppStore/Google Play',v:2000,on:false,grp:'3S Eats'},
+    {id:'crm_fid',nm:'CRM — Módulo Fidelidade',v:199.90,on:false,grp:'CRM'},
   ];
 
   // Fixe CRM
@@ -2947,8 +3037,19 @@ function buildPropostaObj(){
   const invMeses=gv('g_inv_meses'),invMensal=gv('g_inv_mensal');
 
   let ms=0;
-  ME.forEach(m=>{if(!m.ix)ms+=m.v;});
-  MA.forEach(m=>{if(m.on&&!m.ix)ms+=m.v;});
+  // Ler valores atuais dos inputs DOM (mais confiável que m.v) e sincronizar
+  ME.forEach(m=>{
+    const domV=document.getElementById('v_'+m.id);
+    if(domV&&!m.ix){const nv=parseFloat(domV.value);if(!isNaN(nv))m.v=nv;}
+    if(!m.ix)ms+=m.v;
+  });
+  MA.forEach(m=>{
+    if(m.on){
+      const domV=document.getElementById('v_'+m.id);
+      if(domV&&!m.ix){const nv=parseFloat(domV.value);if(!isNaN(nv))m.v=nv;}
+      if(!m.ix)ms+=m.v;
+    }
+  });
 
   const modulos=ME.map(m=>{const c=catById(m.id);return c?c.nm:m.id;});
   MA.filter(m=>m.on).forEach(m=>modulos.push(m.nm));
@@ -2984,8 +3085,10 @@ function buildPropostaObj(){
     rb,incAnual,incMes,devVal,invMeses,invMensal,
     modulos,
     meIds:ME.map(m=>m.id),
-    maOn:MA.map(m=>({id:m.id,on:m.on,ix:m.ix})),
-    mxOn:MX.map(m=>({id:m.id,on:m.on})),
+    meData:ME.map(m=>({id:m.id,v:m.v,ix:m.ix})),
+    maOn:MA.map(m=>({id:m.id,on:m.on,ix:m.ix,v:m.v})),
+    mxOn:MX.map(m=>({id:m.id,on:m.on,v:m.v})),
+    _migrateV:3,
   };
 }
 
@@ -2995,6 +3098,7 @@ let _editandoPropostaGh=null; // {path, sha} se veio de "Editar Proposta"
 async function salvarPropostaAtual(){
   const proposta=buildPropostaObj();
   const nome=proposta.nome;
+  _lastSaveTs=Date.now();
 
   // Se estamos editando uma proposta existente (veio do "Editar"), atualizar ela
   if(_editandoPropostaGh&&_editandoPropostaGh.path){
@@ -3010,11 +3114,27 @@ async function salvarPropostaAtual(){
     if(localIdx>=0){arr[localIdx]=proposta;}else{arr.unshift(proposta);}
     savePropostas(arr);
 
+    // Atualizar _allPropostas em memória imediatamente (evitar dados stale do GitHub)
+    const memIdx=_allPropostas.findIndex(x=>x.id===proposta.id);
+    if(memIdx>=0){
+      proposta._gh_path=_editandoPropostaGh.path;
+      proposta._gh_sha=_editandoPropostaGh.sha;
+      _allPropostas[memIdx]=proposta;
+    }
+
     // Atualizar no GitHub
     if(ghIsConfigured()){
+      const ghPath=_editandoPropostaGh.path;
       const cleaned={...proposta};
-      ghSaveFile(_editandoPropostaGh.path,cleaned,_editandoPropostaGh.sha,`Atualizar: ${nome}`)
-        .then(r=>{console.log('GitHub update OK:',r);showToast('Proposta atualizada no GitHub!','#10B981');})
+      ghSaveFile(ghPath,cleaned,_editandoPropostaGh.sha,`Atualizar: ${nome}`)
+        .then(r=>{
+          console.log('GitHub update OK:',r);showToast('Proposta atualizada no GitHub!','#10B981');
+          // Atualizar SHA em memória para próximas edições
+          if(r&&r.content&&r.content.sha){
+            const mi=_allPropostas.findIndex(x=>x.id===proposta.id);
+            if(mi>=0)_allPropostas[mi]._gh_sha=r.content.sha;
+          }
+        })
         .catch(e=>{console.error('GitHub update error:',e);showToast('Erro GitHub: '+e.message,'#EF4444');});
     }
     _editandoPropostaGh=null;
@@ -3037,9 +3157,23 @@ async function salvarPropostaAtual(){
         if(localIdx>=0){arr[localIdx]=proposta;}else{arr.unshift(proposta);}
         savePropostas(arr);
 
+        // Atualizar _allPropostas em memória imediatamente
+        const memIdx=_allPropostas.findIndex(x=>x.id===proposta.id);
+        if(memIdx>=0){
+          proposta._gh_path=existente._gh_path;
+          proposta._gh_sha=existente._gh_sha;
+          _allPropostas[memIdx]=proposta;
+        }
+
         const cleaned={...proposta};
         ghSaveFile(existente._gh_path,cleaned,existente._gh_sha,`Atualizar: ${nome}`)
-          .then(r=>{console.log('GitHub update OK:',r);showToast('Proposta atualizada!','#10B981');})
+          .then(r=>{
+            console.log('GitHub update OK:',r);showToast('Proposta atualizada!','#10B981');
+            if(r&&r.content&&r.content.sha){
+              const mi=_allPropostas.findIndex(x=>x.id===proposta.id);
+              if(mi>=0)_allPropostas[mi]._gh_sha=r.content.sha;
+            }
+          })
           .catch(e=>{console.error('GitHub update error:',e);showToast('Erro GitHub: '+e.message,'#EF4444');});
         return;
       }
@@ -3064,10 +3198,92 @@ async function salvarPropostaAtual(){
 // ══════════════════════════════════════
 let _allPropostas=[];
 let _propostasSource='local'; // 'local' ou 'github'
+let _lastSaveTs=0; // Timestamp da última gravação — evita race condition com GitHub
+
+// ── Migração automática: converter propostas antigas (meIds) para formato novo (meData) ──
+async function migratePropostas(propostas){
+  const MIGRATE_VERSION=3; // incrementar para forçar re-migração
+  let migrated=0;
+  for(let p of propostas){
+    const needsMigration=!p.meData||!p.meData.length||(p._migrateV||0)<MIGRATE_VERSION;
+    if(!needsMigration) continue;
+
+    const hasExistingMeData=p.meData&&p.meData.length>0;
+
+    // Se NÃO tem meData, reconstruir a partir de meIds (propostas muito antigas)
+    if(!hasExistingMeData){
+      if(!p.meIds||!p.meIds.length) continue; // sem dados nenhum, pular
+      const meDataNew=[];
+      p.meIds.forEach(mid=>{
+        const cat=catById(mid);
+        if(cat) meDataNew.push({id:cat.id,v:cat.v,ix:false});
+        else meDataNew.push({id:mid,v:0,ix:false});
+      });
+      p.meData=meDataNew;
+    }
+    // Se JÁ tem meData, preservar valores negociados — apenas garantir integridade
+    // (não sobrescrever com valores do catálogo!)
+
+    // Garantir que maOn tenha campo v e deduplicar com ME
+    const meIdSetMig=new Set((p.meData||[]).map(d=>d.id));
+    if(p.maOn){p.maOn.forEach(m=>{
+      if(typeof m.v!=='number'){
+        const def=MA.find(d=>d.id===m.id);
+        m.v=def?def.v:0;
+      }
+      // Se módulo já está nos essenciais, desativar no adicional
+      if(meIdSetMig.has(m.id)) m.on=false;
+    });}
+
+    // Garantir que mxOn tenha campo v
+    if(p.mxOn){p.mxOn.forEach(m=>{
+      if(typeof m.v!=='number'){
+        const def=MX.find(d=>d.id===m.id);
+        m.v=def?def.v:0;
+      }
+    });}
+
+    p._migrateV=MIGRATE_VERSION;
+    migrated++;
+
+    // Salvar atualização no GitHub se possível
+    if(p._gh_path&&p._gh_sha&&ghIsConfigured()){
+      try{
+        const cleaned={...p};
+        delete cleaned._gh_path;delete cleaned._gh_sha;
+        const r=await ghSaveFile(p._gh_path,cleaned,p._gh_sha,'Migrar formato módulos: '+p.nome);
+        if(r&&r.content&&r.content.sha) p._gh_sha=r.content.sha;
+      }catch(e){console.warn('Migração GitHub falhou para',p.nome,e);}
+    }
+  }
+  if(migrated>0){
+    console.log('Migração: '+migrated+' proposta(s) convertida(s) para formato meData');
+    // Atualizar localStorage também
+    const local=getPropostas();
+    let localUpdated=false;
+    local.forEach(lp=>{
+      const match=propostas.find(p=>p.id===lp.id);
+      if(match&&match.meData&&!lp.meData){
+        lp.meData=match.meData;
+        if(match.maOn)lp.maOn=match.maOn;
+        if(match.mxOn)lp.mxOn=match.mxOn;
+        localUpdated=true;
+      }
+    });
+    if(localUpdated) savePropostas(local);
+  }
+  return migrated;
+}
 
 async function renderPropostasSalvas(){
   const grid=document.getElementById('propostasGrid');
   if(!grid)return;
+
+  // Se acabou de salvar (<5s), usar dados em memória (evita race condition com GitHub)
+  if(_lastSaveTs&&(Date.now()-_lastSaveTs)<5000&&_allPropostas.length>0){
+    filterPropostas();
+    return;
+  }
 
   // Tentar GitHub primeiro, fallback para local
   if(ghIsConfigured()){
@@ -3077,6 +3293,8 @@ async function renderPropostasSalvas(){
       if(ghPropostas!==null){
         _allPropostas=ghPropostas;
         _propostasSource='github';
+        // Migrar propostas antigas para formato meData
+        await migratePropostas(_allPropostas);
         // Se GitHub retornou vazio, incluir propostas locais também
         if(ghPropostas.length===0){
           const local=getPropostas();
@@ -3099,9 +3317,10 @@ async function renderPropostasSalvas(){
   renderPropostasLocal();
 }
 
-function renderPropostasLocal(){
+async function renderPropostasLocal(){
   _allPropostas=getPropostas();
   _propostasSource='local';
+  await migratePropostas(_allPropostas);
   filterPropostas();
 }
 
@@ -3113,7 +3332,7 @@ function filterPropostas(){
   const search=(searchEl?searchEl.value:'').toLowerCase();
   const sort=sortEl?sortEl.value:'recente';
 
-  let arr=[..._allPropostas];
+  let arr=_allPropostas.map((p,i)=>({...p,_origIdx:i}));
 
   // Filtrar
   if(search){arr=arr.filter(p=>(p.nome||'').toLowerCase().includes(search));}
@@ -3121,8 +3340,13 @@ function filterPropostas(){
   // Ordenar
   if(sort==='recente')arr.sort((a,b)=>(b.id||0)-(a.id||0));
   else if(sort==='antigo')arr.sort((a,b)=>(a.id||0)-(b.id||0));
+  else if(sort==='modificado')arr.sort((a,b)=>{
+    const da=a.dataModificacao?new Date(a.dataModificacao).getTime():0;
+    const db=b.dataModificacao?new Date(b.dataModificacao).getTime():0;
+    return db-da;
+  });
   else if(sort==='nome')arr.sort((a,b)=>(a.nome||'').localeCompare(b.nome||''));
-  else if(sort==='valor')arr.sort((a,b)=>(b.ms||0)-(a.ms||0));
+  else if(sort==='valor')arr.sort((a,b)=>((b.ms||0)+(b.addTotal||0))-((a.ms||0)+(a.addTotal||0)));
 
   if(!arr.length){
     grid.innerHTML='<div style="text-align:center;padding:30px;color:var(--gray);font-size:13px;">'+(search?'Nenhuma proposta encontrada para "'+search+'"':'Nenhuma proposta salva ainda.<br>Gere uma proposta na Calculadora para salvá-la aqui.')+'</div>';
@@ -3131,7 +3355,20 @@ function filterPropostas(){
 
   grid.innerHTML=`<div style="font-size:10px;color:var(--gray);margin-bottom:8px;">${arr.length} proposta${arr.length>1?'s':''}</div>`+
     arr.map((p,i)=>{
-      const ms=(p.ms||0).toFixed(2).replace('.',',');
+      const mensTot=((p.ms||0)+(p.addTotal||0)).toFixed(2).replace('.',',');
+      // Calcular margem a partir dos dados salvos
+      let margPct=null,margColor='#999';
+      try{
+        const mg=sim({lj:p.lj||1,ct:p.ct||12,ro:p.ro||1,ms:p.ms||0,
+          su:p.setup||0,ins:p.inst||0,ixS:!!p.ixSetup,ixI:!!p.ixInst,
+          rb:p.rb||0,incAnual:p.incAnual||0,incMes:p.incMes||0,
+          devVal:p.devVal||0,invMeses:p.invMeses||0,invMensal:p.invMensal||0});
+        const mgPctNum=mg*100;
+        margPct=mgPctNum.toFixed(1);
+        if(mgPctNum>=65)margColor='#10B981';
+        else if(mgPctNum>=60)margColor='#F59E0B';
+        else margColor='#EF4444';
+      }catch(e){}
       // Formatar datas
       const dataCriacao=formatDataProposta(p.dataCriacao||p.data);
       const dataModif=formatDataProposta(p.dataModificacao);
@@ -3141,7 +3378,8 @@ function filterPropostas(){
         <div class="pg-info">
           <div class="pg-nome">${p.nome||'—'}</div>
           <div class="pg-detail">
-            <div class="pg-detail-item">Mensalidade: <strong>R$ ${ms}</strong></div>
+            <div class="pg-detail-item">Mensalidade: <strong>R$ ${mensTot}</strong></div>
+            ${margPct!==null?`<div class="pg-detail-item">Margem: <strong style="color:${margColor}">${margPct.replace('.',',')} %</strong></div>`:''}
             <div class="pg-detail-item">Tempo de contrato: <strong>${p.ct||0} meses</strong></div>
             <div class="pg-detail-item">Qtd de lojas: <strong>${p.lj||0}</strong></div>
           </div>
@@ -3152,9 +3390,10 @@ function filterPropostas(){
           </div>
         </div>
         <div class="pg-acts">
-          <button class="btn btn-o" onclick="carregarProposta(${i})" title="Editar proposta">✏</button>
-          <button class="btn btn-o" onclick="downloadProposta(${i})" title="Baixar proposta">⬇</button>
-          <button class="btn btn-o" onclick="deletarProposta(${i})" title="Excluir proposta" style="color:#EF4444;border-color:#EF4444;">✕</button>
+          <button class="btn btn-o" onclick="visualizarProposta(${p._origIdx})" title="Visualizar proposta">👁</button>
+          <button class="btn btn-o" onclick="carregarProposta(${p._origIdx})" title="Editar proposta">✏</button>
+          <button class="btn btn-o" onclick="downloadProposta(${p._origIdx})" title="Baixar proposta">⬇</button>
+          <button class="btn btn-o" onclick="deletarProposta(${p._origIdx})" title="Excluir proposta" style="color:#EF4444;border-color:#EF4444;">✕</button>
         </div>
       </div>`;
     }).join('');
@@ -3210,8 +3449,46 @@ function carregarProposta(idx){
   document.getElementById('g_inv_meses').value=p.invMeses||0;
   document.getElementById('g_inv_mensal').value=p.invMensal||0;
 
-  if(p.maOn){p.maOn.forEach(s=>{const m=MA.find(x=>x.id===s.id);if(m){m.on=s.on;m.ix=s.ix;}});}
-  if(p.mxOn){p.mxOn.forEach(s=>{const m=MX.find(x=>x.id===s.id);if(m){m.on=s.on;}});}
+  // ── Restaurar ME com valores exatos salvos ──
+  if(p.meData&&p.meData.length){
+    // Formato novo: meData tem {id, v, ix} com valores negociados
+    ME.length=0;
+    p.meData.forEach(d=>{
+      ME.push({id:d.id,v:d.v,ix:!!d.ix});
+    });
+  } else if(p.meIds&&p.meIds.length){
+    // Fallback para propostas antigas que só tinham meIds
+    ME.length=0;
+    p.meIds.forEach(mid=>{
+      const cat=catById(mid);
+      if(cat) ME.push({id:cat.id,v:cat.v,ix:false});
+    });
+  }
+
+  // ── Resetar MA e MX ──
+  MA.forEach(m=>{m.on=false;m.ix=false;});
+  MX.forEach(m=>{m.on=false;});
+
+  // ── Restaurar MA com valores exatos ──
+  if(p.maOn){p.maOn.forEach(s=>{
+    const m=MA.find(x=>x.id===s.id);
+    if(m){m.on=s.on;m.ix=s.ix;if(typeof s.v==='number')m.v=s.v;}
+    else if(s.on){
+      // Módulo migrou de MA→MX (ex: kinesis) — ativar no MX
+      const mx=MX.find(x=>x.id===s.id);
+      if(mx){mx.on=true;if(typeof s.v==='number')mx.v=s.v;}
+    }
+  });}
+
+  // ── Deduplicar: se um módulo está nos ME, desativar no MA ──
+  const meIdSet=new Set(ME.map(m=>m.id));
+  MA.forEach(m=>{if(meIdSet.has(m.id))m.on=false;});
+
+  // ── Restaurar MX com valores exatos ──
+  if(p.mxOn){p.mxOn.forEach(s=>{
+    const m=MX.find(x=>x.id===s.id);
+    if(m){m.on=s.on;if(typeof s.v==='number')m.v=s.v;}
+  });}
 
   refreshMods();
   go(3);
@@ -3750,6 +4027,216 @@ function backToGmMenu(){
 
 
 
+// ══════════════════════════════════════
+// VISUALIZAR PROPOSTA (modal popup)
+// ══════════════════════════════════════
+function visualizarProposta(idx){
+  const p=_allPropostas[idx];if(!p)return;
+  const nome=p.nome||'Cliente';
+  const lj=p.lj||0,ct=p.ct||0,ro=p.ro||0;
+  const setupVal=p.setup||0,instVal=p.inst||0;
+  const ixSetup=!!p.ixSetup,ixInst=!!p.ixInst;
+  const ms=p.ms||0;
+  const addTotal=p.addTotal||0;
+  const rb=p.rb||0;
+  const incAnual=p.incAnual||0,incMes=p.incMes||0;
+  const devVal=p.devVal||0;
+  const invMeses=p.invMeses||0,invMensal=p.invMensal||0;
+  const invTotal=lj>0?(invMensal*invMeses)/lj:0;
+
+  // Reconstruct modules from saved data
+  const modulos=p.modulos||[];
+  // Reconstruct essential modules with values (usar meData se disponível)
+  const modEss=[];
+  const modAdd=[];
+  if(p.meData&&p.meData.length){
+    p.meData.forEach(d=>{
+      const cat=MOD_CATALOG.find(c=>c.id===d.id);
+      const nm=cat?cat.nm:d.id;
+      modEss.push({nm,v:d.v,ix:!!d.ix,origV:cat?cat.v:d.v});
+    });
+  } else if(p.meIds&&p.meIds.length){
+    p.meIds.forEach(id=>{
+      const cat=MOD_CATALOG.find(c=>c.id===id);
+      const nm=cat?cat.nm:id;
+      const origV=cat?cat.v:0;
+      modEss.push({nm,v:origV,ix:false,origV});
+    });
+  }
+  if(p.maOn&&p.maOn.length){
+    p.maOn.forEach(m=>{
+      if(m.on){
+        const def=MA.find(d=>d.id===m.id);
+        const nm=def?def.nm:m.id;
+        const savedV=(typeof m.v==='number')?m.v:(def?def.v:0);
+        modAdd.push({nm,v:m.ix?0:savedV,ix:!!m.ix,origV:savedV});
+      }
+    });
+  }
+
+  // Cross-sell
+  const xsSel=[];
+  if(p.mxOn&&p.mxOn.length){
+    p.mxOn.forEach(m=>{
+      if(m.on){
+        const def=MX.find(d=>d.id===m.id);
+        const savedV=(typeof m.v==='number')?m.v:(def?def.v:0);
+        const nm=def?def.nm:m.id;
+        xsSel.push({nm,v:savedV});
+      }
+    });
+  }
+  const xsTotal=xsSel.reduce((s,m)=>s+m.v,0);
+
+  // Isenções
+  const isensList=[];
+  if(ixSetup)isensList.push({item:'Setup da marca',de:setupVal});
+  if(ixInst)isensList.push({item:'Implantação ('+lj+' lojas)',de:instVal*lj});
+  modEss.filter(m=>m.ix).forEach(m=>isensList.push({item:m.nm,de:m.origV||0}));
+  modAdd.filter(m=>m.ix).forEach(m=>isensList.push({item:m.nm,de:m.origV||0}));
+
+  // Data
+  const dataStr=p.data||new Date().toLocaleDateString('pt-BR');
+
+  // Move badge
+  const moveHtml=p.moveEvent?`<div style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;">
+    <span style="font-size:16px;">⚡</span>
+    <div><div>Oferta Especial iFood Move</div>${p.moveCondicao?'<div style="font-weight:400;opacity:.85;margin-top:2px;font-size:11px;">'+p.moveCondicao+'</div>':''}</div>
+  </div>`:'';
+
+  const fmtBRL=(v)=>'R$ '+v.toFixed(2).replace('.',',');
+  const fmtBRLi=(v)=>'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  const iTag=(origV)=>'<span style="color:#9CA3AF;text-decoration:line-through;margin-right:6px;">'+fmtBRL(origV)+'</span><span style="color:#10B981;font-size:9px;font-weight:700;text-transform:uppercase;">ISENTO</span>';
+
+  const pageHTML=`
+  <div class="header" style="text-align:center;margin-bottom:28px;">
+    <div style="display:inline-block;background:#e9202e;color:#fff;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;padding:5px 18px;border-radius:20px;margin-bottom:10px;">Proposta Comercial</div>
+    <h1 style="font-size:24px;font-weight:900;color:#890119;">Proposta ${nome}</h1>
+    <p style="font-size:11px;color:#6B7280;margin-top:4px;">iFood Salão | 3S Checkout — ${dataStr}</p>
+  </div>
+
+  ${moveHtml}
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div style="background:#F3F4F6;border-radius:10px;padding:16px 18px;">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#6B7280;margin-bottom:10px;">Contrato</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#6B7280;">Tempo de contrato</span><span style="font-weight:700;">${ct} meses</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#6B7280;">Lojas</span><span style="font-weight:700;">${lj} unidades</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;"><span style="color:#6B7280;">Rollout</span><span style="font-weight:700;">${ro} meses</span></div>
+    </div>
+    <div style="background:#F3F4F6;border-radius:10px;padding:16px 18px;">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#6B7280;margin-bottom:10px;">Investimento Inicial</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#6B7280;">Setup da marca</span><span style="font-weight:700;">${ixSetup?iTag(setupVal):fmtBRL(setupVal)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#6B7280;">Implantação (${lj} lojas)</span><span style="font-weight:700;">${ixInst?iTag(instVal*lj):fmtBRLi(instVal*lj)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;padding:8px 0;margin-top:6px;border-top:1.5px solid rgba(0,0,0,.08);font-weight:800;"><span>Total inicial</span><span style="color:#890119;">${((ixSetup?0:setupVal)+(ixInst?0:instVal*lj)).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</span></div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div style="background:#FFF5F5;border-radius:10px;padding:16px 18px;">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#e9202e;margin-bottom:10px;">Serviços Inclusos</div>
+      ${modulos.map(m=>'<div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 0;color:#890119;"><span style="color:#10B981;">✓</span> '+m+'</div>').join('')}
+    </div>
+    <div>
+      ${isensList.length?'<div style="background:#F0FDF4;border-radius:10px;padding:16px 18px;margin-bottom:14px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#10B981;margin-bottom:10px;">Condições Especiais</div>'+isensList.map(i=>'<div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 0;color:#065F46;"><span style="color:#10B981;">✓</span> '+i.item+(i.item.includes('isent')?'':' isento')+'</div>').join('')+'</div>':''}
+      ${(rb>0||incAnual>0||devVal>0||invTotal>0)?'<div style="background:#F0FDF4;border-radius:10px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#10B981;margin-bottom:10px;">Benefícios</div>'+
+        (rb>0?'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;"><span style="color:#065F46;">Rebate</span><span style="font-weight:600;color:#10B981;">'+rb+'%</span></div>':'')+
+        (incAnual>0?'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;"><span style="color:#065F46;">Incentivo anual</span><span style="font-weight:600;color:#10B981;">'+fmtBRLi(incAnual)+'</span></div>':'')+
+        (devVal>0?'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;"><span style="color:#065F46;">Desenvolvimento</span><span style="font-weight:600;color:#10B981;">'+fmtBRLi(devVal)+'</span></div>':'')+
+        (invTotal>0?'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;"><span style="color:#065F46;">Investimento ('+invMeses+' meses)</span><span style="font-weight:600;color:#10B981;">'+fmtBRLi(invMensal*invMeses)+'</span></div>':'')+
+      '</div>':''}
+    </div>
+  </div>
+
+  <div style="background:#FFF5F5;border-radius:10px;padding:16px 18px;margin-bottom:16px;">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#e9202e;margin-bottom:10px;">Mensalidade 3S / Loja</div>
+    <div style="font-size:28px;font-weight:900;color:#e9202e;">${fmtBRL(ms)}</div>
+    <div style="font-size:11px;color:#6B7280;margin-top:2px;">Total rede: ${fmtBRLi(ms*lj)}/mês</div>
+  </div>
+
+  ${xsSel.length?'<div style="background:#FFFBEB;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Produtos Adicionais / Loja</div>'+xsSel.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+m.nm+'</span><span style="font-weight:600;color:#D97706;">'+fmtBRL(m.v)+'</span></div>').join('')+'</div>':''}
+
+  <div style="background:linear-gradient(135deg,#2D0A0E,#890119);border-radius:10px;padding:18px 28px;display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:center;color:#fff;">
+    <div><div style="font-size:8px;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.5);">Mensalidade 3S</div><div style="font-size:22px;font-weight:900;margin-top:3px;">${fmtBRL(ms)}</div></div>
+    <div><div style="font-size:8px;text-transform:uppercase;letter-spacing:.5px;color:rgba(255,255,255,.5);">Total / Loja / Mês</div><div style="font-size:22px;font-weight:900;margin-top:3px;color:#FF6B7A;">${fmtBRL(ms+addTotal)}</div></div>
+  </div>`;
+
+  // Inject into modal
+  document.getElementById('modalPropostaTitle').textContent='Proposta — '+nome;
+  document.getElementById('modalPropostaBody').innerHTML=pageHTML;
+  document.getElementById('modalProposta').classList.add('active');
+  document.body.style.overflow='hidden';
+  // Store current nome for download
+  window._modalPropostaNome=nome;
+}
+
+function fecharModalProposta(){
+  document.getElementById('modalProposta').classList.remove('active');
+  document.body.style.overflow='';
+}
+
+function modalDownloadPDF(){
+  const el=document.getElementById('modalPropostaBody');
+  const nome=window._modalPropostaNome||'proposta';
+  const fileName='Proposta_'+nome.replace(/[^a-zA-Z0-9À-ɏ\s-]/g,'').replace(/\s+/g,'_')+'.pdf';
+  if(typeof html2pdf==='undefined'){
+    // Load html2pdf dynamically
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+    s.onload=function(){
+      html2pdf().set({margin:[10,10,10,10],filename:fileName,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(el).save();
+    };
+    document.head.appendChild(s);
+  }else{
+    html2pdf().set({margin:[10,10,10,10],filename:fileName,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(el).save();
+  }
+}
+
+function modalDownloadJPEG(){
+  const el=document.getElementById('modalPropostaBody');
+  const nome=window._modalPropostaNome||'proposta';
+  const fileName='Proposta_'+nome.replace(/[^a-zA-Z0-9À-ɏ\s-]/g,'').replace(/\s+/g,'_')+'.jpeg';
+  // Use html2canvas (bundled inside html2pdf)
+  function doCapture(){
+    if(typeof html2canvas==='undefined'){showToast('Aguarde o carregamento...','#F59E0B');return;}
+    html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(canvas=>{
+      canvas.toBlob(blob=>{
+        const url=URL.createObjectURL(blob);
+        const a=document.createElement('a');
+        a.href=url;a.download=fileName;
+        document.body.appendChild(a);a.click();
+        URL.revokeObjectURL(url);document.body.removeChild(a);
+      },'image/jpeg',0.95);
+    });
+  }
+  if(typeof html2canvas==='undefined'){
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    s.onload=doCapture;
+    document.head.appendChild(s);
+  }else{
+    doCapture();
+  }
+}
+
 </script>
+
+<!-- Modal Visualizar Proposta -->
+<div id="modalProposta" onclick="if(event.target===this)fecharModalProposta()">
+  <div class="mp-box">
+    <div class="mp-toolbar">
+      <span id="modalPropostaTitle">Proposta</span>
+      <div class="mp-toolbar-btns">
+        <button onclick="modalDownloadPDF()">⬇ PDF</button>
+        <button onclick="modalDownloadJPEG()">🖼 JPEG</button>
+        <button class="btn-close-modal" onclick="fecharModalProposta()">✕</button>
+      </div>
+    </div>
+    <div class="mp-content">
+      <div class="page" id="modalPropostaBody"></div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
