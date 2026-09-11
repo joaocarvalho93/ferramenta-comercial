@@ -1,0 +1,177 @@
+{
+  "id": 1789151490569,
+  "data": "11/09/2026",
+  "hora": "15:31",
+  "dataCriacao": "2026-09-11T18:31:30.568Z",
+  "dataModificacao": "2026-09-11T18:31:30.568Z",
+  "nome": "Paprica Burger",
+  "lj": 5,
+  "ct": 48,
+  "ro": 2,
+  "responsavel": "lidia.esteves@ifood.com.br",
+  "segmento": "qsr",
+  "culinaria": "hamburgueria",
+  "estado": "DF",
+  "setup": 3000,
+  "inst": 1000,
+  "ixSetup": true,
+  "ixInst": false,
+  "ixInstExist": false,
+  "ms": 630,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 3",
+    "KDS — Até 3",
+    "Marketplace — iFood / Rappi / OD",
+    "Produção Impressoras — Ilimitado",
+    "Totem — Ilimitado",
+    "POS Mobile — Ilimitado",
+    "Marca Adicional",
+    "3SGo — Ilimitado por loja"
+  ],
+  "meIds": [
+    "pdv_3",
+    "kds_3",
+    "mkt_full",
+    "imp_ilim",
+    "totem_ilim"
+  ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 160,
+      "ix": false
+    },
+    {
+      "id": "kds_3",
+      "v": 130,
+      "ix": false
+    },
+    {
+      "id": "mkt_full",
+      "v": 80,
+      "ix": false
+    },
+    {
+      "id": "imp_ilim",
+      "v": 130,
+      "ix": false
+    },
+    {
+      "id": "totem_ilim",
+      "v": 0,
+      "ix": false
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "pos_5",
+      "on": false,
+      "ix": false,
+      "v": 150
+    },
+    {
+      "id": "pos_ilim",
+      "on": true,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "marca",
+      "on": true,
+      "ix": false,
+      "v": 30
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": true,
+      "v": 0
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_d",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_combo",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000
+    },
+    {
+      "id": "crm_fid",
+      "on": false,
+      "v": 199.9
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/paprica_burger_1789151490569.json",
+  "_gh_sha": null
+}
