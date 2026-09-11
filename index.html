@@ -408,6 +408,59 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 #s12 .mv-save-secondary:hover{background:#E5E7EB;}
 @media(max-width:500px){#s12 .mv-r3{grid-template-columns:1fr 1fr;gap:8px;}#s12 .mv-rbar{padding:12px;border-radius:10px 10px 0 0;}#s12 .mv-ri .rv{font-size:14px;}}
 @media(max-width:380px){#s12 .mv-r3{grid-template-columns:1fr;gap:6px;}#s12 .mv-rbar{padding:10px 8px;}#s12 .mv-ri .rv{font-size:12px;}}
+/* Move sub-tabs */
+.mv-tab{border:none;padding:7px 16px;border-radius:20px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;background:#F3F4F6;color:var(--gray);}
+.mv-tab.on{background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;}
+.mv-tab:hover:not(.on){background:#E5E7EB;}
+.mv-tab-content{max-width:680px;margin:0 auto;}
+/* Guia styles */
+.gd-section{margin-bottom:20px;}
+.gd-section-t{font-size:13px;font-weight:800;color:var(--dark-gray);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.gd-section-t .gd-num{background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;}
+.gd-card{background:#fff;border:1.5px solid var(--border-light);border-radius:10px;padding:14px 16px;margin-bottom:8px;transition:all .15s;}
+.gd-card:hover{border-color:#E5E7EB;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.gd-pill{display:inline-block;background:#FEF3C7;color:#92400E;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.3px;}
+.gd-pill-green{background:#DCFCE7;color:#059669;}
+.gd-pill-red{background:#FEE2E2;color:#991B1B;}
+.gd-pill-blue{background:#DBEAFE;color:#1D4ED8;}
+.gd-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.gd-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+@media(max-width:500px){.gd-grid2,.gd-grid3{grid-template-columns:1fr;}}
+.gd-acc{border:1.5px solid var(--border-light);border-radius:8px;margin-bottom:6px;overflow:hidden;}
+.gd-acc-h{padding:12px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:600;color:var(--dark-gray);background:#fff;transition:background .15s;-webkit-tap-highlight-color:transparent;}
+.gd-acc-h:hover{background:#F9FAFB;}
+.gd-acc-h .gd-arrow{transition:transform .2s;font-size:10px;color:var(--gray);}
+.gd-acc.open .gd-acc-h .gd-arrow{transform:rotate(180deg);}
+.gd-acc-b{display:none;padding:0 14px 14px;font-size:12px;line-height:1.6;color:#4B5563;}
+.gd-acc.open .gd-acc-b{display:block;}
+.gd-pitch-box{background:linear-gradient(135deg,#FFF7ED,#FEF3C7);border:1.5px solid #F59E0B;border-radius:10px;padding:16px;position:relative;}
+.gd-pitch-txt{font-size:13px;line-height:1.7;color:#78350F;font-style:italic;}
+.gd-pitch-acts{display:flex;gap:8px;margin-top:10px;}
+.gd-pitch-btn{border:none;padding:7px 14px;border-radius:6px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;}
+.gd-clients-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.gd-client{background:#F9FAFB;border:1.5px solid var(--border-light);border-radius:8px;padding:8px 14px;font-size:11px;font-weight:600;color:var(--dark-gray);}
+.gd-diag{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(0,0,0,.05);}
+.gd-diag:last-child{border-bottom:none;}
+.gd-diag-icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+.gd-diag-q{font-size:12px;font-weight:600;color:var(--dark-gray);}
+.gd-diag-a{font-size:11px;color:#059669;margin-top:3px;}
+.gd-prod-card{border:1.5px solid var(--border-light);border-radius:10px;overflow:hidden;margin-bottom:10px;}
+.gd-prod-head{padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.gd-prod-head:hover{background:#F9FAFB;}
+.gd-prod-icon{font-size:22px;}
+.gd-prod-info{flex:1;}
+.gd-prod-nm{font-size:13px;font-weight:700;color:var(--dark-gray);}
+.gd-prod-tag{font-size:10px;color:var(--gray);margin-top:2px;}
+.gd-prod-body{display:none;padding:0 16px 14px;border-top:1px solid var(--border-light);}
+.gd-prod-card.open .gd-prod-body{display:block;}
+.gd-pain{background:#FEF2F2;border-radius:6px;padding:8px 10px;margin:8px 0 4px;font-size:11px;}
+.gd-pain-t{font-weight:700;color:#991B1B;margin-bottom:2px;}
+.gd-pain-txt{color:#7F1D1D;line-height:1.5;}
+.gd-arg{background:#F0FDF4;border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:11px;}
+.gd-arg-t{font-weight:700;color:#059669;margin-bottom:2px;}
+.gd-arg-txt{color:#065F46;line-height:1.5;}
+.gd-hide{display:none!important;}
+.gd-highlight{background:#FEF3C7;border-radius:2px;padding:0 1px;}
 .mv-tag{display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.3px;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -784,7 +837,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 
   <div style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;">
     <button class="btn btn-p" onclick="novaPropostaFromMenu()" style="font-size:13px;padding:10px 24px;">📝 Nova Proposta</button>
-    <button class="btn" onclick="go(12);mvAbrirForm();" style="font-size:13px;padding:10px 24px;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">⚡ Proposta Move</button>
+    <button class="btn" onclick="go(12);mvSwitchTab('oferta');mvAbrirForm();" style="font-size:13px;padding:10px 24px;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">⚡ Proposta Move</button>
   </div>
 
   <div class="card">
@@ -947,11 +1000,51 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 
 <!-- ═══ MOVE PANEL ═══ -->
 <div class="pnl" id="s12">
-  <div class="mv-wrap">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
-      <div style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:4px 14px;border-radius:16px;">iFood Move</div>
-      <span style="font-size:11px;color:var(--gray);">Condições especiais por porte</span>
+  <!-- HOME DO MOVE -->
+  <div id="mv_home">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:5px 18px;border-radius:16px;margin-bottom:10px;">iFood Move</div>
+      <h2 style="font-size:22px;font-weight:900;color:var(--dark-gray);margin-bottom:4px;">iFood Move</h2>
+      <p style="font-size:12px;color:var(--gray);max-width:400px;margin:0 auto;line-height:1.5;">Ferramentas para o time comercial no evento iFood Move.</p>
     </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:500px;margin:0 auto;">
+      <div class="card" onclick="mvSwitchTab('guia')" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:28px 16px;" onmouseenter="this.style.borderColor='#F59E0B';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:34px;margin-bottom:10px;">📖</div>
+        <div style="font-size:15px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Guia de Bolso</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Pitch, produtos, diagnóstico, objeções e argumentação de venda.</div>
+      </div>
+      <div class="card" onclick="mvSwitchTab('oferta')" style="cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center;padding:28px 16px;" onmouseenter="this.style.borderColor='#F59E0B';this.style.transform='translateY(-2px)'" onmouseleave="this.style.borderColor='transparent';this.style.transform='none'">
+        <div style="font-size:34px;margin-bottom:10px;">💰</div>
+        <div style="font-size:15px;font-weight:700;color:var(--dark-gray);margin-bottom:4px;">Oferta Move</div>
+        <div style="font-size:11px;color:var(--gray);line-height:1.4;">Criar propostas com condições especiais por porte.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nav bar (hidden until a tab is selected) -->
+  <div id="mv_nav" style="display:none;margin-bottom:18px;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button onclick="mvGoHome()" style="border:none;background:none;cursor:pointer;font-size:14px;color:var(--gray);padding:4px;">←</button>
+      <div style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:4px 14px;border-radius:16px;">iFood Move</div>
+      <div style="display:flex;gap:4px;margin-left:auto;" id="mv_tabs">
+        <button class="mv-tab on" data-tab="guia" onclick="mvSwitchTab('guia')">📖 Guia</button>
+        <button class="mv-tab" data-tab="oferta" onclick="mvSwitchTab('oferta')">💰 Oferta</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SUB-TAB: GUIA ═══ -->
+  <div id="mv_tab_guia" class="mv-tab-content" style="display:none;">
+    <div style="margin-bottom:12px;position:relative;">
+      <input type="text" id="mv_guia_search" placeholder="Buscar no guia..." oninput="mvGuiaFilter(this.value)" style="width:100%;padding:10px 14px 10px 36px;border:1.5px solid var(--border-light);border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;background:#fff;">
+      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:14px;">🔍</span>
+    </div>
+    <div id="mv_guia_content"></div>
+  </div>
+
+  <!-- ═══ SUB-TAB: OFERTA ═══ -->
+  <div id="mv_tab_oferta" class="mv-tab-content" style="display:none;">
+  <div class="mv-wrap">
 
     <!-- MATRIX -->
     <div class="mv-card">
@@ -1046,7 +1139,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     </div>
 
     </div><!-- /mv_form_wrap -->
-  </div>
+  </div><!-- /mv-wrap -->
 
   <!-- Move Result Bar -->
   <div class="mv-rbar">
@@ -1057,6 +1150,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     </div>
     <div class="mv-rbar-alert" id="mv_r_alert"></div>
   </div>
+  </div><!-- /mv_tab_oferta -->
 </div>
 
 <!-- Modal genérico -->
@@ -4506,6 +4600,180 @@ function modalShareEmail(){
 }
 
 // ══════════════════════════════════════
+// GUIA DE BOLSO 3S
+// ══════════════════════════════════════
+const GUIDE_DATA={"version":1,"updatedAt":"2026-09-11","brand":{"solution":"3S Checkout","event":"iFood Move"},"event":{"name":"iFood Move","description":"O maior encontro do ecossistema de Restaurantes, Varejo e Conveniência.","focus":"Conteúdo prático que vira ferramenta.","pillars":["Tecnologia & Inovação","Operação & Performance","Liderança, Gestão & Finanças"],"speakers":[{"name":"Alex Atala","role":"Chef"},{"name":"Felipe Bronze","role":"Chef"},{"name":"Nizan Guanaes","role":"Publicitário e empresário"},{"name":"Will Guidara","role":"Hospitalidade Irracional"},{"name":"Diego Barreto","role":"CEO iFood"}]},"partnership":{"title":"Parceria 3S Checkout & iFood","concept":"A união entre a inteligência do PDV 3S Checkout e a força da maior Food Tech da América Latina.","valuePoints":[{"id":"omnichannel","icon":"layers","title":"Omnichannel de Fato","text":"Elimina barreiras entre o físico e o digital em um só fluxo.","keywords":["multicanal","delivery","salão"]},{"id":"visao-360","icon":"eye","title":"Visão 360° do Cliente","text":"Identificação no salão de quem compra pelo delivery.","keywords":["crm","fidelização","cliente"]},{"id":"seguranca","icon":"shield","title":"Segurança e Aporte","text":"Tecnologia auditada e pronta para expansão de franquias.","keywords":["franquia","rede","expansão","auditoria"]},{"id":"future-proof","icon":"cpu","title":"Tecnologia Future-Proof","text":"Arquitetura modular pronta para novas IAs e pagamentos, sem necessidade de trocar de sistema.","keywords":["ia","inteligência artificial","modular","pagamentos"]}]},"pitch":{"durationSeconds":30,"text":"Se você já passou raiva com caixa travando no pico, pedido caindo errado na cozinha ou suporte que não atende no fim de semana, a 3S é a resposta. Nós entregamos um PDV ultrarrápido, totens que aumentam seu ticket médio e telas KDS que organizam a produção. Tudo integrado nativamente ao iFood para sua loja faturar mais e operar sem atrito."},"clients":[{"name":"Outback"},{"name":"Burger King"},{"name":"KFC"},{"name":"Pizza Hut"},{"name":"Ráscal"},{"name":"Popeyes"},{"name":"Papila Deli"},{"name":"Pirajá"},{"name":"Taco Bell"},{"name":"Bom Beef"},{"name":"We Coffee"},{"name":"Piadina Romagnola"}],"diagnostic":[{"id":"delivery","area":"Delivery","icon":"📦","question":"Hoje alguém precisa redigitar o pedido do iFood no caixa?","solution":"Integração Nativa 3S + iFood","productId":null},{"id":"fila","area":"Fila no Salão","icon":"👥","question":"Perde vendas no pico por conta de fila no balcão?","solution":"Totens de Autoatendimento","productId":"totem"},{"id":"cozinha","area":"Cozinha","icon":"🔥","question":"Comunicação com a cozinha é no papel ou impressora que enrosca?","solution":"KDS (Kitchen Display System)","productId":"kds"},{"id":"estabilidade","area":"Estabilidade","icon":"📡","question":"Se a internet cair numa sexta à noite, seu caixa para?","solution":"PDV Modo Offline Contingencial","productId":"pdv"}],"products":[{"id":"pdv","name":"PDV 3S Checkout","icon":"🖥️","tagline":"Salão, caixa e estoque sob controle em um só sistema.","features":[{"title":"Gestão de Salão","items":["Planta baixa interativa","Divisão por assento","Junção de mesas"]},{"title":"Governança Financeira","items":["Borderô cego","Sangrias auditáveis","Alçadas de aprovação"]},{"title":"Ruptura em Tempo Real","items":["Visibilidade imediata de itens em falta"]},{"title":"Estabilidade","items":["Modo Offline Contingencial: o caixa não para se a internet cair"]}],"salesArguments":[{"title":null,"pain":"Gargalo e filas no caixa em horários de pico por lentidão do sistema.","argument":"Interface ultrarrápida projetada para o ritmo intenso da alimentação, acelerando a finalização da venda e zerando filas no salão."}]},{"id":"kds","name":"KDS","icon":"📺","tagline":"Kitchen Display System: a cozinha organizada, sem papel.","features":[{"title":"SLA","items":["Alertas visuais por cores: Verde, Amarelo e Vermelho"]},{"title":"Produção","items":["Sincronismo por etapas/cursos","Unificação multicanal dos pedidos"]}],"salesArguments":[{"title":"Gargalos na Cozinha","pain":"Atrasos no preparo, comanda de papel engordurada/perdida e falta de padrão nos pratos.","argument":"Telas digitais organizadas por tempo de espera e praça de produção, reduzindo o tempo de preparo e eliminando erros de montagem."},{"title":"Comunicação Falha","pain":"Falta de comunicação entre a cozinha e a equipe sobre o status do pedido.","argument":"Sincronização instantânea; assim que o prato fica pronto no KDS, a equipe recebe a notificação para liberação imediata."}]},{"id":"go","name":"3S GO","icon":"📱","tagline":"Gestão móvel na palma da mão.","features":[{"title":"Gestão","items":["Dashboard instantâneo","Gestão de anomalias","Alertas de cancelamento"]}],"salesArguments":[{"title":"Falta de Clareza em Vendas","pain":"Não tenho dados e gráficos claros de vendas para tomar decisões rápidas na minha operação.","argument":"Dashboard de BI intuitivo que transforma números em gráficos em tempo real, mostrando curva ABC de produtos, horários de pico e ticket médio e sem complicação."},{"title":"Complexidade Multi-Loja","pain":"Não consigo fazer a gestão de mais de uma loja de forma simples sem precisar acessar cada sistema individualmente.","argument":"Plataforma multi-loja centralizada em nuvem: acompanhe o resultado de toda a rede no mesmo painel e com dados comparativos com total praticidade."}]},{"id":"totem","name":"Totem de Autoatendimento","icon":"🏧","tagline":"Menos fila, mais ticket.","metric":{"value":"até 20%","label":"de ticket médio com upsell automático"},"features":[{"title":"Vendas","items":["Upsell automático","Cardápio dinâmico visual"]},{"title":"Pagamento","items":["Integrado via cartão e PIX"]}],"salesArguments":[{"title":"Custo e Filas no Balcão","pain":"Custo elevado com equipe de atendimento no balcão e perda de vendas por filas de espera.","argument":"Absorve até 60% dos pedidos do balcão sem necessidade de novos funcionários, funcionando como um caixa adicional 100% focado no autoatendimento."},{"title":"Baixo Ticket Médio","pain":"Dificuldade da equipe em fazer venda cruzada de adicionais e sobremesas no balcão.","argument":"O totem sugere adicionais, combos e sobremesas em todas as etapas de forma automática e visual, aumentando o ticket médio em até 20%."}]},{"id":"cardapio","name":"Cardápio","icon":"📋","tagline":"Centralização de Cardápio: Gerencie preços, categorias, fotos e disponibilidade de itens em tempo real.","features":[],"salesArguments":[{"title":null,"pain":"Demora para alterar preços ou pausar itens esgotados em horários de pico, gerando insatisfação do cliente e vendas de itens sem estoque.","argument":"Gerencie preços, categorias, fotos e disponibilidade em tempo real com atualização instantânea em toda a operação, garantindo controle total sem pausar as vendas."}]},{"id":"retaguarda","name":"Retaguarda","icon":"🗄️","tagline":"Gestão Backoffice: Controle completo de Estoque, Ficha Técnica e Inteligência Financeira.","features":[],"salesArguments":[{"title":"Controle de Estoque & Ficha Técnica","pain":"Falta de controle sobre o consumo de insumos, gerando desperdício, furos de inventário e perda de margem.","argument":"Monitore insumos em tempo real, receba alertas de reposição e integre a ficha técnica para baixa automática e cálculo exato de custos."},{"title":"Finanças & Relatórios","pain":"Dificuldade para fechar o DRE, acompanhar o fluxo de caixa e entender a lucratividade real por canal ou operador.","argument":"DRE automatizado, fluxo de caixa e relatórios analíticos de vendas por período, produto, canal e operador na mesma plataforma."}]}],"objections":[{"id":"suporte","area":"Atendimento / Suporte","objection":"Já tive problemas ou ouvi dizer que o atendimento do suporte é demorado.","answer":"Reconhecemos a importância vital do suporte na operação e otimizamos completamente nosso processo. Ampliamos a equipe de atendimento e reestruturamos a triagem técnica para garantir retorno muito mais ágil e eficiência no atendimento."},{"id":"troca-pdv","area":"Sistema Atual / Troca de PDV","objection":"Já tenho um sistema de PDV/gestão e não quero trocar.","answer":"A 3S Checkout não vem para complicar, vem para integrar. Unificamos a operação do salão e do delivery em uma única plataforma sem exigir que você refaça o cadastro de produtos."},{"id":"internet","area":"Estabilidade / Queda de Internet","objection":"E se a internet cair na hora do movimento?","answer":"A operação de venda não para. O sistema possui contingência offline para você continuar lançando pedidos e emitindo comprovantes; assim que a conexão restabelece, os dados são sincronizados automaticamente."}]};
+
+let _guiaRendered=false;
+
+function mvSwitchTab(tab){
+  document.getElementById('mv_home').style.display='none';
+  document.getElementById('mv_nav').style.display='';
+  document.querySelectorAll('#mv_tabs .mv-tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  document.getElementById('mv_tab_guia').style.display=tab==='guia'?'':'none';
+  document.getElementById('mv_tab_oferta').style.display=tab==='oferta'?'':'none';
+  if(tab==='guia'&&!_guiaRendered){mvRenderGuia();_guiaRendered=true;}
+  if(tab==='oferta'){mvFecharForm();}
+}
+
+function mvGoHome(){
+  document.getElementById('mv_home').style.display='';
+  document.getElementById('mv_nav').style.display='none';
+  document.getElementById('mv_tab_guia').style.display='none';
+  document.getElementById('mv_tab_oferta').style.display='none';
+}
+
+function mvRenderGuia(){
+  const G=GUIDE_DATA;
+  const el=document.getElementById('mv_guia_content');
+  let h='';
+  let n=0;
+
+  // 1. O Evento
+  n++;
+  h+=`<div class="gd-section" data-gd-section="evento">
+    <div class="gd-section-t"><span class="gd-num">${n}</span> O Evento</div>
+    <div class="gd-card">
+      <div style="font-size:14px;font-weight:800;color:var(--dark-gray);margin-bottom:4px;">${G.event.name}</div>
+      <div style="font-size:12px;color:var(--gray);line-height:1.5;margin-bottom:8px;">${G.event.description}</div>
+      <div class="gd-pill" style="margin-bottom:10px;">${G.event.focus}</div>
+      <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;margin:10px 0 6px;">Pilares</div>
+      <div class="gd-grid3">${G.event.pillars.map(p=>'<div style="background:#FEF3C7;border-radius:6px;padding:8px 10px;font-size:11px;font-weight:600;color:#92400E;text-align:center;">'+p+'</div>').join('')}</div>
+      <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;margin:12px 0 6px;">Palestrantes</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;">${G.event.speakers.map(s=>'<div style="background:#F3F4F6;border-radius:6px;padding:6px 10px;font-size:11px;"><strong>'+s.name+'</strong> <span style="color:var(--gray);">· '+s.role+'</span></div>').join('')}</div>
+    </div>
+  </div>`;
+
+  // 2. Parceria
+  n++;
+  h+=`<div class="gd-section" data-gd-section="parceria">
+    <div class="gd-section-t"><span class="gd-num">${n}</span> ${G.partnership.title}</div>
+    <div class="gd-card" style="margin-bottom:10px;">
+      <div style="font-size:12px;color:var(--gray);line-height:1.5;font-style:italic;">${G.partnership.concept}</div>
+    </div>
+    <div class="gd-grid2">${G.partnership.valuePoints.map(vp=>'<div class="gd-card" data-item data-keywords="'+vp.keywords.join(',')+'"><div style="font-size:13px;font-weight:700;color:var(--dark-gray);margin-bottom:3px;">'+vp.title+'</div><div style="font-size:11px;color:var(--gray);line-height:1.5;">'+vp.text+'</div></div>').join('')}</div>
+  </div>`;
+
+  // 3. Pitch
+  n++;
+  h+=`<div class="gd-section" data-gd-section="pitch">
+    <div class="gd-section-t"><span class="gd-num">${n}</span> Pitch Matador <span class="gd-pill">${G.pitch.durationSeconds}s</span></div>
+    <div class="gd-pitch-box">
+      <div class="gd-pitch-txt" id="gd_pitch_txt">"${G.pitch.text}"</div>
+      <div class="gd-pitch-acts">
+        <button class="gd-pitch-btn" style="background:#F59E0B;color:#fff;" onclick="gdCopyPitch()">📋 Copiar</button>
+        <button class="gd-pitch-btn" style="background:#374151;color:#fff;" id="gd_timer_btn" onclick="gdToggleTimer()">⏱ ${G.pitch.durationSeconds}s</button>
+      </div>
+    </div>
+  </div>`;
+
+  // 4. Clientes
+  n++;
+  h+=`<div class="gd-section" data-gd-section="clientes">
+    <div class="gd-section-t"><span class="gd-num">${n}</span> Principais Clientes 3S</div>
+    <div class="gd-clients-grid">${G.clients.map(c=>'<div class="gd-client" data-item>'+c.name+'</div>').join('')}</div>
+  </div>`;
+
+  // 5. Diagnóstico
+  n++;
+  h+=`<div class="gd-section" data-gd-section="diagnostico">
+    <div class="gd-section-t"><span class="gd-num">${n}</span> Diagnóstico Rápido (SPIN)</div>
+    <div class="gd-card">${G.diagnostic.map(d=>'<div class="gd-diag" data-item><div class="gd-diag-icon">'+d.icon+'</div><div><div class="gd-diag-q">'+d.question+'</div><div class="gd-diag-a">→ '+d.solution+'</div></div></div>').join('')}</div>
+  </div>`;
+
+  // 6. Produtos
+  n++;
+  h+=`<div class="gd-section" data-gd-section="produtos">
+    <div class="gd-section-t"><span class="gd-num">${n}</span> Guia de Produtos</div>`;
+  G.products.forEach(p=>{
+    let body='';
+    if(p.metric) body+='<div style="background:#FEF3C7;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:12px;text-align:center;"><strong style="font-size:16px;color:#D97706;">'+p.metric.value+'</strong> <span style="color:#92400E;">'+p.metric.label+'</span></div>';
+    if(p.features&&p.features.length){
+      body+='<div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;margin:8px 0 4px;">Funcionalidades</div>';
+      p.features.forEach(f=>{
+        body+='<div style="margin-bottom:6px;"><div style="font-size:11px;font-weight:700;color:var(--dark-gray);">'+f.title+'</div>';
+        body+='<div style="font-size:11px;color:var(--gray);line-height:1.5;">'+f.items.join(' · ')+'</div></div>';
+      });
+    }
+    if(p.salesArguments&&p.salesArguments.length){
+      body+='<div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;margin:10px 0 4px;">Dores & Argumentação</div>';
+      p.salesArguments.forEach(sa=>{
+        if(sa.title) body+='<div style="font-size:11px;font-weight:700;color:var(--dark-gray);margin-top:6px;">'+sa.title+'</div>';
+        body+='<div class="gd-pain"><div class="gd-pain-t">Dor</div><div class="gd-pain-txt">'+sa.pain+'</div></div>';
+        body+='<div class="gd-arg"><div class="gd-arg-t">Argumento</div><div class="gd-arg-txt">'+sa.argument+'</div></div>';
+      });
+    }
+    h+=`<div class="gd-prod-card" data-item data-keywords="${p.tagline}" onclick="this.classList.toggle('open')">
+      <div class="gd-prod-head">
+        <span class="gd-prod-icon">${p.icon}</span>
+        <div class="gd-prod-info"><div class="gd-prod-nm">${p.name}</div><div class="gd-prod-tag">${p.tagline}</div></div>
+        <span class="gd-arrow" style="font-size:12px;color:var(--gray);transition:transform .2s;">▼</span>
+      </div>
+      <div class="gd-prod-body">${body}</div>
+    </div>`;
+  });
+  h+='</div>';
+
+  // 7. Objeções
+  n++;
+  h+=`<div class="gd-section" data-gd-section="objecoes">
+    <div class="gd-section-t"><span class="gd-num">${n}</span> Contorno de Objeções</div>`;
+  G.objections.forEach(o=>{
+    h+=`<div class="gd-acc" data-item onclick="this.classList.toggle('open')">
+      <div class="gd-acc-h"><div><span class="gd-pill-red" style="display:inline-block;background:#FEE2E2;color:#991B1B;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;margin-right:6px;">${o.area}</span>"${o.objection}"</div><span class="gd-arrow">▼</span></div>
+      <div class="gd-acc-b">${o.answer}</div>
+    </div>`;
+  });
+  h+='</div>';
+
+  el.innerHTML=h;
+}
+
+// Pitch copy + timer
+function gdCopyPitch(){
+  navigator.clipboard.writeText(GUIDE_DATA.pitch.text).then(()=>showToast('Pitch copiado!','#10B981')).catch(()=>showToast('Erro ao copiar','#EF4444'));
+}
+let _gdTimer=null;
+function gdToggleTimer(){
+  const btn=document.getElementById('gd_timer_btn');
+  if(_gdTimer){clearInterval(_gdTimer);_gdTimer=null;btn.textContent='⏱ '+GUIDE_DATA.pitch.durationSeconds+'s';btn.style.background='#374151';return;}
+  let sec=GUIDE_DATA.pitch.durationSeconds;
+  btn.style.background='#EF4444';
+  btn.textContent='⏱ '+sec+'s';
+  _gdTimer=setInterval(()=>{
+    sec--;
+    btn.textContent='⏱ '+sec+'s';
+    if(sec<=0){clearInterval(_gdTimer);_gdTimer=null;btn.textContent='✓ Tempo!';btn.style.background='#10B981';setTimeout(()=>{btn.textContent='⏱ '+GUIDE_DATA.pitch.durationSeconds+'s';btn.style.background='#374151';},2000);}
+  },1000);
+}
+
+// Guia search/filter
+function mvGuiaFilter(q){
+  const term=q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const sections=document.querySelectorAll('#mv_guia_content .gd-section');
+  if(!term){sections.forEach(s=>{s.classList.remove('gd-hide');s.querySelectorAll('[data-item]').forEach(i=>i.classList.remove('gd-hide'));});return;}
+  sections.forEach(s=>{
+    const items=s.querySelectorAll('[data-item]');
+    let sectionMatch=false;
+    // Check section title
+    const title=s.querySelector('.gd-section-t');
+    if(title&&title.textContent.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(term)){sectionMatch=true;}
+    if(items.length){
+      items.forEach(i=>{
+        const txt=(i.textContent+(i.dataset.keywords||'')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+        const match=txt.includes(term);
+        i.classList.toggle('gd-hide',!match);
+        if(match)sectionMatch=true;
+      });
+    } else {
+      const txt=s.textContent.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+      sectionMatch=txt.includes(term);
+    }
+    s.classList.toggle('gd-hide',!sectionMatch);
+  });
+}
+
+// ══════════════════════════════════════
 // iFood MOVE
 // ══════════════════════════════════════
 let _mvME=[
@@ -4523,8 +4791,7 @@ function mvGetPorte(lj){return lj<=30?'P':lj<=60?'M':'G';}
 
 function mvInit(){
   if(!_mvInited){mvRenderEss();mvBuildExtras();_mvInited=true;}
-  // Always show CTA, hide form on entry
-  mvFecharForm();
+  mvGoHome();
 }
 
 function mvResetForm(){
@@ -4995,6 +5262,7 @@ function mvCarregarProposta(idx){
   _mvInited=true;
   mvRenderEss();
   go(12);
+  mvSwitchTab('oferta');
   // Show form (filled), hide CTA
   document.getElementById('mv_cta_criar').style.display='none';
   document.getElementById('mv_form_wrap').style.display='block';
