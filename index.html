@@ -463,6 +463,129 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 .gd-hide{display:none!important;}
 .gd-highlight{background:#FEF3C7;border-radius:2px;padding:0 1px;}
 .mv-tag{display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.3px;}
+
+/* ── MULTI-SELECT CARDS GRID ── */
+.mv-multi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px;}
+.mv-multi-grid-3{grid-template-columns:repeat(3,1fr);}
+.mv-multi-card{display:flex;align-items:center;gap:6px;padding:9px 12px;border:1.5px solid var(--border-light);border-radius:8px;font-size:12px;font-weight:600;color:var(--dark-gray);cursor:pointer;background:#fff;transition:all .15s;text-align:center;justify-content:center;}
+.mv-multi-card:hover{border-color:var(--dark-gray);background:var(--off-white);}
+.mv-multi-card:has(input:checked){border-color:var(--purple);background:rgba(233,32,46,.06);color:var(--purple);}
+.mv-multi-card input[type=checkbox]{accent-color:var(--purple);flex-shrink:0;}
+
+/* ── RESPONSIVE: GLOBAL ── */
+@media(max-width:768px){
+  .hdr{padding:10px 14px;flex-direction:column;gap:8px;}
+  .hdr h1{font-size:14px;text-align:center;}
+  .hdr-menu{flex-wrap:wrap;justify-content:center;gap:3px;}
+  .hdr-menu button{font-size:11px;padding:5px 9px;}
+  .hdr-sep{display:none;}
+  .pnl{padding:16px 12px 60px;}
+  .pnl-t{font-size:18px;}
+  .pnl-d{font-size:12px;}
+  .card{padding:14px;border-radius:10px;}
+  .fld input,.fld select,.fld textarea{font-size:14px;padding:10px;}
+}
+@media(max-width:480px){
+  .hdr{padding:8px 10px;}
+  .hdr h1{font-size:13px;}
+  .hdr-menu button{font-size:10px;padding:4px 7px;}
+  .pnl{padding:10px 8px 50px;}
+  .pnl-t{font-size:16px;}
+  .card{padding:12px 10px;}
+}
+
+/* ── RESPONSIVE: MULTI-SELECT GRIDS ── */
+@media(max-width:768px){
+  .mv-multi-grid{grid-template-columns:repeat(2,1fr);}
+  .mv-multi-grid-3{grid-template-columns:repeat(2,1fr);}
+  .mv-multi-card{font-size:11px;padding:8px 8px;}
+}
+@media(max-width:400px){
+  .mv-multi-grid,.mv-multi-grid-3{grid-template-columns:1fr 1fr;}
+  .mv-multi-card{font-size:10px;padding:7px 6px;}
+}
+
+/* ── RESPONSIVE: MOVE PANEL (s12) ── */
+@media(max-width:768px){
+  #s12 .mv-card{padding:14px 10px;}
+  #s12 .mv-card-t{font-size:14px;}
+  #s12 .mv-mx{font-size:11px;}
+  #s12 .mv-mx th,#s12 .mv-mx td{padding:6px 4px;}
+  .mv-tab-content{padding:0 4px;}
+  .mv-tab{font-size:11px;padding:6px 12px;}
+}
+@media(max-width:480px){
+  #s12 .mv-mx{font-size:10px;}
+  #s12 .mv-mx th,#s12 .mv-mx td{padding:5px 3px;}
+}
+
+/* ── RESPONSIVE: LEADS PANEL (s13) ── */
+@media(max-width:768px){
+  #s13 .card{padding:14px 10px;}
+  .mv-fld input,.mv-fld select,.mv-fld textarea{font-size:14px!important;padding:10px!important;}
+  .mv-fld label{font-size:12px!important;}
+}
+
+/* ── RESPONSIVE: PROPOSAL MODAL ── */
+@media(max-width:768px){
+  #modalProposta .mp-box{max-width:100%;margin:6px;border-radius:10px;}
+  #modalProposta .mp-content .page{padding:18px 12px;}
+}
+
+/* ── RESPONSIVE: GAMIFICAÇÃO ── */
+@media(max-width:500px){
+  .gm-menu{grid-template-columns:1fr;max-width:100%;}
+  .gm-card{padding:18px 14px;}
+  .quiz-q{font-size:13px;}
+  .quiz-opt{padding:10px 12px;font-size:12px;}
+}
+
+/* ── RESPONSIVE: KNOWLEDGE BASE ── */
+@media(max-width:600px){
+  .rag-input{font-size:13px;padding:10px 12px;}
+  .rag-send{width:38px;height:38px;}
+}
+
+/* ── RESPONSIVE: GITHUB CONFIG ── */
+@media(max-width:500px){
+  .gh-cfg .gh-fields{grid-template-columns:1fr!important;}
+}
+
+/* ── RESPONSIVE: GUIDE SECTIONS ── */
+@media(max-width:768px){
+  .gd-pitch-acts{flex-direction:column;}
+  .gd-pitch-btn{width:100%;text-align:center;}
+}
+
+/* ── RESPONSIVE: HOME CARDS ── */
+@media(max-width:600px){
+  #s0 [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr 1fr!important;gap:10px!important;}
+}
+@media(max-width:380px){
+  #s0 [style*="grid-template-columns:1fr 1fr 1fr"]{grid-template-columns:1fr!important;}
+}
+
+/* ── RESPONSIVE: MOVE TABLE OVERFLOW ── */
+@media(max-width:480px){
+  #s12 .mv-mx{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+}
+
+/* ── RESPONSIVE: LEADS CARDS ── */
+@media(max-width:768px){
+  #s13 [style*="display:flex"][style*="gap"]{flex-direction:column;}
+}
+
+/* ── TOUCH TARGET IMPROVEMENTS ── */
+@media(pointer:coarse){
+  .hdr-menu button{min-height:36px;min-width:36px;}
+  .mv-tab{min-height:36px;}
+  .mv-multi-card{min-height:40px;}
+  .quiz-opt{min-height:44px;}
+  .gd-acc-h{min-height:44px;}
+  .gd-prod-head{min-height:44px;}
+  button,.mv-save-btn{min-height:44px;}
+  select,input[type=text],textarea{min-height:44px;}
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
@@ -1068,52 +1191,71 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
       <div class="mv-card">
         <div class="mv-card-t"><span class="n">1</span> Captação de Lead</div>
         <p style="font-size:11px;color:var(--gray);margin-bottom:14px;">Registre o contato inicial. Você pode salvar como lead ou avançar direto para a proposta.</p>
+
+        <!-- ── SEÇÃO 1: Dados do Contato ── -->
+        <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--primary-light);">Dados do Contato</div>
         <div class="mv-fld" style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Parceiro *</label><input type="text" id="mv_lead_nome" placeholder="Nome da rede / parceiro" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Qtd de lojas *</label><input type="number" id="mv_lead_lojas" placeholder="Ex: 20" min="1" inputmode="numeric" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
-          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Segmento</label><select id="mv_lead_seg" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;">
-            <option value="">Selecionar segmento</option>
-            <option value="qsr">Quick Service (QSR)</option>
-            <option value="table">Table Service</option>
-            <option value="delivery">Delivery First</option>
-            <option value="cafe">Cafeteria / Doceria</option>
-          </select></div>
+          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Nome do contato *</label><input type="text" id="mv_lead_resp" placeholder="Nome do responsável" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
+          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Telefone do contato *</label><input type="tel" id="mv_lead_tel" placeholder="(11) 99999-9999" inputmode="tel" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
         </div>
-        <div class="mv-fld" style="margin-top:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Nome do responsável (parceiro) *</label><input type="text" id="mv_lead_resp" placeholder="Nome do contato" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
-        <div class="mv-fld" style="margin-top:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Telefone para contato *</label><input type="tel" id="mv_lead_tel" placeholder="(11) 99999-9999" inputmode="tel" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
-          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">PDV atual *</label><input type="text" id="mv_lead_pdv" placeholder="Ex: Linx, Stone, Totvs..." style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
-          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Operação *</label><select id="mv_lead_operacao" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;">
-            <option value="">Selecionar</option>
-            <option value="Salão + Delivery">Salão + Delivery</option>
-            <option value="Apenas salão">Apenas salão</option>
-            <option value="Apenas Delivery">Apenas Delivery</option>
-          </select></div>
+
+        <!-- ── SEÇÃO 2: Dados do Parceiro ── -->
+        <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--primary-light);">Dados do Parceiro</div>
+        <div class="mv-fld" style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Qtd de lojas físicas *</label><input type="number" id="mv_lead_lojas" placeholder="Ex: 20" min="1" inputmode="numeric" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
+        <div class="mv-fld" style="margin-bottom:10px;">
+          <label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px;">Operação *<span style="font-weight:400;color:var(--gray);font-size:10px;margin-left:4px;">(múltipla seleção)</span></label>
+          <div id="mv_lead_operacao_wrap" class="mv-multi-grid">
+            <label class="mv-multi-card"><input type="checkbox" value="Delivery"> Delivery</label>
+            <label class="mv-multi-card"><input type="checkbox" value="Drive-Thru"> Drive-Thru</label>
+            <label class="mv-multi-card"><input type="checkbox" value="Fine Dining"> Fine Dining</label>
+            <label class="mv-multi-card"><input type="checkbox" value="Quick Service"> Quick Service</label>
+            <label class="mv-multi-card"><input type="checkbox" value="Table Service"> Table Service</label>
+          </div>
         </div>
-        <div class="mv-fld" style="margin-top:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Culinária</label><select id="mv_lead_culinaria" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;">
+        <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Culinária *</label><select id="mv_lead_culinaria" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;">
           <option value="">Selecionar culinária</option>
-          <option value="hamburgueria">Hamburgueria</option>
-          <option value="pizzaria">Pizzaria</option>
-          <option value="japonesa">Japonesa / Sushi</option>
-          <option value="brasileira">Brasileira</option>
-          <option value="italiana">Italiana</option>
-          <option value="mexicana">Mexicana</option>
-          <option value="arabe">Árabe / Esfiha</option>
-          <option value="chinesa">Chinesa</option>
           <option value="acai">Açaí / Bowls</option>
+          <option value="arabe">Árabe / Esfiha</option>
+          <option value="brasileira">Brasileira</option>
           <option value="cafe">Cafeteria / Doceria</option>
-          <option value="sorvete">Sorvete / Gelato</option>
-          <option value="padaria">Padaria</option>
+          <option value="chinesa">Chinesa</option>
           <option value="churrascaria">Churrascaria</option>
-          <option value="frutos_mar">Frutos do Mar</option>
-          <option value="vegana">Vegana / Saudável</option>
-          <option value="pastel">Pastelaria</option>
-          <option value="hotdog">Hot Dog</option>
-          <option value="marmita">Marmitaria</option>
           <option value="cookie">Cookie / Confeitaria</option>
+          <option value="frutos_mar">Frutos do Mar</option>
+          <option value="hamburgueria">Hamburgueria</option>
+          <option value="hotdog">Hot Dog</option>
+          <option value="italiana">Italiana</option>
+          <option value="japonesa">Japonesa / Sushi</option>
+          <option value="marmita">Marmitaria</option>
+          <option value="mexicana">Mexicana</option>
+          <option value="padaria">Padaria</option>
+          <option value="pastel">Pastelaria</option>
+          <option value="pizzaria">Pizzaria</option>
           <option value="poke">Poke / Havaiana</option>
+          <option value="sorvete">Sorvete / Gelato</option>
+          <option value="vegana">Vegana / Saudável</option>
           <option value="outra">Outra</option>
         </select></div>
+
+        <!-- ── SEÇÃO 3: Demais Informações ── -->
+        <div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin:18px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--primary-light);">Demais Informações</div>
+        <div class="mv-fld" style="margin-bottom:10px;">
+          <label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:6px;">Tecnologias<span style="font-weight:400;color:var(--gray);font-size:10px;margin-left:4px;">(múltipla seleção)</span></label>
+          <div id="mv_lead_techs_wrap" class="mv-multi-grid mv-multi-grid-3">
+            <label class="mv-multi-card"><input type="checkbox" value="Cardápio Digital via QR Code"> Cardápio Digital QR</label>
+            <label class="mv-multi-card"><input type="checkbox" value="CRM/Fidelidade/Loyalty"> CRM / Fidelidade</label>
+            <label class="mv-multi-card"><input type="checkbox" value="ERP/Sistema de Conciliação Bancária"> ERP / Conciliação</label>
+            <label class="mv-multi-card"><input type="checkbox" value="Impressoras de Produção"> Impressoras</label>
+            <label class="mv-multi-card"><input type="checkbox" value="KDS / Telas de Produção"> KDS / Telas</label>
+            <label class="mv-multi-card"><input type="checkbox" value="Painel de Senha / Chama Senha"> Painel de Senha</label>
+            <label class="mv-multi-card"><input type="checkbox" value="PDV / Retaguarda de Dados"> PDV / Retaguarda</label>
+            <label class="mv-multi-card"><input type="checkbox" value="Smart POS"> Smart POS</label>
+            <label class="mv-multi-card"><input type="checkbox" value="Totem de Autoatendimento"> Totem</label>
+          </div>
+        </div>
+        <div class="mv-fld" style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">PDV atual</label><input type="text" id="mv_lead_pdv" placeholder="Ex: Linx, Stone, Totvs..." style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
+        <div class="mv-fld" style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Detalhamento da operação</label><textarea id="mv_lead_detalhe" placeholder="Informações adicionais sobre a operação do parceiro..." rows="3" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:500;color:var(--dark-gray);background:#fff;resize:vertical;"></textarea></div>
         <div class="mv-fld" style="margin-top:10px;">
           <label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Responsável pela proposta *</label>
           <div style="display:flex;gap:8px;" id="mv_respWrap">
@@ -4984,32 +5126,38 @@ function mvMaskTel(el){
 }
 
 // ── Salvar Lead ──
+function mvGetMultiChecked(wrapId){
+  return [...document.querySelectorAll('#'+wrapId+' input[type=checkbox]:checked')].map(c=>c.value);
+}
+function mvSetMultiChecked(wrapId,arr){
+  document.querySelectorAll('#'+wrapId+' input[type=checkbox]').forEach(c=>{c.checked=(arr||[]).includes(c.value);});
+}
 function mvSalvarLead(){
   const nome=document.getElementById('mv_lead_nome').value.trim();
   const lojas=parseInt(document.getElementById('mv_lead_lojas').value)||0;
-  const seg=document.getElementById('mv_lead_seg').value;
   const contato=document.getElementById('mv_lead_resp').value.trim();
   const telefone=document.getElementById('mv_lead_tel').value.trim();
-  const pdv=document.getElementById('mv_lead_pdv').value.trim();
-  const operacao=document.getElementById('mv_lead_operacao').value;
+  const operacao=mvGetMultiChecked('mv_lead_operacao_wrap');
+  const culinaria=document.getElementById('mv_lead_culinaria').value;
   const resp=mvGetLeadResp();
   if(!nome){showToast('Informe o nome do parceiro','#EF4444');return;}
   if(!lojas){showToast('Informe a quantidade de lojas','#EF4444');return;}
-  if(!contato){showToast('Informe o nome do responsável','#EF4444');return;}
-  if(!telefone){showToast('Informe o telefone para contato','#EF4444');return;}
-  if(!pdv){showToast('Informe o PDV atual','#EF4444');return;}
-  if(!operacao){showToast('Selecione a operação','#EF4444');return;}
+  if(!contato){showToast('Informe o nome do contato','#EF4444');return;}
+  if(!telefone){showToast('Informe o telefone do contato','#EF4444');return;}
+  if(!operacao.length){showToast('Selecione ao menos uma operação','#EF4444');return;}
+  if(!culinaria){showToast('Selecione a culinária','#EF4444');return;}
   if(!resp){showToast('Selecione o responsável pela proposta','#EF4444');return;}
   const lead={
     id:Date.now(),
     nome,
     lojas,
-    segmento:seg,
     contato,
     telefone,
-    pdvAtual:pdv,
-    culinaria:document.getElementById('mv_lead_culinaria').value,
-    operacao,
+    operacao:operacao.join(', '),
+    culinaria,
+    tecnologias:mvGetMultiChecked('mv_lead_techs_wrap'),
+    pdvAtual:document.getElementById('mv_lead_pdv').value.trim(),
+    detalhamento:document.getElementById('mv_lead_detalhe').value.trim(),
     responsavel:resp,
     data:new Date().toLocaleDateString('pt-BR'),
     dataISO:new Date().toISOString(),
@@ -5042,12 +5190,13 @@ function mvLeadToProposal(){
   document.getElementById('mv_lj').value=lojas;
   // Armazenar dados extras do lead para vincular à proposta
   window._mvLeadExtra={
-    segmento:document.getElementById('mv_lead_seg').value,
     contato:document.getElementById('mv_lead_resp').value.trim(),
     telefone:document.getElementById('mv_lead_tel').value.trim(),
-    pdvAtual:document.getElementById('mv_lead_pdv').value.trim(),
+    operacao:mvGetMultiChecked('mv_lead_operacao_wrap').join(', '),
     culinaria:document.getElementById('mv_lead_culinaria').value,
-    operacao:document.getElementById('mv_lead_operacao').value,
+    tecnologias:mvGetMultiChecked('mv_lead_techs_wrap'),
+    pdvAtual:document.getElementById('mv_lead_pdv').value.trim(),
+    detalhamento:document.getElementById('mv_lead_detalhe').value.trim(),
     responsavel:resp
   };
   mvAbrirForm();
@@ -5057,12 +5206,16 @@ function mvLeadToProposal(){
 function mvLoadLead(lead){
   document.getElementById('mv_lead_nome').value=lead.nome||'';
   document.getElementById('mv_lead_lojas').value=lead.lojas||'';
-  document.getElementById('mv_lead_seg').value=lead.segmento||'';
   document.getElementById('mv_lead_resp').value=lead.contato||'';
   document.getElementById('mv_lead_tel').value=lead.telefone||'';
-  document.getElementById('mv_lead_pdv').value=lead.pdvAtual||'';
+  // Operação multi-select
+  const opArr=typeof lead.operacao==='string'?(lead.operacao||'').split(', ').filter(Boolean):(lead.operacao||[]);
+  mvSetMultiChecked('mv_lead_operacao_wrap',opArr);
   document.getElementById('mv_lead_culinaria').value=lead.culinaria||'';
-  document.getElementById('mv_lead_operacao').value=lead.operacao||'';
+  // Tecnologias multi-select
+  mvSetMultiChecked('mv_lead_techs_wrap',lead.tecnologias||[]);
+  document.getElementById('mv_lead_pdv').value=lead.pdvAtual||'';
+  document.getElementById('mv_lead_detalhe').value=lead.detalhamento||'';
   mvLoadRespSelect();
   if(lead.responsavel)document.getElementById('mv_lead_resp_prop').value=lead.responsavel;
   window._mvEditingLeadId=lead.id;
@@ -5088,7 +5241,7 @@ function mvRenderLeads(){
     h+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 4px;border-bottom:1px solid rgba(107,114,128,.08);font-size:11px;">
       <div style="flex:1;min-width:0;">
         <div style="font-weight:700;color:var(--dark-gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${l.nome}</div>
-        <div style="color:var(--gray);font-size:10px;">${l.lojas} lojas · ${l.segmento||'—'} · ${l.operacao||'—'} · Porte ${porte} · ${l.data}</div>
+        <div style="color:var(--gray);font-size:10px;">${l.lojas} lojas · ${l.operacao||'—'} · ${l.culinaria||'—'} · Porte ${porte} · ${l.data}</div>
       </div>
       <div style="display:flex;gap:4px;flex-shrink:0;">
         <button onclick="mvLoadLead(getLeadsMove().find(x=>x.id===${l.id}))" style="background:#F3F4F6;border:none;border-radius:5px;padding:4px 8px;font-size:10px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;color:var(--dark-gray);">✏️</button>
@@ -5104,12 +5257,13 @@ function mvRenderLeads(){
 function mvResetStep1(){
   document.getElementById('mv_lead_nome').value='';
   document.getElementById('mv_lead_lojas').value='';
-  document.getElementById('mv_lead_seg').value='';
   document.getElementById('mv_lead_resp').value='';
   document.getElementById('mv_lead_tel').value='';
-  document.getElementById('mv_lead_pdv').value='';
+  mvSetMultiChecked('mv_lead_operacao_wrap',[]);
   document.getElementById('mv_lead_culinaria').value='';
-  document.getElementById('mv_lead_operacao').value='';
+  mvSetMultiChecked('mv_lead_techs_wrap',[]);
+  document.getElementById('mv_lead_pdv').value='';
+  document.getElementById('mv_lead_detalhe').value='';
   mvLoadRespSelect();
   document.getElementById('mv_lead_resp_prop').value='';
   window._mvEditingLeadId=null;
@@ -5158,7 +5312,7 @@ function renderLeadsPanel(){
   const q=(document.getElementById('leadsSearch')?.value||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
   if(q){
     leads=leads.filter(l=>{
-      const txt=(l.nome+' '+l.segmento+' '+l.operacao+' '+l.responsavel+' '+l.contato+' '+l.culinaria+' '+l.pdvAtual).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+      const txt=(l.nome+' '+l.operacao+' '+l.responsavel+' '+l.contato+' '+l.culinaria+' '+l.pdvAtual+' '+(l.tecnologias||[]).join(' ')+' '+(l.detalhamento||'')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
       return txt.includes(q);
     });
   }
@@ -5189,7 +5343,7 @@ function renderLeadsPanel(){
           <div style="font-size:14px;font-weight:700;color:var(--dark-gray);">${l.nome||'Sem nome'}</div>
           <div style="font-size:11px;color:var(--gray);margin-top:2px;">
             <span style="background:${porteCor};color:#fff;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-right:4px;">Porte ${porte}</span>
-            ${l.lojas||0} lojas · ${l.segmento||'—'} · ${l.operacao||'—'}
+            ${l.lojas||0} lojas · ${l.operacao||'—'} · ${l.culinaria||'—'}
           </div>
         </div>
         <div style="font-size:10px;color:var(--gray);text-align:right;white-space:nowrap;">
@@ -5200,7 +5354,7 @@ function renderLeadsPanel(){
         ${l.contato?'<span>👤 '+l.contato+'</span>':''}
         ${l.telefone?'<span>📞 '+l.telefone+'</span>':''}
         ${l.pdvAtual?'<span>🖥 PDV: '+l.pdvAtual+'</span>':''}
-        ${l.culinaria?'<span>🍽 '+l.culinaria+'</span>':''}
+        ${(l.tecnologias&&l.tecnologias.length)?'<span>🔧 '+l.tecnologias.length+' techs</span>':''}
         ${l.responsavel?'<span>📋 '+l.responsavel+'</span>':''}
       </div>
       <div style="display:flex;gap:6px;justify-content:flex-end;">
@@ -5606,12 +5760,13 @@ function mvBuildPropostaObj(){
     dataModificacao:agora.toISOString(),
     nome,lj,ct,ro,
     responsavel:resp,
-    segmento:extra.segmento||'',
     contato:extra.contato||'',
     telefone:extra.telefone||'',
-    pdvAtual:extra.pdvAtual||'',
-    culinaria:extra.culinaria||'',
     operacao:extra.operacao||'',
+    culinaria:extra.culinaria||'',
+    tecnologias:extra.tecnologias||[],
+    pdvAtual:extra.pdvAtual||'',
+    detalhamento:extra.detalhamento||'',
     setup:3000,inst:1622,ixSetup:ixS,ixInst:ixI,
     ms,addTotal,
     rb:0,incAnual:0,incMes:0,devVal:0,invMeses:0,invMensal:0,
