@@ -1,0 +1,175 @@
+{
+  "id": 1789391465926,
+  "data": "14/09/2026",
+  "hora": "10:11",
+  "dataCriacao": "2026-09-14T13:11:05.926Z",
+  "dataModificacao": "2026-09-14T13:11:05.926Z",
+  "nome": "Belas Artes",
+  "lj": 14,
+  "ct": 60,
+  "ro": 5,
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "segmento": "qsr",
+  "culinaria": "padaria",
+  "estado": "SP",
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": true,
+  "ixInst": false,
+  "ixInstExist": false,
+  "ms": 650,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 5",
+    "Totem — Até 3",
+    "Marketplace — iFood / Open Delivery",
+    "KDS — Até 3",
+    "Produção Impressoras — Ilimitado",
+    "3SGo — Ilimitado por loja"
+  ],
+  "meIds": [
+    "pdv_5",
+    "totem_3",
+    "mkt_ifood_od",
+    "kds_3",
+    "imp_ilim"
+  ],
+  "meData": [
+    {
+      "id": "pdv_5",
+      "v": 450,
+      "ix": false
+    },
+    {
+      "id": "totem_3",
+      "v": 180,
+      "ix": false
+    },
+    {
+      "id": "mkt_ifood_od",
+      "v": 20,
+      "ix": false
+    },
+    {
+      "id": "kds_3",
+      "v": 160,
+      "ix": true
+    },
+    {
+      "id": "imp_ilim",
+      "v": 100,
+      "ix": true
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "pos_5",
+      "on": false,
+      "ix": false,
+      "v": 150
+    },
+    {
+      "id": "pos_ilim",
+      "on": false,
+      "ix": false,
+      "v": 350
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": true,
+      "v": 0
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_d",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_combo",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000
+    },
+    {
+      "id": "crm_fid",
+      "on": false,
+      "v": 199.9
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/belas_artes_1789391465926.json",
+  "_gh_sha": null
+}
