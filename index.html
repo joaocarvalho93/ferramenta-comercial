@@ -1171,21 +1171,6 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
   <div id="mv_tab_oferta" class="mv-tab-content" style="display:none;">
   <div class="mv-wrap">
 
-    <!-- MATRIX -->
-    <div class="mv-card">
-      <div class="mv-card-t">Benefícios por Porte</div>
-      <table class="mv-mx">
-        <thead><tr><th></th><th style="color:#1D4ED8;">P (até 30)</th><th style="color:#92400E;">M (31–60)</th><th style="color:#991B1B;">G (60+)</th></tr></thead>
-        <tbody>
-          <tr><td>🏷️ Setup</td><td><span class="mv-bk">Isento</span></td><td><span class="mv-bk">Isento</span></td><td><span class="mv-bk">Isento</span></td></tr>
-          <tr><td>🔧 Instalação</td><td><span class="mv-bk">Isento</span></td><td><span class="mv-bk">Isento</span></td><td><span class="mv-bk">Isento</span></td></tr>
-          <tr><td>⏳ Mensalidades isentas</td><td><span class="mv-bk">até 1</span></td><td><span class="mv-bk">até 3</span></td><td><span class="mv-bk">até 5</span></td></tr>
-          <tr><td>💰 Desconto mensalidade</td><td><span class="mv-bk">até 5%</span></td><td><span class="mv-bk">até 10%</span></td><td><span class="mv-bk">até 15%</span></td></tr>
-        </tbody>
-      </table>
-      <div style="margin-top:8px;font-size:10px;color:#92400E;background:#FEF3C7;padding:6px 8px;border-radius:6px;">Válido 1 semana pós-evento. Margem mínima 55%.</div>
-    </div>
-
     <!-- STEP 1: CAPTAÇÃO DE LEAD -->
     <div id="mv_step1">
       <div class="mv-card">
@@ -1281,8 +1266,24 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <div id="mv_form_wrap" style="display:none;">
 
     <!-- BACK TO STEP 1 -->
-    <div style="margin-bottom:12px;">
+    <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
       <button onclick="mvBackToStep1()" style="background:none;border:none;font-size:12px;color:var(--gray);cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;display:flex;align-items:center;gap:4px;">← Voltar para captação</button>
+      <div style="font-size:10px;font-weight:800;color:#D97706;text-transform:uppercase;letter-spacing:1px;background:#FEF3C7;padding:4px 12px;border-radius:12px;">Etapa 2 — Proposta</div>
+    </div>
+
+    <!-- MATRIX (visível somente no Step 2) -->
+    <div class="mv-card">
+      <div class="mv-card-t">Benefícios por Porte</div>
+      <table class="mv-mx">
+        <thead><tr><th></th><th style="color:#1D4ED8;">P (até 30)</th><th style="color:#92400E;">M (31–60)</th><th style="color:#991B1B;">G (60+)</th></tr></thead>
+        <tbody>
+          <tr><td>🏷️ Setup</td><td><span class="mv-bk">Isento</span></td><td><span class="mv-bk">Isento</span></td><td><span class="mv-bk">Isento</span></td></tr>
+          <tr><td>🔧 Instalação</td><td><span class="mv-bk">Isento</span></td><td><span class="mv-bk">Isento</span></td><td><span class="mv-bk">Isento</span></td></tr>
+          <tr><td>⏳ Mensalidades isentas</td><td><span class="mv-bk">até 1</span></td><td><span class="mv-bk">até 3</span></td><td><span class="mv-bk">até 5</span></td></tr>
+          <tr><td>💰 Desconto mensalidade</td><td><span class="mv-bk">até 5%</span></td><td><span class="mv-bk">até 10%</span></td><td><span class="mv-bk">até 15%</span></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px;font-size:10px;color:#92400E;background:#FEF3C7;padding:6px 8px;border-radius:6px;">Válido 1 semana pós-evento. Margem mínima 55%.</div>
     </div>
 
     <!-- PARAMS -->
@@ -1353,7 +1354,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <div class="mv-card">
       <div class="mv-save-row">
         <button class="mv-save-btn mv-save-secondary" onclick="mvBackToStep1();mvResetStep1();">✨ Novo Lead / Proposta</button>
-        <button class="mv-save-btn mv-save-primary" onclick="mvGerarProposta()">📄 Gerar Proposta</button>
+        <button class="mv-save-btn mv-save-primary" onclick="mvGerarProposta()">💾 Salvar Proposta</button>
       </div>
     </div>
 
