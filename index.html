@@ -356,6 +356,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 #s12 .mv-mr:last-child{border-bottom:none;}
 #s12 .mv-mr-nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 #s12 .mv-mr-nm.ix{text-decoration:line-through;color:var(--gray);}
+#s12 .mv-mr-nm.off{color:var(--gray);opacity:.5;}
 #s12 .mv-mr-v{width:72px;padding:5px 6px;border:1px solid var(--border-light);border-radius:5px;font-size:11px;font-weight:600;color:var(--dark-gray);text-align:right;font-family:'Inter',sans-serif;}
 #s12 .mv-mr-v:focus{outline:none;border-color:var(--dark-gray);}
 #s12 .mv-mr-v.ix{background:#DCFCE7;color:#059669;}
@@ -1112,6 +1113,10 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
       </div>
       <div class="mv-bf on" id="mv_bf_inst" onclick="this.classList.toggle('on');mvRecalc();">
         <div class="mv-bf-left"><span class="mv-bf-icon">🔧</span><div>Instalação isenta <span class="mv-bf-sub" id="mv_inst_sub">—</span></div></div>
+        <div class="mv-bf-sw"></div>
+      </div>
+      <div class="mv-bf" id="mv_bf_eats" onclick="this.classList.toggle('on');mvRecalc();">
+        <div class="mv-bf-left"><span class="mv-bf-icon">📱</span><div>3S Eats Super App — 6 meses grátis <span class="mv-bf-sub">Delivery + Pagamento na Mesa · R$ 300/mês</span></div></div>
         <div class="mv-bf-sw"></div>
       </div>
       <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.3px;margin:12px 0 6px;">Mensalidades isentas</div>
@@ -4784,6 +4789,8 @@ let _mvME=[
   {id:'mkt_full',v:110,ix:false},
   {id:'tef_1',v:140,ix:false},
 ];
+let _mvMA=[]; // Módulos adicionais state [{id, v, ix, on}]
+let _mvMX=[]; // Produtos cross-sell state [{id, v, ix, on}]
 let _mvInited=false;
 let _editandoMoveGh=null;
 
@@ -4805,11 +4812,12 @@ function mvResetForm(){
   defMods.forEach(d=>{_mvME.push({id:d.id,v:d.v,ix:false});});
   document.getElementById('mv_bf_setup').classList.remove('on');
   document.getElementById('mv_bf_inst').classList.remove('on');
+  document.getElementById('mv_bf_eats').classList.remove('on');
   document.querySelectorAll('#mv_isen_sel .mv-isen-o').forEach((o,i)=>{o.classList.toggle('on',i===0);});
   document.querySelectorAll('#mv_desc_sel .mv-isen-o').forEach((o,i)=>{o.classList.toggle('on',i===0);});
-  document.querySelectorAll('#mv_mod_add input[type=checkbox]').forEach(c=>{c.checked=false;});
-  document.querySelectorAll('#mv_mod_prod input[type=checkbox]').forEach(c=>{c.checked=false;});
-  if(_mvInited){mvRenderEss();mvRecalc();}
+  _mvMA.forEach(m=>{m.on=false;m.ix=false;const c=catById(m.id);if(c)m.v=c.v;});
+  _mvMX.forEach(m=>{m.on=false;m.ix=false;const c=catById(m.id);if(c)m.v=c.v;});
+  if(_mvInited){mvRenderEss();mvRenderAdd();mvRenderProd();mvRecalc();}
 }
 
 function mvAbrirForm(){
@@ -4912,19 +4920,92 @@ function mvToggleCatalog(){
   },10);
 }
 
+function mvInitMA(){
+  _mvMA=MOD_CATALOG.filter(m=>m.cat==='add').map(m=>({id:m.id,v:m.v,ix:false,on:false}));
+}
+function mvInitMX(){
+  _mvMX=MOD_CATALOG.filter(m=>m.cat==='prod').map(m=>({id:m.id,v:m.v,ix:false,on:false}));
+}
+
+function mvRenderAdd(){
+  const el=document.getElementById('mv_mod_add');
+  el.innerHTML='';
+  _mvMA.forEach((m,idx)=>{
+    const c=catById(m.id);
+    const nm=c?c.nm:m.id;
+    const row=document.createElement('div');
+    row.className='mv-mr';
+    row.innerHTML=`
+      <label style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+        <input type="checkbox" ${m.on?'checked':''} style="width:15px;height:15px;accent-color:var(--purple);cursor:pointer;">
+      </label>
+      <span class="mv-mr-nm${m.ix?' ix':''}${!m.on?' off':''}">${nm}</span>
+      <input type="number" class="mv-mr-v${m.ix?' ix':''}" value="${m.ix?0:m.v}" min="0" step="0.01" ${m.ix||!m.on?'disabled':''} data-idx="${idx}" ${!m.on?'style="opacity:.4"':''}>
+      <div class="mv-mr-acts" ${!m.on?'style="opacity:.4;pointer-events:none"':''}>
+        <button class="mv-ix-btn${m.ix?' isento':''}" data-idx="${idx}">${m.ix?'ISENTO':'Isentar'}</button>
+      </div>
+    `;
+    row.querySelector('input[type=checkbox]').addEventListener('change',function(){
+      m.on=this.checked;
+      mvRenderAdd();mvRecalc();
+    });
+    if(m.on){
+      row.querySelector('.mv-mr-v').addEventListener('input',function(){
+        if(!m.ix){m.v=parseFloat(this.value)||0;}
+        mvRecalc();
+      });
+      row.querySelector('.mv-ix-btn').addEventListener('click',function(){
+        m.ix=!m.ix;
+        if(m.ix){m._origV=m.v;}else{m.v=m._origV||m.v;}
+        mvRenderAdd();mvRecalc();
+      });
+    }
+    el.appendChild(row);
+  });
+}
+
+function mvRenderProd(){
+  const el=document.getElementById('mv_mod_prod');
+  el.innerHTML='';
+  _mvMX.forEach((m,idx)=>{
+    const c=catById(m.id);
+    const nm=c?c.nm:m.id;
+    const row=document.createElement('div');
+    row.className='mv-mr';
+    row.innerHTML=`
+      <label style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+        <input type="checkbox" ${m.on?'checked':''} style="width:15px;height:15px;accent-color:var(--purple);cursor:pointer;">
+      </label>
+      <span class="mv-mr-nm${m.ix?' ix':''}${!m.on?' off':''}">${nm}</span>
+      <input type="number" class="mv-mr-v${m.ix?' ix':''}" value="${m.ix?0:m.v}" min="0" step="0.01" ${m.ix||!m.on?'disabled':''} data-idx="${idx}" ${!m.on?'style="opacity:.4"':''}>
+      <div class="mv-mr-acts" ${!m.on?'style="opacity:.4;pointer-events:none"':''}>
+        <button class="mv-ix-btn${m.ix?' isento':''}" data-idx="${idx}">${m.ix?'ISENTO':'Isentar'}</button>
+      </div>
+    `;
+    row.querySelector('input[type=checkbox]').addEventListener('change',function(){
+      m.on=this.checked;
+      mvRenderProd();mvRecalc();
+    });
+    if(m.on){
+      row.querySelector('.mv-mr-v').addEventListener('input',function(){
+        if(!m.ix){m.v=parseFloat(this.value)||0;}
+        mvRecalc();
+      });
+      row.querySelector('.mv-ix-btn').addEventListener('click',function(){
+        m.ix=!m.ix;
+        if(m.ix){m._origV=m.v;}else{m.v=m._origV||m.v;}
+        mvRenderProd();mvRecalc();
+      });
+    }
+    el.appendChild(row);
+  });
+}
+
 function mvBuildExtras(){
-  const addMods=MOD_CATALOG.filter(m=>m.cat==='add');
-  let ahtml='';
-  addMods.forEach(m=>{
-    ahtml+=`<div class="mv-chk-row"><input type="checkbox" data-id="${m.id}" data-v="${m.v}" onchange="mvRecalc()"><span>${m.nm}</span><span class="cv">${fmt(m.v)}</span></div>`;
-  });
-  document.getElementById('mv_mod_add').innerHTML=ahtml;
-  const prodMods=MOD_CATALOG.filter(m=>m.cat==='prod');
-  let phtml='';
-  prodMods.forEach(m=>{
-    phtml+=`<div class="mv-chk-row"><input type="checkbox" data-id="${m.id}" data-v="${m.v}" onchange="mvRecalc()"><span>${m.nm}</span><span class="cv">${fmt(m.v)}</span></div>`;
-  });
-  document.getElementById('mv_mod_prod').innerHTML=phtml;
+  mvInitMA();
+  mvInitMX();
+  mvRenderAdd();
+  mvRenderProd();
 }
 
 function mvSelIsen(el){
@@ -4969,12 +5050,13 @@ function mvRecalc(){
   let ms=0;
   _mvME.forEach(m=>{ms+=m.ix?0:m.v;});
   let msAdd=0;
-  document.querySelectorAll('#mv_mod_add input[type=checkbox]:checked').forEach(c=>{msAdd+=parseFloat(c.dataset.v)||0;});
+  _mvMA.forEach(m=>{if(m.on)msAdd+=m.ix?0:m.v;});
   document.getElementById('mv_ms_tot').textContent=fmt(ms+msAdd);
   const ixS=document.getElementById('mv_bf_setup').classList.contains('on');
   const ixI=document.getElementById('mv_bf_inst').classList.contains('on');
   const isenMeses=parseInt(document.querySelector('#mv_isen_sel .mv-isen-o.on').dataset.v)||0;
   const descPct=parseInt(document.querySelector('#mv_desc_sel .mv-isen-o.on').dataset.v)||0;
+  const ixEats=document.getElementById('mv_bf_eats').classList.contains('on');
   const porte=mvGetPorte(lj);
   const maxIsen={P:1,M:3,G:5}[porte];
   const maxDesc={P:5,M:10,G:15}[porte];
@@ -4991,7 +5073,8 @@ function mvRecalc(){
   const mgPct=mg*100;
   const msTotal=ms+msAdd;
   const msComDesc=msTotal*(1-effectiveDesc/100);
-  const beneficio=(ixS?3000:0)+(ixI?1622*lj:0)+msTotal*lj*effectiveIsen+(msTotal-msComDesc)*lj*(ct-effectiveIsen);
+  const eatsVal=ixEats?300*lj*6:0;
+  const beneficio=(ixS?3000:0)+(ixI?1622*lj:0)+msTotal*lj*effectiveIsen+(msTotal-msComDesc)*lj*(ct-effectiveIsen)+eatsVal;
   const rMensEl=document.getElementById('mv_r_mens');
   const rMensLbl=document.getElementById('mv_r_mens_lbl');
   if(effectiveDesc>0){
@@ -5035,6 +5118,7 @@ function mvBuildPropostaObj(){
   const ixI=document.getElementById('mv_bf_inst').classList.contains('on');
   const isenMeses=parseInt(document.querySelector('#mv_isen_sel .mv-isen-o.on').dataset.v)||0;
   const descPct=parseInt(document.querySelector('#mv_desc_sel .mv-isen-o.on').dataset.v)||0;
+  const ixEats=document.getElementById('mv_bf_eats').classList.contains('on');
   const porte=mvGetPorte(lj);
   const maxIsen={P:1,M:3,G:5}[porte];
   const maxDesc={P:5,M:10,G:15}[porte];
@@ -5044,12 +5128,12 @@ function mvBuildPropostaObj(){
   _mvME.forEach(m=>{ms+=m.ix?0:m.v;});
   let msAdd=0;
   const mvAddOn=[];
-  document.querySelectorAll('#mv_mod_add input[type=checkbox]').forEach(c=>{
-    if(c.checked){msAdd+=parseFloat(c.dataset.v)||0;mvAddOn.push({id:c.dataset.id,v:parseFloat(c.dataset.v)||0});}
+  _mvMA.forEach(m=>{
+    if(m.on){msAdd+=m.ix?0:m.v;mvAddOn.push({id:m.id,v:m.v,ix:m.ix});}
   });
   const mvProdOn=[];
-  document.querySelectorAll('#mv_mod_prod input[type=checkbox]').forEach(c=>{
-    if(c.checked)mvProdOn.push({id:c.dataset.id,v:parseFloat(c.dataset.v)||0});
+  _mvMX.forEach(m=>{
+    if(m.on)mvProdOn.push({id:m.id,v:m.v,ix:m.ix});
   });
   const addTotal=mvProdOn.reduce((s,m)=>s+m.v,0);
   const modulos=_mvME.map(m=>{const c=catById(m.id);return c?c.nm:m.id;});
@@ -5071,8 +5155,8 @@ function mvBuildPropostaObj(){
     modulos,
     meIds:_mvME.map(m=>m.id),
     meData:_mvME.map(m=>({id:m.id,v:m.v,ix:m.ix})),
-    maOn:mvAddOn.map(m=>({id:m.id,on:true,ix:false,v:m.v})),
-    mxOn:mvProdOn.map(m=>({id:m.id,on:true,v:m.v})),
+    maOn:mvAddOn.map(m=>({id:m.id,on:true,ix:!!m.ix,v:m.v})),
+    mxOn:mvProdOn.map(m=>({id:m.id,on:true,ix:!!m.ix,v:m.v})),
     _migrateV:3,
     // Move-specific fields
     _moveTag:'move',
@@ -5081,6 +5165,7 @@ function mvBuildPropostaObj(){
     moveIsenMeses:effectiveIsen,
     moveDescPct:effectiveDesc,
     moveCondicao:'Porte '+porte+': '+effectiveIsen+' mês(es) isento(s)'+(effectiveDesc>0?', −'+effectiveDesc+'% desc.':''),
+    moveEats:ixEats,
   };
 }
 
@@ -5160,13 +5245,15 @@ function mvVisualizarProposta(){
   const savIsen=effectiveIsen*msComDesc*lj;
   const savDesc=effectiveDesc>0?(msOrig-msComDesc)*lj*(ct-effectiveIsen):0;
   const savMods=_mvME.filter(m=>m.ix).reduce((s,m)=>s+(m._origV||m.v)*lj*ct,0);
-  const savTotal=savSetup+savInst+savIsen+savDesc+savMods;
+  const savEats=p.moveEats?300*lj*6:0;
+  const savTotal=savSetup+savInst+savIsen+savDesc+savMods+savEats;
   const isensList=[];
   if(ixS) isensList.push('Setup da marca isento');
   if(ixI) isensList.push('Implantação ('+lj+' lojas) isenta');
-  if(effectiveIsen>0) isensList.push(effectiveIsen+' mês(es) de mensalidade isento(s)');
+  if(effectiveIsen>0) isensList.push(effectiveIsen+(effectiveIsen===1?' mês de mensalidade isento':' meses de mensalidade isentos'));
   if(effectiveDesc>0) isensList.push('Desconto de '+effectiveDesc+'% na mensalidade');
   _mvME.filter(m=>m.ix).forEach(m=>{const c=catById(m.id);isensList.push((c?c.nm:m.id)+' isento');});
+  if(p.moveEats) isensList.push('3S Eats — Super App: 6 meses grátis');
   const pageHTML=`
   <div style="text-align:center;margin-bottom:28px;">
     <div style="display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;padding:5px 18px;border-radius:20px;margin-bottom:10px;">Proposta iFood Move</div>
@@ -5235,6 +5322,7 @@ function mvCarregarProposta(idx){
   const el_inst=document.getElementById('mv_bf_inst');
   if(p.ixSetup){el_setup.classList.add('on');}else{el_setup.classList.remove('on');}
   if(p.ixInst){el_inst.classList.add('on');}else{el_inst.classList.remove('on');}
+  if(p.moveEats){document.getElementById('mv_bf_eats').classList.add('on');}else{document.getElementById('mv_bf_eats').classList.remove('on');}
   // Isenção meses
   const isenVal=p.moveIsenMeses||0;
   document.querySelectorAll('#mv_isen_sel .mv-isen-o').forEach(o=>{
@@ -5247,19 +5335,22 @@ function mvCarregarProposta(idx){
   });
   // Restore add-ons
   if(p.maOn){
-    const addIds=new Set(p.maOn.filter(m=>m.on!==false).map(m=>m.id));
-    document.querySelectorAll('#mv_mod_add input[type=checkbox]').forEach(c=>{
-      c.checked=addIds.has(c.dataset.id);
+    const addMap=new Map(p.maOn.filter(m=>m.on!==false).map(m=>[m.id,m]));
+    _mvMA.forEach(m=>{
+      const saved=addMap.get(m.id);
+      if(saved){m.on=true;m.v=saved.v||m.v;m.ix=!!saved.ix;}else{m.on=false;m.ix=false;}
     });
   }
-  // Restore products
   if(p.mxOn){
-    const prodIds=new Set(p.mxOn.filter(m=>m.on!==false).map(m=>m.id));
-    document.querySelectorAll('#mv_mod_prod input[type=checkbox]').forEach(c=>{
-      c.checked=prodIds.has(c.dataset.id);
+    const prodMap=new Map(p.mxOn.filter(m=>m.on!==false).map(m=>[m.id,m]));
+    _mvMX.forEach(m=>{
+      const saved=prodMap.get(m.id);
+      if(saved){m.on=true;m.v=saved.v||m.v;m.ix=!!saved.ix;}else{m.on=false;m.ix=false;}
     });
   }
   _mvInited=true;
+  mvRenderAdd();
+  mvRenderProd();
   mvRenderEss();
   go(12);
   mvSwitchTab('oferta');
@@ -5292,10 +5383,14 @@ function mvVisualizarPropostaSalva(idx){
   const el_inst=document.getElementById('mv_bf_inst');
   if(p.ixSetup)el_setup.classList.add('on');else el_setup.classList.remove('on');
   if(p.ixInst)el_inst.classList.add('on');else el_inst.classList.remove('on');
+  const el_eats=document.getElementById('mv_bf_eats');
+  const oldEats=el_eats.classList.contains('on');
+  if(p.moveEats)el_eats.classList.add('on');else el_eats.classList.remove('on');
   document.querySelectorAll('#mv_isen_sel .mv-isen-o').forEach(o=>{o.classList.toggle('on',parseInt(o.dataset.v)===(p.moveIsenMeses||0));});
   document.querySelectorAll('#mv_desc_sel .mv-isen-o').forEach(o=>{o.classList.toggle('on',parseInt(o.dataset.v)===(p.moveDescPct||0));});
   mvVisualizarProposta();
   // Restore
+  if(oldEats)el_eats.classList.add('on');else el_eats.classList.remove('on');
   _mvME.length=0;oldME.forEach(m=>_mvME.push(m));
   document.getElementById('mv_nome').value=oldNome;
   document.getElementById('mv_lj').value=oldLj;
