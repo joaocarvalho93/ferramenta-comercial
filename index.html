@@ -2213,6 +2213,11 @@ async function preloadPropostas(){
 // ══════════════════════════════════════
 // NAVIGATION
 // ══════════════════════════════════════
+// ── HASH ROUTING ──
+const _hashToPanel={inicio:0,propostas:5,conhecimento:6,deepdive:8,clientes:10,gamificacao:11,move:12,leads:13};
+const _panelToHash={0:'inicio',5:'propostas',6:'conhecimento',8:'deepdive',10:'clientes',11:'gamificacao',12:'move',13:'leads'};
+let _skipHashUpdate=false;
+
 function go(n){
   document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
   document.getElementById('s'+n).classList.add('on');
@@ -2222,6 +2227,10 @@ function go(n){
   const hmBtn=document.getElementById(hmMap[n]);
   if(hmBtn)hmBtn.classList.add('hm-active');
   window.scrollTo(0,0);
+  // Atualizar hash na URL
+  if(!_skipHashUpdate&&_panelToHash[n]){
+    history.pushState(null,null,'#'+_panelToHash[n]);
+  }
   if(n===1)_editandoPropostaGh=null;
   if(n===3){syncParams();refreshMods();calc();const vp=document.getElementById('btnVoltarPropostas');if(vp)vp.style.display=_editandoPropostaGh?'':'none';}
   if(n===4)genPres();
@@ -2232,6 +2241,24 @@ function go(n){
   if(n===12)mvInit();
   if(n===13)renderLeadsPanel();
 }
+
+// Navegar via hash ao clicar voltar/avançar no browser
+window.addEventListener('hashchange',function(){
+  const h=location.hash.replace('#','').toLowerCase();
+  if(_hashToPanel[h]!==undefined){
+    _skipHashUpdate=true;
+    go(_hashToPanel[h]);
+    _skipHashUpdate=false;
+  }
+});
+
+// Ao carregar a página, ir para a aba do hash
+window.addEventListener('DOMContentLoaded',function(){
+  const h=location.hash.replace('#','').toLowerCase();
+  if(h&&_hashToPanel[h]!==undefined){
+    go(_hashToPanel[h]);
+  }
+});
 
 // Função para ir para "Nova Proposta" a partir do menu (sempre reseta)
 function novaPropostaFromMenu(){
