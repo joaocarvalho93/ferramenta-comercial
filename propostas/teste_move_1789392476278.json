@@ -1,9 +1,9 @@
 {
   "id": 1789392476278,
   "data": "14/09/2026",
-  "hora": "11:12",
+  "hora": "11:13",
   "dataCriacao": "2026-09-14T13:27:56.278Z",
-  "dataModificacao": "2026-09-14T14:12:59.733Z",
+  "dataModificacao": "2026-09-14T14:13:05.743Z",
   "nome": "Teste Move",
   "lj": 100,
   "ct": 24,
@@ -75,10 +75,10 @@
   "_moveTag": "move",
   "moveEvent": true,
   "movePorte": "G",
-  "moveIsenMeses": 1,
+  "moveIsenMeses": 3,
   "moveDescPct": 15,
-  "moveCondicao": "Porte G: 1 mês(es) isento(s), −15% desc.",
+  "moveCondicao": "Porte G: 3 mês(es) isento(s), −15% desc.",
   "moveEats": true,
   "_gh_path": "propostas/teste_move_1789392476278.json",
-  "_gh_sha": "dcb5fe560ea29b2b41154c5cde8fc852c1292e01"
+  "_gh_sha": "ad01042be925b9939b1d26b97b125351ece5636c"
 }
