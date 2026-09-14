@@ -1,0 +1,20 @@
+{
+  "id": 1789415954575,
+  "nome": "Outback",
+  "lojas": 80,
+  "contato": "João",
+  "telefone": "(41) 99289-0450",
+  "operacao": "Delivery, Fine Dining",
+  "culinaria": "brasileira",
+  "tecnologias": [
+    "PDV / Retaguarda de Dados",
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "",
+  "responsavel": "joao.carlos@ifood.com.br",
+  "data": "14/09/2026",
+  "dataISO": "2026-09-14T19:59:14.583Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
