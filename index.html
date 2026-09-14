@@ -482,6 +482,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <button onclick="go(11)" id="hm11">Gamificação</button>
     <div class="hdr-sep"></div>
     <button onclick="go(12)" id="hm12" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-radius:6px;padding:5px 12px;">Move</button>
+    <button onclick="go(13)" id="hm13" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-radius:6px;padding:5px 12px;">Leads</button>
   </div>
 </header>
 
@@ -838,7 +839,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
 
   <div style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;">
     <button class="btn btn-p" onclick="novaPropostaFromMenu()" style="font-size:13px;padding:10px 24px;">📝 Nova Proposta</button>
-    <button class="btn" onclick="go(12);mvSwitchTab('oferta');mvAbrirForm();" style="font-size:13px;padding:10px 24px;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">⚡ Proposta Move</button>
+    <button class="btn" onclick="go(12);mvSwitchTab('oferta');" style="font-size:13px;padding:10px 24px;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">⚡ Proposta Move</button>
   </div>
 
   <div class="card">
@@ -1062,14 +1063,85 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
       <div style="margin-top:8px;font-size:10px;color:#92400E;background:#FEF3C7;padding:6px 8px;border-radius:6px;">Válido 1 semana pós-evento. Margem mínima 55%.</div>
     </div>
 
-    <!-- CTA CRIAR PROPOSTA -->
-    <div id="mv_cta_criar" style="text-align:center;padding:20px 0;">
-      <button class="mv-save-btn mv-save-primary" onclick="mvAbrirForm()" style="font-size:14px;padding:14px 32px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;">⚡ Criar Proposta Move</button>
-      <p style="font-size:11px;color:var(--gray);margin-top:8px;">Preencha os dados da operação e configure os benefícios Move.</p>
+    <!-- STEP 1: CAPTAÇÃO DE LEAD -->
+    <div id="mv_step1">
+      <div class="mv-card">
+        <div class="mv-card-t"><span class="n">1</span> Captação de Lead</div>
+        <p style="font-size:11px;color:var(--gray);margin-bottom:14px;">Registre o contato inicial. Você pode salvar como lead ou avançar direto para a proposta.</p>
+        <div class="mv-fld" style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Parceiro *</label><input type="text" id="mv_lead_nome" placeholder="Nome da rede / parceiro" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Qtd de lojas *</label><input type="number" id="mv_lead_lojas" placeholder="Ex: 20" min="1" inputmode="numeric" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
+          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Segmento</label><select id="mv_lead_seg" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;">
+            <option value="">Selecionar segmento</option>
+            <option value="qsr">Quick Service (QSR)</option>
+            <option value="table">Table Service</option>
+            <option value="delivery">Delivery First</option>
+            <option value="cafe">Cafeteria / Doceria</option>
+          </select></div>
+        </div>
+        <div class="mv-fld" style="margin-top:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Nome do responsável (parceiro) *</label><input type="text" id="mv_lead_resp" placeholder="Nome do contato" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
+        <div class="mv-fld" style="margin-top:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Telefone para contato *</label><input type="tel" id="mv_lead_tel" placeholder="(11) 99999-9999" inputmode="tel" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">PDV atual *</label><input type="text" id="mv_lead_pdv" placeholder="Ex: Linx, Stone, Totvs..." style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;"></div>
+          <div class="mv-fld"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Operação *</label><select id="mv_lead_operacao" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;">
+            <option value="">Selecionar</option>
+            <option value="Salão + Delivery">Salão + Delivery</option>
+            <option value="Apenas salão">Apenas salão</option>
+            <option value="Apenas Delivery">Apenas Delivery</option>
+          </select></div>
+        </div>
+        <div class="mv-fld" style="margin-top:10px;"><label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Culinária</label><select id="mv_lead_culinaria" style="width:100%;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;">
+          <option value="">Selecionar culinária</option>
+          <option value="hamburgueria">Hamburgueria</option>
+          <option value="pizzaria">Pizzaria</option>
+          <option value="japonesa">Japonesa / Sushi</option>
+          <option value="brasileira">Brasileira</option>
+          <option value="italiana">Italiana</option>
+          <option value="mexicana">Mexicana</option>
+          <option value="arabe">Árabe / Esfiha</option>
+          <option value="chinesa">Chinesa</option>
+          <option value="acai">Açaí / Bowls</option>
+          <option value="cafe">Cafeteria / Doceria</option>
+          <option value="sorvete">Sorvete / Gelato</option>
+          <option value="padaria">Padaria</option>
+          <option value="churrascaria">Churrascaria</option>
+          <option value="frutos_mar">Frutos do Mar</option>
+          <option value="vegana">Vegana / Saudável</option>
+          <option value="pastel">Pastelaria</option>
+          <option value="hotdog">Hot Dog</option>
+          <option value="marmita">Marmitaria</option>
+          <option value="cookie">Cookie / Confeitaria</option>
+          <option value="poke">Poke / Havaiana</option>
+          <option value="outra">Outra</option>
+        </select></div>
+        <div class="mv-fld" style="margin-top:10px;">
+          <label style="display:block;font-size:11px;font-weight:500;color:var(--gray);margin-bottom:3px;">Responsável pela proposta *</label>
+          <div style="display:flex;gap:8px;" id="mv_respWrap">
+            <select id="mv_lead_resp_prop" style="flex:1;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;" onchange="mvOnRespSelect(this)">
+              <option value="">Selecionar responsável</option>
+              <option value="__novo__">+ Novo responsável</option>
+            </select>
+            <input type="email" id="mv_lead_resp_input" placeholder="nome@ifood.com.br" style="flex:1;display:none;padding:9px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);background:#fff;" autocomplete="email">
+            <button class="btn btn-o" id="mv_lead_resp_save" style="display:none;font-size:11px;padding:6px 12px;white-space:nowrap;" onclick="mvSalvarNovoResp()">Salvar</button>
+          </div>
+        </div>
+        <div class="mv-save-row" style="margin-top:16px;">
+          <button class="mv-save-btn mv-save-secondary" onclick="mvSalvarLead()" style="flex:1;">💾 Salvar Lead</button>
+          <button class="mv-save-btn mv-save-primary" onclick="mvLeadToProposal()" style="flex:1;">➡️ Ir para Proposta</button>
+        </div>
+      </div>
     </div>
 
-    <!-- FORM (hidden by default) -->
+    <!-- LEADS SALVOS -->
+    <div id="mv_leads_list"></div>
+
+    <!-- FORM (hidden by default) — STEP 2 -->
     <div id="mv_form_wrap" style="display:none;">
+
+    <!-- BACK TO STEP 1 -->
+    <div style="margin-bottom:12px;">
+      <button onclick="mvBackToStep1()" style="background:none;border:none;font-size:12px;color:var(--gray);cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;display:flex;align-items:center;gap:4px;">← Voltar para captação</button>
+    </div>
 
     <!-- PARAMS -->
     <div class="mv-card">
@@ -1138,7 +1210,7 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <!-- ACTIONS -->
     <div class="mv-card">
       <div class="mv-save-row">
-        <button class="mv-save-btn mv-save-secondary" onclick="mvResetForm();mvRenderEss();mvRecalc();">✨ Nova Proposta</button>
+        <button class="mv-save-btn mv-save-secondary" onclick="mvBackToStep1();mvResetStep1();">✨ Novo Lead / Proposta</button>
         <button class="mv-save-btn mv-save-primary" onclick="mvGerarProposta()">📄 Gerar Proposta</button>
       </div>
     </div>
@@ -1156,6 +1228,37 @@ body{font-family:'Inter',-apple-system,sans-serif;color:var(--dark-gray);backgro
     <div class="mv-rbar-alert" id="mv_r_alert"></div>
   </div>
   </div><!-- /mv_tab_oferta -->
+</div>
+
+<!-- ══════════════════════════════════════ -->
+<!-- PAINEL 13 — LEADS MOVE               -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s13">
+  <h2 class="pnl-t">Leads Move</h2>
+  <p class="pnl-d">Todos os leads captados no iFood Move. Gerencie, filtre e avance para proposta.</p>
+
+  <div style="margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="btn" onclick="go(12);mvSwitchTab('oferta');" style="font-size:13px;padding:10px 24px;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;">+ Novo Lead</button>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div class="card-t" style="margin:0;">Leads Salvos <span id="leadsCount" style="font-size:11px;font-weight:400;color:var(--gray);"></span></div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn btn-o" style="font-size:11px;padding:6px 12px;" onclick="ghSyncLeads()" id="btnSyncLeads" title="Sincronizar leads">↻ Sync</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input type="text" id="leadsSearch" placeholder="Buscar por nome, segmento, responsável..." oninput="renderLeadsPanel()" style="flex:1;padding:8px 12px;border:1.5px solid var(--border-light);border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;">
+      <select id="leadsSort" onchange="renderLeadsPanel()" style="padding:8px 10px;border:1.5px solid var(--border-light);border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;font-weight:600;color:var(--dark-gray);">
+        <option value="recente">Mais recentes</option>
+        <option value="antigo">Mais antigos</option>
+        <option value="nome">A → Z</option>
+        <option value="lojas">Mais lojas</option>
+      </select>
+    </div>
+    <div id="leadsGrid"></div>
+  </div>
 </div>
 
 <!-- Modal genérico -->
@@ -1972,7 +2075,7 @@ function go(n){
   document.getElementById('s'+n).classList.add('on');
   // Atualizar menu ativo
   document.querySelectorAll('.hdr-menu button').forEach(b=>b.classList.remove('hm-active'));
-  const hmMap={0:'hm0',1:'hm5',2:'hm5',3:'hm5',4:'hm5',5:'hm5',6:'hm6',8:'hm8',10:'hm10',11:'hm11',12:'hm12'};
+  const hmMap={0:'hm0',1:'hm5',2:'hm5',3:'hm5',4:'hm5',5:'hm5',6:'hm6',8:'hm8',10:'hm10',11:'hm11',12:'hm12',13:'hm13'};
   const hmBtn=document.getElementById(hmMap[n]);
   if(hmBtn)hmBtn.classList.add('hm-active');
   window.scrollTo(0,0);
@@ -1984,6 +2087,7 @@ function go(n){
   if(n===10)clFilter();
   if(n===11)backToGmMenu();
   if(n===12)mvInit();
+  if(n===13)renderLeadsPanel();
 }
 
 // Função para ir para "Nova Proposta" a partir do menu (sempre reseta)
@@ -4618,7 +4722,7 @@ function mvSwitchTab(tab){
   document.getElementById('mv_tab_guia').style.display=tab==='guia'?'':'none';
   document.getElementById('mv_tab_oferta').style.display=tab==='oferta'?'':'none';
   if(tab==='guia'&&!_guiaRendered){mvRenderGuia();_guiaRendered=true;}
-  if(tab==='oferta'){mvFecharForm();}
+  if(tab==='oferta'){mvFecharForm();mvLoadRespSelect();mvRenderLeads();}
 }
 
 function mvGoHome(){
@@ -4798,6 +4902,11 @@ function mvGetPorte(lj){return lj<=30?'P':lj<=60?'M':'G';}
 
 function mvInit(){
   if(!_mvInited){mvRenderEss();mvBuildExtras();_mvInited=true;}
+  mvLoadRespSelect();
+  mvRenderLeads();
+  // Set up phone mask
+  const telInput=document.getElementById('mv_lead_tel');
+  if(telInput&&!telInput._masked){telInput.addEventListener('input',function(){mvMaskTel(this);});telInput._masked=true;}
   mvGoHome();
 }
 
@@ -4820,18 +4929,364 @@ function mvResetForm(){
   if(_mvInited){mvRenderEss();mvRenderAdd();mvRenderProd();mvRecalc();}
 }
 
-function mvAbrirForm(){
+// ── Lead storage ──
+function getLeadsMove(){return JSON.parse(localStorage.getItem('leads_move_3s')||'[]');}
+function saveLeadsMove(arr){localStorage.setItem('leads_move_3s',JSON.stringify(arr));}
+
+// ── Lead responsável select (Move) ──
+function mvLoadRespSelect(){
+  const sel=document.getElementById('mv_lead_resp_prop');
+  if(!sel)return;
+  const current=sel.value;
+  sel.innerHTML='<option value="">Selecionar responsável</option>';
+  // Emails fixos do time Move
+  const fixos=['gabriela.roma@ifood.com.br','bruna.lanca@ifood.com.br','mariana.peruzzetto@ifood.com.br','joao.biagiotti@ifood.com.br','lidia.esteves@ifood.com.br','marilia.paz@ifood.com.br','marcos.pereira@ifood.com.br'];
+  const adicionais=getResponsaveis().filter(e=>!fixos.includes(e));
+  const todos=[...fixos,...adicionais];
+  todos.forEach(e=>{
+    const opt=document.createElement('option');opt.value=e;opt.textContent=e;sel.appendChild(opt);
+  });
+  const novoOpt=document.createElement('option');novoOpt.value='__novo__';novoOpt.textContent='+ Novo responsável';sel.appendChild(novoOpt);
+  if(current&&current!=='__novo__')sel.value=current;
+}
+function mvOnRespSelect(sel){
+  const inp=document.getElementById('mv_lead_resp_input');
+  const btn=document.getElementById('mv_lead_resp_save');
+  if(sel.value==='__novo__'){inp.style.display='';btn.style.display='';inp.focus();}
+  else{inp.style.display='none';btn.style.display='none';inp.value='';}
+}
+function mvSalvarNovoResp(){
+  const inp=document.getElementById('mv_lead_resp_input');
+  const email=inp.value.trim().toLowerCase();
+  if(!email||!email.includes('@')){showToast('Digite um e-mail válido','#EF4444');return;}
+  saveResponsavel(email);
+  mvLoadRespSelect();
+  document.getElementById('mv_lead_resp_prop').value=email;
+  inp.style.display='none';
+  document.getElementById('mv_lead_resp_save').style.display='none';
+  inp.value='';
+  showToast('Responsável salvo!','#10B981');
+}
+function mvGetLeadResp(){
+  const sel=document.getElementById('mv_lead_resp_prop');
+  if(sel.value==='__novo__') return document.getElementById('mv_lead_resp_input').value.trim().toLowerCase();
+  return sel.value;
+}
+
+// ── Telefone mask ──
+function mvMaskTel(el){
+  let v=el.value.replace(/\D/g,'');
+  if(v.length>11)v=v.slice(0,11);
+  if(v.length>6)v='('+v.slice(0,2)+') '+v.slice(2,7)+'-'+v.slice(7);
+  else if(v.length>2)v='('+v.slice(0,2)+') '+v.slice(2);
+  else if(v.length>0)v='('+v;
+  el.value=v;
+}
+
+// ── Salvar Lead ──
+function mvSalvarLead(){
+  const nome=document.getElementById('mv_lead_nome').value.trim();
+  const lojas=parseInt(document.getElementById('mv_lead_lojas').value)||0;
+  const seg=document.getElementById('mv_lead_seg').value;
+  const contato=document.getElementById('mv_lead_resp').value.trim();
+  const telefone=document.getElementById('mv_lead_tel').value.trim();
+  const pdv=document.getElementById('mv_lead_pdv').value.trim();
+  const operacao=document.getElementById('mv_lead_operacao').value;
+  const resp=mvGetLeadResp();
+  if(!nome){showToast('Informe o nome do parceiro','#EF4444');return;}
+  if(!lojas){showToast('Informe a quantidade de lojas','#EF4444');return;}
+  if(!contato){showToast('Informe o nome do responsável','#EF4444');return;}
+  if(!telefone){showToast('Informe o telefone para contato','#EF4444');return;}
+  if(!pdv){showToast('Informe o PDV atual','#EF4444');return;}
+  if(!operacao){showToast('Selecione a operação','#EF4444');return;}
+  if(!resp){showToast('Selecione o responsável pela proposta','#EF4444');return;}
+  const lead={
+    id:Date.now(),
+    nome,
+    lojas,
+    segmento:seg,
+    contato,
+    telefone,
+    pdvAtual:pdv,
+    culinaria:document.getElementById('mv_lead_culinaria').value,
+    operacao,
+    responsavel:resp,
+    data:new Date().toLocaleDateString('pt-BR'),
+    dataISO:new Date().toISOString(),
+    status:'lead',
+    _moveTag:'move'
+  };
+  const arr=getLeadsMove();
+  arr.unshift(lead);
+  saveLeadsMove(arr);
+  // Also sync to GitHub if configured
+  if(typeof ghIsConfigured==='function'&&ghIsConfigured()){
+    const path='leads/lead_'+lead.id+'.json';
+    ghSaveFile(path,lead,null,'Novo lead Move: '+nome).catch(()=>{});
+  }
+  showToast('Lead salvo!','#10B981');
+  mvResetStep1();
+  mvRenderLeads();
+}
+
+// ── Lead → Proposta ──
+function mvLeadToProposal(){
+  const nome=document.getElementById('mv_lead_nome').value.trim();
+  const lojas=document.getElementById('mv_lead_lojas').value;
+  const resp=mvGetLeadResp();
+  if(!nome){showToast('Informe o nome do parceiro para continuar','#EF4444');return;}
+  if(!lojas){showToast('Informe a quantidade de lojas','#EF4444');return;}
   mvResetForm();
-  document.getElementById('mv_cta_criar').style.display='none';
+  // Pré-preencher Step 2 com dados do Step 1
+  document.getElementById('mv_nome').value=nome;
+  document.getElementById('mv_lj').value=lojas;
+  // Armazenar dados extras do lead para vincular à proposta
+  window._mvLeadExtra={
+    segmento:document.getElementById('mv_lead_seg').value,
+    contato:document.getElementById('mv_lead_resp').value.trim(),
+    telefone:document.getElementById('mv_lead_tel').value.trim(),
+    pdvAtual:document.getElementById('mv_lead_pdv').value.trim(),
+    culinaria:document.getElementById('mv_lead_culinaria').value,
+    operacao:document.getElementById('mv_lead_operacao').value,
+    responsavel:resp
+  };
+  mvAbrirForm();
+}
+
+// ── Load lead into Step 1 for editing / continuing ──
+function mvLoadLead(lead){
+  document.getElementById('mv_lead_nome').value=lead.nome||'';
+  document.getElementById('mv_lead_lojas').value=lead.lojas||'';
+  document.getElementById('mv_lead_seg').value=lead.segmento||'';
+  document.getElementById('mv_lead_resp').value=lead.contato||'';
+  document.getElementById('mv_lead_tel').value=lead.telefone||'';
+  document.getElementById('mv_lead_pdv').value=lead.pdvAtual||'';
+  document.getElementById('mv_lead_culinaria').value=lead.culinaria||'';
+  document.getElementById('mv_lead_operacao').value=lead.operacao||'';
+  mvLoadRespSelect();
+  if(lead.responsavel)document.getElementById('mv_lead_resp_prop').value=lead.responsavel;
+  window._mvEditingLeadId=lead.id;
+}
+
+// ── Continue lead directly to proposal ──
+function mvLeadContinue(id){
+  const leads=getLeadsMove();
+  const lead=leads.find(l=>l.id===id);
+  if(!lead)return;
+  mvLoadLead(lead);
+  mvLeadToProposal();
+}
+
+// ── Render leads list ──
+function mvRenderLeads(){
+  const el=document.getElementById('mv_leads_list');
+  const leads=getLeadsMove();
+  if(!leads.length){el.innerHTML='';return;}
+  let h='<div class="mv-card" style="margin-top:12px;"><div class="mv-card-t" style="font-size:12px;">📋 Leads captados</div>';
+  leads.slice(0,10).forEach(l=>{
+    const porte=mvGetPorte(l.lojas);
+    h+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 4px;border-bottom:1px solid rgba(107,114,128,.08);font-size:11px;">
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;color:var(--dark-gray);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${l.nome}</div>
+        <div style="color:var(--gray);font-size:10px;">${l.lojas} lojas · ${l.segmento||'—'} · ${l.operacao||'—'} · Porte ${porte} · ${l.data}</div>
+      </div>
+      <div style="display:flex;gap:4px;flex-shrink:0;">
+        <button onclick="mvLoadLead(getLeadsMove().find(x=>x.id===${l.id}))" style="background:#F3F4F6;border:none;border-radius:5px;padding:4px 8px;font-size:10px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;color:var(--dark-gray);">✏️</button>
+        <button onclick="mvLeadContinue(${l.id})" style="background:var(--purple);color:#fff;border:none;border-radius:5px;padding:4px 8px;font-size:10px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">➡️ Proposta</button>
+      </div>
+    </div>`;
+  });
+  h+='</div>';
+  el.innerHTML=h;
+}
+
+// ── Reset Step 1 ──
+function mvResetStep1(){
+  document.getElementById('mv_lead_nome').value='';
+  document.getElementById('mv_lead_lojas').value='';
+  document.getElementById('mv_lead_seg').value='';
+  document.getElementById('mv_lead_resp').value='';
+  document.getElementById('mv_lead_tel').value='';
+  document.getElementById('mv_lead_pdv').value='';
+  document.getElementById('mv_lead_culinaria').value='';
+  document.getElementById('mv_lead_operacao').value='';
+  mvLoadRespSelect();
+  document.getElementById('mv_lead_resp_prop').value='';
+  window._mvEditingLeadId=null;
+  window._mvLeadExtra=null;
+}
+
+// ── Back to Step 1 from Step 2 ──
+function mvBackToStep1(){
+  document.getElementById('mv_form_wrap').style.display='none';
+  document.querySelector('#s12 .mv-rbar').style.display='none';
+  document.getElementById('mv_step1').style.display='';
+  document.getElementById('mv_leads_list').style.display='';
+}
+
+function mvAbrirForm(){
+  if(!_mvInited){mvRenderEss();mvBuildExtras();_mvInited=true;}
+  document.getElementById('mv_step1').style.display='none';
+  document.getElementById('mv_leads_list').style.display='none';
   document.getElementById('mv_form_wrap').style.display='block';
   document.querySelector('#s12 .mv-rbar').style.display='block';
   mvRecalc();
 }
 
 function mvFecharForm(){
-  document.getElementById('mv_cta_criar').style.display='';
+  document.getElementById('mv_step1').style.display='';
+  document.getElementById('mv_leads_list').style.display='';
   document.getElementById('mv_form_wrap').style.display='none';
   document.querySelector('#s12 .mv-rbar').style.display='none';
+}
+
+// ══════════════════════════════════════
+// LEADS PANEL (s13)
+// ══════════════════════════════════════
+let _allLeads=[];
+
+function renderLeadsPanel(){
+  // Merge local + GitHub leads
+  const local=getLeadsMove();
+  // Build map by id
+  const map=new Map();
+  local.forEach(l=>map.set(l.id,l));
+  _allLeads.forEach(l=>{if(!map.has(l.id))map.set(l.id,l);});
+  let leads=Array.from(map.values());
+
+  // Search
+  const q=(document.getElementById('leadsSearch')?.value||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  if(q){
+    leads=leads.filter(l=>{
+      const txt=(l.nome+' '+l.segmento+' '+l.operacao+' '+l.responsavel+' '+l.contato+' '+l.culinaria+' '+l.pdvAtual).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+      return txt.includes(q);
+    });
+  }
+
+  // Sort
+  const sort=document.getElementById('leadsSort')?.value||'recente';
+  if(sort==='recente') leads.sort((a,b)=>(b.id||0)-(a.id||0));
+  else if(sort==='antigo') leads.sort((a,b)=>(a.id||0)-(b.id||0));
+  else if(sort==='nome') leads.sort((a,b)=>(a.nome||'').localeCompare(b.nome||''));
+  else if(sort==='lojas') leads.sort((a,b)=>(b.lojas||0)-(a.lojas||0));
+
+  const countEl=document.getElementById('leadsCount');
+  if(countEl)countEl.textContent='('+leads.length+')';
+
+  const grid=document.getElementById('leadsGrid');
+  if(!leads.length){
+    grid.innerHTML='<div style="text-align:center;padding:32px 16px;color:var(--gray);font-size:13px;">Nenhum lead captado ainda. <a href="javascript:go(12);mvSwitchTab(\'oferta\');" style="color:var(--purple);font-weight:600;">Captar primeiro lead →</a></div>';
+    return;
+  }
+
+  let h='';
+  leads.forEach((l,idx)=>{
+    const porte=mvGetPorte(l.lojas||0);
+    const porteCor={P:'#1D4ED8',M:'#92400E',G:'#991B1B'}[porte]||'var(--gray)';
+    h+=`<div style="background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.04);border:1.5px solid transparent;transition:border .15s;" onmouseenter="this.style.borderColor='#F59E0B'" onmouseleave="this.style.borderColor='transparent'">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--dark-gray);">${l.nome||'Sem nome'}</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px;">
+            <span style="background:${porteCor};color:#fff;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:700;margin-right:4px;">Porte ${porte}</span>
+            ${l.lojas||0} lojas · ${l.segmento||'—'} · ${l.operacao||'—'}
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--gray);text-align:right;white-space:nowrap;">
+          ${l.data||''}
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--gray);margin-bottom:8px;">
+        ${l.contato?'<span>👤 '+l.contato+'</span>':''}
+        ${l.telefone?'<span>📞 '+l.telefone+'</span>':''}
+        ${l.pdvAtual?'<span>🖥 PDV: '+l.pdvAtual+'</span>':''}
+        ${l.culinaria?'<span>🍽 '+l.culinaria+'</span>':''}
+        ${l.responsavel?'<span>📋 '+l.responsavel+'</span>':''}
+      </div>
+      <div style="display:flex;gap:6px;justify-content:flex-end;">
+        <button onclick="leadEditFromPanel(${l.id})" style="background:#F3F4F6;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;color:var(--dark-gray);">✏️ Editar</button>
+        <button onclick="leadToPropostaFromPanel(${l.id})" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">➡️ Proposta</button>
+        <button onclick="leadDeleteFromPanel(${l.id})" style="background:none;border:1px solid #EF4444;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;color:#EF4444;" title="Excluir lead">✕</button>
+      </div>
+    </div>`;
+  });
+  grid.innerHTML=h;
+}
+
+function leadEditFromPanel(id){
+  const leads=getLeadsMove();
+  const lead=leads.find(l=>l.id===id)||_allLeads.find(l=>l.id===id);
+  if(!lead)return;
+  go(12);
+  mvSwitchTab('oferta');
+  mvLoadLead(lead);
+}
+
+function leadToPropostaFromPanel(id){
+  const leads=getLeadsMove();
+  const lead=leads.find(l=>l.id===id)||_allLeads.find(l=>l.id===id);
+  if(!lead)return;
+  go(12);
+  mvSwitchTab('oferta');
+  mvLoadLead(lead);
+  mvLeadToProposal();
+}
+
+function leadDeleteFromPanel(id){
+  if(!confirm('Excluir este lead?'))return;
+  let arr=getLeadsMove();
+  arr=arr.filter(l=>l.id!==id);
+  saveLeadsMove(arr);
+  _allLeads=_allLeads.filter(l=>l.id!==id);
+  // Also delete from GitHub if exists
+  const lead=_allLeads.find(l=>l.id===id);
+  if(lead&&lead._gh_path&&typeof ghIsConfigured==='function'&&ghIsConfigured()){
+    // Note: GitHub delete requires separate API call — skip for now, just remove locally
+  }
+  renderLeadsPanel();
+  showToast('Lead excluído','var(--dark-gray)');
+}
+
+async function ghSyncLeads(){
+  if(!ghIsConfigured()){showToast('Configure o GitHub primeiro','#EF4444');return;}
+  const btn=document.getElementById('btnSyncLeads');
+  if(btn){btn.textContent='↻ Sincronizando...';btn.disabled=true;}
+  try{
+    const c=ghGetConfig();
+    const url='https://api.github.com/repos/'+c.owner+'/'+c.repo+'/contents/leads';
+    const res=await fetch(url,{headers:{'Authorization':'token '+c.token,'Accept':'application/vnd.github.v3+json'}});
+    if(!res.ok){
+      if(res.status===404){showToast('Pasta leads/ não encontrada no repo. Salve um lead primeiro.','#F59E0B');return;}
+      throw new Error('HTTP '+res.status);
+    }
+    const files=await res.json();
+    const jsonFiles=files.filter(f=>f.name.endsWith('.json'));
+    const ghLeads=[];
+    for(const f of jsonFiles){
+      try{
+        const r=await fetch(f.download_url);
+        const lead=await r.json();
+        lead._gh_path=f.path;
+        lead._gh_sha=f.sha;
+        ghLeads.push(lead);
+      }catch(e){}
+    }
+    // Merge: GitHub is source of truth, local supplements
+    const local=getLeadsMove();
+    const map=new Map();
+    ghLeads.forEach(l=>map.set(l.id,l));
+    local.forEach(l=>{if(!map.has(l.id))map.set(l.id,l);});
+    const merged=Array.from(map.values());
+    // Save locally
+    saveLeadsMove(merged.map(l=>{const c={...l};delete c._gh_path;delete c._gh_sha;return c;}));
+    _allLeads=merged;
+    renderLeadsPanel();
+    showToast(ghLeads.length+' leads sincronizados do GitHub','#10B981');
+  }catch(e){
+    showToast('Erro ao sincronizar leads: '+e.message,'#EF4444');
+  }finally{
+    if(btn){btn.textContent='↻ Sync';btn.disabled=false;}
+  }
 }
 
 function mvGerarProposta(){
@@ -5140,7 +5595,9 @@ function mvBuildPropostaObj(){
   mvAddOn.forEach(m=>{const c=catById(m.id);modulos.push(c?c.nm:m.id);});
   mvProdOn.forEach(m=>{const c=catById(m.id);modulos.push(c?c.nm:m.id);});
   const agora=new Date();
-  const resp=typeof getResponsavelAtual==='function'?getResponsavelAtual():'';
+  // Use lead extra data if available, otherwise fall back to normal resp
+  const extra=window._mvLeadExtra||{};
+  const resp=extra.responsavel||(typeof getResponsavelAtual==='function'?getResponsavelAtual():'');
   return {
     id:Date.now(),
     data:agora.toLocaleDateString('pt-BR'),
@@ -5149,6 +5606,12 @@ function mvBuildPropostaObj(){
     dataModificacao:agora.toISOString(),
     nome,lj,ct,ro,
     responsavel:resp,
+    segmento:extra.segmento||'',
+    contato:extra.contato||'',
+    telefone:extra.telefone||'',
+    pdvAtual:extra.pdvAtual||'',
+    culinaria:extra.culinaria||'',
+    operacao:extra.operacao||'',
     setup:3000,inst:1622,ixSetup:ixS,ixInst:ixI,
     ms,addTotal,
     rb:0,incAnual:0,incMes:0,devVal:0,invMeses:0,invMensal:0,
@@ -5164,7 +5627,7 @@ function mvBuildPropostaObj(){
     movePorte:porte,
     moveIsenMeses:effectiveIsen,
     moveDescPct:effectiveDesc,
-    moveCondicao:'Porte '+porte+': '+effectiveIsen+' mês(es) isento(s)'+(effectiveDesc>0?', −'+effectiveDesc+'% desc.':''),
+    moveCondicao:'Porte '+porte+': '+effectiveIsen+(effectiveIsen===1?' mês isento':' meses isentos')+(effectiveDesc>0?', −'+effectiveDesc+'% desc.':''),
     moveEats:ixEats,
   };
 }
@@ -5354,8 +5817,9 @@ function mvCarregarProposta(idx){
   mvRenderEss();
   go(12);
   mvSwitchTab('oferta');
-  // Show form (filled), hide CTA
-  document.getElementById('mv_cta_criar').style.display='none';
+  // Show form (filled), hide Step 1
+  document.getElementById('mv_step1').style.display='none';
+  document.getElementById('mv_leads_list').style.display='none';
   document.getElementById('mv_form_wrap').style.display='block';
   document.querySelector('#s12 .mv-rbar').style.display='block';
   mvRecalc();
