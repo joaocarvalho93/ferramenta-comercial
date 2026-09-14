@@ -1,0 +1,20 @@
+{
+  "id": 1789413757249,
+  "nome": "Outback",
+  "lojas": 500,
+  "contato": "João",
+  "telefone": "(41) 99289-0450",
+  "operacao": "Delivery, Fine Dining",
+  "culinaria": "hamburgueria",
+  "tecnologias": [
+    "PDV / Retaguarda de Dados",
+    "Smart POS"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "",
+  "responsavel": "joao.carlos@ifood.com.br",
+  "data": "14/09/2026",
+  "dataISO": "2026-09-14T19:22:37.253Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
