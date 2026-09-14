@@ -1,0 +1,94 @@
+{
+  "id": 1789415964289,
+  "data": "14/09/2026",
+  "hora": "16:59",
+  "dataCriacao": "2026-09-14T19:59:24.289Z",
+  "dataModificacao": "2026-09-14T19:59:24.289Z",
+  "nome": "Outback",
+  "lj": 80,
+  "ct": 24,
+  "ro": 1,
+  "responsavel": "joao.carlos@ifood.com.br",
+  "contato": "João",
+  "telefone": "(41) 99289-0450",
+  "operacao": "Delivery, Fine Dining",
+  "culinaria": "brasileira",
+  "tecnologias": [
+    "PDV / Retaguarda de Dados",
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "",
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": true,
+  "ixInst": true,
+  "ms": 1000,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 3",
+    "KDS — Até 3",
+    "Produção Impressoras — Até 3",
+    "Totem — Até 3",
+    "Marketplace — iFood / Rappi / OD",
+    "TEF — Primeira integração"
+  ],
+  "meIds": [
+    "pdv_3",
+    "kds_3",
+    "imp_3",
+    "totem_3",
+    "mkt_full",
+    "tef_1"
+  ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 350,
+      "ix": false
+    },
+    {
+      "id": "kds_3",
+      "v": 160,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "v": 60,
+      "ix": false
+    },
+    {
+      "id": "totem_3",
+      "v": 180,
+      "ix": false
+    },
+    {
+      "id": "mkt_full",
+      "v": 110,
+      "ix": false
+    },
+    {
+      "id": "tef_1",
+      "v": 140,
+      "ix": false
+    }
+  ],
+  "maOn": [],
+  "mxOn": [],
+  "_migrateV": 3,
+  "_moveTag": "move",
+  "moveEvent": true,
+  "movePorte": "G",
+  "moveIsenMeses": 3,
+  "moveDescPct": 10,
+  "moveCondicao": "Porte G: 3 meses isentos, −10% desc.",
+  "moveEats": true,
+  "_gh_path": "propostas/outback_1789415964289.json",
+  "_gh_sha": null
+}
