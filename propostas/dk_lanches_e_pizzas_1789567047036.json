@@ -1,0 +1,97 @@
+{
+  "id": 1789567047036,
+  "data": "16/09/2026",
+  "hora": "10:57",
+  "dataCriacao": "2026-09-16T13:57:27.036Z",
+  "dataModificacao": "2026-09-16T13:57:27.036Z",
+  "nome": "Dk Lanches e Pizzas",
+  "lj": 2,
+  "ct": 60,
+  "ro": 1,
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "contato": "Joao Pedro",
+  "telefone": "(34) 99898-8275",
+  "operacao": "Delivery, Drive-Thru, Quick Service, Table Service",
+  "culinaria": "pizzaria",
+  "tecnologias": [
+    "Painel de Senha / Chama Senha",
+    "PDV / Retaguarda de Dados",
+    "Smart POS",
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "Saipos",
+  "detalhamento": "Parceiro usa Saipos e Neemo",
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": true,
+  "ixInst": true,
+  "ms": 860,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 3",
+    "KDS — Até 3",
+    "Produção Impressoras — Até 3",
+    "Totem — Até 3",
+    "Marketplace — iFood / Rappi / OD",
+    "KDS — Adicional"
+  ],
+  "meIds": [
+    "pdv_3",
+    "kds_3",
+    "imp_3",
+    "totem_3",
+    "mkt_full"
+  ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 350,
+      "ix": false
+    },
+    {
+      "id": "kds_3",
+      "v": 160,
+      "ix": false
+    },
+    {
+      "id": "imp_3",
+      "v": 60,
+      "ix": false
+    },
+    {
+      "id": "totem_3",
+      "v": 180,
+      "ix": false
+    },
+    {
+      "id": "mkt_full",
+      "v": 110,
+      "ix": false
+    }
+  ],
+  "maOn": [
+    {
+      "id": "kds_adic",
+      "on": true,
+      "ix": false,
+      "v": 60
+    }
+  ],
+  "mxOn": [],
+  "_migrateV": 3,
+  "_moveTag": "move",
+  "moveEvent": true,
+  "movePorte": "P",
+  "moveIsenMeses": 1,
+  "moveDescPct": 0,
+  "moveCondicao": "Porte P: 1 mês isento",
+  "moveEats": true,
+  "_gh_path": "propostas/dk_lanches_e_pizzas_1789567047036.json",
+  "_gh_sha": null
+}
