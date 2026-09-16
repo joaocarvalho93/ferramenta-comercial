@@ -1,0 +1,19 @@
+{
+  "id": 1789581442474,
+  "nome": "Sassa sushi",
+  "lojas": 5,
+  "contato": "Alexandre",
+  "telefone": "(11) 99201-1605",
+  "operacao": "Delivery",
+  "culinaria": "japonesa",
+  "tecnologias": [
+    "PDV / Retaguarda de Dados"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "",
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T17:57:22.474Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
