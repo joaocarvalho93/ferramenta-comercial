@@ -1,0 +1,19 @@
+{
+  "id": 1789588127998,
+  "nome": "Varanda 1389",
+  "lojas": 1,
+  "contato": "Rodrigo",
+  "telefone": "(31) 99191-9199",
+  "operacao": "Delivery",
+  "culinaria": "marmita",
+  "tecnologias": [
+    "PDV / Retaguarda de Dados"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "",
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T19:48:47.998Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
