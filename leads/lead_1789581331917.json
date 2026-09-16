@@ -1,0 +1,19 @@
+{
+  "id": 1789581331917,
+  "nome": "Sassa sushi",
+  "lojas": 5,
+  "contato": "Gustavo",
+  "telefone": "(13) 99117-799",
+  "operacao": "Delivery, Quick Service, Table Service",
+  "culinaria": "japonesa",
+  "tecnologias": [
+    "PDV / Retaguarda de Dados"
+  ],
+  "pdvAtual": "Chef solutions",
+  "detalhamento": "",
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T17:55:31.937Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
