@@ -1,0 +1,22 @@
+{
+  "id": 1789568978316,
+  "nome": "Dk Pizzaria",
+  "lojas": 2,
+  "contato": "Joao pedro",
+  "telefone": "(34) 99898-8275",
+  "operacao": "Delivery, Drive-Thru, Quick Service, Table Service",
+  "culinaria": "pizzaria",
+  "tecnologias": [
+    "Impressoras de Produção",
+    "PDV / Retaguarda de Dados",
+    "Smart POS",
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "Saipos",
+  "detalhamento": "Usa saipos e quer mudar",
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T14:29:38.321Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
