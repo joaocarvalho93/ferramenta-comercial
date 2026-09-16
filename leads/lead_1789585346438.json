@@ -1,0 +1,21 @@
+{
+  "id": 1789585346438,
+  "nome": "Lobozo-Jiquitaia",
+  "lojas": 3,
+  "contato": "Gustavo",
+  "telefone": "(11) 98549-9821",
+  "operacao": "Delivery, Quick Service, Table Service",
+  "culinaria": "brasileira",
+  "tecnologias": [
+    "Impressoras de Produção",
+    "PDV / Retaguarda de Dados",
+    "Smart POS"
+  ],
+  "pdvAtual": "Linx",
+  "detalhamento": "3 marcas e 3 operações fisicas \n Estrela Michelin\n Marcelo e Gustavo (socios)\n Integração com delivery ruim na Altec - estão comecando agora\n Sistema interno para gestao de dados",
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T19:02:26.442Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
