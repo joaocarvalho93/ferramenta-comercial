@@ -1,9 +1,9 @@
 {
   "id": 1789567047036,
   "data": "16/09/2026",
-  "hora": "10:59",
+  "hora": "11:03",
   "dataCriacao": "2026-09-16T13:57:27.036Z",
-  "dataModificacao": "2026-09-16T13:59:29.723Z",
+  "dataModificacao": "2026-09-16T14:03:07.330Z",
   "nome": "Dk Lanches e Pizzas",
   "lj": 2,
   "ct": 60,
@@ -25,7 +25,7 @@
   "inst": 1622,
   "ixSetup": true,
   "ixInst": true,
-  "ms": 860,
+  "ms": 750,
   "addTotal": 180,
   "rb": 0,
   "incAnual": 0,
@@ -38,7 +38,6 @@
     "KDS — Até 3",
     "Produção Impressoras — Até 3",
     "Totem — Até 3",
-    "Marketplace — iFood / Rappi / OD",
     "KDS — Adicional",
     "3S Eats — Delivery"
   ],
@@ -46,8 +45,7 @@
     "pdv_3",
     "kds_3",
     "imp_3",
-    "totem_3",
-    "mkt_full"
+    "totem_3"
   ],
   "meData": [
     {
@@ -68,11 +66,6 @@
     {
       "id": "totem_3",
       "v": 180,
-      "ix": false
-    },
-    {
-      "id": "mkt_full",
-      "v": 110,
       "ix": false
     }
   ],
@@ -101,5 +94,5 @@
   "moveCondicao": "Porte P: 1 mês isento",
   "moveEats": false,
   "_gh_path": "propostas/dk_lanches_e_pizzas_1789567047036.json",
-  "_gh_sha": "c5f1db77e2e3008f5839b03b4266d62c6f5da5ec"
+  "_gh_sha": "3f09ff38f6e5d6f6f7668abf0afb680ba9fc2d34"
 }
