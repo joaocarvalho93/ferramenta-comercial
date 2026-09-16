@@ -1,0 +1,21 @@
+{
+  "id": 1789594976803,
+  "nome": "Sensei shushi",
+  "lojas": 2,
+  "contato": "Renata",
+  "telefone": "(13) 97406-4044",
+  "operacao": "Delivery, Drive-Thru",
+  "culinaria": "japonesa",
+  "tecnologias": [
+    "Cardápio Digital via QR Code",
+    "KDS / Telas de Produção",
+    "PDV / Retaguarda de Dados"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "Demonstração",
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T21:42:56.805Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
