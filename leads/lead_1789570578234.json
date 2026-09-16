@@ -1,0 +1,22 @@
+{
+  "id": 1789570578234,
+  "nome": "The Burger",
+  "lojas": 1,
+  "contato": "Rodrigo",
+  "telefone": "(16) 98152-3428",
+  "operacao": "Delivery",
+  "culinaria": "hamburgueria",
+  "tecnologias": [
+    "Cardápio Digital via QR Code",
+    "Impressoras de Produção",
+    "Smart POS",
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "",
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T14:56:18.236Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
