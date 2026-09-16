@@ -1,0 +1,19 @@
+{
+  "id": 1789564681939,
+  "nome": "Rede Triz",
+  "lojas": 9,
+  "contato": "Carmem",
+  "telefone": "(11) 99905-2505",
+  "operacao": "Delivery",
+  "culinaria": "outra",
+  "tecnologias": [
+    "Impressoras de Produção"
+  ],
+  "pdvAtual": "Linx",
+  "detalhamento": "Sao postos de combustível com restaurantes",
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T13:18:01.952Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
