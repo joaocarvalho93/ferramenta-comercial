@@ -1,0 +1,19 @@
+{
+  "id": 1789585339411,
+  "nome": "Pizzaria dois90",
+  "lojas": 8,
+  "contato": "Cristiano",
+  "telefone": "(95) 98119-1719",
+  "operacao": "Delivery",
+  "culinaria": "pizzaria",
+  "tecnologias": [
+    "PDV / Retaguarda de Dados"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "",
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T19:02:19.432Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
