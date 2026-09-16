@@ -1,0 +1,20 @@
+{
+  "id": 1789587472326,
+  "nome": "Restaurante chave de ouro",
+  "lojas": 1,
+  "contato": "Thiago",
+  "telefone": "(11) 99845-0952",
+  "operacao": "Delivery, Table Service",
+  "culinaria": "outra",
+  "tecnologias": [
+    "PDV / Retaguarda de Dados",
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "",
+  "detalhamento": "Interesse em totem",
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "data": "16/09/2026",
+  "dataISO": "2026-09-16T19:37:52.327Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
