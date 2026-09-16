@@ -1,9 +1,9 @@
 {
   "id": 1789567047036,
   "data": "16/09/2026",
-  "hora": "11:03",
+  "hora": "11:10",
   "dataCriacao": "2026-09-16T13:57:27.036Z",
-  "dataModificacao": "2026-09-16T14:03:07.330Z",
+  "dataModificacao": "2026-09-16T14:10:38.652Z",
   "nome": "Dk Lanches e Pizzas",
   "lj": 2,
   "ct": 60,
@@ -94,5 +94,5 @@
   "moveCondicao": "Porte P: 1 mês isento",
   "moveEats": false,
   "_gh_path": "propostas/dk_lanches_e_pizzas_1789567047036.json",
-  "_gh_sha": "3f09ff38f6e5d6f6f7668abf0afb680ba9fc2d34"
+  "_gh_sha": "4676adbb4a073a4ec6440057527052e0d8e90df8"
 }
