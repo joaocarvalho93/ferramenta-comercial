@@ -1,0 +1,21 @@
+{
+  "id": 1789657352756,
+  "nome": "Philipeia",
+  "lojas": 2,
+  "contato": "Leon",
+  "telefone": "(83) 98752-3177",
+  "operacao": "Delivery, Quick Service, Table Service",
+  "culinaria": "hamburgueria",
+  "tecnologias": [
+    "Impressoras de Produção",
+    "Smart POS",
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "Saipos",
+  "detalhamento": "Quer conhecer melhor as ferramentas,  fizemos a demo e apresentação no local",
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "data": "17/09/2026",
+  "dataISO": "2026-09-17T15:02:32.757Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
