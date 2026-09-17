@@ -1,0 +1,21 @@
+{
+  "id": 1789665972496,
+  "nome": "Mr Jones",
+  "lojas": 4,
+  "contato": "Jonatan monteiro",
+  "telefone": "(11) 95885-9330",
+  "operacao": "Delivery, Table Service",
+  "culinaria": "brasileira",
+  "tecnologias": [
+    "CRM/Fidelidade/Loyalty",
+    "Impressoras de Produção",
+    "Smart POS"
+  ],
+  "pdvAtual": "Altec",
+  "detalhamento": "Problemas de integração",
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "data": "17/09/2026",
+  "dataISO": "2026-09-17T17:26:12.498Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
