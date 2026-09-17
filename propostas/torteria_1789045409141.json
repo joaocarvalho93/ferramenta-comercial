@@ -1,22 +1,23 @@
 {
   "id": 1789045409141,
   "data": "10/09/2026",
-  "hora": "10:03",
+  "hora": "14:20",
   "dataCriacao": "2026-09-10T13:03:29.140Z",
-  "dataModificacao": "2026-09-10T13:03:29.140Z",
+  "dataModificacao": "2026-09-17T17:20:22.820Z",
   "nome": "Torteria",
   "lj": 5,
   "ct": 60,
   "ro": 2,
-  "responsavel": "lidia.esteves@ifood.com.br",
+  "responsavel": "",
   "segmento": "table",
-  "culinaria": "",
+  "culinaria": "cafe",
   "estado": "SP",
-  "setup": 3000,
+  "setup": 1000,
   "inst": 1622,
   "ixSetup": false,
   "ixInst": true,
-  "ms": 500,
+  "ixInstExist": false,
+  "ms": 450,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -34,12 +35,41 @@
     "pos_ilim",
     "imp_ilim"
   ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 200,
+      "ix": false
+    },
+    {
+      "id": "pos_ilim",
+      "v": 150,
+      "ix": false
+    },
+    {
+      "id": "imp_ilim",
+      "v": 100,
+      "ix": false
+    }
+  ],
   "maOn": [
     {
-      "id": "kinesis",
+      "id": "pdv_adic",
       "on": false,
       "ix": false,
-      "v": 0
+      "v": 49.9
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65
     },
     {
       "id": "pos_3",
@@ -48,16 +78,28 @@
       "v": 100
     },
     {
-      "id": "imp_3",
+      "id": "pos_5",
       "on": false,
       "ix": false,
-      "v": 0
+      "v": 150
+    },
+    {
+      "id": "pos_ilim",
+      "on": false,
+      "ix": false,
+      "v": 350
     },
     {
       "id": "marca",
       "on": false,
       "ix": false,
       "v": 100
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250
     }
   ],
   "mxOn": [
@@ -77,6 +119,16 @@
       "v": 220
     },
     {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300
+    },
+    {
       "id": "eats_d",
       "on": false,
       "v": 180
@@ -90,24 +142,19 @@
       "id": "eats_combo",
       "on": false,
       "v": 300
-    }
-  ],
-  "meData": [
-    {
-      "id": "pdv_3",
-      "v": 350,
-      "ix": false
     },
     {
-      "id": "pos_ilim",
-      "v": 350,
-      "ix": false
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000
     },
     {
-      "id": "imp_ilim",
-      "v": 100,
-      "ix": false
+      "id": "crm_fid",
+      "on": false,
+      "v": 199.9
     }
   ],
-  "_migrateV": 3
+  "_migrateV": 3,
+  "_gh_path": "propostas/torteria_1789045409141.json",
+  "_gh_sha": "7b6e27c56cc57b43351028333c0a0ab80158cd7e"
 }
