@@ -1,0 +1,19 @@
+{
+  "id": 1789653496401,
+  "nome": "Frogs",
+  "lojas": 2,
+  "contato": "Francielle",
+  "telefone": "(49) 99108-6444",
+  "operacao": "Delivery, Table Service",
+  "culinaria": "pastel",
+  "tecnologias": [
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "Uni plug e Goomer",
+  "detalhamento": "Precisa ter integracao completa",
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "data": "17/09/2026",
+  "dataISO": "2026-09-17T13:58:16.403Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
