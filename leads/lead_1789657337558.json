@@ -1,0 +1,20 @@
+{
+  "id": 1789657337558,
+  "nome": "Casa jardim",
+  "lojas": 2,
+  "contato": "Renato",
+  "telefone": "(16) 99169-0879",
+  "operacao": "Delivery, Table Service",
+  "culinaria": "brasileira",
+  "tecnologias": [
+    "KDS / Telas de Produção",
+    "PDV / Retaguarda de Dados"
+  ],
+  "pdvAtual": "Saipos",
+  "detalhamento": "",
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "data": "17/09/2026",
+  "dataISO": "2026-09-17T15:02:17.568Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
