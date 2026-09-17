@@ -1,0 +1,22 @@
+{
+  "id": 1789662305228,
+  "nome": "Rota do Sabor",
+  "lojas": 1,
+  "contato": "Guilherme",
+  "telefone": "(19) 99785-5840",
+  "operacao": "Delivery, Table Service",
+  "culinaria": "hamburgueria",
+  "tecnologias": [
+    "Cardápio Digital via QR Code",
+    "CRM/Fidelidade/Loyalty",
+    "Smart POS",
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "Cardápio web",
+  "detalhamento": "Que solução de totem e pdv",
+  "responsavel": "marcos.pereira@ifood.com.br",
+  "data": "17/09/2026",
+  "dataISO": "2026-09-17T16:25:05.230Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
