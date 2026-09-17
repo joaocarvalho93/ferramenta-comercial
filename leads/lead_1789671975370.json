@@ -1,0 +1,19 @@
+{
+  "id": 1789671975370,
+  "nome": "Leko burguer",
+  "lojas": 1,
+  "contato": "Jeferson",
+  "telefone": "(67) 99945-4116",
+  "operacao": "Quick Service, Table Service",
+  "culinaria": "hamburgueria",
+  "tecnologias": [
+    "Totem de Autoatendimento"
+  ],
+  "pdvAtual": "Anota aí",
+  "detalhamento": "Interesse em totem e fizemos demo da 3s",
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "data": "17/09/2026",
+  "dataISO": "2026-09-17T19:06:15.376Z",
+  "status": "lead",
+  "_moveTag": "move"
+}
