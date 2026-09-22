@@ -1,0 +1,169 @@
+{
+  "id": 1790108147498,
+  "data": "22/09/2026",
+  "hora": "17:15",
+  "dataCriacao": "2026-09-22T20:15:47.498Z",
+  "dataModificacao": "2026-09-22T20:15:47.498Z",
+  "nome": "Grupo Noma",
+  "lj": 6,
+  "ct": 60,
+  "ro": 2,
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "segmento": "qsr",
+  "culinaria": "",
+  "estado": "SP",
+  "setup": 2500,
+  "inst": 1622,
+  "ixSetup": false,
+  "ixInst": true,
+  "ixInstExist": false,
+  "ms": 650,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 3",
+    "Produção Impressoras — Ilimitado",
+    "Marketplace — Open Delivery",
+    "KDS — Até 3",
+    "POS Mobile — Ilimitado",
+    "3S Eats — Delivery"
+  ],
+  "meIds": [
+    "pdv_3",
+    "imp_ilim",
+    "mkt_od",
+    "kds_3"
+  ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 350,
+      "ix": false
+    },
+    {
+      "id": "imp_ilim",
+      "v": 50,
+      "ix": false
+    },
+    {
+      "id": "mkt_od",
+      "v": 0,
+      "ix": false
+    },
+    {
+      "id": "kds_3",
+      "v": 100,
+      "ix": false
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "pos_5",
+      "on": false,
+      "ix": false,
+      "v": 150
+    },
+    {
+      "id": "pos_ilim",
+      "on": true,
+      "ix": false,
+      "v": 150
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": false,
+      "v": 60
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_d",
+      "on": true,
+      "v": 0
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_combo",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000
+    },
+    {
+      "id": "crm_fid",
+      "on": false,
+      "v": 199.9
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/grupo_noma_1790108147498.json",
+  "_gh_sha": null
+}
