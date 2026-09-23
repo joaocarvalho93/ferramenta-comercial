@@ -3,7 +3,7 @@
   "data": "22/09/2026",
   "hora": "09:53",
   "dataCriacao": "2026-09-22T22:22:35.272Z",
-  "dataModificacao": "2026-09-23T12:53:31.798Z",
+  "dataModificacao": "2026-09-23T12:53:33.864Z",
   "nome": "Teste Inventário",
   "lj": 4,
   "ct": 60,
@@ -179,5 +179,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_inventario_1790115755273.json",
-  "_gh_sha": "e8c4c1d1615eea8bb2712f5388d0ae711e8283e0"
+  "_gh_sha": "45458ebc859db4a3781a21b56a4510d77617b7df"
 }
