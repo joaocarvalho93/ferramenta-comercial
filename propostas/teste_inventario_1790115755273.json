@@ -1,14 +1,14 @@
 {
   "id": 1790115755273,
   "data": "22/09/2026",
-  "hora": "19:58",
+  "hora": "09:30",
   "dataCriacao": "2026-09-22T22:22:35.272Z",
-  "dataModificacao": "2026-09-22T22:58:59.357Z",
+  "dataModificacao": "2026-09-23T12:30:55.536Z",
   "nome": "Teste Inventário",
   "lj": 4,
   "ct": 60,
   "ro": 2,
-  "responsavel": "joao.carlos@ifood.com.br",
+  "responsavel": "",
   "segmento": "",
   "culinaria": "",
   "estado": "",
@@ -18,7 +18,7 @@
   "ixInst": false,
   "ixInstExist": false,
   "inv": 3000,
-  "invModo": "isento",
+  "invModo": "urgente",
   "ms": 1000,
   "addTotal": 0,
   "rb": 0,
@@ -179,5 +179,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_inventario_1790115755273.json",
-  "_gh_sha": "1c5f8a1c18e863981261b0fa6d60a2a3e0f5bfbe"
+  "_gh_sha": "65b0d59972d8204fa6c6ae46979855a64dd2811e"
 }
