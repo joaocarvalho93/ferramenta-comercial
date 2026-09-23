@@ -1,9 +1,9 @@
 {
   "id": 1790115755273,
   "data": "22/09/2026",
-  "hora": "09:53",
+  "hora": "09:54",
   "dataCriacao": "2026-09-22T22:22:35.272Z",
-  "dataModificacao": "2026-09-23T12:53:33.864Z",
+  "dataModificacao": "2026-09-23T12:54:00.965Z",
   "nome": "Teste Inventário",
   "lj": 4,
   "ct": 60,
@@ -14,12 +14,12 @@
   "estado": "",
   "setup": 3000,
   "inst": 1622,
-  "ixSetup": false,
-  "ixInst": false,
-  "ixInstExist": false,
+  "ixSetup": true,
+  "ixInst": true,
+  "ixInstExist": true,
   "inv": 3000,
   "invModo": "isento",
-  "ms": 1000,
+  "ms": 570,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -31,7 +31,6 @@
     "PDV — Até 3",
     "KDS — Até 3",
     "Produção Impressoras — Até 3",
-    "Totem — Até 3",
     "Marketplace — iFood / Rappi / OD",
     "TEF — Primeira integração"
   ],
@@ -39,7 +38,6 @@
     "pdv_3",
     "kds_3",
     "imp_3",
-    "totem_3",
     "mkt_full",
     "tef_1"
   ],
@@ -60,19 +58,14 @@
       "ix": false
     },
     {
-      "id": "totem_3",
-      "v": 180,
-      "ix": false
-    },
-    {
       "id": "mkt_full",
       "v": 110,
-      "ix": false
+      "ix": true
     },
     {
       "id": "tef_1",
       "v": 140,
-      "ix": false
+      "ix": true
     }
   ],
   "maOn": [
@@ -179,5 +172,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_inventario_1790115755273.json",
-  "_gh_sha": "45458ebc859db4a3781a21b56a4510d77617b7df"
+  "_gh_sha": "47c4493e719472a827b122fe3ea797927d856405"
 }
