@@ -1,9 +1,9 @@
 {
   "id": 1790115755273,
   "data": "22/09/2026",
-  "hora": "09:30",
+  "hora": "09:53",
   "dataCriacao": "2026-09-22T22:22:35.272Z",
-  "dataModificacao": "2026-09-23T12:30:57.444Z",
+  "dataModificacao": "2026-09-23T12:53:31.798Z",
   "nome": "Teste Inventário",
   "lj": 4,
   "ct": 60,
@@ -18,7 +18,7 @@
   "ixInst": false,
   "ixInstExist": false,
   "inv": 3000,
-  "invModo": "urgente",
+  "invModo": "isento",
   "ms": 1000,
   "addTotal": 0,
   "rb": 0,
@@ -179,5 +179,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_inventario_1790115755273.json",
-  "_gh_sha": "a5d8d9bd892a927ed4ef83657869c2f4f5562ca1"
+  "_gh_sha": "e8c4c1d1615eea8bb2712f5388d0ae711e8283e0"
 }
