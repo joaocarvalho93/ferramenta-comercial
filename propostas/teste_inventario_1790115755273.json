@@ -1,9 +1,9 @@
 {
   "id": 1790115755273,
   "data": "22/09/2026",
-  "hora": "14:03",
+  "hora": "09:56",
   "dataCriacao": "2026-09-22T22:22:35.272Z",
-  "dataModificacao": "2026-09-23T17:03:33.940Z",
+  "dataModificacao": "2026-09-24T12:56:23.191Z",
   "nome": "Teste Inventário",
   "lj": 4,
   "ct": 60,
@@ -122,57 +122,67 @@
     {
       "id": "3sgo",
       "on": false,
-      "v": 60
+      "v": 60,
+      "ix": true
     },
     {
       "id": "bi_simples",
       "on": false,
-      "v": 120
+      "v": 120,
+      "ix": false
     },
     {
       "id": "bi_admin",
       "on": false,
-      "v": 220
+      "v": 220,
+      "ix": false
     },
     {
       "id": "bi_setup",
       "on": false,
-      "v": 1200
+      "v": 1200,
+      "ix": false
     },
     {
       "id": "kinesis",
       "on": false,
-      "v": 300
+      "v": 300,
+      "ix": false
     },
     {
       "id": "eats_d",
       "on": false,
-      "v": 180
+      "v": 180,
+      "ix": false
     },
     {
       "id": "eats_m",
       "on": false,
-      "v": 180
+      "v": 180,
+      "ix": false
     },
     {
       "id": "eats_combo",
       "on": false,
-      "v": 300
+      "v": 300,
+      "ix": false
     },
     {
       "id": "eats_setup",
       "on": false,
-      "v": 2000
+      "v": 2000,
+      "ix": false
     },
     {
       "id": "crm_fid",
       "on": false,
-      "v": 199.9
+      "v": 199.9,
+      "ix": false
     }
   ],
   "reqLojas": true,
   "reqRollout": true,
   "_migrateV": 3,
   "_gh_path": "propostas/teste_inventario_1790115755273.json",
-  "_gh_sha": "bd2651925ca88116fb39bb1f627afe1c25b83d3f"
+  "_gh_sha": "2790f54ba572318bc4336b0026dc99067c1cf03c"
 }
