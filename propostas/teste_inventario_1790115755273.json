@@ -1,9 +1,9 @@
 {
   "id": 1790115755273,
   "data": "22/09/2026",
-  "hora": "15:05",
+  "hora": "15:25",
   "dataCriacao": "2026-09-22T22:22:35.272Z",
-  "dataModificacao": "2026-09-24T18:05:49.293Z",
+  "dataModificacao": "2026-09-24T18:25:36.004Z",
   "nome": "Teste Inventário",
   "lj": 4,
   "ct": 60,
@@ -180,9 +180,7 @@
       "ix": false
     }
   ],
-  "reqLojas": true,
-  "reqRollout": true,
   "_migrateV": 3,
   "_gh_path": "propostas/teste_inventario_1790115755273.json",
-  "_gh_sha": "2d07418c21f7b2996987f4f78c3194f9d3f2cafb"
+  "_gh_sha": "038bde18531f3b45e5143acb5bb4769ccbff8cb4"
 }
