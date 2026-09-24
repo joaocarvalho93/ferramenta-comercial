@@ -215,7 +215,17 @@
         "done": false
       }
     },
-    "lojas": [],
+    "lojas": [
+      {
+        "marca": "Teste Inventário",
+        "franquia": "Curitiba",
+        "responsavel": "joao",
+        "email": "joao.carlos@ifood.com.br",
+        "telefone": "(41) 99289-0450",
+        "endereco": "Rua Petit Carneiro, 161 - Água Verde, Curitiba, PR",
+        "piloto": false
+      }
+    ],
     "listaUploaded": false
   }
 }
