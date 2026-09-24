@@ -183,6 +183,39 @@
   "reqLojas": true,
   "reqRollout": true,
   "_migrateV": 3,
-  "_gh_path": "propostas/teste_inventario_1790115755273.json",
-  "_gh_sha": "2790f54ba572318bc4336b0026dc99067c1cf03c"
+  "rollout": {
+    "respComercial": "",
+    "respProjetos": "",
+    "checklist": {
+      "setup": {
+        "done": false
+      },
+      "inst": {
+        "done": false
+      },
+      "lojas": {
+        "done": false
+      },
+      "contrato": {
+        "done": false
+      },
+      "inv": {
+        "done": false
+      },
+      "acessos": {
+        "done": false
+      },
+      "integracoes": {
+        "done": false
+      },
+      "cronograma": {
+        "done": false
+      },
+      "combinados": {
+        "done": false
+      }
+    },
+    "lojas": [],
+    "listaUploaded": false
+  }
 }
