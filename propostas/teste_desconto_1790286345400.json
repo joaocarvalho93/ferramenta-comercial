@@ -1,9 +1,9 @@
 {
   "id": 1790286345400,
   "data": "24/09/2026",
-  "hora": "19:46",
+  "hora": "20:05",
   "dataCriacao": "2026-09-24T21:45:45.400Z",
-  "dataModificacao": "2026-09-24T22:46:09.362Z",
+  "dataModificacao": "2026-09-24T23:05:18.737Z",
   "nome": "Teste Desconto",
   "lj": 100,
   "ct": 60,
@@ -29,8 +29,8 @@
   "invMensal": 0,
   "dMax": 20,
   "modeloDesc": "escalonado",
-  "prazo": 0,
-  "mesesDesconto": 0,
+  "prazo": 2,
+  "mesesDesconto": 60,
   "modulos": [
     "PDV — Até 3",
     "KDS — Até 3",
@@ -186,5 +186,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_desconto_1790286345400.json",
-  "_gh_sha": "99ba460a0ef0b2439149f506b0bbed05f7e0ab2c"
+  "_gh_sha": "ecc2ffdf13850658bebe79f872e5017bfee52855"
 }
