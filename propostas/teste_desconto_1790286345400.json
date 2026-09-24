@@ -1,9 +1,9 @@
 {
   "id": 1790286345400,
   "data": "24/09/2026",
-  "hora": "20:35",
+  "hora": "20:47",
   "dataCriacao": "2026-09-24T21:45:45.400Z",
-  "dataModificacao": "2026-09-24T23:35:54.235Z",
+  "dataModificacao": "2026-09-24T23:47:34.570Z",
   "nome": "Teste Desconto",
   "lj": 100,
   "ct": 60,
@@ -18,7 +18,7 @@
   "ixInst": true,
   "ixInstExist": false,
   "inv": 3000,
-  "invModo": "none",
+  "invModo": "urgente",
   "ms": 570,
   "addTotal": 0,
   "rb": 0,
@@ -186,5 +186,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_desconto_1790286345400.json",
-  "_gh_sha": "a20c3276d765b40d74a26c166549f2ba758cdfa9"
+  "_gh_sha": "20c1e8ac3b91f3e06947fc55ae3f3b53359f0484"
 }
