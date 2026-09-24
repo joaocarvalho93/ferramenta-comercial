@@ -1,9 +1,9 @@
 {
   "id": 1790115755273,
   "data": "22/09/2026",
-  "hora": "09:56",
+  "hora": "15:05",
   "dataCriacao": "2026-09-22T22:22:35.272Z",
-  "dataModificacao": "2026-09-24T12:56:23.191Z",
+  "dataModificacao": "2026-09-24T18:05:49.293Z",
   "nome": "Teste Inventário",
   "lj": 4,
   "ct": 60,
@@ -123,7 +123,7 @@
       "id": "3sgo",
       "on": false,
       "v": 60,
-      "ix": true
+      "ix": false
     },
     {
       "id": "bi_simples",
@@ -183,49 +183,6 @@
   "reqLojas": true,
   "reqRollout": true,
   "_migrateV": 3,
-  "rollout": {
-    "respComercial": "",
-    "respProjetos": "",
-    "checklist": {
-      "setup": {
-        "done": false
-      },
-      "inst": {
-        "done": false
-      },
-      "lojas": {
-        "done": false
-      },
-      "contrato": {
-        "done": false
-      },
-      "inv": {
-        "done": false
-      },
-      "acessos": {
-        "done": false
-      },
-      "integracoes": {
-        "done": false
-      },
-      "cronograma": {
-        "done": false
-      },
-      "combinados": {
-        "done": false
-      }
-    },
-    "lojas": [
-      {
-        "marca": "Teste Inventário",
-        "franquia": "Curitiba",
-        "responsavel": "joao",
-        "email": "joao.carlos@ifood.com.br",
-        "telefone": "(41) 99289-0450",
-        "endereco": "Rua Petit Carneiro, 161 - Água Verde, Curitiba, PR",
-        "piloto": false
-      }
-    ],
-    "listaUploaded": false
-  }
+  "_gh_path": "propostas/teste_inventario_1790115755273.json",
+  "_gh_sha": "2d07418c21f7b2996987f4f78c3194f9d3f2cafb"
 }
