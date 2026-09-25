@@ -1,9 +1,9 @@
 {
   "id": 1790286345400,
   "data": "24/09/2026",
-  "hora": "20:47",
+  "hora": "21:03",
   "dataCriacao": "2026-09-24T21:45:45.400Z",
-  "dataModificacao": "2026-09-24T23:47:34.570Z",
+  "dataModificacao": "2026-09-25T00:03:55.932Z",
   "nome": "Teste Desconto",
   "lj": 100,
   "ct": 60,
@@ -18,8 +18,8 @@
   "ixInst": true,
   "ixInstExist": false,
   "inv": 3000,
-  "invModo": "urgente",
-  "ms": 570,
+  "invModo": "isento",
+  "ms": 680,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -30,7 +30,7 @@
   "dMax": 20,
   "modeloDesc": "escalonado",
   "prazo": 2,
-  "mesesDesconto": 60,
+  "mesesDesconto": 12,
   "modulos": [
     "PDV — Até 3",
     "KDS — Até 3",
@@ -64,7 +64,7 @@
     {
       "id": "mkt_full",
       "v": 110,
-      "ix": true
+      "ix": false
     },
     {
       "id": "tef_1",
@@ -186,5 +186,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_desconto_1790286345400.json",
-  "_gh_sha": "20c1e8ac3b91f3e06947fc55ae3f3b53359f0484"
+  "_gh_sha": "75135cb51a19f111e362bbddf1cb543e260c3ddf"
 }
