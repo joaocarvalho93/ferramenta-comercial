@@ -1,14 +1,14 @@
 {
   "id": 1790286345400,
   "data": "24/09/2026",
-  "hora": "23:38",
+  "hora": "08:17",
   "dataCriacao": "2026-09-24T21:45:45.400Z",
-  "dataModificacao": "2026-09-25T02:38:08.144Z",
+  "dataModificacao": "2026-09-25T11:17:42.810Z",
   "nome": "Teste Desconto",
   "lj": 50,
   "ct": 60,
   "ro": 2,
-  "responsavel": "joao.carlos@ifood.com.br",
+  "responsavel": "",
   "segmento": "",
   "culinaria": "",
   "estado": "",
@@ -186,5 +186,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_desconto_1790286345400.json",
-  "_gh_sha": "ea1d85661427fa52f313f4580831393e07babb3f"
+  "_gh_sha": "6e0be07282a9d6b99c025eb0e75eb6271c482820"
 }
