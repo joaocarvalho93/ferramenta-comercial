@@ -1,9 +1,9 @@
 {
   "id": 1790335695744,
   "data": "25/09/2026",
-  "hora": "08:28",
+  "hora": "08:38",
   "dataCriacao": "2026-09-25T11:28:15.743Z",
-  "dataModificacao": "2026-09-25T11:28:15.743Z",
+  "dataModificacao": "2026-09-25T11:38:54.133Z",
   "nome": "Teste - Plano Rollout",
   "lj": 45,
   "ct": 48,
@@ -30,7 +30,7 @@
   "dMax": 20,
   "modeloDesc": "linear",
   "prazo": 3,
-  "mesesDesconto": 48,
+  "mesesDesconto": 12,
   "modulos": [
     "PDV — Até 3",
     "KDS — Até 3",
@@ -179,5 +179,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste___plano_rollout_1790335695744.json",
-  "_gh_sha": null
+  "_gh_sha": "0e7499fffe2c982a41bce3cae96aac1901b3d909"
 }
