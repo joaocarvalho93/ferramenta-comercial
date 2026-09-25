@@ -1,13 +1,13 @@
 {
   "id": 1790337663803,
   "data": "25/09/2026",
-  "hora": "09:01",
+  "hora": "18:22",
   "dataCriacao": "2026-09-25T12:01:03.802Z",
-  "dataModificacao": "2026-09-25T12:01:03.802Z",
+  "dataModificacao": "2026-09-25T21:22:14.782Z",
   "nome": "Teste - Acelerar Rollout",
-  "lj": 30,
+  "lj": 35,
   "ct": 36,
-  "ro": 3,
+  "ro": 4,
   "responsavel": "joao.carlos@ifood.com.br",
   "segmento": "qsr",
   "culinaria": "brasileira",
@@ -29,7 +29,7 @@
   "invMensal": 0,
   "dMax": 20,
   "modeloDesc": "escalonado",
-  "prazo": 3,
+  "prazo": 4,
   "mesesDesconto": 12,
   "modulos": [
     "PDV — Até 3",
@@ -169,15 +169,9 @@
       "on": false,
       "v": 2000,
       "ix": false
-    },
-    {
-      "id": "crm_fid",
-      "on": false,
-      "v": 199.9,
-      "ix": false
     }
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste___acelerar_rollout_1790337663803.json",
-  "_gh_sha": null
+  "_gh_sha": "343d83c400c1e47f95f6d9e7117044bb7b055cc2"
 }
