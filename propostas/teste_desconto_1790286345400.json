@@ -1,9 +1,9 @@
 {
   "id": 1790286345400,
   "data": "24/09/2026",
-  "hora": "21:04",
+  "hora": "21:06",
   "dataCriacao": "2026-09-24T21:45:45.400Z",
-  "dataModificacao": "2026-09-25T00:04:28.166Z",
+  "dataModificacao": "2026-09-25T00:06:06.625Z",
   "nome": "Teste Desconto",
   "lj": 100,
   "ct": 60,
@@ -186,5 +186,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_desconto_1790286345400.json",
-  "_gh_sha": "31a89b3b55d0902376b8ed69f950244e919c9d8d"
+  "_gh_sha": "09ae106b83b2db339ba35b204948e148b0212325"
 }
