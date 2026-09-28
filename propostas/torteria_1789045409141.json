@@ -1,9 +1,9 @@
 {
   "id": 1789045409141,
   "data": "10/09/2026",
-  "hora": "14:20",
+  "hora": "13:08",
   "dataCriacao": "2026-09-10T13:03:29.140Z",
-  "dataModificacao": "2026-09-17T17:20:22.820Z",
+  "dataModificacao": "2026-09-28T16:08:53.819Z",
   "nome": "Torteria",
   "lj": 5,
   "ct": 60,
@@ -17,7 +17,7 @@
   "ixSetup": false,
   "ixInst": true,
   "ixInstExist": false,
-  "ms": 450,
+  "ms": 500,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -28,7 +28,8 @@
   "modulos": [
     "PDV — Até 3",
     "POS Mobile — Ilimitado",
-    "Produção Impressoras — Ilimitado"
+    "Produção Impressoras — Ilimitado",
+    "3S Eats — Pedido na mesa"
   ],
   "meIds": [
     "pdv_3",
@@ -38,7 +39,7 @@
   "meData": [
     {
       "id": "pdv_3",
-      "v": 200,
+      "v": 250,
       "ix": false
     },
     {
@@ -135,8 +136,8 @@
     },
     {
       "id": "eats_m",
-      "on": false,
-      "v": 180
+      "on": true,
+      "v": 0
     },
     {
       "id": "eats_combo",
@@ -156,5 +157,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/torteria_1789045409141.json",
-  "_gh_sha": "7b6e27c56cc57b43351028333c0a0ab80158cd7e"
+  "_gh_sha": "4b9747522fbcf9cc2979b8662081cdead6d39b0d"
 }
