@@ -1,9 +1,9 @@
 {
   "id": 1790337663803,
   "data": "25/09/2026",
-  "hora": "16:07",
+  "hora": "16:08",
   "dataCriacao": "2026-09-25T12:01:03.802Z",
-  "dataModificacao": "2026-09-29T19:07:59.151Z",
+  "dataModificacao": "2026-09-29T19:08:17.036Z",
   "nome": "Teste - Acelerar Rollout",
   "lj": 40,
   "ct": 36,
@@ -391,9 +391,35 @@
       "prazo": 4,
       "mesesDesconto": 12,
       "responsavel": ""
+    },
+    {
+      "data": "2026-09-29T19:07:59.151Z",
+      "nome": "Teste - Acelerar Rollout",
+      "lj": 40,
+      "ct": 36,
+      "ro": 4,
+      "ms": 860,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "urgente",
+      "ixSetup": true,
+      "ixInst": true,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "escalonado",
+      "prazo": 4,
+      "mesesDesconto": 12,
+      "responsavel": ""
     }
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste___acelerar_rollout_1790337663803.json",
-  "_gh_sha": "45a2109fc1bd39e0de2b91d2f8bfa6da152cbba2"
+  "_gh_sha": "cd3abf15708c3ebddcdfe6ca9742075ff663061f"
 }
