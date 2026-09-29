@@ -1,9 +1,9 @@
 {
   "id": 1790337663803,
   "data": "25/09/2026",
-  "hora": "18:05",
+  "hora": "21:27",
   "dataCriacao": "2026-09-25T12:01:03.802Z",
-  "dataModificacao": "2026-09-28T21:05:38.187Z",
+  "dataModificacao": "2026-09-29T00:27:36.079Z",
   "nome": "Teste - Acelerar Rollout",
   "lj": 40,
   "ct": 36,
@@ -14,12 +14,12 @@
   "estado": "PR",
   "setup": 3000,
   "inst": 1622,
-  "ixSetup": false,
-  "ixInst": false,
+  "ixSetup": true,
+  "ixInst": true,
   "ixInstExist": true,
   "inv": 3000,
   "invModo": "isento",
-  "ms": 650,
+  "ms": 860,
   "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
@@ -32,23 +32,18 @@
   "prazo": 4,
   "mesesDesconto": 12,
   "modulos": [
-    "PDV — Até 3",
     "KDS — Até 3",
     "Marketplace — iFood / Rappi / OD",
-    "TEF — Primeira integração"
+    "TEF — Primeira integração",
+    "PDV — Até 5"
   ],
   "meIds": [
-    "pdv_3",
     "kds_3",
     "mkt_full",
-    "tef_1"
+    "tef_1",
+    "pdv_5"
   ],
   "meData": [
-    {
-      "id": "pdv_3",
-      "v": 350,
-      "ix": false
-    },
     {
       "id": "kds_3",
       "v": 160,
@@ -57,11 +52,16 @@
     {
       "id": "mkt_full",
       "v": 110,
-      "ix": true
+      "ix": false
     },
     {
       "id": "tef_1",
       "v": 140,
+      "ix": false
+    },
+    {
+      "id": "pdv_5",
+      "v": 450,
       "ix": false
     }
   ],
@@ -209,9 +209,35 @@
       "prazo": 4,
       "mesesDesconto": 12,
       "responsavel": ""
+    },
+    {
+      "data": "2026-09-28T21:05:38.187Z",
+      "nome": "Teste - Acelerar Rollout",
+      "lj": 40,
+      "ct": 36,
+      "ro": 4,
+      "ms": 650,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "isento",
+      "ixSetup": false,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "escalonado",
+      "prazo": 4,
+      "mesesDesconto": 12,
+      "responsavel": ""
     }
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste___acelerar_rollout_1790337663803.json",
-  "_gh_sha": "08886e41dd3af8ba79e4b433a27ce6a1eb4318ea"
+  "_gh_sha": "31e306f6eab326001bca482f29f112ee664098c7"
 }
