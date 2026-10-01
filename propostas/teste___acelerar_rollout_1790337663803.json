@@ -523,7 +523,5 @@
       "responsavel": ""
     }
   ],
-  "_migrateV": 3,
-  "_gh_path": "propostas/teste___acelerar_rollout_1790337663803.json",
-  "_gh_sha": "b697e52eaedd99dfb51c53ddc804c3e96cde6f88"
+  "_migrateV": 4
 }
