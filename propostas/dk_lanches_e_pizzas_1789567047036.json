@@ -64,14 +64,12 @@
   ],
   "maOn": [],
   "mxOn": [],
-  "_migrateV": 3,
+  "_migrateV": 4,
   "_moveTag": "move",
   "moveEvent": true,
   "movePorte": "P",
   "moveIsenMeses": 1,
   "moveDescPct": 0,
   "moveCondicao": "Porte P: 1 mês isento",
-  "moveEats": false,
-  "_gh_path": "propostas/dk_lanches_e_pizzas_1789567047036.json",
-  "_gh_sha": "c2471cf8da5eb6020407ace412814d149b5062d6"
+  "moveEats": false
 }
