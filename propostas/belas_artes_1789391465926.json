@@ -169,7 +169,5 @@
       "v": 199.9
     }
   ],
-  "_migrateV": 3,
-  "_gh_path": "propostas/belas_artes_1789391465926.json",
-  "_gh_sha": "e509d9f8ec30afb740f27d08d50a25e7d7f5d6b9"
+  "_migrateV": 4
 }
