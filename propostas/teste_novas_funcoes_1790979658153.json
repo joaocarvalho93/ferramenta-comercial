@@ -1,0 +1,346 @@
+{
+  "id": 1790979658153,
+  "data": "02/10/2026",
+  "hora": "19:20",
+  "dataCriacao": "2026-10-02T22:20:58.153Z",
+  "dataModificacao": "2026-10-02T22:20:58.153Z",
+  "nome": "Teste novas funções",
+  "lj": 60,
+  "ct": 60,
+  "ro": 3,
+  "responsavel": "joao.carlos@ifood.com.br",
+  "segmento": "qsr",
+  "culinaria": "cafe",
+  "estado": "SP",
+  "conc": "sw",
+  "concIncluir": true,
+  "dores": [
+    {
+      "id": "d1",
+      "txt": "Gestão de múltiplas lojas e cardápios com preços diferentes por canal",
+      "sol": "Cadastro centralizado com edição massiva e push em nuvem para todas as lojas",
+      "ben": "Agilidade na rede",
+      "keys": [
+        "cardápio",
+        "cardapio",
+        "menu",
+        "preço",
+        "preco",
+        "multi-loja",
+        "múltiplas lojas",
+        "multiplas lojas",
+        "canal"
+      ]
+    },
+    {
+      "id": "d2",
+      "txt": "Pedidos descentralizados entre balcão, totem e delivery",
+      "sol": "PDV integrado + Hub Delivery + Totem em plataforma única",
+      "ben": "Operação unificada",
+      "keys": [
+        "pedido",
+        "descentraliz",
+        "balcão",
+        "balcao",
+        "totem",
+        "delivery",
+        "canais"
+      ]
+    },
+    {
+      "id": "d3",
+      "txt": "KDS sem indicadores de tempo ou balanceamento por praça",
+      "sol": "KDS por estação com tempo de produção, balanceamento e fallback automático",
+      "ben": "Produção otimizada",
+      "keys": [
+        "kds",
+        "cozinha",
+        "praça",
+        "praca",
+        "produção",
+        "producao",
+        "comanda"
+      ]
+    },
+    {
+      "id": "d5",
+      "txt": "Falta de visibilidade operacional em tempo real na rede",
+      "sol": "3SGo (app gestão) + Dashboards + Relatórios atualizados a cada 15 min",
+      "ben": "Decisões rápidas",
+      "keys": [
+        "visibilidade",
+        "tempo real",
+        "dashboard",
+        "real time",
+        "3sgo",
+        "gestão",
+        "gestao"
+      ]
+    },
+    {
+      "id": "d6",
+      "txt": "Relatórios engessados e sem granularidade por loja e canal",
+      "sol": "Relatórios gerenciais por loja, canal, operador e período + BI",
+      "ben": "Controle total",
+      "keys": [
+        "relatório",
+        "relatorio",
+        "bi",
+        "kpi",
+        "indicador",
+        "dado",
+        "report"
+      ]
+    },
+    {
+      "id": "d8",
+      "txt": "Baixa retenção de clientes e promoções sem recorrência",
+      "sol": "CRM com fidelidade, promoções personalizadas e acompanhamento de base",
+      "ben": "Clientes recorrentes",
+      "keys": [
+        "fideliz",
+        "fidelidade",
+        "crm",
+        "retenção",
+        "retencao",
+        "engajamento",
+        "marketing",
+        "recorrência",
+        "recorrencia"
+      ]
+    },
+    {
+      "id": "d9",
+      "txt": "Sistemas fragmentados e sem integração entre módulos",
+      "sol": "Plataforma única 3S com PDV, KDS, Totem, Delivery e BackOffice integrados",
+      "ben": "Operação conectada",
+      "keys": [
+        "fragmenta",
+        "integra",
+        "sistema",
+        "legado",
+        "desconectad",
+        "vários sistema",
+        "varios sistema"
+      ]
+    },
+    {
+      "id": "d10",
+      "txt": "Filas longas e demora no atendimento",
+      "sol": "Totem de autoatendimento + POS Mobile para atendimento descentralizado",
+      "ben": "Atendimento ágil",
+      "keys": [
+        "fila",
+        "espera",
+        "atendimento",
+        "demor",
+        "agilidade",
+        "lentidão"
+      ]
+    },
+    {
+      "id": "d12",
+      "txt": "Gestão de delivery fragmentada entre múltiplos agregadores",
+      "sol": "Hub Delivery nativo com integração direta iFood, Rappi e Open Delivery",
+      "ben": "Delivery centralizado",
+      "keys": [
+        "delivery",
+        "ifood",
+        "rappi",
+        "uber eats",
+        "marketplace",
+        "agregador",
+        "hub"
+      ]
+    }
+  ],
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": true,
+  "ixInst": false,
+  "ixInstExist": true,
+  "instFranquia": 1622,
+  "rebInst": 0,
+  "inv": 3000,
+  "invModo": "urgente",
+  "ms": 719,
+  "opcTotal": 0,
+  "addTotal": 360,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "devHoras": 0,
+  "devObs": "",
+  "invMeses": 0,
+  "invMensal": 0,
+  "ecoIncentivo": false,
+  "dMax": 20,
+  "skipPlano": true,
+  "modeloDesc": "linear",
+  "prazo": 3,
+  "mesesDesconto": 12,
+  "modulos": [
+    "PDV — Até 3",
+    "KDS — Até 3",
+    "Marketplace — iFood / Rappi / OD",
+    "TEF — Primeira integração",
+    "3SGo — Ilimitado por loja",
+    "3S Eats — Combo Super App"
+  ],
+  "meIds": [
+    "pdv_3",
+    "kds_3",
+    "mkt_full",
+    "tef_1"
+  ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 350,
+      "ix": false
+    },
+    {
+      "id": "kds_3",
+      "v": 160,
+      "ix": false
+    },
+    {
+      "id": "mkt_full",
+      "v": 110,
+      "ix": false
+    },
+    {
+      "id": "tef_1",
+      "v": 99,
+      "ix": false
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9,
+      "incMens": true
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60,
+      "incMens": true
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65,
+      "incMens": true
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100,
+      "incMens": true
+    },
+    {
+      "id": "pos_5",
+      "on": false,
+      "ix": false,
+      "v": 150,
+      "incMens": true
+    },
+    {
+      "id": "pos_ilim",
+      "on": false,
+      "ix": false,
+      "v": 350,
+      "incMens": true
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false,
+      "v": 100,
+      "incMens": true
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250,
+      "incMens": true
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": true,
+      "v": 60,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_d",
+      "on": false,
+      "v": 180,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_combo",
+      "on": true,
+      "v": 300,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000,
+      "ix": false,
+      "incMens": false
+    }
+  ],
+  "historico": [],
+  "_migrateV": 3,
+  "_gh_path": "propostas/teste_novas_funcoes_1790979658153.json",
+  "_gh_sha": null
+}
