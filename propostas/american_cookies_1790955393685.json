@@ -373,7 +373,5 @@
       "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 3,
-  "_gh_path": "propostas/american_cookies_1790955393685.json",
-  "_gh_sha": "ad22234e1054e93bc142ab32b0d18c4ef62973ba"
+  "_migrateV": 5
 }
