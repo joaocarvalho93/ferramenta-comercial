@@ -1,29 +1,29 @@
 {
   "id": 1790949156312,
   "data": "02/10/2026",
-  "hora": "10:52",
+  "hora": "11:00",
   "dataCriacao": "2026-10-02T13:52:36.311Z",
-  "dataModificacao": "2026-10-02T13:52:36.311Z",
+  "dataModificacao": "2026-10-02T14:00:49.668Z",
   "nome": "American Cookies",
-  "lj": 200,
+  "lj": 60,
   "ct": 60,
-  "ro": 2,
+  "ro": 3,
   "responsavel": "",
   "segmento": "",
   "culinaria": "",
   "estado": "",
   "setup": 3000,
-  "inst": 1622,
-  "ixSetup": false,
+  "inst": 2000,
+  "ixSetup": true,
   "ixInst": false,
-  "ixInstExist": false,
-  "instFranquia": 1622,
+  "ixInstExist": true,
+  "instFranquia": 1000,
   "rebInst": 0,
   "inv": 3000,
-  "invModo": "",
-  "ms": 959,
+  "invModo": "none",
+  "ms": 434.5,
   "opcTotal": 0,
-  "addTotal": 0,
+  "addTotal": 60,
   "rb": 0,
   "incAnual": 0,
   "incMes": 0,
@@ -35,33 +35,25 @@
   "ecoIncentivo": false,
   "dMax": 20,
   "modeloDesc": "linear",
-  "prazo": 0,
+  "prazo": 3,
   "mesesDesconto": 12,
   "modulos": [
     "PDV — Até 3",
-    "KDS — Até 3",
     "Produção Impressoras — Até 3",
-    "Totem — Até 3",
     "Marketplace — iFood / Rappi / OD",
-    "TEF — Primeira integração"
+    "TEF — Primeira integração",
+    "3SGo — Ilimitado por loja"
   ],
   "meIds": [
     "pdv_3",
-    "kds_3",
     "imp_3",
-    "totem_3",
     "mkt_full",
     "tef_1"
   ],
   "meData": [
     {
       "id": "pdv_3",
-      "v": 350,
-      "ix": false
-    },
-    {
-      "id": "kds_3",
-      "v": 160,
+      "v": 330,
       "ix": false
     },
     {
@@ -70,18 +62,13 @@
       "ix": false
     },
     {
-      "id": "totem_3",
-      "v": 180,
-      "ix": false
-    },
-    {
       "id": "mkt_full",
       "v": 110,
-      "ix": false
+      "ix": true
     },
     {
       "id": "tef_1",
-      "v": 99,
+      "v": 44.5,
       "ix": false
     }
   ],
@@ -141,12 +128,26 @@
       "ix": false,
       "v": 250,
       "incMens": true
+    },
+    {
+      "id": "tef_adic",
+      "on": false,
+      "ix": false,
+      "v": 25.22,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": false,
+      "ix": false,
+      "v": 21.93,
+      "incMens": false
     }
   ],
   "mxOn": [
     {
       "id": "3sgo",
-      "on": false,
+      "on": true,
       "v": 60,
       "ix": false
     },
@@ -199,6 +200,37 @@
       "ix": false
     }
   ],
-  "historico": [],
-  "_migrateV": 5
+  "historico": [
+    {
+      "data": "2026-10-02T13:52:36.311Z",
+      "nome": "American Cookies",
+      "lj": 200,
+      "ct": 60,
+      "ro": 2,
+      "ms": 959,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "",
+      "ixSetup": false,
+      "ixInst": false,
+      "ixInstExist": false,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 0,
+      "mesesDesconto": 12,
+      "responsavel": ""
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/american_cookies_1790949156312.json",
+  "_gh_sha": "a2dd3f011d880a4b8681734592a9e7d6a8ec8a6e"
 }
