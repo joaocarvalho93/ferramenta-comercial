@@ -1,9 +1,9 @@
 {
   "id": 1790949156312,
   "data": "02/10/2026",
-  "hora": "11:00",
+  "hora": "11:27",
   "dataCriacao": "2026-10-02T13:52:36.311Z",
-  "dataModificacao": "2026-10-02T14:00:49.668Z",
+  "dataModificacao": "2026-10-02T14:27:08.098Z",
   "nome": "American Cookies",
   "lj": 60,
   "ct": 60,
@@ -21,9 +21,9 @@
   "rebInst": 0,
   "inv": 3000,
   "invModo": "none",
-  "ms": 434.5,
+  "ms": 499.5,
   "opcTotal": 0,
-  "addTotal": 60,
+  "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
   "incMes": 0,
@@ -34,6 +34,7 @@
   "invMensal": 0,
   "ecoIncentivo": false,
   "dMax": 20,
+  "skipPlano": false,
   "modeloDesc": "linear",
   "prazo": 3,
   "mesesDesconto": 12,
@@ -53,7 +54,7 @@
   "meData": [
     {
       "id": "pdv_3",
-      "v": 330,
+      "v": 335,
       "ix": false
     },
     {
@@ -128,20 +129,6 @@
       "ix": false,
       "v": 250,
       "incMens": true
-    },
-    {
-      "id": "tef_adic",
-      "on": false,
-      "ix": false,
-      "v": 25.22,
-      "incMens": false
-    },
-    {
-      "id": "tef_5",
-      "on": false,
-      "ix": false,
-      "v": 21.93,
-      "incMens": false
     }
   ],
   "mxOn": [
@@ -149,55 +136,64 @@
       "id": "3sgo",
       "on": true,
       "v": 60,
-      "ix": false
+      "ix": false,
+      "incMens": true
     },
     {
       "id": "bi_simples",
       "on": false,
       "v": 120,
-      "ix": false
+      "ix": false,
+      "incMens": false
     },
     {
       "id": "bi_admin",
       "on": false,
       "v": 220,
-      "ix": false
+      "ix": false,
+      "incMens": false
     },
     {
       "id": "bi_setup",
       "on": false,
       "v": 1200,
-      "ix": false
+      "ix": false,
+      "incMens": false
     },
     {
       "id": "kinesis",
       "on": false,
       "v": 300,
-      "ix": false
+      "ix": false,
+      "incMens": false
     },
     {
       "id": "eats_d",
       "on": false,
       "v": 180,
-      "ix": false
+      "ix": false,
+      "incMens": false
     },
     {
       "id": "eats_m",
       "on": false,
       "v": 180,
-      "ix": false
+      "ix": false,
+      "incMens": false
     },
     {
       "id": "eats_combo",
       "on": false,
       "v": 300,
-      "ix": false
+      "ix": false,
+      "incMens": false
     },
     {
       "id": "eats_setup",
       "on": false,
       "v": 2000,
-      "ix": false
+      "ix": false,
+      "incMens": false
     }
   ],
   "historico": [
@@ -228,7 +224,37 @@
       "prazo": 0,
       "mesesDesconto": 12,
       "responsavel": ""
+    },
+    {
+      "data": "2026-10-02T14:00:49.668Z",
+      "nome": "American Cookies",
+      "lj": 60,
+      "ct": 60,
+      "ro": 3,
+      "ms": 434.5,
+      "addTotal": 60,
+      "setup": 3000,
+      "inst": 2000,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 3,
+      "mesesDesconto": 12,
+      "responsavel": ""
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 3,
+  "_gh_path": "propostas/american_cookies_1790949156312.json",
+  "_gh_sha": "6f4929931886f87a355029aa1a4446aba424f9e3"
 }
