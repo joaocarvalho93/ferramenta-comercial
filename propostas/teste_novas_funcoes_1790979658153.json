@@ -1,9 +1,9 @@
 {
   "id": 1790979658153,
   "data": "02/10/2026",
-  "hora": "19:20",
+  "hora": "19:28",
   "dataCriacao": "2026-10-02T22:20:58.153Z",
-  "dataModificacao": "2026-10-02T22:20:58.153Z",
+  "dataModificacao": "2026-10-02T22:28:21.629Z",
   "nome": "Teste novas funções",
   "lj": 60,
   "ct": 60,
@@ -13,147 +13,8 @@
   "culinaria": "cafe",
   "estado": "SP",
   "conc": "sw",
-  "concIncluir": true,
-  "dores": [
-    {
-      "id": "d1",
-      "txt": "Gestão de múltiplas lojas e cardápios com preços diferentes por canal",
-      "sol": "Cadastro centralizado com edição massiva e push em nuvem para todas as lojas",
-      "ben": "Agilidade na rede",
-      "keys": [
-        "cardápio",
-        "cardapio",
-        "menu",
-        "preço",
-        "preco",
-        "multi-loja",
-        "múltiplas lojas",
-        "multiplas lojas",
-        "canal"
-      ]
-    },
-    {
-      "id": "d2",
-      "txt": "Pedidos descentralizados entre balcão, totem e delivery",
-      "sol": "PDV integrado + Hub Delivery + Totem em plataforma única",
-      "ben": "Operação unificada",
-      "keys": [
-        "pedido",
-        "descentraliz",
-        "balcão",
-        "balcao",
-        "totem",
-        "delivery",
-        "canais"
-      ]
-    },
-    {
-      "id": "d3",
-      "txt": "KDS sem indicadores de tempo ou balanceamento por praça",
-      "sol": "KDS por estação com tempo de produção, balanceamento e fallback automático",
-      "ben": "Produção otimizada",
-      "keys": [
-        "kds",
-        "cozinha",
-        "praça",
-        "praca",
-        "produção",
-        "producao",
-        "comanda"
-      ]
-    },
-    {
-      "id": "d5",
-      "txt": "Falta de visibilidade operacional em tempo real na rede",
-      "sol": "3SGo (app gestão) + Dashboards + Relatórios atualizados a cada 15 min",
-      "ben": "Decisões rápidas",
-      "keys": [
-        "visibilidade",
-        "tempo real",
-        "dashboard",
-        "real time",
-        "3sgo",
-        "gestão",
-        "gestao"
-      ]
-    },
-    {
-      "id": "d6",
-      "txt": "Relatórios engessados e sem granularidade por loja e canal",
-      "sol": "Relatórios gerenciais por loja, canal, operador e período + BI",
-      "ben": "Controle total",
-      "keys": [
-        "relatório",
-        "relatorio",
-        "bi",
-        "kpi",
-        "indicador",
-        "dado",
-        "report"
-      ]
-    },
-    {
-      "id": "d8",
-      "txt": "Baixa retenção de clientes e promoções sem recorrência",
-      "sol": "CRM com fidelidade, promoções personalizadas e acompanhamento de base",
-      "ben": "Clientes recorrentes",
-      "keys": [
-        "fideliz",
-        "fidelidade",
-        "crm",
-        "retenção",
-        "retencao",
-        "engajamento",
-        "marketing",
-        "recorrência",
-        "recorrencia"
-      ]
-    },
-    {
-      "id": "d9",
-      "txt": "Sistemas fragmentados e sem integração entre módulos",
-      "sol": "Plataforma única 3S com PDV, KDS, Totem, Delivery e BackOffice integrados",
-      "ben": "Operação conectada",
-      "keys": [
-        "fragmenta",
-        "integra",
-        "sistema",
-        "legado",
-        "desconectad",
-        "vários sistema",
-        "varios sistema"
-      ]
-    },
-    {
-      "id": "d10",
-      "txt": "Filas longas e demora no atendimento",
-      "sol": "Totem de autoatendimento + POS Mobile para atendimento descentralizado",
-      "ben": "Atendimento ágil",
-      "keys": [
-        "fila",
-        "espera",
-        "atendimento",
-        "demor",
-        "agilidade",
-        "lentidão"
-      ]
-    },
-    {
-      "id": "d12",
-      "txt": "Gestão de delivery fragmentada entre múltiplos agregadores",
-      "sol": "Hub Delivery nativo com integração direta iFood, Rappi e Open Delivery",
-      "ben": "Delivery centralizado",
-      "keys": [
-        "delivery",
-        "ifood",
-        "rappi",
-        "uber eats",
-        "marketplace",
-        "agregador",
-        "hub"
-      ]
-    }
-  ],
+  "concIncluir": false,
+  "dores": [],
   "setup": 3000,
   "inst": 1622,
   "ixSetup": true,
@@ -272,6 +133,34 @@
       "ix": false,
       "v": 250,
       "incMens": true
+    },
+    {
+      "id": "tef_adic",
+      "on": false,
+      "ix": false,
+      "v": 25.22,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": false,
+      "ix": false,
+      "v": 21.93,
+      "incMens": false
+    },
+    {
+      "id": "totem_soft",
+      "on": false,
+      "ix": false,
+      "v": 80,
+      "incMens": false
+    },
+    {
+      "id": "multimarca",
+      "on": false,
+      "ix": false,
+      "v": 50,
+      "incMens": false
     }
   ],
   "mxOn": [
@@ -339,6 +228,37 @@
       "incMens": false
     }
   ],
-  "historico": [],
-  "_migrateV": 5
+  "historico": [
+    {
+      "data": "2026-10-02T22:20:58.153Z",
+      "nome": "Teste novas funções",
+      "lj": 60,
+      "ct": 60,
+      "ro": 3,
+      "ms": 719,
+      "addTotal": 360,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "urgente",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 3,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/teste_novas_funcoes_1790979658153.json",
+  "_gh_sha": "eef29e19d22c5d17e73779a4ebff1142dd2f25c8"
 }
