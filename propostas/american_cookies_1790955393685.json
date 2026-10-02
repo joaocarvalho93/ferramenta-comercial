@@ -1,9 +1,9 @@
 {
   "id": 1790955393685,
   "data": "02/10/2026",
-  "hora": "12:37",
+  "hora": "14:14",
   "dataCriacao": "2026-10-02T15:36:33.685Z",
-  "dataModificacao": "2026-10-02T15:37:11.544Z",
+  "dataModificacao": "2026-10-02T17:14:17.838Z",
   "nome": "American Cookies",
   "lj": 60,
   "ct": 60,
@@ -12,6 +12,8 @@
   "segmento": "qsr",
   "culinaria": "cafe",
   "estado": "SP",
+  "conc": "sw",
+  "concIncluir": true,
   "setup": 3000,
   "inst": 2000,
   "ixSetup": true,
@@ -22,7 +24,7 @@
   "inv": 3000,
   "invModo": "none",
   "ms": 499.5,
-  "opcTotal": 0,
+  "opcTotal": 47.15,
   "addTotal": 0,
   "rb": 5,
   "incAnual": 0,
@@ -43,6 +45,8 @@
     "Produção Impressoras — Até 3",
     "TEF — Primeira integração",
     "Marketplace — iFood / Rappi / OD",
+    "TEF — Integrações adicionais (2 a 4 PDVs)",
+    "TEF — Integrações adicionais (5 a 20 PDVs)",
     "3SGo — Ilimitado por loja"
   ],
   "meIds": [
@@ -129,6 +133,20 @@
       "ix": false,
       "v": 250,
       "incMens": true
+    },
+    {
+      "id": "tef_adic",
+      "on": true,
+      "ix": false,
+      "v": 25.22,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": true,
+      "ix": false,
+      "v": 21.93,
+      "incMens": false
     }
   ],
   "mxOn": [
@@ -224,7 +242,37 @@
       "prazo": 3,
       "mesesDesconto": 12,
       "responsavel": "joao.carlos@ifood.com.br"
+    },
+    {
+      "data": "2026-10-02T15:37:11.544Z",
+      "nome": "American Cookies",
+      "lj": 60,
+      "ct": 60,
+      "ro": 3,
+      "ms": 499.5,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 2000,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 5,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 3,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 3,
+  "_gh_path": "propostas/american_cookies_1790955393685.json",
+  "_gh_sha": "bb82b7d93b6a1791b8a5ad927a9df4604c24fccc"
 }
