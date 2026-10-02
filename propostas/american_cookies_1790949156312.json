@@ -1,9 +1,9 @@
 {
   "id": 1790949156312,
   "data": "02/10/2026",
-  "hora": "11:27",
+  "hora": "11:55",
   "dataCriacao": "2026-10-02T13:52:36.311Z",
-  "dataModificacao": "2026-10-02T14:27:34.262Z",
+  "dataModificacao": "2026-10-02T14:55:08.158Z",
   "nome": "American Cookies",
   "lj": 60,
   "ct": 60,
@@ -129,6 +129,20 @@
       "ix": false,
       "v": 250,
       "incMens": true
+    },
+    {
+      "id": "tef_adic",
+      "on": false,
+      "ix": false,
+      "v": 25.22,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": false,
+      "ix": false,
+      "v": 21.93,
+      "incMens": false
     }
   ],
   "mxOn": [
@@ -280,7 +294,37 @@
       "prazo": 3,
       "mesesDesconto": 12,
       "responsavel": ""
+    },
+    {
+      "data": "2026-10-02T14:27:34.262Z",
+      "nome": "American Cookies",
+      "lj": 60,
+      "ct": 60,
+      "ro": 3,
+      "ms": 499.5,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 2000,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 5,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 3,
+      "mesesDesconto": 12,
+      "responsavel": ""
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 3,
+  "_gh_path": "propostas/american_cookies_1790949156312.json",
+  "_gh_sha": "2c4dab9f31ccd24a9a4d24ad831eb8197141c353"
 }
