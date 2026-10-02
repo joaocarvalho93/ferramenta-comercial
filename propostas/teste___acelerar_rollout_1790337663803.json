@@ -1,13 +1,13 @@
 {
   "id": 1790337663803,
   "data": "25/09/2026",
-  "hora": "10:05",
+  "hora": "10:50",
   "dataCriacao": "2026-09-25T12:01:03.802Z",
-  "dataModificacao": "2026-10-02T13:05:00.541Z",
+  "dataModificacao": "2026-10-02T13:50:40.217Z",
   "nome": "Teste - Acelerar Rollout",
-  "lj": 40,
-  "ct": 36,
-  "ro": 4,
+  "lj": 65,
+  "ct": 60,
+  "ro": 3,
   "responsavel": "",
   "segmento": "qsr",
   "culinaria": "brasileira",
@@ -17,14 +17,14 @@
   "ixSetup": true,
   "ixInst": true,
   "ixInstExist": true,
-  "instPropria": 2000,
   "instFranquia": 1000,
   "rebInst": 40,
   "inv": 3000,
-  "invModo": "urgente",
-  "ms": 547.15,
-  "addTotal": 60,
-  "rb": 0,
+  "invModo": "none",
+  "ms": 500,
+  "opcTotal": 47.15,
+  "addTotal": 0,
+  "rb": 5,
   "incAnual": 0,
   "incMes": 0,
   "devVal": 0,
@@ -32,10 +32,10 @@
   "devObs": "",
   "invMeses": 0,
   "invMensal": 0,
-  "ecoIncentivo": false,
+  "ecoIncentivo": true,
   "dMax": 20,
   "modeloDesc": "escalonado",
-  "prazo": 4,
+  "prazo": 3,
   "mesesDesconto": 12,
   "modulos": [
     "PDV — Até 3",
@@ -43,8 +43,7 @@
     "Marketplace — iFood / Rappi / OD",
     "TEF — Primeira integração",
     "TEF — Integrações adicionais (2 a 4 PDVs)",
-    "TEF — Integrações adicionais (5 a 20 PDVs)",
-    "3SGo — Ilimitado por loja"
+    "TEF — Integrações adicionais (5 a 20 PDVs)"
   ],
   "meIds": [
     "pdv_3",
@@ -79,61 +78,71 @@
       "id": "pdv_adic",
       "on": false,
       "ix": false,
-      "v": 49.9
+      "v": 49.9,
+      "incMens": true
     },
     {
       "id": "kds_adic",
       "on": false,
       "ix": false,
-      "v": 60
+      "v": 60,
+      "incMens": true
     },
     {
       "id": "totem_adic",
       "on": false,
       "ix": false,
-      "v": 65
+      "v": 65,
+      "incMens": true
     },
     {
       "id": "pos_3",
       "on": false,
       "ix": false,
-      "v": 100
+      "v": 100,
+      "incMens": true
     },
     {
       "id": "pos_5",
       "on": false,
       "ix": false,
-      "v": 150
+      "v": 150,
+      "incMens": true
     },
     {
       "id": "pos_ilim",
       "on": false,
       "ix": false,
-      "v": 350
+      "v": 350,
+      "incMens": true
     },
     {
       "id": "marca",
       "on": false,
       "ix": false,
-      "v": 100
+      "v": 100,
+      "incMens": true
     },
     {
       "id": "nav_extra",
       "on": false,
       "ix": false,
-      "v": 250
+      "v": 250,
+      "incMens": true
     },
     {
       "id": "tef_adic",
       "on": true,
       "ix": false,
-      "v": 25.22
+      "v": 25.22,
+      "incMens": false
     },
     {
       "id": "tef_5",
       "on": true,
       "ix": false,
-      "v": 21.93
+      "v": 21.93,
+      "incMens": false
     }
   ],
   "mxOn": [
@@ -568,7 +577,37 @@
       "prazo": 4,
       "mesesDesconto": 12,
       "responsavel": ""
+    },
+    {
+      "data": "2026-10-02T13:05:00.541Z",
+      "nome": "Teste - Acelerar Rollout",
+      "lj": 40,
+      "ct": 36,
+      "ro": 4,
+      "ms": 547.15,
+      "addTotal": 60,
+      "setup": 3000,
+      "inst": 2000,
+      "invModo": "urgente",
+      "ixSetup": true,
+      "ixInst": true,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "escalonado",
+      "prazo": 4,
+      "mesesDesconto": 12,
+      "responsavel": ""
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 3,
+  "_gh_path": "propostas/teste___acelerar_rollout_1790337663803.json",
+  "_gh_sha": "24482717d71f1cabcbcb60f9d08ed28d0f0ce26e"
 }
