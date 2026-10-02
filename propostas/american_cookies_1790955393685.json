@@ -1,9 +1,9 @@
 {
   "id": 1790955393685,
   "data": "02/10/2026",
-  "hora": "15:38",
+  "hora": "15:52",
   "dataCriacao": "2026-10-02T15:36:33.685Z",
-  "dataModificacao": "2026-10-02T18:38:03.300Z",
+  "dataModificacao": "2026-10-02T18:52:07.800Z",
   "nome": "American Cookies",
   "lj": 65,
   "ct": 60,
@@ -24,7 +24,7 @@
   "rebInst": 40,
   "inv": 3000,
   "invModo": "none",
-  "ms": 499.5,
+  "ms": 549,
   "opcTotal": 177.15,
   "addTotal": 0,
   "rb": 5,
@@ -61,7 +61,7 @@
   "meData": [
     {
       "id": "pdv_3",
-      "v": 335,
+      "v": 330,
       "ix": false
     },
     {
@@ -71,7 +71,7 @@
     },
     {
       "id": "tef_1",
-      "v": 44.5,
+      "v": 99,
       "ix": false
     },
     {
@@ -343,7 +343,37 @@
       "prazo": 3,
       "mesesDesconto": 12,
       "responsavel": "joao.carlos@ifood.com.br"
+    },
+    {
+      "data": "2026-10-02T18:38:03.300Z",
+      "nome": "American Cookies",
+      "lj": 65,
+      "ct": 60,
+      "ro": 3,
+      "ms": 499.5,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 2000,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 5,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 3,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 3,
+  "_gh_path": "propostas/american_cookies_1790955393685.json",
+  "_gh_sha": "ad22234e1054e93bc142ab32b0d18c4ef62973ba"
 }
