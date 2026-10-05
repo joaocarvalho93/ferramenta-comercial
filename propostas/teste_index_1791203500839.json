@@ -1,9 +1,9 @@
 {
   "id": 1791203500839,
   "data": "05/10/2026",
-  "hora": "09:33",
+  "hora": "11:16",
   "dataCriacao": "2026-10-05T12:31:40.839Z",
-  "dataModificacao": "2026-10-05T12:33:32.782Z",
+  "dataModificacao": "2026-10-05T14:16:12.273Z",
   "nome": "Teste Index",
   "lj": 45,
   "ct": 60,
@@ -135,6 +135,34 @@
       "ix": false,
       "v": 250,
       "incMens": true
+    },
+    {
+      "id": "tef_adic",
+      "on": false,
+      "ix": false,
+      "v": 25.22,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": false,
+      "ix": false,
+      "v": 21.93,
+      "incMens": false
+    },
+    {
+      "id": "totem_soft",
+      "on": false,
+      "ix": false,
+      "v": 80,
+      "incMens": false
+    },
+    {
+      "id": "multimarca",
+      "on": false,
+      "ix": false,
+      "v": 50,
+      "incMens": false
     }
   ],
   "mxOn": [
@@ -258,7 +286,37 @@
       "prazo": 2,
       "mesesDesconto": 12,
       "responsavel": "joao.carlos@ifood.com.br"
+    },
+    {
+      "data": "2026-10-05T12:33:32.782Z",
+      "nome": "Teste Index",
+      "lj": 45,
+      "ct": 60,
+      "ro": 3,
+      "ms": 729,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "isento",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 3,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 3,
+  "_gh_path": "propostas/teste_index_1791203500839.json",
+  "_gh_sha": "b28868be913fb079dd435f3db2e3ab8f7faa95b0"
 }
