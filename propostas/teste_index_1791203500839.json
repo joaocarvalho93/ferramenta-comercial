@@ -1,11 +1,11 @@
 {
   "id": 1791203500839,
   "data": "05/10/2026",
-  "hora": "09:31",
+  "hora": "09:33",
   "dataCriacao": "2026-10-05T12:31:40.839Z",
-  "dataModificacao": "2026-10-05T12:31:40.839Z",
+  "dataModificacao": "2026-10-05T12:33:18.547Z",
   "nome": "Teste Index",
-  "lj": 55,
+  "lj": 45,
   "ct": 60,
   "ro": 2,
   "responsavel": "joao.carlos@ifood.com.br",
@@ -202,6 +202,37 @@
       "incMens": false
     }
   ],
-  "historico": [],
-  "_migrateV": 5
+  "historico": [
+    {
+      "data": "2026-10-05T12:31:40.839Z",
+      "nome": "Teste Index",
+      "lj": 55,
+      "ct": 60,
+      "ro": 2,
+      "ms": 729,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "isento",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 2,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/teste_index_1791203500839.json",
+  "_gh_sha": "48f1ddd0511c063ffbfb34a5f0cee034834993a3"
 }
