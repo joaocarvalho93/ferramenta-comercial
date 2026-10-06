@@ -1,0 +1,162 @@
+{
+  "id": 1791298733523,
+  "data": "06/10/2026",
+  "hora": "11:58",
+  "dataCriacao": "2026-10-06T14:58:53.522Z",
+  "dataModificacao": "2026-10-06T14:58:53.522Z",
+  "nome": "Sassa Sushi",
+  "lj": 5,
+  "ct": 60,
+  "ro": 2,
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "segmento": "",
+  "culinaria": "",
+  "estado": "",
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": true,
+  "ixInst": true,
+  "ixInstExist": false,
+  "ms": 650,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Ilimitado",
+    "Produção Impressoras — Ilimitado",
+    "Marketplace — iFood",
+    "POS Mobile — Ilimitado",
+    "Marca Adicional"
+  ],
+  "meIds": [
+    "pdv_ilim",
+    "imp_ilim",
+    "mkt_ifood"
+  ],
+  "meData": [
+    {
+      "id": "pdv_ilim",
+      "v": 400,
+      "ix": false
+    },
+    {
+      "id": "imp_ilim",
+      "v": 50,
+      "ix": false
+    },
+    {
+      "id": "mkt_ifood",
+      "v": 50,
+      "ix": false
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "pos_5",
+      "on": false,
+      "ix": false,
+      "v": 150
+    },
+    {
+      "id": "pos_ilim",
+      "on": true,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "marca",
+      "on": true,
+      "ix": false,
+      "v": 50
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": false,
+      "v": 60
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_d",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_combo",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000
+    },
+    {
+      "id": "crm_fid",
+      "on": false,
+      "v": 199.9
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/sassa_sushi_1791298733523.json",
+  "_gh_sha": null
+}
