@@ -1,9 +1,9 @@
 {
   "id": 1790955393685,
   "data": "02/10/2026",
-  "hora": "14:47",
+  "hora": "10:49",
   "dataCriacao": "2026-10-02T15:36:33.685Z",
-  "dataModificacao": "2026-10-06T17:47:12.689Z",
+  "dataModificacao": "2026-10-07T13:49:15.003Z",
   "nome": "American Cookies",
   "lj": 65,
   "ct": 60,
@@ -33,6 +33,7 @@
   "devVal": 0,
   "devHoras": 0,
   "devObs": "",
+  "obsGeral": "Os valores de TEF contratados são fixos e isentos de reajuste pelo IPCA durante todo o período de vigência desta proposta.",
   "invMeses": 0,
   "invMensal": 0,
   "ecoIncentivo": true,
@@ -48,10 +49,6 @@
     "Produção Impressoras — Até 3",
     "TEF — Primeira integração",
     "Marketplace — iFood / Rappi / OD",
-    "TEF — Integrações adicionais (2 a 4 PDVs)",
-    "TEF — Integrações adicionais (5 a 20 PDVs)",
-    "Software Totem",
-    "Multimarca",
     "3SGo — Ilimitado por loja"
   ],
   "meIds": [
@@ -429,7 +426,37 @@
       "prazo": 3,
       "mesesDesconto": 12,
       "responsavel": ""
+    },
+    {
+      "data": "2026-10-06T17:47:12.689Z",
+      "nome": "American Cookies",
+      "lj": 65,
+      "ct": 60,
+      "ro": 3,
+      "ms": 499.5,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 2000,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 5,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 3,
+      "mesesDesconto": 12,
+      "responsavel": ""
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 3,
+  "_gh_path": "propostas/american_cookies_1790955393685.json",
+  "_gh_sha": "5008c3cf1d06454842a7d0f63eeb885ceef68bff"
 }
