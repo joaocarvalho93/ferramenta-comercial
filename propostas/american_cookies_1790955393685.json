@@ -514,7 +514,5 @@
       "responsavel": ""
     }
   ],
-  "_migrateV": 3,
-  "_gh_path": "propostas/american_cookies_1790955393685.json",
-  "_gh_sha": "3739dcf90fcbd14ae9053e850a2829508dedceff"
+  "_migrateV": 5
 }
