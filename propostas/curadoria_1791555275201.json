@@ -1,9 +1,9 @@
 {
   "id": 1791555275201,
   "data": "09/10/2026",
-  "hora": "11:14",
+  "hora": "11:15",
   "dataCriacao": "2026-10-09T14:14:35.200Z",
-  "dataModificacao": "2026-10-09T14:14:35.200Z",
+  "dataModificacao": "2026-10-09T14:15:38.706Z",
   "nome": "Curadoria",
   "lj": 2,
   "ct": 60,
@@ -18,7 +18,7 @@
   "ixInst": true,
   "ixInstExist": false,
   "ms": 590,
-  "addTotal": 60,
+  "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
   "incMes": 0,
@@ -116,7 +116,7 @@
     {
       "id": "3sgo",
       "on": true,
-      "v": 60
+      "v": 0
     },
     {
       "id": "bi_simples",
@@ -166,5 +166,5 @@
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/curadoria_1791555275201.json",
-  "_gh_sha": null
+  "_gh_sha": "dce2e779fd1b75962fcd5dafef371287f1ba84a2"
 }
