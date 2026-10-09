@@ -1,0 +1,170 @@
+{
+  "id": 1791555275201,
+  "data": "09/10/2026",
+  "hora": "11:14",
+  "dataCriacao": "2026-10-09T14:14:35.200Z",
+  "dataModificacao": "2026-10-09T14:14:35.200Z",
+  "nome": "Curadoria",
+  "lj": 2,
+  "ct": 60,
+  "ro": 2,
+  "responsavel": "joao.biagiotti@ifood.com.br",
+  "segmento": "",
+  "culinaria": "",
+  "estado": "",
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": true,
+  "ixInst": true,
+  "ixInstExist": false,
+  "ms": 590,
+  "addTotal": 60,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "invMeses": 0,
+  "invMensal": 0,
+  "modulos": [
+    "PDV — Até 3",
+    "Produção Impressoras — Ilimitado",
+    "Marketplace — iFood / Open Delivery",
+    "KDS — Ilimitado",
+    "POS Mobile — Até 5",
+    "Marca Adicional",
+    "3SGo — Ilimitado por loja"
+  ],
+  "meIds": [
+    "pdv_3",
+    "imp_ilim",
+    "mkt_ifood_od",
+    "kds_ilim"
+  ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 250,
+      "ix": false
+    },
+    {
+      "id": "imp_ilim",
+      "v": 90,
+      "ix": false
+    },
+    {
+      "id": "mkt_ifood_od",
+      "v": 50,
+      "ix": false
+    },
+    {
+      "id": "kds_ilim",
+      "v": 100,
+      "ix": false
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100
+    },
+    {
+      "id": "pos_5",
+      "on": true,
+      "ix": false,
+      "v": 50
+    },
+    {
+      "id": "pos_ilim",
+      "on": false,
+      "ix": false,
+      "v": 350
+    },
+    {
+      "id": "marca",
+      "on": true,
+      "ix": false,
+      "v": 50
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": true,
+      "v": 60
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_d",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180
+    },
+    {
+      "id": "eats_combo",
+      "on": false,
+      "v": 300
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000
+    },
+    {
+      "id": "crm_fid",
+      "on": false,
+      "v": 199.9
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/curadoria_1791555275201.json",
+  "_gh_sha": null
+}
