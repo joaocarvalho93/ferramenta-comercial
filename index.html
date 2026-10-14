@@ -6077,7 +6077,7 @@ function renderDoresBlock(doresList){
 }
 
 function renderPropostaBody(d){
-  const {nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir}=d;
+  const {nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir,msAdicionais,msBase}=d;
   // Se passou modulosObj, usa getModNm() para cada módulo
   const modulosRender=modulosObj?modulosObj.map(m=>getModNm(m)):modulos;
   const fmtBRL=(v)=>'R$ '+(+v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -6312,7 +6312,7 @@ function _renderModalProposta(p){
   let pageHTML;
   try{
     const _dMax=p.dMax||0,_skipPlano=!!p.skipPlano,_prazo=p.prazo||0,_modeloDesc=p.modeloDesc||'linear',_mesesDesconto=p.mesesDesconto||0;
-    const _bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral:p.obsGeral||'',invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dores:p.dores||[],dMax:_dMax,skipPlano:_skipPlano,prazo:_prazo,modeloDesc:_modeloDesc,mesesDesconto:_mesesDesconto,concData,concIncluir});
+    const _bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral:p.obsGeral||'',invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dores:p.dores||[],dMax:_dMax,skipPlano:_skipPlano,prazo:_prazo,modeloDesc:_modeloDesc,mesesDesconto:_mesesDesconto,concData,concIncluir,msAdicionais,msBase});
     const _rolloutHTML=(_dMax>0&&!_skipPlano)?renderRolloutBlock({lj,dMax:_dMax,modeloDesc:_modeloDesc,prazo:_prazo,mesesDesconto:_mesesDesconto}):'';
     const _comparativoHTML=(concData&&concIncluir)?renderComparativoBlock(concData):'';
     const _pages=[];_pages.push('<div class="page">'+_bodyHTML+'</div>');

@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-14-02 (Atualizado)
+**Data:** 14/10/2026 16:14:02
+**Arquivo:** `versions/index_2026-10-14_16-14-02.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: passar msAdicionais e msBase como parâmetros para renderPropostaBody
+
+---
+
+
+
 ## v2026-10-14_16-11-47 (Atualizado)
 **Data:** 14/10/2026 16:11:47
 **Arquivo:** `versions/index_2026-10-14_16-11-47.html`
