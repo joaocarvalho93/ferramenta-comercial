@@ -5343,7 +5343,7 @@ function filterPropostas(){
 
   grid.innerHTML=`<div style="font-size:10px;color:var(--gray);margin-bottom:8px;">${arr.length} proposta${arr.length>1?'s':''}</div>`+
     arr.map((p,i)=>{
-      let mensBruto=(p.ms||0)+(p.addTotal||0);
+      let mensBruto=(p.ms||0);
       if(p._moveTag==='move'&&p.moveDescPct>0){mensBruto=mensBruto*(1-p.moveDescPct/100);}
       const mensTot=mensBruto.toFixed(2).replace('.',',');
       // Calcular margem a partir dos dados salvos

@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-46-48 (Atualizado)
+**Data:** 14/10/2026 16:46:49
+**Arquivo:** `versions/index_2026-10-14_16-46-48.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: mostrar apenas mensalidade base na lista de propostas (sem adicionais)
+
+---
+
+
+
 ## v2026-10-14_16-40-54 (Atualizado)
 **Data:** 14/10/2026 16:40:54
 **Arquivo:** `versions/index_2026-10-14_16-40-54.html`
