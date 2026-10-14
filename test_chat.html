@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chat Test</title>
+<style>
+body { font-family: monospace; padding: 20px; }
+.test { margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 4px; }
+.pass { background: #d4edda; }
+.fail { background: #f8d7da; }
+</style>
+</head>
+<body>
+<h1>3S Chatbot + Tour Tests</h1>
+<div id="results"></div>
+
+<script>
+const tests = [
+  {
+    name: 'CHAT_KB loaded',
+    test: () => typeof CHAT_KB !== 'undefined' && CHAT_KB.length > 0
+  },
+  {
+    name: 'chatCtx initialized',
+    test: () => typeof chatCtx !== 'undefined' && chatCtx.topicId === null
+  },
+  {
+    name: 'TOUR_STEPS loaded',
+    test: () => typeof TOUR_STEPS !== 'undefined' && TOUR_STEPS.length > 0
+  },
+  {
+    name: 'chatResolve function exists',
+    test: () => typeof chatResolve === 'function'
+  },
+  {
+    name: 'tourStart function exists',
+    test: () => typeof tourStart === 'function'
+  },
+  {
+    name: 'chatNorm function works',
+    test: () => chatNorm('Rollout') === 'rollout'
+  },
+  {
+    name: 'KB has followups',
+    test: () => CHAT_KB.some(item => item.followups && item.followups.length > 0)
+  },
+  {
+    name: 'Rollout topic found',
+    test: () => CHAT_KB.find(item => item.id === 'rollout') !== undefined
+  }
+];
+
+// Test context preservation
+let contextTest = { pass: false };
+const step1 = chatResolve('O que é rollout?');
+if (step1 && step1.newTopic === 'rollout') {
+  contextTest.chatCtx = { topicId: 'rollout' };
+  const step2 = chatResolve('Qual é o teto de desconto?');
+  contextTest.pass = step2 && step2.newTopic === 'rollout'; // should maintain context
+}
+tests.push({ name: 'Context maintained after follow-up', test: () => contextTest.pass });
+
+const res = document.getElementById('results');
+tests.forEach(t => {
+  const el = document.createElement('div');
+  el.className = 'test ' + (t.test() ? 'pass' : 'fail');
+  el.textContent = (t.test() ? '✓' : '✗') + ' ' + t.name;
+  res.appendChild(el);
+});
+</script>
+</body>
+</html>

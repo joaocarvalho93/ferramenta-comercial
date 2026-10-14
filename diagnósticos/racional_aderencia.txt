@@ -1,0 +1,24 @@
+CONTEXTO:
+Utilize o Diagnóstico do Restaurante (PDF) como base de respostas e a planilha "NOVOS PESOS 3S CHECKOUT" como base de pesos - Considerar toda a planilha que contará com 100 perguntas na coluna B (entre as linhas 3 e 102) e seus respectivos pesos na coluna C (também entre as linhas 3 e 102). O foco é identificar o volume de "dores" do cliente para classificar o Fit de contratação (Aderência = Oportunidade de Solução).
+
+AÇÕES E LÓGICA DE CÁLCULO (PROTOCOLO DE PRECISÃO):
+Para garantir que não ocorram erros matemáticos, siga estritamente estes passos:
+
+Sincronização: Identifique no PDF do Restaurante todas as funcionalidades presentes na planilha de pesos (todos os itens estão nas duas relações).
+
+PARA CÁLCULO DO % REAL DE ADERÊNCIA DA 3S AO PARCEIRO:
+Tabela de Memória Interna: Antes de calcular a média, processe cada item individualmente montando a seguinte estrutura:
+STATUS "NÃO POSSUI", "CRÍTICO/MANUAL" e "RESOLVIDO": Considere todos os itens marcados com esse status e sempre atribua o valor integral do Peso % da planilha (terão itens como 0%, considerar mesmo assim na contagem de itens válidos).
+STATUS "NÃO SE APLICA" ou "N/A": Desconsidere todos os itens marcados com esse status (Remova do numerador e do denominador).
+
+Cálculo da Média Aritmética:
+Soma = Somatório de todos os valores atribuídos acima.
+Divisor = Contagem total de itens que foram analisados - Considere todos as respostas com status RESOLVIDO, NÃO POSSUI ou CRÍTICO/MANUAL (ignorando N/As).
+Média % FINAL = Soma / Divisor
+Exemplo: Considerar todos os itens que foram classificados como NÃO POSSUI, CRÍTICO/MANUAL e RESOLVIDO. Se contabilizar 66 Itens e a soma de todos eles for de 560%, deve-se dividir os 560% por 66 (número de itens).
+
+CLASSIFICAÇÃO DO FIT (RESULTADO FINAL) PARA ADERÊNCIA - NÃO considerar nessa escala o  % QUE AGREGAMOS PARA O PARCEIRO , apenas o % REAL DE ADERÊNCIA DA 3S AO PARCEIRO:
+0% a 20%: Sem fit com a 3S.
+21% a 50%: Baixa Aderência.
+51% a 79%: Média Aderência.
+80% a 100%: Alta Aderência.

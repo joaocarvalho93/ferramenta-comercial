@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Bolso — Cenário A: Pré-Pago | 3S Checkout</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--red:#E9202E;--dark:#890119;--bg:#FAFAFA;--card:#FFF;--border:#E5E7EB;--text:#1F2937;--gray:#6B7280;--green:#059669;--amber:#D97706;--blue:#2563EB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+.header{background:linear-gradient(135deg,#1A0508 0%,var(--dark) 50%,var(--red) 100%);color:#fff;padding:40px 32px;text-align:center;}
+.header h1{font-size:28px;font-weight:800;margin-bottom:4px;letter-spacing:-.5px;}
+.header p{font-size:14px;opacity:.7;max-width:500px;margin:0 auto;}
+.header .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;margin-top:12px;letter-spacing:.5px;}
+.header .version{display:inline-block;background:rgba(233,32,46,.4);border:1px solid rgba(255,255,255,.3);padding:3px 10px;border-radius:12px;font-size:9px;font-weight:700;margin-top:8px;letter-spacing:.5px;}
+
+.container{max-width:800px;margin:0 auto;padding:32px 20px 60px;}
+
+/* Section */
+.section{margin-bottom:28px;}
+.section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--red);margin-bottom:8px;}
+.section-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.section-desc{font-size:13px;color:var(--gray);margin-bottom:16px;}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:12px;}
+.card-accent{border-left:4px solid var(--red);}
+.card-green{border-left:4px solid var(--green);}
+.card-amber{border-left:4px solid var(--amber);}
+.card-blue{border-left:4px solid var(--blue);}
+
+/* Context banner */
+.context-banner{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1px solid #93C5FD;border-radius:12px;padding:20px 24px;margin-bottom:28px;}
+.context-banner h3{font-size:14px;font-weight:700;color:#1E40AF;margin-bottom:8px;}
+.context-banner p{font-size:12px;color:#1E3A5F;line-height:1.6;}
+.context-banner .tag{display:inline-block;background:#1E40AF;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* Model box */
+.model-box{background:linear-gradient(135deg,#FEF2F2,#FFF);border:2px solid var(--red);border-radius:14px;padding:28px;margin-bottom:28px;}
+.model-box h2{font-size:18px;font-weight:800;color:var(--dark);margin-bottom:12px;}
+.model-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px;}
+.model-step{text-align:center;padding:16px 12px;background:#fff;border-radius:10px;border:1px solid var(--border);}
+.model-step .step-n{width:32px;height:32px;background:var(--red);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;margin:0 auto 8px;}
+.model-step .step-t{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.model-step .step-d{font-size:11px;color:var(--gray);line-height:1.4;}
+
+/* Checklist */
+.checklist-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.checklist-item:last-child{border-bottom:none;}
+.chk-icon{width:24px;height:24px;border-radius:6px;background:#F0FDF4;border:1.5px solid #86EFAC;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}
+.chk-title{font-size:13px;font-weight:600;color:var(--text);}
+.chk-desc{font-size:11px;color:var(--gray);margin-top:2px;}
+
+/* Pitch block */
+.pitch{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:20px 24px;margin:16px 0;position:relative;}
+.pitch::before{content:'\201C';position:absolute;top:8px;left:16px;font-size:48px;color:#86EFAC;font-family:Georgia,serif;line-height:1;}
+.pitch p{font-size:14px;color:#166534;line-height:1.7;padding-left:28px;font-style:italic;}
+.pitch .tag{display:inline-block;background:#166534;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* Objection accordion */
+.objection{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:all .2s;}
+.objection:hover{border-color:#D1D5DB;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.obj-header{padding:16px 20px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;user-select:none;}
+.obj-header:hover{background:#F9FAFB;}
+.obj-icon{width:28px;height:28px;border-radius:8px;background:#FEF2F2;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;}
+.obj-title{font-size:13px;font-weight:600;color:var(--text);flex:1;}
+.obj-arrow{color:var(--gray);font-size:18px;transition:transform .2s;flex-shrink:0;}
+.objection.open .obj-arrow{transform:rotate(180deg);}
+.obj-body{display:none;padding:0 20px 20px 60px;}
+.objection.open .obj-body{display:block;}
+.obj-response{background:#F0FDF4;border-radius:8px;padding:14px 16px;font-size:13px;color:#166534;line-height:1.6;margin-bottom:8px;}
+.obj-response strong{font-weight:700;color:#065F46;}
+.obj-response.alt{background:#FEF3C7;color:#92400E;}
+.obj-response.alt strong{color:#78350F;}
+.obj-tip{font-size:11px;color:var(--amber);font-weight:500;display:flex;align-items:center;gap:6px;}
+
+/* Timeline */
+.timeline{display:flex;align-items:center;gap:0;margin:20px 0;position:relative;}
+.tl-item{flex:1;text-align:center;position:relative;}
+.tl-item::before{content:'';position:absolute;top:15px;left:0;right:0;height:3px;background:#E5E7EB;z-index:0;}
+.tl-item:first-child::before{left:50%;}
+.tl-item:last-child::before{right:50%;}
+.tl-dot{width:32px;height:32px;border-radius:50%;background:var(--card);border:3px solid var(--red);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--red);margin:0 auto 8px;position:relative;z-index:1;}
+.tl-dot.active{background:var(--red);color:#fff;}
+.tl-label{font-size:10px;font-weight:600;color:var(--text);}
+.tl-sub{font-size:9px;color:var(--gray);margin-top:2px;}
+
+/* Do / Don't */
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.do-col,.dont-col{border-radius:10px;padding:16px 18px;}
+.do-col{background:#F0FDF4;border:1px solid #BBF7D0;}
+.dont-col{background:#FEF2F2;border:1px solid #FECACA;}
+.do-col h4{color:#065F46;font-size:12px;font-weight:700;margin-bottom:10px;}
+.dont-col h4{color:#991B1B;font-size:12px;font-weight:700;margin-bottom:10px;}
+.do-col li,.dont-col li{font-size:12px;line-height:1.6;margin-bottom:6px;padding-left:4px;}
+.do-col li{color:#166534;}
+.dont-col li{color:#991B1B;}
+
+/* Footer */
+.footer{text-align:center;padding:24px;font-size:11px;color:var(--gray);border-top:1px solid var(--border);}
+
+@media(max-width:700px){
+  .model-steps{grid-template-columns:1fr;}
+  .do-dont{grid-template-columns:1fr;}
+  .timeline{flex-direction:column;gap:12px;}
+  .tl-item::before{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Guia de Bolso — Cenário A</h1>
+  <p>Cobrança no ato da assinatura | Contas P (até 5 lojas)</p>
+  <div class="badge">USO INTERNO — TIME COMERCIAL</div>
+  <br>
+  <div class="version">PILOTO — TESTE DE HIPÓTESE</div>
+</div>
+
+<div class="container">
+
+  <!-- ═══ CONTEXTO ESTRATÉGICO ═══ -->
+  <div class="section">
+    <div class="context-banner">
+      <div class="tag">Contexto</div>
+      <h3>Por que estamos testando isso?</h3>
+      <p>A liderança comercial (Moacir) busca acelerar a receita em contas P. O modelo atual demora para gerar o primeiro faturamento porque a cobrança só inicia após a implantação. O objetivo deste piloto é validar se cobrar na assinatura acelera o ciclo sem aumentar churn. <strong>Isso é um teste</strong> — não estamos escrevendo uma regra fixa. Precisamos do feedback do time para iterar.</p>
+    </div>
+  </div>
+
+  <!-- ═══ MODELO ═══ -->
+  <div class="section">
+    <div class="section-label">O Modelo</div>
+    <div class="model-box">
+      <h2>1ª mensalidade cobrada na assinatura do contrato</h2>
+      <p style="font-size:13px;color:var(--gray);">O parceiro paga a primeira mensalidade junto com a formalização. A próxima cobrança acontece 30 dias depois. Não há desconto extra — o valor é o mesmo do modelo atual. O time inicia imediatamente a implantação com SLA de 30 dias.</p>
+      <div class="model-steps">
+        <div class="model-step">
+          <div class="step-n">1</div>
+          <div class="step-t">Assinatura</div>
+          <div class="step-d">Parceiro assina o contrato e paga a 1ª mensalidade</div>
+        </div>
+        <div class="model-step">
+          <div class="step-n">2</div>
+          <div class="step-t">Implantação</div>
+          <div class="step-d">Time 3S inicia imediatamente o setup (SLA 30 dias)</div>
+        </div>
+        <div class="model-step">
+          <div class="step-n">3</div>
+          <div class="step-t">2ª cobrança</div>
+          <div class="step-d">30 dias após assinatura, parceiro já operando</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CHECKLIST ELEGIBILIDADE ═══ -->
+  <div class="section">
+    <div class="section-label">Antes de oferecer</div>
+    <div class="section-title">Checklist de Elegibilidade</div>
+    <div class="section-desc">O parceiro precisa atender <strong>todos</strong> os critérios abaixo para entrar neste modelo. Se falhar em qualquer item, não ofereça o pré-pago — siga o modelo padrão (cobrança pós-implantação).</div>
+
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="background:#F0FDF4;padding:14px 20px;border-bottom:1px solid #BBF7D0;">
+        <div style="font-size:12px;font-weight:700;color:#065F46;">A loja precisa estar 100% aderente para o setup simplificado</div>
+      </div>
+      <div style="padding:16px 20px;">
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Até 5 lojas</div><div class="chk-desc">Conta P. Acima disso, complexidade operacional exige cronograma estendido.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Sem integrações adicionais</div><div class="chk-desc">Nenhuma integração com ERP, CRM ou sistema de terceiros que dependa de desenvolvimento ou alinhamento externo.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Não é abertura de loja</div><div class="chk-desc">Loja já em operação. Aberturas dependem de obra, licenças e cronogramas fora do nosso controle.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Equipamentos prontos (sem troca de hardware)</div><div class="chk-desc">Parceiro possui ou não precisa comprar/trocar equipamentos. Aguardar entrega inviabiliza o prazo de 30 dias.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Loja não está em reforma</div><div class="chk-desc">Ambiente físico pronto. Reformas geram incerteza de prazo incompatível com o SLA.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Não é multimarca / cardápio simples</div><div class="chk-desc">Marca única ou cardápio sem alta complexidade. Multimarcas com cardápios distintos exigem mais tempo de cadastro.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Fiscal resolvido internamente</div><div class="chk-desc">Parceiro gerencia certificado e regime tributário sem depender de contabilidade externa que possa atrasar.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Infraestrutura 100%</div><div class="chk-desc">Internet estável, rede elétrica adequada, servidor local viável, cabeamento de rede disponível. A 3S precisa de infra cabeada.</div></div>
+        </div>
+      </div>
+      <div style="background:#FEF2F2;padding:14px 20px;border-top:1px solid #FECACA;">
+        <div style="font-size:12px;color:#991B1B;line-height:1.5;"><strong>Se falhar em qualquer item:</strong> não entre no modelo pré-pago. O risco de não cumprir o SLA de 30 dias e gerar atrito é maior que o ganho de antecipação. Encaminhe para modelo padrão ou estenda prazo para 45-60 dias (escalar para gestão).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TIMELINE ═══ -->
+  <div class="section">
+    <div class="section-label">Linha do tempo para o parceiro</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot active">D0</div>
+        <div class="tl-label">Assinatura</div>
+        <div class="tl-sub">1ª mensalidade paga</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">D1</div>
+        <div class="tl-label">Kick-off</div>
+        <div class="tl-sub">Time inicia setup</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">D15</div>
+        <div class="tl-label">Treinamento</div>
+        <div class="tl-sub">Equipe do parceiro</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">D25</div>
+        <div class="tl-label">Go-live</div>
+        <div class="tl-sub">Operação ativa</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot active">D30</div>
+        <div class="tl-label">2ª cobrança</div>
+        <div class="tl-sub">Já operando</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PITCH ═══ -->
+  <div class="section">
+    <div class="section-label">Pitch principal</div>
+    <div class="section-title">Como falar para o parceiro</div>
+    <div class="section-desc">Use essa narrativa como base. Adapte ao contexto da conversa, mas mantenha a lógica de "comprometimento mútuo".</div>
+
+    <div class="pitch">
+      <p class="tag">Pitch recomendado</p>
+      <p>A partir da assinatura, nosso time já começa a trabalhar no seu projeto — cadastro de cardápio, configuração dos módulos, preparação do ambiente. A primeira mensalidade formaliza esse compromisso dos dois lados: você garante prioridade no cronograma de implantação e a gente garante dedicação total desde o dia 1. Em 30 dias, sua operação já está rodando com a 3S.</p>
+    </div>
+
+    <div class="card card-accent">
+      <div style="font-size:12px;font-weight:700;color:var(--dark);margin-bottom:8px;">Argumento central</div>
+      <p style="font-size:13px;color:var(--gray);">O parceiro não está pagando para esperar — está pagando por um serviço que já está sendo executado. O setup consome tempo de um squad dedicado: cadastro de cardápio, configuração de módulos, testes. Esse trabalho começa no D0. Historicamente, o que atrasa é pendência do lado do parceiro (envio de cardápio, dados fiscais). O modelo alinha prioridade dos dois lados.</p>
+    </div>
+  </div>
+
+  <!-- ═══ OBJEÇÕES ═══ -->
+  <div class="section">
+    <div class="section-label">Tratamento de objeções</div>
+    <div class="section-title">As 6 objeções mais prováveis</div>
+    <div class="section-desc">Clique em cada uma para ver a resposta sugerida.</div>
+
+    <!-- Objeção 1 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">1</div>
+        <div class="obj-title">"Mas eu ainda nem estou usando o sistema"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Você já está usando — nosso time está dedicado 100% ao seu projeto desde a assinatura. Configuramos cardápio, integrações, realizamos testes. Pense assim: quando você contrata uma obra, o pagamento começa quando o pedreiro pega a chave, não quando você muda pra casa. Aqui é o mesmo princípio — o trabalho começa agora."
+        </div>
+        <div class="obj-tip">💡 Reforce o que já está sendo feito — torne tangível o trabalho do D0.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 2 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">2</div>
+        <div class="obj-title">"Ainda estou pagando o meu PDV atual"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Entendo perfeitamente — e é justamente por isso que a gente quer ser rápido. Em 30 dias sua operação está rodando com a 3S e você pode cancelar o sistema antigo. Se a gente começar a trabalhar hoje, em um mês você para de pagar os dois. Quanto mais rápido a gente começar, mais rápido você elimina esse custo duplo."
+        </div>
+        <div class="obj-response alt">
+          <strong>Alternativa (se insistir):</strong> "Me fala quando vence o cancelamento do seu contrato atual. A gente agenda a implantação para que no dia que seu PDV antigo desligar, a 3S já esteja pronta. Mas o trabalho de preparação precisa começar agora — por isso a primeira mensalidade entra hoje."
+        </div>
+        <div class="obj-tip">💡 Transforme a objeção em argumento de urgência: quanto antes assinar, antes para de pagar duplicado.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 3 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">3</div>
+        <div class="obj-title">"E se a implantação atrasar?"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Nosso SLA para operações do seu porte é 30 dias — e a gente leva isso a sério. O modelo de cobrança antecipada garante que você está no topo da prioridade do nosso time técnico. O que costuma travar é pendência do lado do parceiro — envio de cardápio, dados fiscais. Por isso montamos o cronograma juntos no kick-off e validamos tudo antes de começar."
+        </div>
+        <div class="obj-tip">💡 Mostre o cronograma de implantação (D1, D7, D15, D25). Use o checklist como prova de que validamos antes.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 4 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">4</div>
+        <div class="obj-title">"Posso pagar só depois que estiver funcionando?"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Esse é o nosso modelo padrão para contas que estamos implementando neste formato. A cobrança na assinatura é o que viabiliza a dedicação imediata do time — sem ela, o projeto entra numa fila e o prazo pode passar de 30 para 60, 90 dias. É um compromisso que beneficia os dois: você garante velocidade, a gente garante recurso dedicado."
+        </div>
+        <div class="obj-tip">💡 Posicione como modelo padrão, não como exceção negociável. Firmeza com cordialidade.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 5 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">5</div>
+        <div class="obj-title">"O concorrente X só cobra depois de implantar"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Faz sentido a comparação. Mas pensa comigo: por que o prazo de implantação deles é tão longo? Quando não existe comprometimento financeiro desde o início, o projeto fica sem prioridade — dos dois lados. Nosso modelo garante que o projeto anda. Em 30 dias você está operando. Me diz qual concorrente entrega isso."
+        </div>
+        <div class="obj-tip">💡 Inverta a narrativa: cobrança antecipada = velocidade. Gratuidade = fila.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 6 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">6</div>
+        <div class="obj-title">"Minha loja precisa de adaptações ainda (infra, reforma, hardware)"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Entendo. Se a loja ainda tem pendências de infraestrutura, o modelo de 30 dias pode não ser o ideal para você neste momento. A gente pode combinar um cronograma que faça sentido — você resolve o que precisa resolver e a gente inicia quando estiver tudo pronto."
+        </div>
+        <div class="obj-response alt">
+          <strong>Ação interna:</strong> Se o parceiro cai neste cenário, ele NÃO entra no modelo pré-pago. Encaminhe para modelo padrão com prazo estendido (45-60 dias). Escale para gestão se necessário.
+        </div>
+        <div class="obj-tip">💡 Não force o enquadramento. Reconheça a limitação e redirecione sem perder a venda.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DO / DON'T ═══ -->
+  <div class="section">
+    <div class="section-label">Boas práticas</div>
+    <div class="section-title">Faça / Evite</div>
+
+    <div class="do-dont">
+      <div class="do-col">
+        <h4>✓ Faça</h4>
+        <ul style="list-style:none;padding:0;">
+          <li>→ Passe pelo checklist ANTES de propor o modelo</li>
+          <li>→ Posicione como "comprometimento mútuo", nunca como cobrança antecipada</li>
+          <li>→ Mostre o cronograma de 30 dias — tangibilize cada etapa</li>
+          <li>→ Use a objeção do PDV atual como argumento de urgência</li>
+          <li>→ Reforce que é modelo padrão, não exceção</li>
+          <li>→ Fale do squad dedicado — pessoas reais trabalhando no projeto</li>
+          <li>→ Registre o feedback do parceiro — estamos testando a hipótese</li>
+        </ul>
+      </div>
+      <div class="dont-col">
+        <h4>✗ Evite</h4>
+        <ul style="list-style:none;padding:0;">
+          <li>→ Chamar de "pré-pago" ou "antecipação" para o parceiro</li>
+          <li>→ Oferecer desconto para compensar — não existe essa concessão</li>
+          <li>→ Dizer "é política da empresa" sem explicar o valor por trás</li>
+          <li>→ Prometer reembolso se atrasar — não é o modelo</li>
+          <li>→ Forçar parceiro que falha no checklist — isso gera churn</li>
+          <li>→ Ceder sem escalar — o teste precisa de dados limpos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ QUANDO NÃO USAR ═══ -->
+  <div class="section">
+    <div class="card card-blue">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px;">📋 Quando NÃO usar este modelo</div>
+      <p style="font-size:13px;color:var(--gray);line-height:1.7;">Contas com cardápio muito extenso (ex: Cantina do Babo — cardápio infinito), multimarcas, necessidade de integração com ERP que precisa ser desenvolvida, lojas em reforma ou abertura. Nesses casos, dar um passo para trás e ajustar o controle de cobrança para 45 ou 60 dias. O critério de pré-vendas já deve filtrar a viabilidade da conta desde o início da proposta.</p>
+    </div>
+  </div>
+
+  <!-- ═══ QUANDO ESCALAR ═══ -->
+  <div class="section">
+    <div class="card card-amber">
+      <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px;">⚡ Quando escalar para a gestão</div>
+      <p style="font-size:13px;color:var(--gray);line-height:1.6;">Se o parceiro demonstrar resistência forte após tratamento das objeções (2+ tentativas sem avanço), escale para o gestor antes de ceder qualquer condição. O objetivo do piloto é validar o pitch — se não funcionar, precisamos do feedback, não da concessão.</p>
+    </div>
+  </div>
+
+  <!-- ═══ RESUMO RÁPIDO ═══ -->
+  <div class="section">
+    <div class="section-label">Cola rápida</div>
+    <div class="card" style="background:#F9FAFB;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px;">
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Público</div>
+          <div style="color:var(--gray);">Contas P (até 5 lojas) que passam no checklist</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Desconto</div>
+          <div style="color:var(--gray);">Apenas o default — sem concessão extra</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Cobrança</div>
+          <div style="color:var(--gray);">1ª mensalidade no ato + 2ª em D+30</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">SLA implantação</div>
+          <div style="color:var(--gray);">30 dias corridos</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Argumento central</div>
+          <div style="color:var(--gray);">Comprometimento mútuo = velocidade</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Se travar</div>
+          <div style="color:var(--gray);">Escalar para gestão — não ceder</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Natureza</div>
+          <div style="color:var(--gray);">Piloto — estamos testando a hipótese</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Se não passar no checklist</div>
+          <div style="color:var(--gray);">Modelo padrão / prazo estendido (45-60d)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  3S Checkout — Guia de Bolso Cenário A: Pré-Pago | Uso interno | v2.0 — Atualizado com weekly 30/07/2026
+</div>
+
+</body>
+</html>

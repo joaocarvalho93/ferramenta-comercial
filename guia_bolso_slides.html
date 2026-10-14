@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Bolso — Ofertas 3S Checkout</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--red:#E9202E;--dark:#890119;--bg:#0F0F0F;--card:#1A1A1A;--border:#333;--white:#FFF;--gray:#9CA3AF;--green:#10B981;--amber:#D97706;--blue:#3B82F6;--purple:#8B5CF6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--white);-webkit-font-smoothing:antialiased;overflow:hidden;height:100vh;}
+
+/* ═══ SELECTOR SCREEN ═══ */
+#selector{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;padding:40px;gap:32px;}
+#selector h1{font-size:32px;font-weight:900;letter-spacing:-1px;text-align:center;}
+#selector h1 .accent{color:var(--red);}
+#selector p{font-size:14px;color:var(--gray);max-width:500px;text-align:center;line-height:1.6;}
+.selector-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:700px;width:100%;}
+.sel-card{background:var(--card);border:2px solid var(--border);border-radius:16px;padding:32px 28px;cursor:pointer;transition:all .2s;text-align:center;}
+.sel-card:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 12px 40px rgba(233,32,46,.15);}
+.sel-card .sel-icon{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--dark),var(--red));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#fff;margin:0 auto 16px;}
+.sel-card h3{font-size:18px;font-weight:800;margin-bottom:8px;}
+.sel-card p{font-size:12px;color:var(--gray);line-height:1.5;}
+.sel-badge{display:inline-block;background:rgba(233,32,46,.15);color:var(--red);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;margin-top:12px;letter-spacing:.3px;}
+
+/* ═══ SLIDES CONTAINER ═══ */
+#slides-container{display:none;height:100vh;position:relative;}
+
+/* Single Slide */
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;overflow-y:auto;}
+.slide.active{display:flex;}
+
+/* Slide header */
+.slide-hdr{position:sticky;top:0;z-index:100;height:48px;background:linear-gradient(90deg,#1A0508,#2D0A0E);display:flex;align-items:center;justify-content:space-between;padding:0 32px;flex-shrink:0;}
+.slide-hdr .logo{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.slide-hdr .logo span{background:var(--red);font-size:8px;padding:2px 8px;border-radius:10px;font-weight:600;letter-spacing:.5px;}
+.slide-hdr .nav-info{font-size:11px;color:var(--gray);display:flex;align-items:center;gap:12px;}
+.slide-hdr .nav-info .keys{font-size:9px;background:#222;padding:3px 8px;border-radius:4px;border:1px solid #444;color:#888;}
+
+/* Slide body */
+.slide-body{flex:1;padding:48px 64px;display:flex;flex-direction:column;justify-content:center;max-width:1100px;margin:0 auto;width:100%;}
+
+/* Typography */
+.s-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--red);margin-bottom:12px;}
+.s-title{font-size:36px;font-weight:900;letter-spacing:-1px;line-height:1.1;margin-bottom:8px;}
+.s-title .accent{color:var(--red);}
+.s-sub{font-size:14px;color:var(--gray);line-height:1.6;max-width:700px;margin-bottom:32px;}
+
+/* Cards inside slides */
+.s-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;}
+.s-card h4{font-size:14px;font-weight:700;margin-bottom:8px;}
+.s-card p{font-size:13px;color:var(--gray);line-height:1.6;}
+
+/* Two column */
+.s-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.s-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+
+/* Model steps */
+.s-step{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center;}
+.s-step .num{width:40px;height:40px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;margin:0 auto 12px;}
+.s-step h4{font-size:13px;font-weight:700;margin-bottom:6px;}
+.s-step p{font-size:11px;color:var(--gray);line-height:1.4;}
+
+/* Checklist */
+.s-check{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #222;}
+.s-check:last-child{border-bottom:none;}
+.s-check .icon{width:22px;height:22px;border-radius:6px;background:rgba(16,185,129,.1);border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:var(--green);}
+.s-check .txt{font-size:12px;color:var(--white);font-weight:500;}
+.s-check .desc{font-size:10px;color:var(--gray);margin-top:2px;}
+
+/* Timeline */
+.s-timeline{display:flex;align-items:center;gap:0;margin:24px 0;position:relative;}
+.s-tl-item{flex:1;text-align:center;position:relative;}
+.s-tl-item::before{content:'';position:absolute;top:16px;left:0;right:0;height:3px;background:#333;z-index:0;}
+.s-tl-item:first-child::before{left:50%;}
+.s-tl-item:last-child::before{right:50%;}
+.s-tl-dot{width:34px;height:34px;border-radius:50%;background:var(--card);border:3px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--green);margin:0 auto 8px;position:relative;z-index:1;}
+.s-tl-dot.red{border-color:var(--red);color:var(--red);}
+.s-tl-dot.active{background:var(--red);color:#fff;border-color:var(--red);}
+.s-tl-label{font-size:10px;font-weight:600;}
+.s-tl-sub{font-size:9px;color:var(--gray);margin-top:2px;}
+
+/* Pitch */
+.s-pitch{background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:24px 28px;margin:16px 0;font-size:15px;color:#86EFAC;line-height:1.7;font-style:italic;position:relative;}
+.s-pitch::before{content:'\201C';position:absolute;top:4px;left:16px;font-size:48px;color:rgba(16,185,129,.2);font-family:Georgia,serif;line-height:1;}
+
+/* Objections */
+.s-obj{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:10px;cursor:pointer;transition:all .2s;}
+.s-obj:hover{border-color:var(--red);}
+.s-obj .q{font-size:13px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.s-obj .q .n{width:22px;height:22px;border-radius:6px;background:rgba(233,32,46,.1);color:var(--red);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.s-obj .a{font-size:12px;color:var(--gray);line-height:1.6;display:none;margin-top:8px;padding-left:32px;}
+.s-obj.open .a{display:block;}
+
+/* Do/Don't */
+.s-do{background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:20px;}
+.s-dont{background:rgba(233,32,46,.05);border:1px solid rgba(233,32,46,.2);border-radius:10px;padding:20px;}
+.s-do h4{color:var(--green);font-size:12px;font-weight:700;margin-bottom:12px;}
+.s-dont h4{color:var(--red);font-size:12px;font-weight:700;margin-bottom:12px;}
+.s-do li,.s-dont li{font-size:12px;line-height:1.7;margin-bottom:4px;list-style:none;padding-left:0;}
+.s-do li{color:rgba(16,185,129,.9);}
+.s-dont li{color:rgba(233,32,46,.8);}
+
+/* Progress bar */
+.progress-bar{position:fixed;bottom:0;left:0;height:4px;background:var(--red);transition:width .3s;z-index:999;}
+
+/* Nav hint */
+.nav-hint{position:fixed;bottom:20px;right:32px;font-size:10px;color:#555;display:flex;align-items:center;gap:8px;z-index:999;}
+.nav-hint kbd{background:#222;border:1px solid #444;padding:2px 8px;border-radius:4px;font-family:inherit;font-size:10px;color:#888;}
+
+@media(max-width:768px){
+  .slide-body{padding:24px 20px;}
+  .s-title{font-size:24px;}
+  .s-grid,.s-grid-3{grid-template-columns:1fr;}
+  .s-timeline{flex-direction:column;gap:12px;}
+  .s-tl-item::before{display:none;}
+  .selector-cards{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SELECTOR SCREEN                     -->
+<!-- ═══════════════════════════════════ -->
+<div id="selector">
+  <h1>Guia de Bolso — <span class="accent">Ofertas</span></h1>
+  <p>Selecione o cenário de cobrança para ver o guia completo em formato de apresentação. Navegue pelos slides usando as setas do teclado.</p>
+  <div class="selector-cards">
+    <div class="sel-card" onclick="startSlides('A')">
+      <div class="sel-icon">A</div>
+      <h3>Cenário A</h3>
+      <p>Cobrança no ato da assinatura. 1ª mensalidade paga junto com a formalização do contrato. 2ª cobrança em D+30.</p>
+      <div class="sel-badge">Pré-pago</div>
+    </div>
+    <div class="sel-card" onclick="startSlides('B')">
+      <div class="sel-icon">B</div>
+      <h3>Cenário B</h3>
+      <p>30 dias para implantar sem custo. Se não ativar no prazo, cobrança inicia automaticamente no D31.</p>
+      <div class="sel-badge">30 dias</div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#555;margin-top:12px;">Piloto — Teste de Hipótese | Uso interno — Time Comercial</p>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!-- SLIDES CONTAINER                    -->
+<!-- ═══════════════════════════════════ -->
+<div id="slides-container"></div>
+<div class="progress-bar" id="progress-bar"></div>
+<div class="nav-hint" id="nav-hint" style="display:none;">
+  <kbd>←</kbd> <kbd>→</kbd> para navegar &nbsp;|&nbsp; <kbd>Esc</kbd> voltar
+</div>
+
+<script>
+// ═══ SLIDE DATA ═══
+const DATA = {
+  A: {
+    title: "Cenário A",
+    subtitle: "Pré-Pago — Cobrança na assinatura",
+    slides: [
+      // Slide 1: Contexto
+      {
+        label: "Contexto",
+        title: "Por que estamos <span class='accent'>testando</span> isso?",
+        content: `
+          <div class="s-card" style="border-left:3px solid var(--blue);">
+            <p>A liderança comercial (Moacir) busca acelerar a receita em contas P. O modelo atual demora para gerar o primeiro faturamento porque a cobrança só inicia após a implantação. O objetivo deste piloto é validar se cobrar na assinatura acelera o ciclo sem aumentar churn.</p>
+            <p style="margin-top:12px;color:var(--amber);font-weight:600;font-size:12px;">Isso é um teste — não estamos escrevendo uma regra fixa. Precisamos do feedback do time para iterar.</p>
+          </div>
+        `
+      },
+      // Slide 2: O Modelo
+      {
+        label: "O Modelo",
+        title: "1ª mensalidade cobrada na <span class='accent'>assinatura</span>",
+        content: `
+          <p class="s-sub">O parceiro paga a primeira mensalidade junto com a formalização. A próxima cobrança acontece 30 dias depois. Não há desconto extra — o valor é o mesmo do modelo atual.</p>
+          <div class="s-grid-3">
+            <div class="s-step"><div class="num">1</div><h4>Assinatura</h4><p>Parceiro assina e paga a 1ª mensalidade</p></div>
+            <div class="s-step"><div class="num">2</div><h4>Implantação</h4><p>Time 3S inicia imediatamente (SLA 30 dias)</p></div>
+            <div class="s-step"><div class="num">3</div><h4>2ª cobrança</h4><p>30 dias após assinatura, parceiro já operando</p></div>
+          </div>
+        `
+      },
+      // Slide 3: Checklist
+      {
+        label: "Antes de oferecer",
+        title: "Checklist de <span class='accent'>Elegibilidade</span>",
+        content: `
+          <p class="s-sub">O parceiro precisa atender TODOS os critérios. Se falhar em qualquer item, não ofereça o pré-pago — siga modelo padrão ou prazo estendido (45-60 dias).</p>
+          <div class="s-card" style="padding:16px 20px;">
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Até 5 lojas</div><div class="desc">Conta P. Acima disso, cronograma estendido.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Sem integrações adicionais</div><div class="desc">Nenhum ERP, CRM ou sistema de terceiros.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Não é abertura de loja</div><div class="desc">Loja já em operação.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Equipamentos prontos</div><div class="desc">Sem troca ou compra de hardware.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Loja não está em reforma</div><div class="desc">Ambiente físico pronto.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Não é multimarca / cardápio simples</div><div class="desc">Marca única ou baixa complexidade.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Fiscal resolvido internamente</div><div class="desc">Sem dependência de contabilidade externa.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Infraestrutura 100%</div><div class="desc">Internet, rede, cabeamento, servidor local.</div></div></div>
+          </div>
+        `
+      },
+      // Slide 4: Timeline
+      {
+        label: "Linha do tempo",
+        title: "Do contrato ao <span class='accent'>go-live</span>",
+        content: `
+          <div class="s-timeline">
+            <div class="s-tl-item"><div class="s-tl-dot active">D0</div><div class="s-tl-label">Assinatura</div><div class="s-tl-sub">1ª mensalidade paga</div></div>
+            <div class="s-tl-item"><div class="s-tl-dot">D1</div><div class="s-tl-label">Kick-off</div><div class="s-tl-sub">Time inicia setup</div></div>
+            <div class="s-tl-item"><div class="s-tl-dot">D15</div><div class="s-tl-label">Treinamento</div><div class="s-tl-sub">Equipe do parceiro</div></div>
+            <div class="s-tl-item"><div class="s-tl-dot">D25</div><div class="s-tl-label">Go-live</div><div class="s-tl-sub">Operação ativa</div></div>
+            <div class="s-tl-item"><div class="s-tl-dot active">D30</div><div class="s-tl-label">2ª cobrança</div><div class="s-tl-sub">Já operando</div></div>
+          </div>
+          <div class="s-card" style="border-left:3px solid var(--amber);margin-top:24px;">
+            <p style="font-size:12px;">O parceiro não está pagando para esperar — está pagando por um serviço que já está sendo executado. O setup consome tempo de um squad dedicado desde o D0.</p>
+          </div>
+        `
+      },
+      // Slide 5: Pitch
+      {
+        label: "Pitch",
+        title: "Como falar para o <span class='accent'>parceiro</span>",
+        content: `
+          <div class="s-pitch">
+            A partir da assinatura, nosso time já começa a trabalhar no seu projeto — cadastro de cardápio, configuração dos módulos, preparação do ambiente. A primeira mensalidade formaliza esse compromisso dos dois lados: você garante prioridade no cronograma e a gente garante dedicação total desde o dia 1. Em 30 dias, sua operação já está rodando com a 3S.
+          </div>
+          <div class="s-card" style="border-left:3px solid var(--red);margin-top:16px;">
+            <h4 style="color:var(--red);font-size:12px;">Argumento central</h4>
+            <p style="margin-top:6px;">Comprometimento mútuo = velocidade. A cobrança viabiliza dedicação imediata. Sem ela, o projeto entra na fila e o prazo pode passar de 30 para 60-90 dias.</p>
+          </div>
+        `
+      },
+      // Slide 6: Objeções
+      {
+        label: "Objeções",
+        title: "As 6 objeções mais <span class='accent'>prováveis</span>",
+        content: `
+          <p class="s-sub">Clique em cada objeção para ver a resposta sugerida.</p>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">1</span>"Mas eu ainda nem estou usando o sistema"</div><div class="a">"Você já está usando — nosso time está dedicado 100% ao seu projeto desde a assinatura. Pense assim: quando contrata uma obra, paga quando o pedreiro pega a chave, não quando muda pra casa."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">2</span>"Ainda estou pagando o meu PDV atual"</div><div class="a">"Em 30 dias sua operação roda com a 3S e você cancela o antigo. Quanto mais rápido começar, mais rápido elimina o custo duplo."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">3</span>"E se a implantação atrasar?"</div><div class="a">"Nosso SLA é 30 dias. O que costuma travar é pendência do parceiro — cardápio, dados fiscais. Montamos o cronograma no kick-off justamente para evitar isso."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">4</span>"Posso pagar só depois que funcionar?"</div><div class="a">"Esse é nosso modelo padrão. A cobrança viabiliza dedicação imediata — sem ela, projeto entra em fila. 30 vs 60-90 dias. Compromisso dos dois lados."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">5</span>"O concorrente X só cobra depois de implantar"</div><div class="a">"E quanto tempo leva a implantação deles? Sem compromisso financeiro, o projeto fica sem prioridade dos dois lados. Em 30 dias você está operando."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">6</span>"Minha loja precisa de adaptações"</div><div class="a">"Se tem pendências de infra, o modelo de 30 dias pode não ser ideal agora. Combinamos um cronograma que faça sentido — e nesse caso seguimos outro modelo."</div></div>
+        `
+      },
+      // Slide 7: Do / Don't
+      {
+        label: "Boas práticas",
+        title: "Faça / <span class='accent'>Evite</span>",
+        content: `
+          <div class="s-grid">
+            <div class="s-do">
+              <h4>✓ Faça</h4>
+              <ul>
+                <li>→ Passe pelo checklist ANTES de propor</li>
+                <li>→ Posicione como "comprometimento mútuo"</li>
+                <li>→ Mostre o cronograma de 30 dias</li>
+                <li>→ Use objeção do PDV como urgência</li>
+                <li>→ Reforce que é modelo padrão</li>
+                <li>→ Registre feedback — estamos testando</li>
+              </ul>
+            </div>
+            <div class="s-dont">
+              <h4>✗ Evite</h4>
+              <ul>
+                <li>→ Chamar de "pré-pago" para o parceiro</li>
+                <li>→ Oferecer desconto para compensar</li>
+                <li>→ Dizer "é política da empresa" sem valor</li>
+                <li>→ Prometer reembolso se atrasar</li>
+                <li>→ Forçar parceiro que falha no checklist</li>
+                <li>→ Ceder sem escalar para gestão</li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      // Slide 8: Escalonamento
+      {
+        label: "Escalonamento",
+        title: "Quando <span class='accent'>escalar</span>",
+        content: `
+          <div class="s-card" style="border-left:3px solid var(--amber);">
+            <h4 style="color:var(--amber);">⚡ Escalar para a gestão</h4>
+            <p style="margin-top:8px;">Resistência forte após 2+ tentativas de tratamento → escale para o gestor com contexto: qual objeção, o que já foi tentado, nível de urgência. O piloto precisa de feedback, não de concessão.</p>
+          </div>
+          <div class="s-card" style="border-left:3px solid var(--blue);margin-top:12px;">
+            <h4 style="color:var(--blue);">📋 Quando NÃO usar este modelo</h4>
+            <p style="margin-top:8px;">Cardápio extenso, multimarcas, integração com ERP, reforma, abertura de loja. Nesses casos: passo atrás → prazo 45-60 dias ou modelo padrão. O critério de pré-vendas filtra desde o início.</p>
+          </div>
+          <div class="s-grid" style="margin-top:20px;">
+            <div class="s-card" style="text-align:center;">
+              <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Público</div>
+              <div style="font-size:14px;font-weight:700;">Contas P (até 5 lojas)</div>
+              <div style="font-size:11px;color:var(--gray);margin-top:4px;">Que passam no checklist de elegibilidade</div>
+            </div>
+            <div class="s-card" style="text-align:center;">
+              <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Natureza</div>
+              <div style="font-size:14px;font-weight:700;color:var(--red);">Piloto</div>
+              <div style="font-size:11px;color:var(--gray);margin-top:4px;">Teste de hipótese — feedback > concessão</div>
+            </div>
+          </div>
+        `
+      }
+    ]
+  },
+  B: {
+    title: "Cenário B",
+    subtitle: "30 Dias — Cobrança automática após prazo",
+    slides: [
+      // Slide 1: Contexto
+      {
+        label: "Contexto",
+        title: "Por que estamos <span class='accent'>testando</span> isso?",
+        content: `
+          <div class="s-card" style="border-left:3px solid var(--blue);">
+            <p>A liderança comercial (Moacir) quer acelerar a receita e reduzir o ciclo de implantação em contas P. O modelo atual não tem compromisso de prazo — projetos arrastam 60-90 dias. O objetivo é criar um mecanismo de pressão saudável: o prazo de 30 dias alinha prioridade dos dois lados.</p>
+            <p style="margin-top:12px;color:var(--amber);font-weight:600;font-size:12px;">Isso é um teste — errou, troca. Precisamos de feedback real do campo para iterar. Contas complexas saem do escopo (45-60 dias).</p>
+          </div>
+        `
+      },
+      // Slide 2: O Modelo
+      {
+        label: "O Modelo",
+        title: "30 dias sem custo — cobrança <span class='accent'>automática</span> no D31",
+        content: `
+          <p class="s-sub">Se implantar no prazo → cobrança na ativação. Se não → cobrança automática no D31.</p>
+          <div class="s-grid">
+            <div class="s-step" style="border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.03);">
+              <div class="num" style="background:var(--green);">A</div>
+              <h4>Implantou em 30 dias</h4>
+              <p>Cobrança inicia na ativação — sem surpresa</p>
+            </div>
+            <div class="s-step" style="border-color:rgba(217,119,6,.3);background:rgba(217,119,6,.03);">
+              <div class="num" style="background:var(--amber);">B</div>
+              <h4>Não implantou em 30 dias</h4>
+              <p>Cobrança inicia automaticamente no D31</p>
+            </div>
+          </div>
+          <div class="s-card" style="margin-top:16px;border-left:3px solid var(--green);">
+            <p style="font-size:12px;">O parceiro ganha 30 dias sem custo — isso é um benefício. A cobrança automática protege a operação: a 3S não fica com recurso travado e o parceiro não deixa o projeto "morrer" na gaveta.</p>
+          </div>
+        `
+      },
+      // Slide 3: Checklist
+      {
+        label: "Antes de oferecer",
+        title: "Checklist de <span class='accent'>Elegibilidade</span>",
+        content: `
+          <p class="s-sub">O parceiro precisa atender TODOS os critérios. Se falhar em qualquer item, segue modelo padrão ou prazo estendido (45-60 dias).</p>
+          <div class="s-card" style="padding:16px 20px;">
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Até 5 lojas</div><div class="desc">Conta P. Acima disso, cronograma estendido.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Sem integrações adicionais</div><div class="desc">Nenhum ERP, CRM ou sistema de terceiros.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Não é abertura de loja</div><div class="desc">Loja já em operação.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Equipamentos prontos</div><div class="desc">Sem troca ou compra de hardware.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Loja não está em reforma</div><div class="desc">Ambiente físico pronto.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Não é multimarca / cardápio simples</div><div class="desc">Marca única ou baixa complexidade.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Fiscal resolvido internamente</div><div class="desc">Sem dependência de contabilidade externa.</div></div></div>
+            <div class="s-check"><div class="icon">✓</div><div><div class="txt">Infraestrutura 100%</div><div class="desc">Internet, rede cabeada, servidor local.</div></div></div>
+          </div>
+        `
+      },
+      // Slide 4: Timeline
+      {
+        label: "Linha do tempo",
+        title: "Do contrato ao <span class='accent'>limite</span>",
+        content: `
+          <div class="s-timeline">
+            <div class="s-tl-item"><div class="s-tl-dot red">D0</div><div class="s-tl-label">Assinatura</div><div class="s-tl-sub">Contrato assinado</div></div>
+            <div class="s-tl-item"><div class="s-tl-dot">D1</div><div class="s-tl-label">Kick-off</div><div class="s-tl-sub">Setup inicia</div></div>
+            <div class="s-tl-item"><div class="s-tl-dot">D15</div><div class="s-tl-label">Treinamento</div><div class="s-tl-sub">Equipe parceiro</div></div>
+            <div class="s-tl-item"><div class="s-tl-dot" style="background:var(--green);color:#fff;border-color:var(--green);">D25</div><div class="s-tl-label">Go-live</div><div class="s-tl-sub">Meta de ativação</div></div>
+            <div class="s-tl-item"><div class="s-tl-dot active">D30</div><div class="s-tl-label">Limite</div><div class="s-tl-sub">Cobrança se inativo</div></div>
+          </div>
+          <div class="s-card" style="border-left:3px solid var(--amber);margin-top:24px;">
+            <p style="font-size:12px;">O time 3S trabalha desde o D1. Se no D30 a plataforma está pronta e o parceiro não ativou, a cobrança começa — ele está escolhendo não usar algo que já funciona. O que costuma travar: envio de cardápio, dados fiscais, disponibilidade para treinamento.</p>
+          </div>
+        `
+      },
+      // Slide 5: Pitch
+      {
+        label: "Pitch",
+        title: "Como falar para o <span class='accent'>parceiro</span>",
+        content: `
+          <div class="s-pitch">
+            Você tem 30 dias após a assinatura para concluir a implantação sem nenhum custo. Nosso time te acompanha nesse período inteiro — cadastro, configuração, treinamento, tudo. Quem segue o cronograma só começa a pagar quando está de fato operando. É o nosso compromisso de entregar rápido e o seu de priorizar o projeto.
+          </div>
+          <div class="s-card" style="border-left:3px solid var(--green);margin-top:16px;">
+            <h4 style="color:var(--green);font-size:12px;">Argumento central</h4>
+            <p style="margin-top:6px;">30 dias sem custo é um benefício. O prazo garante velocidade para o parceiro e compromisso das duas partes. Sem prazo = fila = 60-90 dias travado com o sistema antigo.</p>
+          </div>
+        `
+      },
+      // Slide 6: Objeções
+      {
+        label: "Objeções",
+        title: "As 6 objeções mais <span class='accent'>prováveis</span>",
+        content: `
+          <p class="s-sub">Clique em cada objeção para ver a resposta.</p>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">1</span>"30 dias é pouco tempo"</div><div class="a">"Para operações do seu porte, é o tempo médio. Vamos montar cronograma juntos: D1 kick-off, D7 cardápio, D15 treinamento, D25 go-live. Na maioria dos casos, parceiro roda antes do D25."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">2</span>"Ainda estou pagando o meu PDV atual"</div><div class="a">"Em 30 dias você migra e cancela o antigo. Zero sobreposição. Sem prazo, projeto leva 60-90 dias — aí sim paga dois por meses."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">3</span>"E se atrasar por culpa de vocês?"</div><div class="a">"Se for do nosso lado, a gente realinha. Nosso SLA é 30 dias — quando não cumpre, quase sempre é pendência do parceiro. Montamos tudo no kick-off."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">4</span>"Posso pagar só quando estiver usando?"</div><div class="a">"É exatamente o que vai acontecer. Em 30 dias você está operando. A diferença é que agora existe compromisso de prazo — sem ele, projetos levam 3-4 meses."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">5</span>"Minha loja precisa de adaptações"</div><div class="a">"Se tem pendências de infra, o modelo de 30 dias pode não ser ideal. Combinamos cronograma que faça sentido — não perdemos a venda, só ajustamos o prazo."</div></div>
+          <div class="s-obj" onclick="this.classList.toggle('open')"><div class="q"><span class="n">6</span>"O concorrente X não tem esse prazo"</div><div class="a">"E quanto tempo leva a implantação deles? Sem prazo = sem prioridade. Aqui: 30 dias, cronograma, time dedicado. Previsibilidade."</div></div>
+        `
+      },
+      // Slide 7: Do / Don't
+      {
+        label: "Boas práticas",
+        title: "Faça / <span class='accent'>Evite</span>",
+        content: `
+          <div class="s-grid">
+            <div class="s-do">
+              <h4>✓ Faça</h4>
+              <ul>
+                <li>→ Passe pelo checklist ANTES</li>
+                <li>→ Posicione 30 dias como benefício</li>
+                <li>→ Monte cronograma na assinatura</li>
+                <li>→ Pergunte restrições do parceiro</li>
+                <li>→ Use objeção do PDV: "zero sobreposição"</li>
+                <li>→ Registre feedback — estamos testando</li>
+              </ul>
+            </div>
+            <div class="s-dont">
+              <h4>✗ Evite</h4>
+              <ul>
+                <li>→ Dizer "cobra se não implantar" como ameaça</li>
+                <li>→ Estender prazo verbalmente</li>
+                <li>→ Oferecer desconto para compensar</li>
+                <li>→ Prometer isenção se atrasar</li>
+                <li>→ Forçar parceiro que falha no checklist</li>
+                <li>→ Ceder sem escalar para gestão</li>
+              </ul>
+            </div>
+          </div>
+        `
+      },
+      // Slide 8: Escalonamento
+      {
+        label: "Escalonamento",
+        title: "Quando <span class='accent'>escalar</span>",
+        content: `
+          <div class="s-card" style="border-left:3px solid var(--amber);">
+            <h4 style="color:var(--amber);">⚡ Escalar para a gestão</h4>
+            <p style="margin-top:8px;">Resistência forte após 2+ tentativas → escale com contexto completo. O piloto precisa de feedback honesto — se não funcionar, precisamos saber por quê, não mascarar com concessões.</p>
+          </div>
+          <div class="s-card" style="border-left:3px solid var(--blue);margin-top:12px;">
+            <h4 style="color:var(--blue);">📋 Quando NÃO usar este modelo</h4>
+            <p style="margin-top:8px;">Cardápio extenso, multimarcas, integração ERP, reforma, abertura. Nesses casos → passo atrás, prazo 45-60 dias ou modelo padrão.</p>
+          </div>
+          <div class="s-grid" style="margin-top:20px;">
+            <div class="s-card" style="text-align:center;">
+              <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Público</div>
+              <div style="font-size:14px;font-weight:700;">Contas P (até 5 lojas)</div>
+              <div style="font-size:11px;color:var(--gray);margin-top:4px;">Que passam no checklist de elegibilidade</div>
+            </div>
+            <div class="s-card" style="text-align:center;">
+              <div style="font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Natureza</div>
+              <div style="font-size:14px;font-weight:700;color:var(--red);">Piloto</div>
+              <div style="font-size:11px;color:var(--gray);margin-top:4px;">Teste de hipótese — feedback > concessão</div>
+            </div>
+          </div>
+        `
+      }
+    ]
+  }
+};
+
+// ═══ NAVIGATION LOGIC ═══
+let currentScenario = null;
+let currentSlide = 0;
+let totalSlides = 0;
+
+function startSlides(scenario) {
+  currentScenario = scenario;
+  currentSlide = 0;
+  totalSlides = DATA[scenario].slides.length;
+
+  document.getElementById('selector').style.display = 'none';
+  document.getElementById('slides-container').style.display = 'block';
+  document.getElementById('nav-hint').style.display = 'flex';
+
+  renderSlides();
+  showSlide(0);
+}
+
+function renderSlides() {
+  const container = document.getElementById('slides-container');
+  const data = DATA[currentScenario];
+
+  let html = '';
+  data.slides.forEach((slide, i) => {
+    html += `
+      <div class="slide" id="slide-${i}">
+        <div class="slide-hdr">
+          <div class="logo">3S Checkout <span>${data.title}</span></div>
+          <div class="nav-info">
+            <span>${i + 1} / ${totalSlides}</span>
+            <span class="keys">← →</span>
+          </div>
+        </div>
+        <div class="slide-body">
+          <div class="s-label">${slide.label}</div>
+          <div class="s-title">${slide.title}</div>
+          ${slide.content}
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function showSlide(index) {
+  if (index < 0 || index >= totalSlides) return;
+
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.getElementById(`slide-${index}`).classList.add('active');
+  currentSlide = index;
+
+  // Update progress bar
+  const progress = ((index + 1) / totalSlides) * 100;
+  document.getElementById('progress-bar').style.width = progress + '%';
+}
+
+function goBack() {
+  document.getElementById('selector').style.display = 'flex';
+  document.getElementById('slides-container').style.display = 'none';
+  document.getElementById('nav-hint').style.display = 'none';
+  document.getElementById('progress-bar').style.width = '0%';
+  currentScenario = null;
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (!currentScenario) return;
+
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    showSlide(currentSlide + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    showSlide(currentSlide - 1);
+  } else if (e.key === 'Escape') {
+    e.preventDefault();
+    goBack();
+  }
+});
+
+// Touch/swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  if (!currentScenario) return;
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) showSlide(currentSlide + 1);
+    else showSlide(currentSlide - 1);
+  }
+});
+</script>
+</body>
+</html>

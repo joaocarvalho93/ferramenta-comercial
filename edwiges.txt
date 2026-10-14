@@ -1,0 +1,32 @@
+Esses são os direcionais para criação de uma apresentação + proposta padrão dos prospects da 3S Checkout.
+
+
+entender o contexto da mensagem enviada via chat
+buscar informações sobre dores semelhantes nos arquivos da pasta "diagnósticos" de pré vendas dentro da pasta
+validar dores inseridas pelo usuário + dores em comum levando em conta o segmento de atuação e culinária
+endereçar dores através dos módulos/soluções que estão no arquivo "guia_3s" e no arquivo de "pitch_v0"
+criar uma proposta padrão baseada nos módulos necessários vs o documento "precificação_3s"
+validar os dados e estrutura no chat antes de criar o html
+validar a proposta no chat
+criar o html no padrão de cores e fontes utilizadas no modelo
+
+CALCULADORA
+vamos criar uma calculadora para validar a proposta padrão através do documento "simulador_3s"
+a proposta padrão deve conter as seguintes informações para validação inicial
+meses de contrato padrão como 60
+Preço PDV deve ser os valores dos módulos essenciais + adicionais
+Implantação padrão como loja remota/pequena
+Setup padrão
+3. na calculadora deve vir os valores iniciais recomendados como padrão + margem
+4. e uma coluna adicional com a possibilidade de inclusão manual de valores para cenário 2
+5. além disso, em ambas as visões devemos ter a opção de inclusão da quantidade de restaurantes e meses de rollout, além das opções de isenção de setup + implantação, valor de rebate e incentivo para o parceiro
+
+
+FINAL:
+No final, devemos ter uma apresentação com a seguinte estrutura
+Capa
+Sobre a 3S
+Operação do parceiro
+Dores + soluções 3s
+Calculadora
+Proposta final

@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulador de Margem — Rollout Acelerado</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dark:#2D0A0E; --red:#e9202e; --acai:#890119; --gray:#6B7280; --dark-gray:#374151;
+  --off:#F9FAFB; --card:#fff; --border:#E5E7EB; --light-red:#FCA5A5; --mid-red:#e9202e;
+  --ok:#10B981; --warn:#F59E0B; --bad:#EF4444;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--off);color:var(--dark-gray);line-height:1.5;padding:24px 16px 60px;}
+.wrap{max-width:1080px;margin:0 auto;}
+header{background:var(--dark);color:#fff;border-radius:14px;padding:24px 28px;margin-bottom:20px;}
+header .k{display:inline-block;background:var(--red);font-size:10px;font-weight:800;letter-spacing:1px;padding:3px 12px;border-radius:20px;margin-bottom:8px;}
+header h1{font-size:22px;font-weight:900;margin-bottom:6px;}
+header p{font-size:13px;color:rgba(255,255,255,.75);max-width:640px;}
+section{margin-bottom:20px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;}
+.card h2{font-size:13px;font-weight:800;color:var(--acai);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.fld label{display:block;font-size:11px;font-weight:600;color:var(--gray);margin-bottom:4px;}
+.fld input{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;color:var(--dark-gray);background:#fff;font-family:'Inter',sans-serif;}
+.fld input:focus{outline:none;border-color:var(--dark-gray);}
+.fld .hint{font-size:10px;color:var(--gray);margin-top:3px;}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px;}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.kpi .l{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);}
+.kpi .v{font-size:24px;font-weight:900;color:var(--dark);margin-top:4px;}
+.kpi .s{font-size:11px;color:var(--gray);margin-top:2px;}
+.scen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.scen{border-radius:12px;padding:16px 18px;border:1.5px solid var(--border);background:var(--card);}
+.scen.min{border-top:4px solid var(--light-red);}
+.scen.med{border-top:4px solid var(--mid-red);}
+.scen.tot{border-top:4px solid var(--acai);}
+.scen .tag{font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:2px;}
+.scen.min .tag{color:#B91C1C;} .scen.med .tag{color:var(--red);} .scen.tot .tag{color:var(--acai);}
+.scen .cov{font-size:26px;font-weight:900;color:var(--dark);}
+.scen .cov small{font-size:13px;font-weight:600;color:var(--gray);}
+.scen .rows{margin-top:12px;border-top:1px solid var(--border);}
+.scen .row{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--off);}
+.scen .row .k{color:var(--gray);}
+.scen .row .v{font-weight:700;color:var(--dark-gray);}
+.scen .margem{display:flex;justify-content:space-between;align-items:center;background:var(--off);border-radius:8px;padding:10px 12px;margin-top:12px;}
+.scen .margem .lbl{font-size:11px;font-weight:700;color:var(--gray);}
+.scen .margem .val{font-size:20px;font-weight:900;}
+.badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;padding:2px 8px;border-radius:20px;text-transform:uppercase;}
+.badge.ok{background:rgba(16,185,129,.12);color:#047857;}
+.badge.warn{background:rgba(245,158,11,.14);color:#B45309;}
+.badge.bad{background:rgba(239,68,68,.12);color:#B91C1C;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border);}
+th{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--gray);font-weight:700;}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+tbody tr:hover{background:var(--off);}
+td.hl{font-weight:800;color:var(--dark);}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0 16px;font-size:11px;color:var(--gray);}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block;}
+.bars{margin-top:8px;}
+.bar-row{display:grid;grid-template-columns:110px 1fr 80px;align-items:center;gap:10px;margin-bottom:10px;font-size:12px;}
+.bar-row .nm{font-weight:700;color:var(--dark-gray);}
+.bar-row .track{background:var(--off);border-radius:6px;height:22px;overflow:hidden;}
+.bar-row .fill{height:100%;border-radius:6px;}
+.bar-row .val{font-weight:800;color:var(--dark);text-align:right;font-variant-numeric:tabular-nums;}
+.insight{background:linear-gradient(135deg,var(--dark),var(--acai));color:#fff;border-radius:12px;padding:18px 20px;margin-top:20px;}
+.insight h3{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;color:#FCA5A5;}
+.insight p{font-size:13px;color:rgba(255,255,255,.9);line-height:1.6;}
+.insight b{color:#fff;}
+@media(max-width:600px){.wrap{padding:0;}header{padding:18px;}table{font-size:11px;}th,td{padding:7px 6px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="k">SIMULADOR</div>
+    <h1>Margem × Rollout Acelerado</h1>
+    <p>Testa o impacto de condições especiais (desconto progressivo por cobertura + bônus de velocidade) na margem do negócio, em três cenários de atingimento.</p>
+  </header>
+
+  <!-- PARÂMETROS -->
+  <section class="card">
+    <h2>Parâmetros da condição</h2>
+    <div class="grid">
+      <div class="fld"><label>Total de lojas (N)</label><input type="number" id="totalLojas" value="100" min="1" oninput="calc()"></div>
+      <div class="fld"><label>Mensalidade / loja (R$)</label><input type="number" id="mensalidade" value="500" min="0" step="any" oninput="calc()"></div>
+      <div class="fld"><label>Custo / loja (R$)</label><input type="number" id="custo" value="200" min="0" step="any" oninput="calc()"></div>
+      <div class="fld"><label>Desconto máximo (D_máx %)</label><input type="number" id="dMax" value="20" min="0" max="100" step="0.5" oninput="calc()"></div>
+      <div class="fld"><label>Modelo de desconto</label>
+        <select id="modeloDesc" onchange="calc()" style="width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;color:var(--dark-gray);background:#fff;font-family:'Inter',sans-serif;">
+          <option value="linear">Linear (proporcional à cobertura)</option>
+          <option value="escalonado">Escalonado (faixas de 25%)</option>
+        </select>
+        <div class="hint">Escalonado: 0% · 25%·D_máx · 50%·D_máx · 75%·D_máx · D_máx — conforme a cobertura atingir 25/50/75/100%.</div>
+      </div>
+      <div class="fld"><label>Prazo-alvo (meses)</label><input type="number" id="tAlvo" value="2" min="1" oninput="calc()"></div>
+      <div class="fld"><label>Meses de isenção (bônus M)</label><input type="number" id="mesesIsencao" value="2" min="0" oninput="calc()"></div>
+      <div class="fld"><label>Margem mínima aceitável (%)</label><input type="number" id="margemMinima" value="40" min="0" max="100" step="0.5" oninput="calc()">
+        <div class="hint">Abaixo disso a condição é reprovada na validação.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CENÁRIOS -->
+  <section class="card">
+    <h2>Cenários de atingimento</h2>
+    <div class="legend">
+      <span><i class="dot" style="background:var(--light-red)"></i> Mínimo</span>
+      <span><i class="dot" style="background:var(--mid-red)"></i> Médio</span>
+      <span><i class="dot" style="background:var(--acai)"></i> Total</span>
+    </div>
+    <div class="scen-grid">
+      <div class="scen min">
+        <div class="tag">Atingimento mínimo</div>
+        <div class="cov">Cobertura <input type="range" id="covMin" min="0" max="100" value="30" oninput="document.getElementById('covMinV').textContent=this.value+'%';calc()" style="vertical-align:middle;width:140px;"> <span id="covMinV">30%</span></div>
+        <div class="rows" id="rowsMin"></div>
+        <div class="margem" id="margemMin"></div>
+      </div>
+      <div class="scen med">
+        <div class="tag">Atingimento médio</div>
+        <div class="cov">Cobertura <input type="range" id="covMed" min="0" max="100" value="65" oninput="document.getElementById('covMedV').textContent=this.value+'%';calc()" style="vertical-align:middle;width:140px;"> <span id="covMedV">65%</span></div>
+        <div class="rows" id="rowsMed"></div>
+        <div class="margem" id="margemMed"></div>
+      </div>
+      <div class="scen tot">
+        <div class="tag">Atingimento total <span style="opacity:.6">(dentro do prazo)</span></div>
+        <div class="cov">Cobertura <input type="range" id="covTot" min="0" max="100" value="100" oninput="document.getElementById('covTotV').textContent=this.value+'%';calc()" style="vertical-align:middle;width:140px;"> <span id="covTotV">100%</span></div>
+        <div class="rows" id="rowsTot"></div>
+        <div class="margem" id="margemTot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section class="card">
+    <h2>Comparativo</h2>
+    <table id="cmpTable"></table>
+  </section>
+
+  <!-- BARRAS -->
+  <section class="card">
+    <h2>Margem por cenário</h2>
+    <div class="bars" id="barsMargemR"></div>
+    <div class="bars" id="barsMargemPct"></div>
+  </section>
+
+  <div class="insight" id="insight"></div>
+
+  <footer style="text-align:center;font-size:11px;color:var(--gray);margin-top:24px;">
+    3S Checkout — Simulador de condições especiais de rollout · valores fictícios para teste
+  </footer>
+</div>
+
+<script>
+function num(id){const v=parseFloat(document.getElementById(id).value);return isNaN(v)?0:v;}
+function fmt(v){return v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function fmtPct(v){return v.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';}
+function fmtR(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function badge(status){return status==='ok'?'<span class="badge ok">ok</span>':status==='warn'?'<span class="badge warn">atenção</span>':'<span class="badge bad">abaixo do mínimo</span>';}
+
+function calcDesconto(cov,dMax,modelo){
+  if(modelo==='escalonado'){
+    const step=cov<0.25?0:cov<0.50?0.25:cov<0.75?0.50:cov<1?0.75:1;
+    return dMax*step;
+  }
+  return Math.min(dMax,dMax*cov); // linear
+}
+
+function calc(){
+  const N=num('totalLojas'), P=num('mensalidade'), custo=num('custo');
+  const dMax=num('dMax')/100, M=num('mesesIsencao'), margemMin=num('margemMinima'), tAlvo=num('tAlvo');
+  const modelo=document.getElementById('modeloDesc').value;
+  const margemBase=P>0?((P-custo)/P*100):0;
+
+  const scen=[
+    {id:'Min', nome:'Mínimo', cov:num('covMin')/100, prazo:false, cls:'min', cor:'var(--light-red)'},
+    {id:'Med', nome:'Médio',  cov:num('covMed')/100, prazo:false, cls:'med', cor:'var(--mid-red)'},
+    {id:'Tot', nome:'Total',  cov:num('covTot')/100, prazo:true,  cls:'tot', cor:'var(--acai)'},
+  ];
+
+  const rows=scen.map(s=>{
+    const desconto=calcDesconto(s.cov, dMax, modelo);
+    const mensEfet=P*(1-desconto);
+    const lojas=Math.round(s.cov*N);
+    const mrr=lojas*mensEfet;
+    const custoTot=lojas*custo;
+    const margemR=mrr-custoTot;
+    const margemPct=mrr>0?(margemR/mrr*100):0;
+    const isencao=(s.prazo && s.cov>=1)? mrr*M : 0;      // bônus: M meses de mensalidade zerada
+    const status = margemPct>=margemMin ? 'ok' : (margemPct>=margemMin-5 ? 'warn' : 'bad');
+    return {...s, desconto, mensEfet, lojas, mrr, custoTot, margemR, margemPct, isencao, status};
+  });
+
+  // KPI das margens nos 3 cenários
+  const min=rows[0], med=rows[1], tot=rows[2];
+
+  // Cenário cards
+  rows.forEach(r=>{
+    document.getElementById('rows'+r.id).innerHTML=
+      `<div class="row"><span class="k">Lojas implantadas</span><span class="v">${fmt(r.lojas)} de ${fmt(N)}</span></div>
+       <div class="row"><span class="k">Desconto aplicado</span><span class="v">${fmtPct(r.desconto*100)}</span></div>
+       <div class="row"><span class="k">Mensalidade efetiva/loja</span><span class="v">${fmtR(r.mensEfet)}</span></div>
+       <div class="row"><span class="k">Receita mensal (MRR)</span><span class="v">${fmtR(r.mrr)}</span></div>
+       <div class="row"><span class="k">Custo mensal</span><span class="v">${fmtR(r.custoTot)}</span></div>
+       ${r.isencao>0?'<div class="row"><span class="k">Bônus — isenção '+M+' meses</span><span class="v">−'+fmtR(r.isencao)+'</span></div>':''}`;
+    document.getElementById('margem'+r.id).innerHTML=
+      `<div><div class="lbl">Margem R$/mês</div><div class="val" style="color:${r.cor}">${fmtR(r.margemR)}</div></div>
+       <div style="text-align:right"><div class="lbl">Margem %</div><div class="val" style="color:${r.cor}">${fmtPct(r.margemPct)}</div>${badge(r.status)}</div>`;
+  });
+
+  // Tabela comparativa
+  const rw=(lbl,fn,cls)=>`<tr><td class="${cls||''}">${lbl}</td><td class="num ${cls||''}">${fn(min)}</td><td class="num ${cls||''}">${fn(med)}</td><td class="num ${cls||''}">${fn(tot)}</td></tr>`;
+  document.getElementById('cmpTable').innerHTML=
+    `<thead><tr><th>Métrica</th><th class="num">Mínimo</th><th class="num">Médio</th><th class="num">Total</th></tr></thead><tbody>`+
+    rw('Cobertura', r=>fmtPct(r.cov*100))+
+    rw('Desconto', r=>fmtPct(r.desconto*100))+
+    rw('Mensalidade efetiva/loja', r=>fmtR(r.mensEfet))+
+    rw('Lojas implantadas', r=>fmt(r.lojas))+
+    rw('MRR (receita/mês)', r=>fmtR(r.mrr))+
+    rw('Custo/mês', r=>fmtR(r.custoTot))+
+    rw('Margem R$/mês', r=>fmtR(r.margemR),'hl')+
+    rw('Margem %', r=>fmtPct(r.margemPct),'hl')+
+    `</tbody>`;
+
+  // Barras — margem R$
+  const maxR=Math.max(...rows.map(r=>r.margemR),1);
+  document.getElementById('barsMargemR').innerHTML=
+    `<div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Margem R$ / mês</div>`+
+    rows.map(r=>`<div class="bar-row"><span class="nm">${r.nome}</span><div class="track"><div class="fill" style="width:${(r.margemR/maxR*100).toFixed(1)}%;background:${r.cor}"></div></div><span class="val">${fmtR(r.margemR)}</span></div>`).join('');
+
+  // Barras — margem %
+  document.getElementById('barsMargemPct').innerHTML=
+    `<div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;">Margem % (vs. mínima de ${fmtPct(margemMin)})</div>`+
+    rows.map(r=>`<div class="bar-row"><span class="nm">${r.nome}</span><div class="track"><div class="fill" style="width:${Math.min(100,r.margemPct).toFixed(1)}%;background:${r.cor}"></div></div><span class="val">${fmtPct(r.margemPct)}</span></div>`).join('');
+
+  // Insight (trade-off)
+  const pp = (x)=> (x*1).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+  document.getElementById('insight').innerHTML=
+    `<h3>Leitura do trade-off</h3>
+     <p>Sem condição, a margem base é <b>${fmtPct(margemBase)}</b>. Acelerando o rollout, a <b>margem % cai</b> (de ${pp(min.margemPct)}% no mínimo para ${pp(tot.margemPct)}% no total), mas a <b>margem absoluta sobe</b> — de <b>${fmtR(min.margemR)}</b> para <b>${fmtR(tot.margemR)}</b>/mês, porque mais lojas ficam ativas.`+
+     (tot.isencao>0?` No cenário total há ainda o custo do bônus de velocidade: <b>−${fmtR(tot.isencao)}</b> (${M} meses de mensalidade zerada).`:'')+
+     ` A condição é <b>${tot.status==='ok'?'viável':'REPROVADA'}</b> no cenário total (margem ${pp(tot.margemPct)}% vs. mínimo de ${fmtPct(margemMin)}).</p>`;
+}
+calc();
+</script>
+</body>
+</html>

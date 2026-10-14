@@ -1,0 +1,51 @@
+# 📋 Histórico de Versões — index.html
+
+## v2026-10-14_12-56-23 (Restaurado — Atual)
+**Data:** 14/10/2026 12:56:23  
+**Arquivo:** `versions/index_2026-10-14_12-56-23.html`  
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- ✅ Restaurado estado funcional SEM login
+- ✅ Marketplace customizável (5 players: iFood, Rappi, 99, Keeta, Open Delivery)
+- ✅ Implantação diferenciada (Própria vs Franquia)
+- ✅ Observações na proposta
+- ✅ Responsáveis padrão (11 emails)
+- ✅ PDF generation funcionando
+- 🔧 Corrigido erro: duplicata de `modulosObj` na linha 6299
+
+**Notas:**  
+Versão v25 do file-history (588KB, 8212 linhas). Estado antes de tentar adicionar login.
+
+---
+
+## Instruções para Uso
+
+Quando você fizer **alterações importantes** no `index.html`:
+
+1. **Antes de começar a editar**, execute:
+   ```bash
+   TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+   cp index.html "versions/index_${TIMESTAMP}.html"
+   ```
+
+2. **Faça suas mudanças** no `index.html`
+
+3. **Atualize VERSION_LOG.md** com:
+   - Nova entrada no topo (data/hora, o que mudou)
+   - Mova a entrada anterior para baixo
+
+4. **index.html sempre fica na raiz** — é a versão atual
+
+---
+
+## Estrutura
+```
+/projeto/
+├── index.html              ← versão ATUAL (sempre aqui)
+├── VERSION_LOG.md          ← este arquivo
+└── versions/
+    ├── index_20261014_125623.html
+    ├── index_20261013_120000.html  (quando adicionar)
+    └── ...
+```

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treinamento 3S Checkout — Time Delivery iFood</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--red:#E9202E;--dark:#890119;--bg:#0F0F0F;--card:#1A1A1A;--border:#333;--white:#FFF;--gray:#9CA3AF;--green:#10B981;--amber:#D97706;--blue:#3B82F6;--purple:#8B5CF6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--white);-webkit-font-smoothing:antialiased;overflow:hidden;height:100vh;}
+
+/* Slide container */
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;overflow-y:auto;}
+.slide.active{display:flex;}
+
+/* Header */
+.slide-hdr{position:sticky;top:0;z-index:100;height:48px;background:linear-gradient(90deg,#1A0508,#2D0A0E);display:flex;align-items:center;justify-content:space-between;padding:0 32px;flex-shrink:0;}
+.slide-hdr .logo{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.slide-hdr .logo span{background:var(--red);font-size:8px;padding:2px 8px;border-radius:10px;font-weight:600;letter-spacing:.5px;}
+.slide-hdr .nav-info{font-size:11px;color:var(--gray);display:flex;align-items:center;gap:12px;}
+.slide-hdr .nav-info .keys{font-size:9px;background:#222;padding:3px 8px;border-radius:4px;border:1px solid #444;color:#888;}
+
+/* Slide body */
+.slide-body{flex:1;padding:48px 64px;display:flex;flex-direction:column;justify-content:center;max-width:1100px;margin:0 auto;width:100%;}
+
+/* Typography */
+.s-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--red);margin-bottom:12px;}
+.s-title{font-size:36px;font-weight:900;letter-spacing:-1px;line-height:1.1;margin-bottom:8px;}
+.s-title .accent{color:var(--red);}
+.s-sub{font-size:14px;color:var(--gray);line-height:1.6;max-width:700px;margin-bottom:32px;}
+
+/* Cards */
+.s-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:16px;}
+.s-card h4{font-size:14px;font-weight:700;margin-bottom:8px;}
+.s-card p{font-size:13px;color:var(--gray);line-height:1.6;}
+
+/* Grids */
+.s-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.s-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.s-grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;}
+
+/* KPI cards */
+.kpi{background:linear-gradient(135deg,#2D0A0E,var(--dark));border-radius:14px;padding:24px;text-align:center;}
+.kpi .num{font-size:32px;font-weight:900;color:var(--white);line-height:1;}
+.kpi .unit{font-size:10px;color:rgba(255,255,255,.5);margin-top:6px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
+
+/* Benefit cards */
+.benefit{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:all .2s;}
+.benefit:hover{border-color:var(--red);transform:translateY(-2px);}
+.benefit .icon{font-size:28px;margin-bottom:10px;}
+.benefit h4{font-size:13px;font-weight:700;margin-bottom:6px;}
+.benefit p{font-size:11px;color:var(--gray);line-height:1.4;}
+
+/* Profile items */
+.profile-item{display:flex;align-items:flex-start;gap:14px;padding:12px 0;border-bottom:1px solid #222;}
+.profile-item:last-child{border-bottom:none;}
+.profile-item .dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:6px;}
+.profile-item .txt{font-size:13px;line-height:1.5;}
+.profile-item .txt strong{color:var(--white);font-weight:600;}
+.profile-item .txt span{color:var(--gray);}
+
+/* Pain points */
+.pain{background:rgba(233,32,46,.05);border:1px solid rgba(233,32,46,.2);border-radius:10px;padding:16px 20px;margin-bottom:10px;}
+.pain h4{font-size:12px;font-weight:700;color:var(--red);margin-bottom:4px;}
+.pain p{font-size:12px;color:var(--gray);line-height:1.5;}
+
+/* Solution cards */
+.sol{background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:16px 20px;margin-bottom:10px;}
+.sol h4{font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px;}
+.sol p{font-size:12px;color:var(--gray);line-height:1.5;}
+
+/* Cover */
+.cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;padding:60px;}
+.cover h1{font-size:clamp(36px,5vw,56px);font-weight:900;letter-spacing:-2px;line-height:1.05;max-width:800px;}
+.cover h1 .accent{color:var(--red);}
+.cover .sub{font-size:16px;color:var(--gray);margin-top:16px;max-width:600px;line-height:1.6;}
+.cover .badge{display:inline-block;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:6px 16px;border-radius:20px;margin-top:20px;letter-spacing:.5px;}
+
+/* Section divider */
+.divider{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;padding:60px;}
+.divider .num{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--dark),var(--red));display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:900;margin-bottom:24px;}
+.divider h2{font-size:36px;font-weight:900;letter-spacing:-1px;}
+.divider p{font-size:14px;color:var(--gray);margin-top:8px;max-width:500px;line-height:1.6;}
+
+/* Progress bar */
+.progress-bar{position:fixed;bottom:0;left:0;height:4px;background:var(--red);transition:width .3s;z-index:999;}
+
+/* Nav hint */
+.nav-hint{position:fixed;bottom:20px;right:32px;font-size:10px;color:#555;display:flex;align-items:center;gap:8px;z-index:999;}
+.nav-hint kbd{background:#222;border:1px solid #444;padding:2px 8px;border-radius:4px;font-family:inherit;font-size:10px;color:#888;}
+
+/* Comparison table */
+.comp-table{width:100%;border-collapse:collapse;font-size:11px;margin-top:16px;}
+.comp-table th{background:#222;padding:10px 12px;text-align:left;font-weight:700;color:var(--white);border-bottom:2px solid var(--red);}
+.comp-table td{padding:10px 12px;border-bottom:1px solid #222;color:var(--gray);}
+.comp-table tr:hover td{background:rgba(233,32,46,.03);}
+.comp-table .us{color:var(--green);font-weight:600;}
+.comp-table .them{color:var(--gray);}
+
+@media(max-width:768px){
+  .slide-body{padding:24px 20px;}
+  .s-title{font-size:24px;}
+  .s-grid,.s-grid-3,.s-grid-4{grid-template-columns:1fr;}
+  .cover h1{font-size:28px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Slide 0: Cover -->
+<div class="slide active" id="slide-0">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>1 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="cover">
+    <h1>Conheça o <span class="accent">3S Checkout</span></h1>
+    <div class="sub">Treinamento para o time comercial Delivery iFood. Tudo o que você precisa saber para identificar oportunidades e vender a solução de PDV mais completa do mercado de Food Service.</div>
+    <div class="badge">USO INTERNO — TIME DELIVERY iFOOD</div>
+  </div>
+</div>
+
+<!-- Slide 1: Section divider - O que é 3S -->
+<div class="slide" id="slide-1">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>2 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="divider">
+    <div class="num">1</div>
+    <h2>O que é a 3S Checkout?</h2>
+    <p>Visão de produto, proposta de valor, ecossistema e números que comprovam nossa posição no mercado.</p>
+  </div>
+</div>
+
+<!-- Slide 2: O que é -->
+<div class="slide" id="slide-2">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>3 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Visão de produto</div>
+    <div class="s-title">O <span class="accent">ecossistema</span> completo para restaurantes</div>
+    <div class="s-sub">A 3S Checkout é muito mais que um PDV — é o ecossistema estratégico de gestão unificada e eficiência multicanal focado na escalabilidade da operação do restaurante.</div>
+    <div class="s-grid">
+      <div class="s-card" style="border-left:3px solid var(--red);">
+        <h4 style="color:var(--red);">Proposta de valor</h4>
+        <p>Ajudamos redes de restaurantes a ter mais agilidade operacional e transparência na gestão, através de tecnologia de alta performance, com dados centralizados e estabilidade para grandes volumes de transações.</p>
+      </div>
+      <div class="s-card" style="border-left:3px solid var(--green);">
+        <h4 style="color:var(--green);">Diferencial competitivo</h4>
+        <p>Integração nativa com iFood, funcionamento offline, APIs agnósticas para ERPs, gestão centralizada de cardápio multi-loja, e atendimento premium 24/7 especializado em Food Service.</p>
+      </div>
+    </div>
+    <div class="s-card" style="margin-top:8px;">
+      <h4>Conceitos-chave</h4>
+      <p><strong style="color:var(--white);">PDV</strong> = Núcleo da operação (centraliza pedidos, conecta cozinha e estoque) &nbsp;|&nbsp; <strong style="color:var(--white);">Ecossistema</strong> = PDV + Hub Delivery + KDS + Totem + TEF + Dados — tudo conectado em um só lugar.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 3: Ecossistema visual -->
+<div class="slide" id="slide-3">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>4 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Ecossistema</div>
+    <div class="s-title">Tudo conectado em <span class="accent">um só lugar</span></div>
+    <div class="s-sub">Cada módulo resolve uma dor específica e se integra nativamente aos demais.</div>
+    <div class="s-grid-3">
+      <div class="benefit"><div class="icon">🖥️</div><h4>PDV</h4><p>Ponto de venda completo com controle de salão, funciona offline</p></div>
+      <div class="benefit"><div class="icon">🛵</div><h4>Hub Delivery</h4><p>Integração nativa iFood + marketplaces centralizados</p></div>
+      <div class="benefit"><div class="icon">📋</div><h4>Cardápio</h4><p>Gestão centralizada multi-loja, 100% na nuvem</p></div>
+      <div class="benefit"><div class="icon">📺</div><h4>KDS</h4><p>Monitor de cozinha inteligente com controle de produção</p></div>
+      <div class="benefit"><div class="icon">🏧</div><h4>Totem</h4><p>Autoatendimento Windows e Android, agnóstico a hardware</p></div>
+      <div class="benefit"><div class="icon">💳</div><h4>TEF</h4><p>Pagamentos integrados com POS Mobile e PinPad</p></div>
+      <div class="benefit"><div class="icon">📊</div><h4>Dados</h4><p>Dashboard em tempo real, relatórios multi-loja</p></div>
+      <div class="benefit"><div class="icon">📱</div><h4>POS Mobile</h4><p>Mobilidade para atendimento em salão e eventos</p></div>
+      <div class="benefit"><div class="icon">🔗</div><h4>APIs</h4><p>Integração fluida com ERPs via APIs agnósticas</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: Números -->
+<div class="slide" id="slide-4">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>5 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Parceiros de jornada</div>
+    <div class="s-title">Nossos <span class="accent">números</span></div>
+    <div class="s-sub">Grandes grupos de Food Service que utilizam a 3S Checkout como motor de sua eficiência operacional.</div>
+    <div class="s-grid-4" style="margin-bottom:24px;">
+      <div class="kpi"><div class="num">+300</div><div class="unit">cidades</div></div>
+      <div class="kpi"><div class="num">130</div><div class="unit">marcas</div></div>
+      <div class="kpi"><div class="num">+3K</div><div class="unit">lojas</div></div>
+      <div class="kpi"><div class="num">+R$7M</div><div class="unit">faturamento/mês</div></div>
+    </div>
+    <div class="s-card" style="border-left:3px solid var(--amber);">
+      <h4 style="color:var(--amber);">Curiosidade</h4>
+      <p>Entre as 10 marcas mais valiosas do mundo no segmento de Food Service, 4 usam tecnologia 3S Checkout. Faturamento anual de parceiros ultrapassa R$16 bilhões.</p>
+    </div>
+    <div class="s-card" style="margin-top:8px;">
+      <h4>Ecossistema iFood Salão</h4>
+      <p>A 3S faz parte do ecossistema expandido do iFood — junto com Anota Aí, Fixe CRM, Saipos e outras soluções. São +28M pedidos/mês no canal próprio e 43,9K parceiros na base ativa (Março 2026).</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Section divider - Cliente ideal -->
+<div class="slide" id="slide-5">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>6 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="divider">
+    <div class="num">2</div>
+    <h2>Quem é o cliente ideal?</h2>
+    <p>Perfil, segmentação, características e as dores que indicam oportunidade para o 3S Checkout.</p>
+  </div>
+</div>
+
+<!-- Slide 6: Segmentação -->
+<div class="slide" id="slide-6">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>7 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Segmentação</div>
+    <div class="s-title"><span class="accent">Três perfis</span> de cliente</div>
+    <div class="s-sub">A 3S atende diferentes portes com propostas de valor distintas.</div>
+    <div class="s-grid-3">
+      <div class="s-card" style="border-top:3px solid var(--red);">
+        <h4 style="color:var(--red);">KA & CE (Large)</h4>
+        <p style="font-size:12px;margin-bottom:8px;">Redes com 10+ unidades físicas</p>
+        <p>Nossas soluções <strong style="color:var(--white);">simplificam e automatizam</strong> a operação. Foco em estabilidade para grandes volumes.</p>
+        <div style="margin-top:10px;font-size:11px;color:var(--gray);border-top:1px solid #333;padding-top:8px;">A partir de R$550/loja</div>
+      </div>
+      <div class="s-card" style="border-top:3px solid var(--amber);">
+        <h4 style="color:var(--amber);">CE & LT (Medium)</h4>
+        <p style="font-size:12px;margin-bottom:8px;">5-9 lojas, faturamento mínimo 200K/loja</p>
+        <p>Nossas soluções <strong style="color:var(--white);">unificam finanças e dados</strong>. Foco em controle e integração ao delivery.</p>
+        <div style="margin-top:10px;font-size:11px;color:var(--gray);border-top:1px solid #333;padding-top:8px;">A partir de R$218/loja</div>
+      </div>
+      <div class="s-card" style="border-top:3px solid var(--green);">
+        <h4 style="color:var(--green);">Contas P (Small)</h4>
+        <p style="font-size:12px;margin-bottom:8px;">Até 5 lojas, perfil base VIP</p>
+        <p>Nossas soluções <strong style="color:var(--white);">impulsionam a receita</strong>. Foco em agilidade, implantação rápida e delivery integrado.</p>
+        <div style="margin-top:10px;font-size:11px;color:var(--gray);border-top:1px solid #333;padding-top:8px;">Contratação modular</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Perfil do cliente -->
+<div class="slide" id="slide-7">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>8 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Perfil do cliente 3S</div>
+    <div class="s-title">Características do <span class="accent">cliente ideal</span></div>
+    <div class="s-grid">
+      <div class="s-card" style="padding:16px 20px;">
+        <h4 style="margin-bottom:12px;">Características</h4>
+        <div class="profile-item"><div class="dot"></div><div class="txt"><strong>Grandes redes</strong> <span>com alto nível de organização</span></div></div>
+        <div class="profile-item"><div class="dot"></div><div class="txt"><strong>Operação complexa</strong> <span>— multi-loja, multi-canal</span></div></div>
+        <div class="profile-item"><div class="dot"></div><div class="txt"><strong>Gestão estruturada de dados</strong> <span>— já usam indicadores</span></div></div>
+        <div class="profile-item"><div class="dot"></div><div class="txt"><strong>Estratégicos e criteriosos</strong> <span>— exigentes na escolha</span></div></div>
+        <div class="profile-item"><div class="dot"></div><div class="txt"><strong>Experiência com PDV</strong> <span>— já usaram outros sistemas</span></div></div>
+      </div>
+      <div class="s-card" style="padding:16px 20px;">
+        <h4 style="margin-bottom:12px;">Dores recorrentes</h4>
+        <div class="pain"><h4>Informações descentralizadas</h4><p>Dados espalhados em múltiplos sistemas e planilhas</p></div>
+        <div class="pain"><h4>Gestão de estoque complexa</h4><p>Sem visibilidade real do CMV e desperdício</p></div>
+        <div class="pain"><h4>Cardápio difícil de atualizar</h4><p>Processo manual em múltiplos canais</p></div>
+        <div class="pain"><h4>Falta de transparência</h4><p>Sem dashboard unificado de indicadores</p></div>
+        <div class="pain"><h4>Canais descentralizados</h4><p>Salão, delivery e totem desconectados</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 8: Sinais de oportunidade -->
+<div class="slide" id="slide-8">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>9 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Como identificar</div>
+    <div class="s-title">Sinais de <span class="accent">oportunidade</span></div>
+    <div class="s-sub">Quando o parceiro fala algo assim, é hora de apresentar a 3S:</div>
+    <div class="s-grid">
+      <div class="sol"><h4>"Meu cardápio está diferente no iFood e no salão"</h4><p>→ Gestão centralizada de cardápio resolve: cadastro único com preços para delivery e salão.</p></div>
+      <div class="sol"><h4>"Não tenho controle dos pedidos de delivery"</h4><p>→ Hub de Delivery agrega todos os canais dentro do PDV em um único lugar.</p></div>
+      <div class="sol"><h4>"Preciso de mais dados sobre minha operação"</h4><p>→ Dashboard em tempo real, DRE, CMV preditivo e relatórios multi-loja.</p></div>
+      <div class="sol"><h4>"Meu sistema atual não integra com iFood"</h4><p>→ Integração nativa com iFood — espelhamento total de cardápio e pedidos.</p></div>
+      <div class="sol"><h4>"Estou crescendo e o sistema não acompanha"</h4><p>→ Ecossistema escalável: de 1 a 600+ lojas, mesma plataforma.</p></div>
+      <div class="sol"><h4>"Meu PDV vive caindo / não funciona offline"</h4><p>→ 3S funciona offline. Estabilidade para grandes volumes de transações.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 9: Section divider - Benefícios -->
+<div class="slide" id="slide-9">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>10 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="divider">
+    <div class="num">3</div>
+    <h2>Benefícios para o parceiro</h2>
+    <p>O que o restaurante ganha ao adotar o 3S Checkout como motor da operação.</p>
+  </div>
+</div>
+
+<!-- Slide 10: Hub Delivery -->
+<div class="slide" id="slide-10">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>11 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Fortaleza #1</div>
+    <div class="s-title">Hub de <span class="accent">Delivery</span></div>
+    <div class="s-sub">Todos os canais de venda fora da loja centralizados dentro do PDV. Integração nativa com os principais agregadores do mercado.</div>
+    <div class="s-grid-4">
+      <div class="benefit"><div class="icon">⚡</div><h4>Agilidade</h4><p>Mudança de cardápio e preços em segundos</p></div>
+      <div class="benefit"><div class="icon">🎯</div><h4>Centralização</h4><p>Gestão de múltiplos marketplaces em um lugar</p></div>
+      <div class="benefit"><div class="icon">🍳</div><h4>Multi-marca</h4><p>Diversas marcas na mesma cozinha</p></div>
+      <div class="benefit"><div class="icon">⏸️</div><h4>Controle</h4><p>Pause produtos em todos os canais de uma vez</p></div>
+    </div>
+    <div class="s-card" style="margin-top:16px;border-left:3px solid var(--green);">
+      <h4 style="color:var(--green);">Para o time Delivery: por que isso importa?</h4>
+      <p>Parceiros com delivery desorganizado têm mais ruptura, cardápio desatualizado e reclamações. O Hub resolve isso — e o parceiro vende mais no iFood porque o catálogo está sempre correto e os pedidos não se perdem.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 11: Gestão de Cardápio + Dados -->
+<div class="slide" id="slide-11">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>12 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Fortalezas #2 e #3</div>
+    <div class="s-title">Cardápio + <span class="accent">Dados</span></div>
+    <div class="s-grid">
+      <div>
+        <div class="s-card" style="border-left:3px solid var(--purple);">
+          <h4 style="color:var(--purple);">Gestão de Cardápio</h4>
+          <p style="margin-top:6px;">Gerencie todas as informações em um só lugar: preços, opções de menu, promoções e informações por loja. Altere e envie para uma loja, um grupo ou todas, de onde estiver.</p>
+        </div>
+        <div class="benefit" style="text-align:left;margin-top:8px;">
+          <p style="font-size:12px;color:var(--gray);line-height:1.6;">
+            → Atualização 100% na nuvem<br>
+            → Gerenciamento de totem, cardápio digital, marketplace, app e PDV em um lugar<br>
+            → Preços diferentes por loja<br>
+            → Promoções por dia da semana ou regras próprias
+          </p>
+        </div>
+      </div>
+      <div>
+        <div class="s-card" style="border-left:3px solid var(--blue);">
+          <h4 style="color:var(--blue);">Dados e Inteligência</h4>
+          <p style="margin-top:6px;">Cada transação vira dado estratégico. Expansão guiada por lucratividade real, não por estimativas.</p>
+        </div>
+        <div class="benefit" style="text-align:left;margin-top:8px;">
+          <p style="font-size:12px;color:var(--gray);line-height:1.6;">
+            → Data Streaming em tempo real<br>
+            → Integridade e precisão nos dados de vendas<br>
+            → Ecossistema conectado (ERP, fiscal, estoque)<br>
+            → Rastreabilidade total: do insumo ao KPI
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 12: Totem + KDS -->
+<div class="slide" id="slide-12">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>13 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Fortalezas #4 e #5</div>
+    <div class="s-title">Totem + <span class="accent">KDS</span></div>
+    <div class="s-grid">
+      <div>
+        <div class="s-card" style="border-left:3px solid var(--amber);">
+          <h4 style="color:var(--amber);">Totem de Autoatendimento</h4>
+          <p style="margin-top:6px;">Apresente novos produtos e promoções integrados ao PDV e cozinha. Roda em Windows e Android — agnóstico a hardware.</p>
+        </div>
+        <div class="s-grid" style="margin-top:8px;">
+          <div class="benefit"><div class="icon">👥</div><h4>Menos mão de obra</h4><p>Redução de carga no caixa</p></div>
+          <div class="benefit"><div class="icon">📈</div><h4>Ticket médio</h4><p>Sugestões de combos e adicionais</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="s-card" style="border-left:3px solid var(--green);">
+          <h4 style="color:var(--green);">KDS — Monitor de Cozinha</h4>
+          <p style="margin-top:6px;">Controle total sobre pedidos na cozinha. Atendimento qualificado com processos organizados.</p>
+        </div>
+        <div class="s-grid" style="margin-top:8px;">
+          <div class="benefit"><div class="icon">📋</div><h4>Organização</h4><p>Produção de pedidos ordenada</p></div>
+          <div class="benefit"><div class="icon">💰</div><h4>Redução custos</h4><p>Otimização de insumos</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 13: Concorrência -->
+<div class="slide" id="slide-13">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>14 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Posicionamento</div>
+    <div class="s-title">3S vs <span class="accent">Concorrência</span></div>
+    <div class="s-sub">Principais diferenciais frente aos concorrentes mais comuns.</div>
+    <table class="comp-table">
+      <thead><tr><th>Aspecto</th><th>Concorrentes</th><th>3S Checkout</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--white);">Delivery</strong></td><td class="them">Precário / limitado</td><td class="us">Integração nativa iFood + Hub multi-marketplace</td></tr>
+        <tr><td><strong style="color:var(--white);">Suporte</strong></td><td class="them">Restrito (até 21h) / generalista</td><td class="us">24/7 especializado + onboarding completo</td></tr>
+        <tr><td><strong style="color:var(--white);">Implantação</strong></td><td class="them">Cliente faz sozinho</td><td class="us">Setup completo + treinamento + operação assistida</td></tr>
+        <tr><td><strong style="color:var(--white);">Dados</strong></td><td class="them">Poucos relatórios / sem dashboard multi-loja</td><td class="us">Dashboard completo + relatórios multi-loja + análises profundas</td></tr>
+        <tr><td><strong style="color:var(--white);">Inovação</strong></td><td class="them">Lentos para adaptar / sistemas legados</td><td class="us">Evolução ágil baseada em dados e feedback</td></tr>
+        <tr><td><strong style="color:var(--white);">Offline</strong></td><td class="them">Apenas online / falhas de sincronização</td><td class="us">Funciona offline + solução All-in-One</td></tr>
+        <tr><td><strong style="color:var(--white);">Integração</strong></td><td class="them">Limitada / apenas 1 marca por loja</td><td class="us">APIs agnósticas + multi-marca + ERP fluido</td></tr>
+      </tbody>
+    </table>
+    <div class="s-card" style="margin-top:16px;border-left:3px solid var(--red);">
+      <p style="font-size:11px;"><strong style="color:var(--white);">Colibri/Linx:</strong> Marcas fortes, porém sem prioridade de inovação rápida no food service. Salão robusto, delivery precário.<br><strong style="color:var(--white);">Consumer/Saipos:</strong> Menor preço, porém sem suporte e infraestrutura que impede o avanço do negócio.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 14: Resumo e próximos passos -->
+<div class="slide" id="slide-14">
+  <div class="slide-hdr">
+    <div class="logo">iFood Salão <span>TREINAMENTO</span></div>
+    <div class="nav-info"><span>15 / 15</span><span class="keys">← →</span></div>
+  </div>
+  <div class="slide-body">
+    <div class="s-label">Resumo</div>
+    <div class="s-title">O que <span class="accent">levar</span> daqui</div>
+    <div class="s-grid-3" style="margin-bottom:24px;">
+      <div class="s-card" style="text-align:center;border-top:3px solid var(--red);">
+        <h4 style="color:var(--red);margin-bottom:8px;">O que é</h4>
+        <p>Ecossistema completo de PDV para Food Service — não é "só um PDV". É gestão unificada multi-canal.</p>
+      </div>
+      <div class="s-card" style="text-align:center;border-top:3px solid var(--amber);">
+        <h4 style="color:var(--amber);margin-bottom:8px;">Para quem</h4>
+        <p>Redes organizadas com operação complexa, que precisam de dados, estabilidade e integração ao delivery.</p>
+      </div>
+      <div class="s-card" style="text-align:center;border-top:3px solid var(--green);">
+        <h4 style="color:var(--green);margin-bottom:8px;">Por que vender</h4>
+        <p>Resolve dores reais (cardápio, delivery, dados), integra nativamente com iFood, e escala com o parceiro.</p>
+      </div>
+    </div>
+    <div class="s-card" style="border-left:3px solid var(--blue);">
+      <h4 style="color:var(--blue);">Como identificar oportunidades no dia a dia</h4>
+      <p style="margin-top:6px;">Quando o parceiro mencionar: cardápio desatualizado, problemas com delivery, falta de dados, sistema instável, crescimento travado, ou insatisfação com PDV atual — é a porta de entrada. Sinalize para o time de Salão/3S com o contexto.</p>
+    </div>
+    <div style="margin-top:20px;text-align:center;font-size:12px;color:var(--gray);">
+      <div style="background:#222;border-radius:10px;padding:16px;display:inline-block;">
+        <strong style="color:var(--white);">Dúvidas?</strong> Fale com o time de Sales Engineering (iFood Salão)<br>
+        <span style="font-size:11px;color:#666;margin-top:4px;display:block;">Material de uso interno — Treinamento Time Delivery iFood</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="progress-bar" id="progress-bar" style="width:6.67%"></div>
+<div class="nav-hint">
+  <kbd>←</kbd> <kbd>→</kbd> para navegar
+</div>
+
+<script>
+let currentSlide=0;
+const totalSlides=15;
+
+function showSlide(n){
+  if(n<0||n>=totalSlides)return;
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  document.getElementById('slide-'+n).classList.add('active');
+  currentSlide=n;
+  document.getElementById('progress-bar').style.width=((n+1)/totalSlides*100)+'%';
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();showSlide(currentSlide+1);}
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();showSlide(currentSlide-1);}
+});
+
+let touchStartX=0;
+document.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{
+  const diff=touchStartX-e.changedTouches[0].clientX;
+  if(Math.abs(diff)>50){if(diff>0)showSlide(currentSlide+1);else showSlide(currentSlide-1);}
+});
+</script>
+</body>
+</html>

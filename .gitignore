@@ -1,0 +1,15 @@
+# Files & folders to ignore
+.claude/
+.~lock.*
+*.tmp
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+.DS_Store
+Thumbs.db
+
+# Keep only production-relevant files
+# Everything else is for development/reference

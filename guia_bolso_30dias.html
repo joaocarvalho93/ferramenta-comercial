@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Bolso — Cenário B: 30 Dias | 3S Checkout</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--red:#E9202E;--dark:#890119;--bg:#FAFAFA;--card:#FFF;--border:#E5E7EB;--text:#1F2937;--gray:#6B7280;--green:#059669;--amber:#D97706;--blue:#2563EB;--purple:#7C3AED;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+.header{background:linear-gradient(135deg,#1A0508 0%,var(--dark) 50%,var(--red) 100%);color:#fff;padding:40px 32px;text-align:center;}
+.header h1{font-size:28px;font-weight:800;margin-bottom:4px;letter-spacing:-.5px;}
+.header p{font-size:14px;opacity:.7;max-width:520px;margin:0 auto;}
+.header .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;margin-top:12px;letter-spacing:.5px;}
+.header .version{display:inline-block;background:rgba(233,32,46,.4);border:1px solid rgba(255,255,255,.3);padding:3px 10px;border-radius:12px;font-size:9px;font-weight:700;margin-top:8px;letter-spacing:.5px;}
+
+.container{max-width:800px;margin:0 auto;padding:32px 20px 60px;}
+
+.section{margin-bottom:28px;}
+.section-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--red);margin-bottom:8px;}
+.section-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.section-desc{font-size:13px;color:var(--gray);margin-bottom:16px;}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:12px;}
+
+/* Context banner */
+.context-banner{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:1px solid #93C5FD;border-radius:12px;padding:20px 24px;margin-bottom:28px;}
+.context-banner h3{font-size:14px;font-weight:700;color:#1E40AF;margin-bottom:8px;}
+.context-banner p{font-size:12px;color:#1E3A5F;line-height:1.6;}
+.context-banner .tag{display:inline-block;background:#1E40AF;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* Model box */
+.model-box{background:linear-gradient(135deg,#FEF2F2,#FFF);border:2px solid var(--red);border-radius:14px;padding:28px;margin-bottom:28px;}
+.model-box h2{font-size:18px;font-weight:800;color:var(--dark);margin-bottom:6px;}
+.model-box .sub{font-size:13px;color:var(--gray);margin-bottom:16px;}
+.model-steps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.model-step{text-align:center;padding:16px 12px;background:#fff;border-radius:10px;border:1px solid var(--border);}
+.model-step .step-n{width:32px;height:32px;background:var(--red);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;margin:0 auto 8px;}
+.model-step .step-t{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.model-step .step-d{font-size:11px;color:var(--gray);line-height:1.4;}
+.model-step.green{border-color:#BBF7D0;background:#F0FDF4;}
+
+/* Checklist */
+.checklist-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.checklist-item:last-child{border-bottom:none;}
+.chk-icon{width:24px;height:24px;border-radius:6px;background:#F0FDF4;border:1.5px solid #86EFAC;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;}
+.chk-title{font-size:13px;font-weight:600;color:var(--text);}
+.chk-desc{font-size:11px;color:var(--gray);margin-top:2px;}
+
+/* Timeline */
+.timeline{display:flex;align-items:center;gap:0;margin:20px 0;position:relative;}
+.tl-item{flex:1;text-align:center;position:relative;}
+.tl-item::before{content:'';position:absolute;top:15px;left:0;right:0;height:3px;background:#E5E7EB;z-index:0;}
+.tl-item:first-child::before{left:50%;}
+.tl-item:last-child::before{right:50%;}
+.tl-dot{width:32px;height:32px;border-radius:50%;background:var(--card);border:3px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--green);margin:0 auto 8px;position:relative;z-index:1;}
+.tl-dot.start{border-color:var(--red);color:var(--red);}
+.tl-dot.active{background:var(--red);color:#fff;border-color:var(--red);}
+.tl-dot.warn{border-color:var(--amber);color:var(--amber);}
+.tl-label{font-size:10px;font-weight:600;color:var(--text);}
+.tl-sub{font-size:9px;color:var(--gray);margin-top:2px;}
+
+/* Pitch block */
+.pitch{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;padding:20px 24px;margin:16px 0;position:relative;}
+.pitch::before{content:'\201C';position:absolute;top:8px;left:16px;font-size:48px;color:#86EFAC;font-family:Georgia,serif;line-height:1;}
+.pitch p{font-size:14px;color:#166534;line-height:1.7;padding-left:28px;font-style:italic;}
+.pitch .tag{display:inline-block;background:#166534;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:6px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+
+/* Objection accordion */
+.objection{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;overflow:hidden;transition:all .2s;}
+.objection:hover{border-color:#D1D5DB;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.obj-header{padding:16px 20px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;user-select:none;}
+.obj-header:hover{background:#F9FAFB;}
+.obj-icon{width:28px;height:28px;border-radius:8px;background:#FEF2F2;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:var(--red);}
+.obj-title{font-size:13px;font-weight:600;color:var(--text);flex:1;}
+.obj-arrow{color:var(--gray);font-size:18px;transition:transform .2s;flex-shrink:0;}
+.objection.open .obj-arrow{transform:rotate(180deg);}
+.obj-body{display:none;padding:0 20px 20px 60px;}
+.objection.open .obj-body{display:block;}
+.obj-response{background:#F0FDF4;border-radius:8px;padding:14px 16px;font-size:13px;color:#166534;line-height:1.6;margin-bottom:8px;}
+.obj-response strong{font-weight:700;color:#065F46;}
+.obj-alt{background:#FEF3C7;border-radius:8px;padding:14px 16px;font-size:13px;color:#92400E;line-height:1.6;margin-bottom:8px;}
+.obj-alt strong{font-weight:700;color:#78350F;}
+.obj-tip{font-size:11px;color:var(--amber);font-weight:500;display:flex;align-items:center;gap:6px;margin-top:4px;}
+
+/* Do / Don't */
+.do-dont{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.do-col,.dont-col{border-radius:10px;padding:16px 18px;}
+.do-col{background:#F0FDF4;border:1px solid #BBF7D0;}
+.dont-col{background:#FEF2F2;border:1px solid #FECACA;}
+.do-col h4{color:#065F46;font-size:12px;font-weight:700;margin-bottom:10px;}
+.dont-col h4{color:#991B1B;font-size:12px;font-weight:700;margin-bottom:10px;}
+.do-col li,.dont-col li{font-size:12px;line-height:1.6;margin-bottom:6px;padding-left:4px;}
+.do-col li{color:#166534;}
+.dont-col li{color:#991B1B;}
+
+
+/* Blue card */
+.card-blue{border-left:4px solid var(--blue);}
+
+.footer{text-align:center;padding:24px;font-size:11px;color:var(--gray);border-top:1px solid var(--border);}
+
+@media(max-width:700px){
+  .model-steps{grid-template-columns:1fr;}
+  .do-dont,.fallback-grid{grid-template-columns:1fr;}
+  .timeline{flex-direction:column;gap:12px;}
+  .tl-item::before{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Guia de Bolso — Cenário B</h1>
+  <p>30 dias para implantar ou cobrança automática | Contas P (até 5 lojas)</p>
+  <div class="badge">USO INTERNO — TIME COMERCIAL</div>
+  <br>
+  <div class="version">PILOTO — TESTE DE HIPÓTESE</div>
+</div>
+
+<div class="container">
+
+  <!-- ═══ CONTEXTO ESTRATÉGICO ═══ -->
+  <div class="section">
+    <div class="context-banner">
+      <div class="tag">Contexto</div>
+      <h3>Por que estamos testando isso?</h3>
+      <p>A liderança comercial (Moacir) quer acelerar a receita e reduzir o ciclo de implantação em contas P. O modelo atual não tem compromisso de prazo — projetos arrastam 60-90 dias e o primeiro faturamento demora. O objetivo é criar um mecanismo de pressão saudável: o prazo de 30 dias alinha prioridade dos dois lados. <strong>Isso é um teste</strong> — errou, troca. Precisamos de feedback real do campo para iterar. Quando identificarmos que é uma loja muito grande ou complexa (ex: "Cantina do Babo"), damos um passo atrás e ajustamos para 45-60 dias.</p>
+    </div>
+  </div>
+
+  <!-- ═══ MODELO ═══ -->
+  <div class="section">
+    <div class="section-label">O Modelo Principal</div>
+    <div class="model-box">
+      <h2>30 dias para implantar — sem custo nesse período</h2>
+      <div class="sub">O parceiro tem 30 dias após a assinatura para concluir a implantação. Se implantar no prazo, a cobrança começa na ativação. Se o prazo passar, a cobrança inicia automaticamente no D31.</div>
+      <div class="model-steps">
+        <div class="model-step green">
+          <div class="step-n" style="background:var(--green);">A</div>
+          <div class="step-t">Implantou em 30 dias</div>
+          <div class="step-d">Cobrança inicia na ativação — sem surpresa, sem custo extra</div>
+        </div>
+        <div class="model-step" style="border-color:#FED7AA;background:#FFF7ED;">
+          <div class="step-n" style="background:var(--amber);">B</div>
+          <div class="step-t">Não implantou em 30 dias</div>
+          <div class="step-d">Cobrança inicia automaticamente no D31 — plataforma já está pronta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CHECKLIST ELEGIBILIDADE ═══ -->
+  <div class="section">
+    <div class="section-label">Antes de oferecer</div>
+    <div class="section-title">Checklist de Elegibilidade</div>
+    <div class="section-desc">O parceiro precisa atender <strong>todos</strong> os critérios abaixo para entrar no piloto de 30 dias. Se falhar em qualquer item, segue modelo padrão (cobrança pós-implantação sem prazo fixo) ou prazo estendido (45-60 dias, com escalonamento para gestão).</div>
+
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div style="background:#F0FDF4;padding:14px 20px;border-bottom:1px solid #BBF7D0;">
+        <div style="font-size:12px;font-weight:700;color:#065F46;">A loja precisa estar 100% aderente para o setup simplificado de 30 dias</div>
+      </div>
+      <div style="padding:16px 20px;">
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Até 5 lojas</div><div class="chk-desc">Conta P. Acima disso, complexidade operacional exige cronograma estendido. Rollouts ficam com time dedicado.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Sem integrações adicionais</div><div class="chk-desc">Nenhuma integração com ERP, CRM ou sistema de terceiros que dependa de desenvolvimento customizado ou alinhamento externo.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Não é abertura de loja</div><div class="chk-desc">Loja já em operação. Aberturas dependem de obra, licenças e cronogramas fora do nosso controle.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Equipamentos prontos (sem troca de hardware)</div><div class="chk-desc">Parceiro já tem o hardware necessário ou não precisa comprar/trocar. O 3S precisa de servidor local — se o parceiro não tem, o prazo de compra+instalação inviabiliza os 30 dias.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Loja não está em reforma</div><div class="chk-desc">Ambiente físico pronto para operar. Reformas geram incerteza de prazo incompatível com o SLA de 30 dias.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Não é multimarca / cardápio simples</div><div class="chk-desc">Marca única ou cardápio sem alta complexidade. Multimarcas com 2-3 marcas ou cardápio gigantesco exigem mais tempo de cadastro.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Fiscal resolvido internamente</div><div class="chk-desc">Parceiro gerencia certificado e regime tributário sem depender de contabilidade externa que possa atrasar a configuração.</div></div>
+        </div>
+        <div class="checklist-item">
+          <div class="chk-icon">✓</div>
+          <div><div class="chk-title">Infraestrutura 100%</div><div class="chk-desc">Internet estável, rede elétrica adequada, cabeamento de rede disponível. O 3S trabalha com cabo de rede cabeada — não funciona só com Wi-Fi. Se não tem, é investimento extra que impacta prazo.</div></div>
+        </div>
+      </div>
+      <div style="background:#FEF2F2;padding:14px 20px;border-top:1px solid #FECACA;">
+        <div style="font-size:12px;color:#991B1B;line-height:1.5;"><strong>Se falhar em qualquer item:</strong> o parceiro não entra no piloto de 30 dias. Segue modelo padrão (sem prazo fixo) ou prazo estendido (45-60 dias). Não force o enquadramento — o risco de estourar o SLA e gerar atrito é maior que o ganho de aceleração.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ QUANDO NÃO USAR ═══ -->
+  <div class="section">
+    <div class="card card-blue">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px;">📋 Quando NÃO usar o modelo de 30 dias</div>
+      <p style="font-size:13px;color:var(--gray);line-height:1.7;">Contas com cardápio muito extenso (ex: "Cantina do Babo" — cardápio infinito), multimarcas com 2+ marcas distintas, integrações com ERP que precisam ser desenvolvidas, lojas em reforma ou abertura. Nesses casos, dar um passo para trás: "Pessoal, não vai dar para cobrar 30 dias desse cara. Vocês vão ter que manejar e fazer um outro controle aqui de cobrar em 45, 60 ou algo parecido." — o critério de pré-vendas já deve filtrar desde o início da proposta.</p>
+    </div>
+  </div>
+
+  <!-- ═══ TIMELINE ═══ -->
+  <div class="section">
+    <div class="section-label">Linha do tempo</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot start">D0</div>
+        <div class="tl-label">Assinatura</div>
+        <div class="tl-sub">Contrato assinado</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">D1</div>
+        <div class="tl-label">Kick-off</div>
+        <div class="tl-sub">Setup inicia</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">D15</div>
+        <div class="tl-label">Treinamento</div>
+        <div class="tl-sub">Equipe parceiro</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="border-color:var(--green);background:var(--green);color:#fff;">D25</div>
+        <div class="tl-label">Go-live</div>
+        <div class="tl-sub">Meta de ativação</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot active">D30</div>
+        <div class="tl-label">Limite</div>
+        <div class="tl-sub">Cobrança se inativo</div>
+      </div>
+    </div>
+    <div class="card" style="background:#FFFBEB;border:1px solid #FDE68A;padding:14px 18px;margin-top:12px;">
+      <p style="font-size:12px;color:#92400E;"><strong>Regra:</strong> O prazo de 30 dias é para o parceiro organizar suas pendências (cardápio, dados, disponibilidade para treinamento). O time 3S trabalha desde o D1. Se no D30 a plataforma está pronta e o parceiro não ativou, a cobrança começa — ele está escolhendo não usar algo que já está funcionando.</p>
+    </div>
+  </div>
+
+  <!-- ═══ PITCH ═══ -->
+  <div class="section">
+    <div class="section-label">Pitch principal</div>
+    <div class="section-title">Como falar para o parceiro</div>
+    <div class="section-desc">O tom é de benefício: "te damos 30 dias sem custo". Não é punição — é compromisso compartilhado.</div>
+
+    <div class="pitch">
+      <p class="tag">Pitch recomendado</p>
+      <p>Você tem 30 dias após a assinatura para concluir a implantação sem nenhum custo. Nosso time te acompanha nesse período inteiro — cadastro, configuração, treinamento, tudo. Quem segue o cronograma só começa a pagar quando está de fato operando. É o nosso compromisso de entregar rápido e o seu de priorizar o projeto. Funciona dos dois lados.</p>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--green);">
+      <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px;">Argumento central</div>
+      <p style="font-size:13px;color:var(--gray);">O parceiro ganha 30 dias sem custo — isso é um benefício. A cobrança automática no D31 existe para proteger a operação dos dois lados: a 3S não fica com recurso travado indefinidamente e o parceiro não deixa o projeto "morrer" na gaveta. Quem cumpre o prazo não sente diferença nenhuma do modelo atual. O que costuma travar é pendência do lado do parceiro — envio de cardápio, dados fiscais, disponibilidade para treinamento.</p>
+    </div>
+  </div>
+
+  <!-- ═══ OBJEÇÕES ═══ -->
+  <div class="section">
+    <div class="section-label">Tratamento de objeções</div>
+    <div class="section-title">As 6 objeções mais prováveis</div>
+    <div class="section-desc">Clique em cada uma para expandir a resposta.</div>
+
+    <!-- Objeção 1 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">1</div>
+        <div class="obj-title">"30 dias é pouco tempo"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Para operações do seu porte, 30 dias é o tempo médio de implantação — a gente já fez isso várias vezes. Vamos montar o cronograma juntos agora: D1 kick-off, D7 cardápio pronto, D15 treinamento, D25 go-live. Se tiver algum ponto que precise de atenção especial, a gente mapeia antes. Na maioria dos casos, o parceiro está rodando antes do D25."
+        </div>
+        <div class="obj-tip">💡 Tenha o cronograma na mão. Quanto mais tangível, menos abstrato o prazo parece.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 2 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">2</div>
+        <div class="obj-title">"Ainda estou pagando o meu PDV atual"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Perfeito — e é exatamente por isso que 30 dias funciona bem pra você. A gente implanta em 30 dias, você migra a operação e cancela o sistema antigo. Zero sobreposição de custo. Se não tivesse prazo, o projeto poderia levar 60, 90 dias — e aí sim você ficaria pagando dois sistemas por meses."
+        </div>
+        <div class="obj-alt">
+          <strong>Se insistir na sobreposição:</strong> "Me fala o prazo de aviso prévio do seu contrato atual. A gente sincroniza: você dá o aviso agora, a gente implanta em paralelo, e no dia que o antigo desligar, a 3S já está rodando. Nos 30 dias de implantação você não paga nada nosso — é justamente o período de transição sem custo adicional."
+        </div>
+        <div class="obj-tip">💡 O prazo de 30 dias SEM cobrança é o argumento de defesa: "você não paga dois ao mesmo tempo".</div>
+      </div>
+    </div>
+
+    <!-- Objeção 3 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">3</div>
+        <div class="obj-title">"E se a implantação atrasar por culpa de vocês?"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Se o atraso for do nosso lado, a gente realinha. O prazo de 30 dias protege os dois: garante prioridade no seu projeto e velocidade pra você. Nosso SLA interno é entregar em 30 dias — quando não acontece, quase sempre é por pendência do parceiro: envio de cardápio, disponibilidade para treinamento. Por isso montamos tudo no kick-off."
+        </div>
+        <div class="obj-tip">💡 Não prometa "não cobrar se atrasar" — comprometa-se a "realinhar prazo". Mantém firmeza sem ser inflexível.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 4 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">4</div>
+        <div class="obj-title">"Posso começar a pagar só quando estiver usando?"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "É exatamente o que vai acontecer. Em 30 dias você está operando — então quando chegar a primeira cobrança, você já vai estar usando. A diferença é que agora existe um compromisso de prazo dos dois lados. Sem esse compromisso, projetos levam 3, 4 meses — e o parceiro fica travado com o sistema antigo todo esse tempo."
+        </div>
+        <div class="obj-tip">💡 Reframe: "você VAI estar usando antes de pagar — esse é o ponto". O prazo garante isso.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 5 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">5</div>
+        <div class="obj-title">"Minha loja precisa de adaptações (infra, reforma, hardware)"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "Entendo. Se a loja ainda tem pendências de infraestrutura, o modelo de 30 dias pode não ser ideal agora. A gente pode combinar um cronograma que faça sentido — você resolve o que precisa e a gente inicia quando estiver tudo pronto. Não perdemos a venda — só ajustamos o prazo."
+        </div>
+        <div class="obj-alt">
+          <strong>Ação interna:</strong> Parceiro NÃO entra no modelo de 30 dias. Encaminhe para modelo padrão (sem prazo fixo) ou prazo estendido (45-60 dias). Escale para gestão se necessário. NÃO force o enquadramento.
+        </div>
+        <div class="obj-tip">💡 Reconheça a limitação e redirecione. Forçar gera churn — o teste precisa de dados limpos.</div>
+      </div>
+    </div>
+
+    <!-- Objeção 6 -->
+    <div class="objection" onclick="this.classList.toggle('open')">
+      <div class="obj-header">
+        <div class="obj-icon">6</div>
+        <div class="obj-title">"O concorrente X não tem esse prazo"</div>
+        <div class="obj-arrow">▼</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-response">
+          <strong>Resposta:</strong> "E quanto tempo leva a implantação deles? Quando não existe prazo, o projeto fica sem prioridade — dos dois lados. A gente prefere ser transparente: 30 dias, cronograma definido, time dedicado. Você sabe exatamente quando vai estar rodando. Me diz qual concorrente te dá essa previsibilidade."
+        </div>
+        <div class="obj-tip">💡 Prazo = previsibilidade = profissionalismo. Sem prazo = fila = incerteza.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DO / DON'T ═══ -->
+  <div class="section">
+    <div class="section-label">Boas práticas</div>
+    <div class="section-title">Faça / Evite</div>
+
+    <div class="do-dont">
+      <div class="do-col">
+        <h4>✓ Faça</h4>
+        <ul style="list-style:none;padding:0;">
+          <li>→ Passe pelo checklist ANTES de propor o modelo</li>
+          <li>→ Posicione os 30 dias como benefício: "sem custo enquanto implanta"</li>
+          <li>→ Monte o cronograma no ato da assinatura — tangibilize cada marco</li>
+          <li>→ Pergunte sobre restrições do parceiro (férias, obras, eventos)</li>
+          <li>→ Use a objeção do PDV atual a seu favor: "30 dias = zero sobreposição"</li>
+          <li>→ Registre o feedback — estamos testando a hipótese</li>
+        </ul>
+      </div>
+      <div class="dont-col">
+        <h4>✗ Evite</h4>
+        <ul style="list-style:none;padding:0;">
+          <li>→ Dizer "se não implantar, cobra" como ameaça — é consequência natural</li>
+          <li>→ Estender o prazo verbalmente ("ah, se precisar a gente vê")</li>
+          <li>→ Oferecer desconto para compensar o prazo</li>
+          <li>→ Prometer isenção se atrasar — prometa "realinhamento"</li>
+          <li>→ Forçar parceiro que falha no checklist — isso gera churn</li>
+          <li>→ Ceder sem escalar — o teste precisa de dados limpos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RESUMO RÁPIDO ═══ -->
+  <div class="section">
+    <div class="section-label">Cola rápida</div>
+    <div class="card" style="background:#F9FAFB;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px;">
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Público</div>
+          <div style="color:var(--gray);">Contas P (até 5 lojas) que passam no checklist</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Desconto</div>
+          <div style="color:var(--gray);">Apenas o default — sem concessão extra</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Modelo principal</div>
+          <div style="color:var(--gray);">30 dias sem custo → cobrança na ativação ou no D31</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Se não passar no checklist</div>
+          <div style="color:var(--gray);">Modelo padrão / prazo estendido (45-60d)</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Argumento central</div>
+          <div style="color:var(--gray);">30 dias sem custo é benefício. Prazo = velocidade.</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Se travar</div>
+          <div style="color:var(--gray);">Escalar para gestão — não estender prazo</div>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--text);margin-bottom:4px;">Natureza</div>
+          <div style="color:var(--gray);">Piloto — estamos testando. Feedback > concessão.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ QUANDO ESCALAR ═══ -->
+  <div class="section">
+    <div class="card" style="background:#FFFBEB;border:1px solid #FDE68A;">
+      <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px;">⚡ Quando escalar para a gestão</div>
+      <p style="font-size:13px;color:var(--gray);line-height:1.6;">Se o parceiro resistir após 2+ tentativas de tratamento, escale para o gestor com contexto completo: qual objeção específica, o que já foi tentado, e o nível de urgência do parceiro. O piloto precisa de feedback honesto — se não funcionar, precisamos saber por quê, não mascarar com concessões.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  3S Checkout — Guia de Bolso Cenário B: 30 Dias + Contenção Cenário A | Uso interno | v2.0 — Atualizado com weekly 30/07/2026
+</div>
+
+</body>
+</html>

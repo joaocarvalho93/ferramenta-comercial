@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>iFood Move — Push Propostas</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',-apple-system,sans-serif;background:#1a1a2e;color:#fff;min-height:100vh;padding:40px 20px;}
+.container{max-width:800px;margin:0 auto;}
+h1{font-size:28px;font-weight:800;margin-bottom:8px;}
+.sub{color:rgba(255,255,255,.5);font-size:14px;margin-bottom:32px;}
+.card{background:rgba(255,255,255,.06);border-radius:12px;padding:20px;margin-bottom:16px;border:1px solid rgba(255,255,255,.08);}
+.card h3{font-size:16px;font-weight:700;margin-bottom:4px;}
+.card .meta{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:12px;}
+.card .details{font-size:13px;line-height:1.7;color:rgba(255,255,255,.7);}
+.card .details strong{color:#FF6B7A;}
+.card .offer{background:rgba(233,32,46,.15);border:1px solid rgba(233,32,46,.3);border-radius:8px;padding:12px;margin-top:10px;font-size:13px;color:#FF6B7A;font-weight:600;}
+.status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;margin-left:8px;}
+.status.pending{background:rgba(255,165,0,.2);color:orange;}
+.status.ok{background:rgba(16,185,129,.2);color:#10B981;}
+.status.err{background:rgba(239,68,68,.2);color:#EF4444;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;border:none;transition:all .2s;margin-top:24px;}
+.btn-push{background:#e9202e;color:#fff;}
+.btn-push:hover{background:#C41528;}
+.btn-push:disabled{opacity:.5;cursor:not-allowed;}
+.log{margin-top:20px;background:rgba(0,0,0,.3);border-radius:8px;padding:16px;font-size:12px;font-family:monospace;max-height:300px;overflow-y:auto;display:none;}
+.log .line{padding:2px 0;color:rgba(255,255,255,.6);}
+.log .line.ok{color:#10B981;}
+.log .line.err{color:#EF4444;}
+.disclaimer{background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.3);border-radius:8px;padding:14px;margin-bottom:24px;font-size:13px;color:orange;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>iFood Move — Propostas Especiais</h1>
+  <p class="sub">Este script vai criar as propostas Move no repositorio GitHub da Caixa de Ferramentas.</p>
+
+  <div class="disclaimer">
+    Todas as propostas abaixo incluem condicoes especiais exclusivas do iFood Move com <strong>validade de 1 semana</strong> a partir da data de criacao.
+  </div>
+
+  <div id="cards"></div>
+
+  <button class="btn btn-push" id="btnPush" onclick="pushAll()">Enviar Propostas para GitHub</button>
+
+  <div class="log" id="log"></div>
+</div>
+
+<script>
+// ─── GitHub Config (same as main app) ───
+const GH={
+  owner:'joaocarvalho93',
+  repo:'ferramenta-comercial',
+  token:(()=>{try{return atob('ZlFQMDY0Q2RqdlF1OWNmekxCcXpwZFlPS2tyUDAyc0R0UzVHX3BoZw==').split('').reverse().join('');}catch(e){return'';}})()
+};
+
+// ─── Proposals Data ───
+const NOW=new Date();
+const VALIDADE=new Date(NOW.getTime()+7*24*60*60*1000);
+const validadeStr=VALIDADE.toLocaleDateString('pt-BR');
+
+const PROPOSTAS=[
+  {
+    id: Date.now(),
+    data: NOW.toLocaleDateString('pt-BR'),
+    hora: NOW.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    dataCriacao: NOW.toISOString(),
+    dataModificacao: NOW.toISOString(),
+    nome: 'Grupo Belas Artes',
+    lj: 14,
+    ct: 60,
+    ro: 3,
+    responsavel: 'joao.carlos@ifood.com.br',
+    segmento: 'Entretenimento',
+    culinaria: 'Diversos',
+    estado: 'SP',
+    setup: 0,
+    inst: 22708,
+    ixSetup: true,
+    ixInst: false,
+    ms: 710,
+    addTotal: 0,
+    rb: 0,
+    incAnual: 0,
+    incMes: 0,
+    devVal: 0,
+    invMeses: 0,
+    invMensal: 0,
+    modulos: ['Totem — Ate 3','Marketplace — iFood / Rappi / OD','PDV — Ilimitado','Producao Impressoras — Ate 3','KDS — 1','3SGo — App gestao'],
+    meIds: ['totem_3','mkt_full','pdv_ilim'],
+    maOn: [
+      {id:'kinesis',on:false,ix:false},
+      {id:'pos_3',on:false,ix:false},
+      {id:'imp_3',on:true,ix:false},
+      {id:'marca',on:false,ix:false}
+    ],
+    mxOn: [
+      {id:'3sgo',on:true},
+      {id:'bi_simples',on:false},
+      {id:'bi_admin',on:false},
+      {id:'eats_d',on:false},
+      {id:'eats_m',on:false},
+      {id:'eats_combo',on:false}
+    ],
+    moveEvent: true,
+    moveOfertas: [
+      'Isencao de Setup (R$3.000 por loja)',
+      'Isencao Totem ate 3 (R$180/loja/mes)',
+      'Isencao Marketplace (R$110/loja/mes)',
+      'Isencao KDS 1 (R$80/loja/mes)',
+      'Isencao 3SGo (R$60/loja/mes)',
+      'Piloto 30 dias em 1-2 lojas (isento mensalidade)'
+    ],
+    moveCondicao: 'MOVE — Isencao Setup + 4 modulos isentos. Oferta especial: 2 meses de carencia na mensalidade para as primeiras 4 lojas do rollout. Validade: '+validadeStr,
+    moveValidade: VALIDADE.toISOString(),
+    _label: 'Belas Artes — 14 lojas — Oferta Move: 2 meses carencia + modulos isentos'
+  },
+  {
+    id: Date.now()+1,
+    data: NOW.toLocaleDateString('pt-BR'),
+    hora: NOW.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    dataCriacao: NOW.toISOString(),
+    dataModificacao: NOW.toISOString(),
+    nome: 'Isabela Akkari',
+    lj: 5,
+    ct: 60,
+    ro: 2,
+    responsavel: 'joao.carlos@ifood.com.br',
+    segmento: 'Alimentacao',
+    culinaria: 'Diversos',
+    estado: 'SP',
+    setup: 3000,
+    inst: 0,
+    ixSetup: false,
+    ixInst: true,
+    ms: 600,
+    addTotal: 0,
+    rb: 0,
+    incAnual: 0,
+    incMes: 0,
+    devVal: 0,
+    invMeses: 0,
+    invMensal: 0,
+    modulos: ['PDV — Ate 3','Marketplace — iFood / Open Delivery','Producao Impressoras — Ate 3','POS Mobile — Ate 3'],
+    meIds: ['pdv_3','mkt_ifood_od'],
+    maOn: [
+      {id:'kinesis',on:false,ix:false},
+      {id:'pos_3',on:true,ix:false},
+      {id:'imp_3',on:true,ix:false},
+      {id:'marca',on:false,ix:false}
+    ],
+    mxOn: [
+      {id:'3sgo',on:false},
+      {id:'bi_simples',on:false},
+      {id:'bi_admin',on:false},
+      {id:'eats_d',on:false},
+      {id:'eats_m',on:false},
+      {id:'eats_combo',on:false}
+    ],
+    moveEvent: true,
+    moveOfertas: [
+      'Isencao de Setup (R$3.000)',
+      'Isencao da instalacao (ja isenta na proposta original)',
+      '1 mes de carencia na mensalidade (primeira loja piloto)',
+      'Parcelamento instalacao em 4x sem juros'
+    ],
+    moveCondicao: 'MOVE — Isencao total de Setup (R$3.000) + 1 mes de carencia na mensalidade da loja piloto. Validade: '+validadeStr,
+    moveValidade: VALIDADE.toISOString(),
+    _label: 'Isabela Akkari — 5 lojas — Oferta Move: Isencao setup + carencia piloto'
+  },
+  {
+    id: Date.now()+2,
+    data: NOW.toLocaleDateString('pt-BR'),
+    hora: NOW.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    dataCriacao: NOW.toISOString(),
+    dataModificacao: NOW.toISOString(),
+    nome: 'Grupo Bercy (Impressora)',
+    lj: 9,
+    ct: 60,
+    ro: 3,
+    responsavel: 'joao.carlos@ifood.com.br',
+    segmento: 'Alimentacao',
+    culinaria: 'Diversos',
+    estado: 'SP',
+    setup: 2500,
+    inst: 0,
+    ixSetup: false,
+    ixInst: true,
+    ms: 740,
+    addTotal: 0,
+    rb: 0,
+    incAnual: 0,
+    incMes: 0,
+    devVal: 0,
+    invMeses: 0,
+    invMensal: 0,
+    modulos: ['PDV — Ilimitado','POS Mobile — Ate 5','Impressora Ilimitada','Marca Adicional — ate 3 lojas','Marketplace — Open Delivery'],
+    meIds: ['pdv_ilim'],
+    maOn: [
+      {id:'kinesis',on:false,ix:false},
+      {id:'pos_3',on:true,ix:false},
+      {id:'imp_3',on:true,ix:false},
+      {id:'marca',on:true,ix:false}
+    ],
+    mxOn: [
+      {id:'3sgo',on:false},
+      {id:'bi_simples',on:false},
+      {id:'bi_admin',on:false},
+      {id:'eats_d',on:false},
+      {id:'eats_m',on:false},
+      {id:'eats_combo',on:false}
+    ],
+    moveEvent: true,
+    moveOfertas: [
+      'Isencao total de Setup (R$2.500)',
+      'Isencao de 3S Eats (assinando em setembro/2026)',
+      'Desconto adicional: R$740 -> R$690/loja/mes (-6.8%)',
+      '2 meses de carencia na mensalidade (lojas piloto)'
+    ],
+    moveCondicao: 'MOVE — Setup isento + 3S Eats gratis + desconto de R$50/loja/mes + 2 meses carencia no piloto. Validade: '+validadeStr,
+    moveValidade: VALIDADE.toISOString(),
+    _label: 'Grupo Bercy (Impressora) — 9 lojas — Oferta Move: Setup isento + 3S Eats + desconto'
+  },
+  {
+    id: Date.now()+3,
+    data: NOW.toLocaleDateString('pt-BR'),
+    hora: NOW.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+    dataCriacao: NOW.toISOString(),
+    dataModificacao: NOW.toISOString(),
+    nome: 'Grupo Bercy (KDS)',
+    lj: 9,
+    ct: 60,
+    ro: 3,
+    responsavel: 'joao.carlos@ifood.com.br',
+    segmento: 'Alimentacao',
+    culinaria: 'Diversos',
+    estado: 'SP',
+    setup: 2500,
+    inst: 0,
+    ixSetup: false,
+    ixInst: true,
+    ms: 840,
+    addTotal: 0,
+    rb: 0,
+    incAnual: 0,
+    incMes: 0,
+    devVal: 0,
+    invMeses: 0,
+    invMensal: 0,
+    modulos: ['PDV — Ilimitado','POS Mobile — Ate 5','KDS — Ilimitado','Marca Adicional — ate 3 lojas','Marketplace — Open Delivery'],
+    meIds: ['pdv_ilim','kds_ilim'],
+    maOn: [
+      {id:'kinesis',on:false,ix:false},
+      {id:'pos_3',on:true,ix:false},
+      {id:'imp_3',on:false,ix:false},
+      {id:'marca',on:true,ix:false}
+    ],
+    mxOn: [
+      {id:'3sgo',on:false},
+      {id:'bi_simples',on:false},
+      {id:'bi_admin',on:false},
+      {id:'eats_d',on:false},
+      {id:'eats_m',on:false},
+      {id:'eats_combo',on:false}
+    ],
+    moveEvent: true,
+    moveOfertas: [
+      'Isencao total de Setup (R$2.500)',
+      'Isencao de 3S Eats (assinando em setembro/2026)',
+      'Desconto adicional: R$840 -> R$790/loja/mes (-6.0%)',
+      '2 meses de carencia na mensalidade (lojas piloto)'
+    ],
+    moveCondicao: 'MOVE — Setup isento + 3S Eats gratis + desconto de R$50/loja/mes + 2 meses carencia no piloto. Validade: '+validadeStr,
+    moveValidade: VALIDADE.toISOString(),
+    _label: 'Grupo Bercy (KDS) — 9 lojas — Oferta Move: Setup isento + 3S Eats + desconto'
+  }
+];
+
+// ─── Render Cards ───
+function renderCards(){
+  const el=document.getElementById('cards');
+  el.innerHTML=PROPOSTAS.map((p,i)=>`
+    <div class="card" id="card${i}">
+      <h3>${p.nome} <span class="status pending" id="st${i}">Pendente</span></h3>
+      <div class="meta">${p.lj} lojas | ${p.ct} meses | R$ ${p.ms}/loja/mes | Rollout ${p.ro} meses</div>
+      <div class="details">
+        <strong>Modulos:</strong> ${p.modulos.join(', ')}<br>
+        <strong>Setup:</strong> ${p.ixSetup?'ISENTO':'R$ '+p.setup.toLocaleString('pt-BR')}<br>
+        <strong>Instalacao:</strong> ${p.ixInst?'ISENTA':'R$ '+p.inst.toLocaleString('pt-BR')}
+      </div>
+      <div class="offer">
+        <div style="margin-bottom:6px;font-size:14px;">Oferta Move:</div>
+        ${p.moveOfertas.map(o=>'- '+o).join('<br>')}
+        <div style="margin-top:8px;font-size:11px;opacity:.7;">Validade: ${validadeStr}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ─── GitHub API ───
+async function ghApi(path,opts={}){
+  const url=`https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${path}`;
+  const res=await fetch(url,{
+    headers:{
+      'Authorization':'token '+GH.token,
+      'Accept':'application/vnd.github.v3+json',
+      'Content-Type':'application/json',
+      ...opts.headers
+    },
+    method:opts.method||'GET',
+    body:opts.body||undefined
+  });
+  return res.json();
+}
+
+function log(msg,cls=''){
+  const el=document.getElementById('log');
+  el.style.display='block';
+  el.innerHTML+=`<div class="line ${cls}">${new Date().toLocaleTimeString('pt-BR')} — ${msg}</div>`;
+  el.scrollTop=el.scrollHeight;
+}
+
+async function pushAll(){
+  const btn=document.getElementById('btnPush');
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+  log('Iniciando envio de '+PROPOSTAS.length+' propostas Move...');
+
+  for(let i=0;i<PROPOSTAS.length;i++){
+    const p={...PROPOSTAS[i]};
+    const label=p._label;
+    delete p._label;
+
+    const filename=`propostas/${p.nome.replace(/[^a-zA-Z0-9\s]/g,'').replace(/\s+/g,'_')}_MOVE_${p.id}.json`;
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(p,null,2))));
+
+    log(`[${i+1}/${PROPOSTAS.length}] Enviando: ${p.nome}...`);
+
+    try{
+      const body=JSON.stringify({
+        message: `[iFood Move] ${p.nome} — proposta especial`,
+        content: content
+      });
+      const res=await ghApi(filename,{method:'PUT',body});
+
+      if(res.content&&res.content.sha){
+        log(`OK: ${p.nome} salvo com sucesso!`,'ok');
+        document.getElementById('st'+i).className='status ok';
+        document.getElementById('st'+i).textContent='Enviado';
+      }else{
+        log(`AVISO: ${p.nome} — resposta: ${JSON.stringify(res).substring(0,200)}`,'err');
+        document.getElementById('st'+i).className='status err';
+        document.getElementById('st'+i).textContent='Erro';
+      }
+    }catch(e){
+      log(`ERRO: ${p.nome} — ${e.message}`,'err');
+      document.getElementById('st'+i).className='status err';
+      document.getElementById('st'+i).textContent='Erro';
+    }
+
+    // Small delay between requests
+    if(i<PROPOSTAS.length-1) await new Promise(r=>setTimeout(r,500));
+  }
+
+  log('Processo finalizado! Abra a Caixa de Ferramentas para ver as propostas.','ok');
+  btn.textContent='Concluido!';
+}
+
+renderCards();
+</script>
+</body>
+</html>

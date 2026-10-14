@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Precificação — 3S Checkout</title>
+<style>
+:root{
+  --red:#E9202E;--dark:#890119;--bg:#F8F9FA;--card:#FFF;
+  --border:#E5E7EB;--gray:#6B7280;--dark-text:#1F2937;
+  --green:#059669;--amber:#D97706;--blue:#2563EB;
+  --purple:#7C3AED;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--dark-text);line-height:1.5}
+
+.header{background:linear-gradient(135deg,var(--dark) 0%,var(--red) 100%);color:#fff;padding:32px 24px;text-align:center}
+.header h1{font-size:22px;font-weight:700;margin-bottom:4px}
+.header p{font-size:13px;opacity:.8}
+
+.container{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+
+.info-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.info-chip{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 16px;flex:1;min-width:120px;text-align:center}
+.info-chip .val{font-size:20px;font-weight:700;color:var(--red)}
+.info-chip .lbl{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:.5px}
+
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:16px;overflow:hidden}
+.section-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.section-head:hover{background:#FAFAFA}
+.section-head h2{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.section-head .badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;text-transform:uppercase}
+.badge-ess{background:#FEE2E2;color:var(--dark)}
+.badge-add{background:#E0E7FF;color:#3730A3}
+.badge-ext{background:#FEF3C7;color:#92400E}
+.section-head .subtotal{font-size:14px;font-weight:700;color:var(--red)}
+
+.section-body{padding:0}
+.row{display:grid;grid-template-columns:1fr 100px 90px 80px 110px;align-items:center;padding:10px 18px;border-bottom:1px solid #F3F4F6;font-size:13px;gap:8px}
+.row:last-child{border-bottom:none}
+.row.head{font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.3px;background:#FAFAFA;padding:8px 18px}
+.row .item-name{font-weight:500}
+.row .item-desc{font-size:11px;color:var(--gray);margin-top:2px}
+.row input[type="number"]{width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:13px;text-align:center;background:#FAFBFC}
+.row input[type="number"]:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 2px rgba(233,32,46,.12)}
+.row .unit-price{color:var(--gray);font-size:12px;text-align:center}
+.row .line-total{font-weight:600;text-align:right;color:var(--dark-text)}
+
+.note-row{padding:10px 18px;background:#FFFBEB;border-top:1px solid #FEF3C7;font-size:12px;color:#92400E;display:flex;align-items:center;gap:6px}
+.note-row svg{flex-shrink:0}
+
+.summary{background:var(--card);border:2px solid var(--red);border-radius:12px;padding:24px;margin-top:24px}
+.summary h2{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:16px;text-align:center}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.sum-card{background:#F9FAFB;border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+.sum-card .sum-val{font-size:22px;font-weight:700;color:var(--red)}
+.sum-card .sum-lbl{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.sum-card.highlight{background:linear-gradient(135deg,var(--dark),var(--red));border:none}
+.sum-card.highlight .sum-val{color:#fff}
+.sum-card.highlight .sum-lbl{color:rgba(255,255,255,.7)}
+
+.detail-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.detail-table th{text-align:left;padding:6px 8px;border-bottom:2px solid var(--border);font-weight:600;color:var(--gray);text-transform:uppercase;font-size:10px;letter-spacing:.3px}
+.detail-table td{padding:6px 8px;border-bottom:1px solid #F3F4F6}
+.detail-table tr:last-child td{border-bottom:none;font-weight:700;color:var(--dark)}
+.detail-table .val-col{text-align:right;font-variant-numeric:tabular-nums}
+
+.config-bar{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:16px;display:flex;gap:16px;flex-wrap:wrap;align-items:end}
+.config-bar .fld{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px}
+.config-bar label{font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.3px}
+.config-bar input,.config-bar select{border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;background:#FAFBFC}
+.config-bar input:focus,.config-bar select:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 2px rgba(233,32,46,.12)}
+
+.toggle-row{display:flex;align-items:center;gap:8px;padding:8px 18px;background:#F0FDF4;border-top:1px solid #BBF7D0;font-size:12px;color:var(--green)}
+.toggle-row input[type="checkbox"]{accent-color:var(--green);width:16px;height:16px}
+
+.footer-note{text-align:center;font-size:11px;color:var(--gray);margin-top:24px;padding:16px;border-top:1px solid var(--border)}
+
+@media(max-width:700px){
+  .row{grid-template-columns:1fr 70px 70px 70px;font-size:12px}
+  .row .unit-price{display:none}
+  .sum-grid{grid-template-columns:1fr}
+  .config-bar{flex-direction:column}
+  .info-bar{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Simulador de Precificação — 3S Checkout</h1>
+  <p>Modelo de validação para proposta comercial</p>
+</div>
+
+<div class="container">
+
+  <!-- CONFIG -->
+  <div class="config-bar">
+    <div class="fld">
+      <label>Unidades / Lojas</label>
+      <input type="number" id="cfgLojas" value="23" min="1" onchange="recalc()">
+    </div>
+    <div class="fld">
+      <label>Lojas TEF</label>
+      <input type="number" id="cfgTef" value="20" min="0" onchange="recalc()">
+    </div>
+    <div class="fld">
+      <label>POS Mobile (qty)</label>
+      <input type="number" id="cfgPos" value="4" min="0" onchange="recalc()">
+    </div>
+    <div class="fld">
+      <label>Lojas Pager</label>
+      <input type="number" id="cfgPager" value="20" min="0" onchange="recalc()">
+    </div>
+    <div class="fld">
+      <label>Contrato (meses)</label>
+      <input type="number" id="cfgContrato" value="60" min="12" max="120" onchange="recalc()">
+    </div>
+  </div>
+
+  <!-- INFO BAR -->
+  <div class="info-bar">
+    <div class="info-chip"><div class="val" id="chipLojas">23</div><div class="lbl">Unidades</div></div>
+    <div class="info-chip"><div class="val" id="chipTef">20</div><div class="lbl">Lojas TEF</div></div>
+    <div class="info-chip"><div class="val" id="chipPos">4</div><div class="lbl">POS Mobile</div></div>
+    <div class="info-chip"><div class="val" id="chipPager">20</div><div class="lbl">Lojas Pager</div></div>
+  </div>
+
+  <!-- ═══ PDV ═══ -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSec(this)">
+      <h2><span class="badge badge-ess">Essencial</span> PDV — Frente de Caixa</h2>
+      <span class="subtotal" id="st_pdv">—</span>
+    </div>
+    <div class="section-body">
+      <div class="row head">
+        <div>Módulo</div><div style="text-align:center">Qtd</div><div style="text-align:center">Unit. R$</div><div></div><div style="text-align:right">Subtotal</div>
+      </div>
+      <div class="row" data-mod="pdv">
+        <div>
+          <div class="item-name">PDV — Ilimitado</div>
+          <div class="item-desc">23 unidades = ilimitado por loja</div>
+        </div>
+        <div><input type="number" id="pdv_qty" value="23" min="1" onchange="recalc()"></div>
+        <div class="unit-price">R$ 650,00</div>
+        <div></div>
+        <div class="line-total" id="pdv_tot">—</div>
+      </div>
+      <div class="row" data-mod="pdv_adic">
+        <div>
+          <div class="item-name">PDV — Adicional</div>
+          <div class="item-desc">Caso alguma loja precise de PDV extra</div>
+        </div>
+        <div><input type="number" id="pdv_adic_qty" value="0" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 49,90</div>
+        <div></div>
+        <div class="line-total" id="pdv_adic_tot">—</div>
+      </div>
+    </div>
+    <div class="note-row">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Recomendação: para 23 unidades, PDV Ilimitado (R$ 650/loja) é mais vantajoso que Até 5 (R$ 450) + Adicionais (R$ 49,90 cada).
+    </div>
+  </div>
+
+  <!-- ═══ TEF ═══ -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSec(this)">
+      <h2><span class="badge badge-ess">Essencial</span> TEF — Pagamento Eletrônico</h2>
+      <span class="subtotal" id="st_tef">—</span>
+    </div>
+    <div class="section-body">
+      <div class="row head">
+        <div>Módulo</div><div style="text-align:center">Qtd</div><div style="text-align:center">Unit. R$</div><div></div><div style="text-align:right">Subtotal</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">TEF — 1ª Integração</div>
+          <div class="item-desc">Primeira adquirente por loja</div>
+        </div>
+        <div><input type="number" id="tef1_qty" value="20" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 104,20</div>
+        <div></div>
+        <div class="line-total" id="tef1_tot">—</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">TEF — Adicionais (2-4)</div>
+          <div class="item-desc">Adquirentes extras por loja (2ª a 4ª)</div>
+        </div>
+        <div><input type="number" id="tef2_qty" value="0" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 25,22</div>
+        <div></div>
+        <div class="line-total" id="tef2_tot">—</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">TEF — Adicionais (5-20)</div>
+          <div class="item-desc">Adquirentes extras por loja (5ª a 20ª)</div>
+        </div>
+        <div><input type="number" id="tef3_qty" value="0" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 21,93</div>
+        <div></div>
+        <div class="line-total" id="tef3_tot">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ POS MOBILE ═══ -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSec(this)">
+      <h2><span class="badge badge-add">Adicional</span> POS Mobile</h2>
+      <span class="subtotal" id="st_pos">—</span>
+    </div>
+    <div class="section-body">
+      <div class="row head">
+        <div>Módulo</div><div style="text-align:center">Qtd lojas</div><div style="text-align:center">Unit. R$</div><div></div><div style="text-align:right">Subtotal</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">POS Mobile — Até 3</div>
+          <div class="item-desc">4 POS distribuídos → cabe em "Até 3" por loja se usar em 2+ lojas</div>
+        </div>
+        <div><input type="number" id="pos3_qty" value="0" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 100,00</div>
+        <div></div>
+        <div class="line-total" id="pos3_tot">—</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">POS Mobile — Até 5</div>
+          <div class="item-desc">Se concentrar 4 POS em 1 loja</div>
+        </div>
+        <div><input type="number" id="pos5_qty" value="0" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 150,00</div>
+        <div></div>
+        <div class="line-total" id="pos5_tot">—</div>
+      </div>
+      <div class="row" style="background:#FEFCE8">
+        <div>
+          <div class="item-name">POS Mobile — Ilimitado</div>
+          <div class="item-desc">Sem limite de POS por loja</div>
+        </div>
+        <div><input type="number" id="posI_qty" value="0" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 350,00</div>
+        <div></div>
+        <div class="line-total" id="posI_tot">—</div>
+      </div>
+    </div>
+    <div class="note-row">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      4 POS Mobile para 23 lojas: depende da distribuição. Se 4 lojas usam 1 POS cada → "Até 3" × 4 lojas = R$ 400/mês. Ajuste acima conforme o cenário.
+    </div>
+  </div>
+
+  <!-- ═══ IMPRESSORAS ═══ -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSec(this)">
+      <h2><span class="badge badge-ess">Essencial</span> Produção com Impressoras</h2>
+      <span class="subtotal" id="st_imp">—</span>
+    </div>
+    <div class="section-body">
+      <div class="row head">
+        <div>Módulo</div><div style="text-align:center">Qtd lojas</div><div style="text-align:center">Unit. R$</div><div></div><div style="text-align:right">Subtotal</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">Impressoras — Até 3</div>
+          <div class="item-desc">Se cada loja usa até 3 impressoras</div>
+        </div>
+        <div><input type="number" id="imp3_qty" value="0" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 60,00</div>
+        <div></div>
+        <div class="line-total" id="imp3_tot">—</div>
+      </div>
+      <div class="row" style="background:#FEFCE8">
+        <div>
+          <div class="item-name">Impressoras — Ilimitado</div>
+          <div class="item-desc">Sem limite de impressoras por loja (recomendado p/ 23 unid.)</div>
+        </div>
+        <div><input type="number" id="impI_qty" value="23" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 100,00</div>
+        <div></div>
+        <div class="line-total" id="impI_tot">—</div>
+      </div>
+    </div>
+    <div class="note-row">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      23 impressoras (1 por unidade): "Até 3" (R$ 60/loja) atende. Se alguma loja precisar de mais, considere Ilimitado (R$ 100/loja).
+    </div>
+  </div>
+
+  <!-- ═══ PAGER ═══ -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSec(this)">
+      <h2><span class="badge badge-ext">A Definir</span> Pager — Sistema de Chamada</h2>
+      <span class="subtotal" id="st_pager">—</span>
+    </div>
+    <div class="section-body">
+      <div class="row head">
+        <div>Módulo</div><div style="text-align:center">Qtd lojas</div><div style="text-align:center">Unit. R$</div><div></div><div style="text-align:right">Subtotal</div>
+      </div>
+      <div class="row" style="background:#FFF7ED">
+        <div>
+          <div class="item-name">Pager — por loja</div>
+          <div class="item-desc">Valor a definir — item não consta na precificação padrão 3S</div>
+        </div>
+        <div><input type="number" id="pager_qty" value="20" min="0" onchange="recalc()"></div>
+        <div><input type="number" id="pager_unit" value="0" min="0" step="0.01" onchange="recalc()" placeholder="Definir" style="border-color:#D97706"></div>
+        <div></div>
+        <div class="line-total" id="pager_tot">—</div>
+      </div>
+    </div>
+    <div class="note-row" style="background:#FFF7ED;border-color:#FED7AA;color:#92400E">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Pager NÃO consta na precificação oficial 3S. Definir valor com a equipe de produto ou incluir como hardware à parte.
+    </div>
+  </div>
+
+  <!-- ═══ MARKETPLACE ═══ -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSec(this)">
+      <h2><span class="badge badge-ess">Essencial</span> Integração Marketplace — iFood</h2>
+      <span class="subtotal" id="st_mkt">—</span>
+    </div>
+    <div class="section-body">
+      <div class="row head">
+        <div>Módulo</div><div style="text-align:center">Qtd lojas</div><div style="text-align:center">Unit. R$</div><div></div><div style="text-align:right">Subtotal</div>
+      </div>
+      <div class="row" style="background:#FEF2F2">
+        <div>
+          <div class="item-name">Marketplace — iFood</div>
+          <div class="item-desc">Integração iFood apenas</div>
+        </div>
+        <div><input type="number" id="mkt_qty" value="23" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 60,00</div>
+        <div></div>
+        <div class="line-total" id="mkt_tot">—</div>
+      </div>
+    </div>
+    <div class="toggle-row">
+      <input type="checkbox" id="mkt_isento" onchange="recalc()">
+      <span>Isentar Marketplace iFood (desconto padrão disponível na precificação)</span>
+    </div>
+  </div>
+
+  <!-- ═══ IMPLANTAÇÃO ═══ -->
+  <div class="section">
+    <div class="section-head" onclick="toggleSec(this)">
+      <h2><span class="badge badge-ess">Único</span> Implantação & Setup</h2>
+      <span class="subtotal" id="st_impl">—</span>
+    </div>
+    <div class="section-body">
+      <div class="row head">
+        <div>Item</div><div style="text-align:center">Qtd</div><div style="text-align:center">Unit. R$</div><div></div><div style="text-align:right">Subtotal</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">Instalação — Loja Pequena</div>
+          <div class="item-desc">Instalação remota / loja padrão</div>
+        </div>
+        <div><input type="number" id="inst_peq_qty" value="23" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 1.622,00</div>
+        <div></div>
+        <div class="line-total" id="inst_peq_tot">—</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">Instalação — Loja Grande</div>
+          <div class="item-desc">Instalação presencial / loja grande</div>
+        </div>
+        <div><input type="number" id="inst_grd_qty" value="0" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 2.500,00</div>
+        <div></div>
+        <div class="line-total" id="inst_grd_tot">—</div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="item-name">Setup — Cadastro</div>
+          <div class="item-desc">Configuração inicial por marca (único)</div>
+        </div>
+        <div><input type="number" id="setup_qty" value="1" min="0" onchange="recalc()"></div>
+        <div class="unit-price">R$ 3.000,00</div>
+        <div></div>
+        <div class="line-total" id="setup_tot">—</div>
+      </div>
+    </div>
+    <div class="toggle-row">
+      <input type="checkbox" id="ix_inst" onchange="recalc()">
+      <span>Isentar instalação</span>
+    </div>
+    <div class="toggle-row">
+      <input type="checkbox" id="ix_setup" onchange="recalc()">
+      <span>Isentar setup</span>
+    </div>
+  </div>
+
+  <!-- ═══ RESUMO ═══ -->
+  <div class="summary">
+    <h2>Resumo do Investimento</h2>
+    <div class="sum-grid">
+      <div class="sum-card highlight">
+        <div class="sum-val" id="sumMens">—</div>
+        <div class="sum-lbl">Mensalidade / loja</div>
+      </div>
+      <div class="sum-card highlight">
+        <div class="sum-val" id="sumMensRede">—</div>
+        <div class="sum-lbl">Mensalidade total rede</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-val" id="sumImpl">—</div>
+        <div class="sum-lbl">Implantação (único)</div>
+      </div>
+      <div class="sum-card">
+        <div class="sum-val" id="sumContrato">—</div>
+        <div class="sum-lbl">Valor total contrato</div>
+      </div>
+    </div>
+
+    <table class="detail-table">
+      <thead>
+        <tr><th>Módulo</th><th class="val-col">Mensal / loja</th><th class="val-col">Mensal rede</th></tr>
+      </thead>
+      <tbody id="detailBody"></tbody>
+    </table>
+  </div>
+
+  <div class="footer-note">
+    Valores baseados na precificação padrão 3S Checkout — precificação_3s.xlsx<br>
+    Modelo de validação — sujeito a aprovação comercial
+  </div>
+</div>
+
+<script>
+const fmt=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const gv=id=>{const el=document.getElementById(id);return parseFloat(el.value)||0;};
+const gc=id=>{const el=document.getElementById(id);return el?el.checked:false;};
+const st=(id,v)=>{document.getElementById(id).textContent=v;};
+
+// Prices from precificação_3s.xlsx
+const P={
+  pdv_ilim:650, pdv_adic:49.90,
+  tef1:104.20, tef2:25.22, tef3:21.93,
+  pos3:100, pos5:150, posI:350,
+  imp3:60, impI:100,
+  mkt:60,
+  inst_peq:1622, inst_grd:2500, setup:3000
+};
+
+function recalc(){
+  const lojas=gv('cfgLojas');
+  const lojasTef=gv('cfgTef');
+  const posCfg=gv('cfgPos');
+  const lojasPager=gv('cfgPager');
+  const contrato=gv('cfgContrato');
+
+  // Sync chips
+  st('chipLojas',lojas);st('chipTef',lojasTef);st('chipPos',posCfg);st('chipPager',lojasPager);
+
+  // Sync qty fields from config
+  document.getElementById('pdv_qty').value=lojas;
+  document.getElementById('tef1_qty').value=lojasTef;
+  document.getElementById('pager_qty').value=lojasPager;
+  document.getElementById('mkt_qty').value=lojas;
+  document.getElementById('inst_peq_qty').value=lojas;
+
+  // ── PDV ──
+  const pdvQ=gv('pdv_qty'), pdvAQ=gv('pdv_adic_qty');
+  const pdvTot=pdvQ*P.pdv_ilim;
+  const pdvAdicTot=pdvAQ*P.pdv_adic;
+  st('pdv_tot',fmt(pdvTot));
+  st('pdv_adic_tot',fmt(pdvAdicTot));
+  const stPdv=pdvTot+pdvAdicTot;
+  st('st_pdv',fmt(stPdv)+'/mês');
+
+  // ── TEF ──
+  const tef1Q=gv('tef1_qty'), tef2Q=gv('tef2_qty'), tef3Q=gv('tef3_qty');
+  const tef1T=tef1Q*P.tef1, tef2T=tef2Q*P.tef2, tef3T=tef3Q*P.tef3;
+  st('tef1_tot',fmt(tef1T));st('tef2_tot',fmt(tef2T));st('tef3_tot',fmt(tef3T));
+  const stTef=tef1T+tef2T+tef3T;
+  st('st_tef',fmt(stTef)+'/mês');
+
+  // ── POS ──
+  const pos3T=gv('pos3_qty')*P.pos3, pos5T=gv('pos5_qty')*P.pos5, posIT=gv('posI_qty')*P.posI;
+  st('pos3_tot',fmt(pos3T));st('pos5_tot',fmt(pos5T));st('posI_tot',fmt(posIT));
+  const stPos=pos3T+pos5T+posIT;
+  st('st_pos',fmt(stPos)+'/mês');
+
+  // ── Impressoras ──
+  const imp3T=gv('imp3_qty')*P.imp3, impIT=gv('impI_qty')*P.impI;
+  st('imp3_tot',fmt(imp3T));st('impI_tot',fmt(impIT));
+  const stImp=imp3T+impIT;
+  st('st_imp',fmt(stImp)+'/mês');
+
+  // ── Pager ──
+  const pagerU=gv('pager_unit'), pagerQ=gv('pager_qty');
+  const stPager=pagerQ*pagerU;
+  st('pager_tot',fmt(stPager));
+  st('st_pager',pagerU>0?fmt(stPager)+'/mês':'A definir');
+
+  // ── Marketplace ──
+  const mktIsento=gc('mkt_isento');
+  const mktQ=gv('mkt_qty');
+  const stMkt=mktIsento?0:mktQ*P.mkt;
+  st('mkt_tot',mktIsento?'ISENTO':fmt(mktQ*P.mkt));
+  st('st_mkt',mktIsento?'ISENTO':fmt(stMkt)+'/mês');
+
+  // ── Implantação ──
+  const ixInst=gc('ix_inst'), ixSetup=gc('ix_setup');
+  const instPeqT=gv('inst_peq_qty')*P.inst_peq;
+  const instGrdT=gv('inst_grd_qty')*P.inst_grd;
+  const setupT=gv('setup_qty')*P.setup;
+  st('inst_peq_tot',ixInst?'ISENTO':fmt(instPeqT));
+  st('inst_grd_tot',ixInst?'ISENTO':fmt(instGrdT));
+  st('setup_tot',ixSetup?'ISENTO':fmt(setupT));
+  const stImpl=(ixInst?0:(instPeqT+instGrdT))+(ixSetup?0:setupT);
+  st('st_impl',fmt(stImpl));
+
+  // ── SUMMARY ──
+  const totalMensRede=stPdv+stTef+stPos+stImp+stPager+stMkt;
+  const mensLoja=lojas>0?totalMensRede/lojas:0;
+  st('sumMens',fmt(mensLoja));
+  st('sumMensRede',fmt(totalMensRede));
+  st('sumImpl',fmt(stImpl));
+  st('sumContrato',fmt(totalMensRede*contrato+stImpl));
+
+  // Detail table
+  const details=[
+    {nm:'PDV Ilimitado',perLoja:P.pdv_ilim,rede:pdvTot},
+    pdvAQ>0?{nm:'PDV Adicional (×'+pdvAQ+')',perLoja:pdvAdicTot/lojas,rede:pdvAdicTot}:null,
+    {nm:'TEF 1ª Integração',perLoja:tef1Q>0?tef1T/lojas:0,rede:tef1T},
+    tef2Q>0?{nm:'TEF Adic. (2-4) ×'+tef2Q,perLoja:tef2T/lojas,rede:tef2T}:null,
+    tef3Q>0?{nm:'TEF Adic. (5-20) ×'+tef3Q,perLoja:tef3T/lojas,rede:tef3T}:null,
+    stPos>0?{nm:'POS Mobile',perLoja:stPos/lojas,rede:stPos}:null,
+    {nm:'Impressoras',perLoja:stImp/lojas,rede:stImp},
+    pagerU>0?{nm:'Pager',perLoja:stPager/lojas,rede:stPager}:null,
+    {nm:'Marketplace iFood'+(mktIsento?' (ISENTO)':''),perLoja:mktIsento?0:P.mkt,rede:stMkt},
+  ].filter(Boolean);
+
+  details.push({nm:'TOTAL',perLoja:mensLoja,rede:totalMensRede,bold:true});
+
+  const tbody=document.getElementById('detailBody');
+  tbody.innerHTML=details.map(d=>`
+    <tr${d.bold?' style="border-top:2px solid var(--dark);background:#FEF2F2"':''}>
+      <td${d.bold?' style="font-weight:700;color:var(--dark)"':''}>${d.nm}</td>
+      <td class="val-col"${d.bold?' style="font-weight:700;color:var(--red)"':''}>${fmt(d.perLoja)}</td>
+      <td class="val-col"${d.bold?' style="font-weight:700;color:var(--red)"':''}>${fmt(d.rede)}</td>
+    </tr>
+  `).join('');
+}
+
+function toggleSec(head){
+  const body=head.nextElementSibling;
+  if(body)body.style.display=body.style.display==='none'?'':'none';
+}
+
+recalc();
+</script>
+</body>
+</html>
