@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-03-14 (Atualizado)
+**Data:** 14/10/2026 16:03:14
+**Arquivo:** `versions/index_2026-10-14_16-03-14.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: corrigir ordem dos blocos — serviços opcionais E produtos adicionais ANTES de instalação lojas novas
+
+---
+
+
+
 ## v2026-10-14_15-58-47 (Atualizado)
 **Data:** 14/10/2026 15:58:47
 **Arquivo:** `versions/index_2026-10-14_15-58-47.html`
