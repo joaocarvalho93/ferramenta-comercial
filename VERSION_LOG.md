@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-29-18 (Atualizado)
+**Data:** 14/10/2026 16:29:18
+**Arquivo:** `versions/index_2026-10-14_16-29-18.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: passar xsTotal como parâmetro para renderPropostaBody
+
+---
+
+
+
 ## v2026-10-14_16-27-43 (Atualizado)
 **Data:** 14/10/2026 16:27:43
 **Arquivo:** `versions/index_2026-10-14_16-27-43.html`
