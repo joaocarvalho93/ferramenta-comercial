@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-40-54 (Atualizado)
+**Data:** 14/10/2026 16:40:54
+**Arquivo:** `versions/index_2026-10-14_16-40-54.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: calcular opcTotal corretamente para adicionais fora da mensalidade
+
+---
+
+
+
 ## v2026-10-14_16-34-56 (Atualizado)
 **Data:** 14/10/2026 16:34:56
 **Arquivo:** `versions/index_2026-10-14_16-34-56.html`

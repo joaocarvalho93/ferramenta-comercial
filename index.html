@@ -6077,7 +6077,7 @@ function renderDoresBlock(doresList){
 }
 
 function renderPropostaBody(d){
-  const {nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal}=d;
+  const {nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal,opcTotal}=d;
   // Se passou modulosObj, usa getModNm() para cada módulo
   const modulosRender=modulosObj?modulosObj.map(m=>getModNm(m)):modulos;
   const fmtBRL=(v)=>'R$ '+(+v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -6140,10 +6140,10 @@ function renderPropostaBody(d){
   <div style="background:#2D0A0E;border-radius:10px;padding:18px 28px;margin-bottom:16px;">
     <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.5);margin-bottom:6px;">Mensalidade 3S / Loja</div>
     <div style="font-size:28px;font-weight:900;color:#fff;">${fmtBRL(ms)}</div>
-    ${(msAdicionais>0||xsTotal>0)?'<div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;">'+
+    ${(msAdicionais>0||opcTotal>0)?'<div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;">'+
       '<div style="display:flex;justify-content:space-between;"><span>Mensalidade</span><span>'+fmtBRL(ms)+'</span></div>'+
       (msAdicionais>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Adicionais</span><span>'+fmtBRL(msAdicionais)+'</span></div>':'')+
-      (xsTotal>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Outros Produtos</span><span>'+fmtBRL(xsTotal)+'</span></div>':'')+
+      (opcTotal>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Adicionais (fora mensalidade)</span><span>'+fmtBRL(opcTotal)+'</span></div>':'')+
       '</div>':''}
   </div>
 
@@ -6279,7 +6279,7 @@ function _renderModalProposta(p){
       }
     });
   }
-  // Calcular msAdicionais: soma de MA com incMens!==false (já estão em modulos desde linha 6256)
+  // Calcular msAdicionais: soma de MA com incMens!==false (já estão em modulos desde linha 6259)
   if(p.maOn&&p.maOn.length){
     p.maOn.forEach(m=>{
       if(m.on&&m.incMens!==false){
@@ -6288,6 +6288,8 @@ function _renderModalProposta(p){
       }
     });
   }
+  // Calcular opcTotal: soma de itens que NÃO estão na mensalidade (modOpc + xsSel)
+  const opcTotal=modOpc.reduce((s,m)=>s+(m.ix?0:m.v),0) + xsSel.reduce((s,m)=>s+(m.ix?0:m.v),0);
   const xsTotal=xsSel.reduce((s,m)=>s+m.v,0);
   const msBase=ms-msAdicionais;
 
@@ -6315,7 +6317,7 @@ function _renderModalProposta(p){
   let pageHTML;
   try{
     const _dMax=p.dMax||0,_skipPlano=!!p.skipPlano,_prazo=p.prazo||0,_modeloDesc=p.modeloDesc||'linear',_mesesDesconto=p.mesesDesconto||0;
-    const _bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral:p.obsGeral||'',invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dores:p.dores||[],dMax:_dMax,skipPlano:_skipPlano,prazo:_prazo,modeloDesc:_modeloDesc,mesesDesconto:_mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal});
+    const _bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral:p.obsGeral||'',invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dores:p.dores||[],dMax:_dMax,skipPlano:_skipPlano,prazo:_prazo,modeloDesc:_modeloDesc,mesesDesconto:_mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal,opcTotal});
     const _rolloutHTML=(_dMax>0&&!_skipPlano)?renderRolloutBlock({lj,dMax:_dMax,modeloDesc:_modeloDesc,prazo:_prazo,mesesDesconto:_mesesDesconto}):'';
     const _comparativoHTML=(concData&&concIncluir)?renderComparativoBlock(concData):'';
     const _pages=[];_pages.push('<div class="page">'+_bodyHTML+'</div>');
