@@ -6140,7 +6140,7 @@ function renderPropostaBody(d){
   <div style="background:#2D0A0E;border-radius:10px;padding:18px 28px;margin-bottom:16px;">
     <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.5);margin-bottom:6px;">Mensalidade 3S / Loja</div>
     <div style="font-size:28px;font-weight:900;color:#fff;">${fmtBRL(ms)}</div>
-    ${msAdicionais>0?'<div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.5;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;"><div style="display:flex;justify-content:space-between;"><span>Base 3S</span><span>${fmtBRL(msBase)}</span></div><div style="display:flex;justify-content:space-between;margin-top:4px;"><span>+ Adicionais</span><span>${fmtBRL(msAdicionais)}</span></div></div>':''}
+    ${msAdicionais>0?`<div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.5;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;"><div style="display:flex;justify-content:space-between;"><span>Base 3S</span><span>${fmtBRL(msBase)}</span></div><div style="display:flex;justify-content:space-between;margin-top:4px;"><span>+ Adicionais</span><span>${fmtBRL(msAdicionais)}</span></div></div>`:''}
     <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;">Total rede: ${fmtBRLi(ms*lj)}/mês</div>
   </div>
 
@@ -6276,11 +6276,11 @@ function _renderModalProposta(p){
       }
     });
   }
-  // Adicionar também módulos adicionais (MA) com incMens!==false
+  // Calcular msAdicionais: soma de MA com incMens!==false (já estão em modulos desde linha 6256)
   if(p.maOn&&p.maOn.length){
     p.maOn.forEach(m=>{
       if(m.on&&m.incMens!==false){
-        const savedV=(typeof m.v==='number')?m.v:m.v;
+        const savedV=(typeof m.v==='number')?m.v:(MOD_CATALOG.find(c=>c.id===m.id)?MOD_CATALOG.find(c=>c.id===m.id).v:m.v);
         if(!m.ix)msAdicionais+=savedV;
       }
     });
