@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-11-47 (Atualizado)
+**Data:** 14/10/2026 16:11:47
+**Arquivo:** `versions/index_2026-10-14_16-11-47.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- feat: adicionar discriminação de mensalidade base + adicionais no box final
+
+---
+
+
+
 ## v2026-10-14_16-06-55 (Atualizado)
 **Data:** 14/10/2026 16:06:55
 **Arquivo:** `versions/index_2026-10-14_16-06-55.html`

@@ -6140,6 +6140,7 @@ function renderPropostaBody(d){
   <div style="background:#2D0A0E;border-radius:10px;padding:18px 28px;margin-bottom:16px;">
     <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.5);margin-bottom:6px;">Mensalidade 3S / Loja</div>
     <div style="font-size:28px;font-weight:900;color:#fff;">${fmtBRL(ms)}</div>
+    ${msAdicionais>0?'<div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.5;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;"><div style="display:flex;justify-content:space-between;"><span>Base 3S</span><span>${fmtBRL(msBase)}</span></div><div style="display:flex;justify-content:space-between;margin-top:4px;"><span>+ Adicionais</span><span>${fmtBRL(msAdicionais)}</span></div></div>':''}
     <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;">Total rede: ${fmtBRLi(ms*lj)}/mês</div>
   </div>
 
@@ -6263,18 +6264,29 @@ function _renderModalProposta(p){
 
   // Produtos (MX) marcados como "na mensalidade" entram nos serviços inclusos
   const xsSel=[];
+  let msAdicionais=0;
   if(p.mxOn&&p.mxOn.length){
     p.mxOn.forEach(m=>{
       if(m.on){
         const def=MX.find(d=>d.id===m.id);
         const savedV=(typeof m.v==='number')?m.v:(def?def.v:0);
         const nm=def?def.nm:m.id;
-        if(m.incMens===true){modulos.push(nm);}
+        if(m.incMens===true){modulos.push(nm);if(!m.ix)msAdicionais+=savedV;}
         else{xsSel.push({nm,v:savedV,ix:!!m.ix,origV:savedV});}
       }
     });
   }
+  // Adicionar também módulos adicionais (MA) com incMens!==false
+  if(p.maOn&&p.maOn.length){
+    p.maOn.forEach(m=>{
+      if(m.on&&m.incMens!==false){
+        const savedV=(typeof m.v==='number')?m.v:m.v;
+        if(!m.ix)msAdicionais+=savedV;
+      }
+    });
+  }
   const xsTotal=xsSel.reduce((s,m)=>s+m.v,0);
+  const msBase=ms-msAdicionais;
 
   // Isenções
   const isensList=[];
