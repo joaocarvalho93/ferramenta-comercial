@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-27-43 (Atualizado)
+**Data:** 14/10/2026 16:27:43
+**Arquivo:** `versions/index_2026-10-14_16-27-43.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- feat: reformular box de mensalidade com hierarquia: Mensalidade / + Adicionais / + Outros Produtos
+
+---
+
+
+
 ## v2026-10-14_16-22-48 (Atualizado)
 **Data:** 14/10/2026 16:22:48
 **Arquivo:** `versions/index_2026-10-14_16-22-48.html`
