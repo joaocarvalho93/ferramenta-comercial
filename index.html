@@ -6296,13 +6296,6 @@ function _renderModalProposta(p){
 
   const concData=p.conc?CONC[p.conc]:null;
   const concIncluir=(p.concIncluir!==false);
-  if(p.meData&&p.meData.length){
-    p.meData.forEach(d=>{
-      const m={id:d.id,v:d.v,ix:!!d.ix};
-      if(d.mktPlayers)m.mktPlayers=d.mktPlayers;
-      modulosObj.push(m);
-    });
-  }
 
   let pageHTML;
   try{
