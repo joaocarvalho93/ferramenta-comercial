@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_15-58-47 (Atualizado)
+**Data:** 14/10/2026 15:58:47
+**Arquivo:** `versions/index_2026-10-14_15-58-47.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: 3 alterações na ferramenta — observações sem texto default, toolbar sticky no modal, produtos adicionais após serviços opcionais
+
+---
+
+
+
 ## v2026-10-14_12-56-23 (Restaurado — Atual)
 **Data:** 14/10/2026 12:56:23  
 **Arquivo:** `versions/index_2026-10-14_12-56-23.html`  
