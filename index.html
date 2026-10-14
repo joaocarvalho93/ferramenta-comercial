@@ -6140,12 +6140,11 @@ function renderPropostaBody(d){
   <div style="background:#2D0A0E;border-radius:10px;padding:18px 28px;margin-bottom:16px;">
     <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.5);margin-bottom:6px;">Mensalidade 3S / Loja</div>
     <div style="font-size:28px;font-weight:900;color:#fff;">${fmtBRL(ms)}</div>
-    <div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;">
-      <div style="display:flex;justify-content:space-between;"><span>Mensalidade</span><span>${fmtBRL(ms)}</span></div>
-      ${msAdicionais>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Adicionais na mensalidade</span><span>'+fmtBRL(msAdicionais)+'</span></div>':''}
-      ${xsTotal>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Outros Produtos / Loja</span><span>'+fmtBRL(xsTotal)+'</span></div>':''}
-    </div>
-    <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:6px;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;">Total rede: ${fmtBRLi(ms*lj)}/mês</div>
+    ${(msAdicionais>0||xsTotal>0)?'<div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;">'+
+      '<div style="display:flex;justify-content:space-between;"><span>Mensalidade</span><span>'+fmtBRL(ms)+'</span></div>'+
+      (msAdicionais>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Adicionais</span><span>'+fmtBRL(msAdicionais)+'</span></div>':'')+
+      (xsTotal>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Outros Produtos</span><span>'+fmtBRL(xsTotal)+'</span></div>':'')+
+      '</div>':''}
   </div>
 
   ${invDisclaimer?`<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:10px;padding:14px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#92400E;margin-bottom:8px;">Inventário — condição contratual</div><p style="font-size:11px;color:#92400E;line-height:1.5;margin:0;">${invDisclaimer}</p></div>`:''}

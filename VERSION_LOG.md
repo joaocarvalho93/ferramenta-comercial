@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-34-56 (Atualizado)
+**Data:** 14/10/2026 16:34:56
+**Arquivo:** `versions/index_2026-10-14_16-34-56.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: reformular box para não duplicar valores e remover total da rede
+
+---
+
+
+
 ## v2026-10-14_16-29-18 (Atualizado)
 **Data:** 14/10/2026 16:29:18
 **Arquivo:** `versions/index_2026-10-14_16-29-18.html`
