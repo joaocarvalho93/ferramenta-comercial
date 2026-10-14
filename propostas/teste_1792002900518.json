@@ -1,9 +1,9 @@
 {
   "id": 1792002900518,
   "data": "14/10/2026",
-  "hora": "16:14",
+  "hora": "16:15",
   "dataCriacao": "2026-10-14T18:35:00.517Z",
-  "dataModificacao": "2026-10-14T19:14:59.334Z",
+  "dataModificacao": "2026-10-14T19:15:08.334Z",
   "nome": "Teste",
   "lj": 50,
   "ct": 60,
@@ -24,8 +24,8 @@
   "rebInst": 0,
   "inv": 3000,
   "invModo": "none",
-  "ms": 840,
-  "opcTotal": 150,
+  "ms": 990,
+  "opcTotal": 0,
   "addTotal": 60,
   "rb": 0,
   "incAnual": 0,
@@ -50,6 +50,7 @@
     "Produção Impressoras — Até 3",
     "Totem — Até 3",
     "Marketplace — 99 / Keeta",
+    "POS Mobile — Até 5",
     "3SGo — Ilimitado por loja"
   ],
   "meIds": [
@@ -127,7 +128,7 @@
       "on": true,
       "ix": false,
       "v": 150,
-      "incMens": false
+      "incMens": true
     },
     {
       "id": "pos_ilim",
@@ -302,9 +303,38 @@
       "prazo": 2,
       "mesesDesconto": 12,
       "responsavel": "joao.carlos@ifood.com.br"
+    },
+    {
+      "data": "2026-10-14T19:14:59.334Z",
+      "nome": "Teste",
+      "lj": 50,
+      "ct": 60,
+      "ro": 2,
+      "ms": 840,
+      "addTotal": 60,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "obsGeral": "Testando",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 2,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/teste_1792002900518.json",
-  "_gh_sha": "e4b2dd77634db661aa7b872d3f7be7f249a71de6"
+  "_gh_sha": "b9dc09575a6abf9a3b841a3e3d19114be2ae6fd7"
 }
