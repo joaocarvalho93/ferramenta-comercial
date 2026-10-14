@@ -6111,7 +6111,7 @@ function renderPropostaBody(d){
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
     <div style="background:#FFF5F5;border-radius:10px;padding:16px 18px;">
       <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#e9202e;margin-bottom:10px;">Mensalidade — Serviços Inclusos</div>
-      ${modulosRender.map(m=>'<div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 0;color:#890119;"><span style="color:#10B981;">✓</span> '+m+'</div>').join('')}
+      ${modulos.map(m=>'<div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 0;color:#890119;"><span style="color:#10B981;">✓</span> '+m+'</div>').join('')}
     </div>
     <div>
       ${isensList.length?'<div style="background:#F0FDF4;border-radius:10px;padding:16px 18px;margin-bottom:14px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#10B981;margin-bottom:10px;">Condições Especiais</div>'+isensList.map(i=>'<div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 0;color:#065F46;"><span style="color:#10B981;">✓</span> '+i.item+(i.item.includes('isent')?'':' isento')+'</div>').join('')+'</div>':''}

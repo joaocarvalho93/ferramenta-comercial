@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-14_16-22-48 (Atualizado)
+**Data:** 14/10/2026 16:22:48
+**Arquivo:** `versions/index_2026-10-14_16-22-48.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: usar 'modulos' em vez de 'modulosRender' para incluir adicionais na mensalidade
+
+---
+
+
+
 ## v2026-10-14_16-18-47 (Atualizado)
 **Data:** 14/10/2026 16:18:47
 **Arquivo:** `versions/index_2026-10-14_16-18-47.html`
