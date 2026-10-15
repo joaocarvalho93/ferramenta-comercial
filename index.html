@@ -4160,7 +4160,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 .toolbar span{color:#fff;font-size:12px;font-weight:600;}
 .toolbar button{background:#e9202e;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;}
 .toolbar button:hover{background:#c4151f;}
-.doc{max-width:210mm;margin:0 auto;}
+.doc{max-width:210mm;margin:0 auto;margin-top:60px;}
 .page{background:#fff;max-width:210mm;width:100%;margin:0 auto;padding:40px 44px;position:relative;}
 .page + .page{margin-top:24px;}
 .page::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e9202e,#FF6B7A,#F59E0B);}
@@ -4180,7 +4180,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 <script>
 function downloadPDF(){
   const el=document.querySelector('.doc');
-  const opt={margin:[10,10,10,10],filename:'Proposta_${nome.replace(/[^a-zA-Z0-9]/g,'_')}.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','td']}};
+  const nome=document.getElementById('p_nome').value.trim()||'Cliente';
+  const opt={margin:[10,10,10,10],filename:`Proposta_${nome.replace(/[^a-zA-Z0-9]/g,'_')}.pdf`,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','td']}};
   html2pdf().set(opt).from(el).save();
 }
 <\/script>
@@ -4270,7 +4271,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 .toolbar span{color:#fff;font-size:12px;font-weight:600;}
 .toolbar button{background:#e9202e;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;}
 .toolbar button:hover{background:#c4151f;}
-.doc{max-width:210mm;margin:0 auto;}
+.doc{max-width:210mm;margin:0 auto;margin-top:60px;}
 .page{background:#fff;max-width:210mm;width:100%;margin:0 auto;padding:40px 44px;position:relative;}
 .page + .page{margin-top:24px;}
 .page::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e9202e,#FF6B7A,#F59E0B);}
