@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-15_16-23-40 (Atualizado)
+**Data:** 15/10/2026 16:23:40
+**Arquivo:** `versions/index_2026-10-15_16-23-40.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- fix: remover validação de responsável do Step 1 (agora usa email do usuário logado)
+
+---
+
+
+
 ## v2026-10-15_16-04-01 (Atualizado)
 **Data:** 15/10/2026 16:04:01
 **Arquivo:** `versions/index_2026-10-15_16-04-01.html`
