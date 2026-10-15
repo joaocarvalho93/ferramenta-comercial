@@ -1,5 +1,17 @@
 # 📋 Histórico de Versões — index.html
 
+## v2026-10-15_16-04-01 (Atualizado)
+**Data:** 15/10/2026 16:04:01
+**Arquivo:** `versions/index_2026-10-15_16-04-01.html`
+**Status:** ✅ Funcional
+
+**Mudanças:**
+- feat: adicionar login social Google, checkbox lembrar-me e usar email do usuário logado como responsável
+
+---
+
+
+
 ## v2026-10-15_11-46-16 (Atualizado)
 **Data:** 15/10/2026 11:46:16
 **Arquivo:** `versions/index_2026-10-15_11-46-16.html`

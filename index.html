@@ -700,6 +700,8 @@ body.dark #guideInfo p{color:#94a3b8;}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<!-- Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -721,9 +723,17 @@ body.dark #guideInfo p{color:#94a3b8;}
         <label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;">Senha</label>
         <input type="password" id="authPassword" placeholder="••••••••" required style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;box-sizing:border-box;">
       </div>
+      <div style="margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" id="authRememberMe" style="width:16px;height:16px;cursor:pointer;">
+        <label for="authRememberMe" style="font-size:12px;color:var(--gray);cursor:pointer;margin:0;">Manter-me conectado</label>
+      </div>
       <button type="submit" style="width:100%;padding:11px;background:#e9202e;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Entrar</button>
       <div id="authLoginError" style="color:#EF4444;font-size:12px;margin-top:12px;padding:10px;background:#FEE2E2;border-radius:6px;display:none;"></div>
     </form>
+
+    <!-- Google Sign In -->
+    <div id="googleSignInButton" style="margin:20px 0;display:flex;justify-content:center;"></div>
+    <p style="text-align:center;font-size:11px;color:var(--gray);margin:12px 0;">ou continue com email/senha</p>
 
     <!-- Form Cadastro -->
     <form id="authSignupForm" onsubmit="handleSignup(event)" style="display:none;">
@@ -734,6 +744,10 @@ body.dark #guideInfo p{color:#94a3b8;}
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;">Senha</label>
         <input type="password" id="authSignupPassword" placeholder="••••••••" required minlength="6" style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+        <input type="checkbox" id="authSignupRememberMe" style="width:16px;height:16px;cursor:pointer;">
+        <label for="authSignupRememberMe" style="font-size:12px;color:var(--gray);cursor:pointer;margin:0;">Manter-me conectado</label>
       </div>
       <button type="submit" style="width:100%;padding:11px;background:#e9202e;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Criar Conta</button>
       <div id="authSignupError" style="color:#EF4444;font-size:12px;margin-top:12px;padding:10px;background:#FEE2E2;border-radius:6px;display:none;"></div>
@@ -842,17 +856,6 @@ body.dark #guideInfo p{color:#94a3b8;}
     <div class="r2">
       <div class="fld"><label>Meses de contrato *</label><input type="number" id="p_contrato" value="60" min="12" max="120"></div>
       <div class="fld"><label>Meses de rollout *</label><input type="number" id="p_rollout" value="2" min="1" max="60"></div>
-    </div>
-    <div class="fld" style="margin-top:4px;">
-      <label>Responsável pela proposta *</label>
-      <div style="display:flex;gap:8px;" id="respWrap">
-        <select id="p_resp_select" style="flex:1;" onchange="onRespSelect(this)">
-          <option value="">Selecionar responsável</option>
-          <option value="__novo__">+ Novo responsável</option>
-        </select>
-        <input type="email" id="p_resp_input" placeholder="nome@ifood.com.br" style="flex:1;display:none;" autocomplete="email">
-        <button class="btn btn-o" id="p_resp_save_btn" style="display:none;font-size:11px;padding:6px 12px;white-space:nowrap;" onclick="salvarNovoResp()">Salvar</button>
-      </div>
     </div>
   </div>
 
@@ -3314,50 +3317,8 @@ function syncParams(){
 // RESPONSÁVEL — persistência de e-mails
 // ══════════════════════════════════════
 function getResponsaveis(){return JSON.parse(localStorage.getItem('resp_emails_3s')||'[]');}
-function saveResponsavel(email){
-  const arr=getResponsaveis();
-  if(!arr.includes(email)){arr.push(email);localStorage.setItem('resp_emails_3s',JSON.stringify(arr));}
-}
-function loadRespSelect(){
-  const sel=document.getElementById('p_resp_select');
-  if(!sel)return;
-  const current=sel.value;
-  // Limpar e reconstruir
-  sel.innerHTML='<option value="">Selecionar responsável</option>';
-  getResponsaveis().forEach(e=>{
-    const opt=document.createElement('option');opt.value=e;opt.textContent=e;sel.appendChild(opt);
-  });
-  const novoOpt=document.createElement('option');novoOpt.value='__novo__';novoOpt.textContent='+ Novo responsável';sel.appendChild(novoOpt);
-  if(current&&current!=='__novo__')sel.value=current;
-}
-function onRespSelect(sel){
-  const inp=document.getElementById('p_resp_input');
-  const btn=document.getElementById('p_resp_save_btn');
-  if(sel.value==='__novo__'){
-    inp.style.display='';btn.style.display='';inp.focus();
-  }else{
-    inp.style.display='none';btn.style.display='none';inp.value='';
-  }
-}
-function salvarNovoResp(){
-  const inp=document.getElementById('p_resp_input');
-  const email=inp.value.trim().toLowerCase();
-  if(!email||!email.includes('@')){showToast('Digite um e-mail válido','#EF4444');return;}
-  saveResponsavel(email);
-  loadRespSelect();
-  document.getElementById('p_resp_select').value=email;
-  inp.style.display='none';
-  document.getElementById('p_resp_save_btn').style.display='none';
-  inp.value='';
-  showToast('Responsável salvo!','#10B981');
-}
 function getResponsavelAtual(){
-  const sel=document.getElementById('p_resp_select');
-  if(sel.value==='__novo__'){
-    const inp=document.getElementById('p_resp_input');
-    return inp.value.trim().toLowerCase();
-  }
-  return sel.value;
+  return auth.currentUser?.email||'';
 }
 
 // ══════════════════════════════════════
@@ -5018,9 +4979,6 @@ function buildPropostaObj(){
   const uf=document.getElementById('p_uf').value;
   const conc=document.getElementById('p_conc').value;
   const concIncluir=gc('p_conc_inc');
-
-  // Salvar responsável para uso futuro
-  if(resp&&resp.includes('@'))saveResponsavel(resp);
 
   const agora=new Date();
   const dataFormatada=agora.toLocaleDateString('pt-BR');
@@ -8208,17 +8166,23 @@ function mvVisualizarPropostaSalva(idx){
 // ── FIREBASE CONFIGURATION ──
 const firebaseConfig={apiKey:"AIzaSyBTPihPj9PurM9DiUa_lPbpDabCmEo92o0",authDomain:"fir-propostas.firebaseapp.com",projectId:"fir-propostas",storageBucket:"fir-propostas.firebasestorage.app",messagingSenderId:"784721415970",appId:"1:784721415970:web:f09760cdefce543d579f7b"};firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=firebase.firestore();const ADMIN_EMAIL='joao.carlos@ifood.com.br';const isAdmin=()=>auth.currentUser?.email===ADMIN_EMAIL;
 
+// ── GOOGLE SIGN IN INIT ──
+document.addEventListener('DOMContentLoaded',()=>{if(window.google){google.accounts.id.initialize({client_id:'784721415970-4ep2kj8amq5fad6o52pun4cupie8jakh.apps.googleusercontent.com',callback:handleGoogleSignIn});google.accounts.id.renderButton(document.getElementById('googleSignInButton'),{theme:'dark',size:'large',width:'100%'});}});
+
 // ── AUTH STATE LISTENER ──
 auth.onAuthStateChanged(user=>{const overlay=document.getElementById('authOverlay');const logout=document.getElementById('hmLogout');const adminBtn=document.getElementById('hm19');if(user&&user.email.endsWith('@ifood.com.br')){overlay.style.display='none';logout.style.display='block';if(isAdmin())adminBtn.style.display='block';logAction('login');}else{overlay.style.display='flex';logout.style.display='none';adminBtn.style.display='none';}});
 
 // ── AUTH FUNCTIONS ──
 function toggleAuthForm(e){e.preventDefault();const loginForm=document.getElementById('authLoginForm');const signupForm=document.getElementById('authSignupForm');const toggleText=document.getElementById('authToggleText');if(loginForm.style.display!=='none'){loginForm.style.display='none';signupForm.style.display='block';toggleText.innerHTML='Já tem conta? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Entrar</a>';}else{loginForm.style.display='block';signupForm.style.display='none';toggleText.innerHTML='Primeira vez? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Criar conta</a>';}}
 
-function handleLogin(e){e.preventDefault();const email=document.getElementById('authEmail').value.trim().toLowerCase();const password=document.getElementById('authPassword').value;const errorDiv=document.getElementById('authLoginError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';auth.signInWithEmailAndPassword(email,password).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
+function handleLogin(e){e.preventDefault();const email=document.getElementById('authEmail').value.trim().toLowerCase();const password=document.getElementById('authPassword').value;const rememberMe=document.getElementById('authRememberMe').checked;const errorDiv=document.getElementById('authLoginError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';const persistence=rememberMe?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION;auth.setPersistence(persistence).then(()=>auth.signInWithEmailAndPassword(email,password)).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
 
-function handleSignup(e){e.preventDefault();const email=document.getElementById('authSignupEmail').value.trim().toLowerCase();const password=document.getElementById('authSignupPassword').value;const errorDiv=document.getElementById('authSignupError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';auth.createUserWithEmailAndPassword(email,password).then(()=>{db.collection('users').doc(auth.currentUser.uid).set({email:email,dataCriacao:firebase.firestore.FieldValue.serverTimestamp()});}).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
+function handleSignup(e){e.preventDefault();const email=document.getElementById('authSignupEmail').value.trim().toLowerCase();const password=document.getElementById('authSignupPassword').value;const rememberMe=document.getElementById('authSignupRememberMe').checked;const errorDiv=document.getElementById('authSignupError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';const persistence=rememberMe?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION;auth.setPersistence(persistence).then(()=>auth.createUserWithEmailAndPassword(email,password)).then(()=>{db.collection('users').doc(auth.currentUser.uid).set({email:email,dataCriacao:firebase.firestore.FieldValue.serverTimestamp()});}).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
 
 function handleSignout(){auth.signOut();}
+
+// ── GOOGLE SIGN IN ──
+function handleGoogleSignIn(response){const id_token=response.credential;const payload=JSON.parse(atob(id_token.split('.')[1]));const email=payload.email;if(!email.endsWith('@ifood.com.br')){document.getElementById('authLoginError').textContent='Apenas emails @ifood.com.br são permitidos';document.getElementById('authLoginError').style.display='block';return;}const provider=new firebase.auth.GoogleAuthProvider();firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(id_token)).catch(e=>{document.getElementById('authLoginError').textContent=e.message;document.getElementById('authLoginError').style.display='block';});}
 
 // ── LOG FUNCTION ──
 async function logAction(action,detail=''){const user=auth.currentUser;if(!user)return;try{await db.collection('logs').add({email:user.email,action:action,detail:detail,timestamp:firebase.firestore.FieldValue.serverTimestamp()});}catch(e){console.error('Erro ao registrar log:',e);}}
