@@ -8156,7 +8156,8 @@ function mvVisualizarPropostaSalva(idx){
 const firebaseConfig={apiKey:"AIzaSyBTPihPj9PurM9DiUa_lPbpDabCmEo92o0",authDomain:"fir-propostas.firebaseapp.com",projectId:"fir-propostas",storageBucket:"fir-propostas.firebasestorage.app",messagingSenderId:"784721415970",appId:"1:784721415970:web:f09760cdefce543d579f7b"};firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=firebase.firestore();const ADMIN_EMAIL='joao.carlos@ifood.com.br';const isAdmin=()=>auth.currentUser?.email===ADMIN_EMAIL;
 
 // ── GOOGLE SIGN IN INIT ──
-document.addEventListener('DOMContentLoaded',()=>{if(window.google){google.accounts.id.initialize({client_id:'784721415970-4ep2kj8amq5fad6o52pun4cupie8jakh.apps.googleusercontent.com',callback:handleGoogleSignIn});google.accounts.id.renderButton(document.getElementById('googleSignInButton'),{theme:'dark',size:'large',width:'100%'});}});
+function initGoogleSignIn(){if(window.google&&window.google.accounts){google.accounts.id.initialize({client_id:'784721415970-4ep2kj8amq5fad6o52pun4cupie8jakh.apps.googleusercontent.com',callback:handleGoogleSignIn});google.accounts.id.renderButton(document.getElementById('googleSignInButton'),{theme:'dark',size:'large',width:'100%'});return true;}return false;}
+document.addEventListener('DOMContentLoaded',()=>{if(!initGoogleSignIn()){const checkGoogle=setInterval(()=>{if(initGoogleSignIn())clearInterval(checkGoogle);},100);}});
 
 // ── AUTH STATE LISTENER ──
 auth.onAuthStateChanged(user=>{const overlay=document.getElementById('authOverlay');const logout=document.getElementById('hmLogout');const adminBtn=document.getElementById('hm19');if(user&&user.email.endsWith('@ifood.com.br')){overlay.style.display='none';logout.style.display='block';if(isAdmin())adminBtn.style.display='block';logAction('login');}else{overlay.style.display='flex';logout.style.display='none';adminBtn.style.display='none';}});
