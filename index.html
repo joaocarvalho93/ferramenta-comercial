@@ -3457,12 +3457,6 @@ function resetFormulario(){
   document.getElementById('p_seg').value='';
   document.getElementById('p_cul').value='';
   document.getElementById('p_uf').value='';
-  // Responsável — resetar select mas manter opções salvas
-  loadRespSelect();
-  document.getElementById('p_resp_select').value='';
-  document.getElementById('p_resp_input').style.display='none';
-  document.getElementById('p_resp_input').value='';
-  document.getElementById('p_resp_save_btn').style.display='none';
   const msgEl=document.getElementById('s1ValidationMsg');
   if(msgEl){msgEl.style.display='none';msgEl.style.background='';msgEl.style.borderColor='';msgEl.style.color='';}
 
@@ -5443,7 +5437,6 @@ function carregarProposta(idx){
   if(p.estado)document.getElementById('p_uf').value=p.estado;
   if(p.conc)document.getElementById('p_conc').value=p.conc;
   document.getElementById('p_conc_inc').checked=(p.concIncluir!==false);
-  if(p.responsavel){loadRespSelect();document.getElementById('p_resp_select').value=p.responsavel;}
   document.getElementById('g_lojas').value=p.lj;
   document.getElementById('g_contrato').value=p.ct;
   document.getElementById('g_rollout').value=p.ro;
@@ -5617,8 +5610,6 @@ calc();
 ghLoadConfig();
 // Pré-carregar propostas para detecção de duplicatas no Step 1
 preloadPropostas();
-// Carregar select de responsáveis salvos
-loadRespSelect();
 // Cria a proposta padrão American Cookies (uma única vez)
 seedAmericanCookies();
 
