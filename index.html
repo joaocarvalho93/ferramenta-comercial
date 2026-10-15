@@ -696,8 +696,55 @@ body.dark #guideInfo p{color:#94a3b8;}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- Firebase SDK (compat) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════ -->
+<!-- AUTH OVERLAY — TELA DE LOGIN           -->
+<!-- ══════════════════════════════════════ -->
+<div id="authOverlay" style="position:fixed;inset:0;background:linear-gradient(135deg,#2D0A0E,#890119);display:flex;align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:#fff;border-radius:16px;padding:40px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:100%;max-width:380px;">
+    <h2 style="font-size:24px;font-weight:800;color:#2D0A0E;margin:0 0 6px 0;">3S Checkout</h2>
+    <p style="font-size:13px;color:#6B7280;margin:0 0 28px 0;">Caixa de Ferramentas — Propostas</p>
+
+    <!-- Form Login -->
+    <form id="authLoginForm" onsubmit="handleLogin(event)" style="display:block;">
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;">Email</label>
+        <input type="email" id="authEmail" placeholder="seu.email@ifood.com.br" required style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;">Senha</label>
+        <input type="password" id="authPassword" placeholder="••••••••" required style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;box-sizing:border-box;">
+      </div>
+      <button type="submit" style="width:100%;padding:11px;background:#e9202e;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Entrar</button>
+      <div id="authLoginError" style="color:#EF4444;font-size:12px;margin-top:12px;padding:10px;background:#FEE2E2;border-radius:6px;display:none;"></div>
+    </form>
+
+    <!-- Form Cadastro -->
+    <form id="authSignupForm" onsubmit="handleSignup(event)" style="display:none;">
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;">Email</label>
+        <input type="email" id="authSignupEmail" placeholder="seu.email@ifood.com.br" required style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:6px;">Senha</label>
+        <input type="password" id="authSignupPassword" placeholder="••••••••" required minlength="6" style="width:100%;padding:10px 14px;border:1.5px solid #D1D5DB;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;box-sizing:border-box;">
+      </div>
+      <button type="submit" style="width:100%;padding:11px;background:#e9202e;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Criar Conta</button>
+      <div id="authSignupError" style="color:#EF4444;font-size:12px;margin-top:12px;padding:10px;background:#FEE2E2;border-radius:6px;display:none;"></div>
+    </form>
+
+    <!-- Toggle -->
+    <div style="font-size:11px;color:#9CA3AF;margin-top:20px;text-align:center;">
+      <span id="authToggleText">Primeira vez? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Criar conta</a></span>
+    </div>
+  </div>
+</div>
 
 <header class="hdr">
   <div style="display:flex;align-items:center;"><h1 onclick="go(0)">3S Checkout<span class="tag">Caixa de Ferramentas</span></h1></div>
@@ -710,8 +757,10 @@ body.dark #guideInfo p{color:#94a3b8;}
     <button onclick="go(8)" id="hm8">Deep Dive</button>
     <button onclick="go(10)" id="hm10">Clientes</button>
     <button onclick="go(11)" id="hm11">Gamificação</button>
+    <button onclick="go(19)" id="hm19" style="display:none;">Admin</button>
     <div class="hdr-sep"></div>
     <button onclick="toggleTheme()" id="hmTheme" title="Alternar tema" style="font-size:16px;padding:5px 10px;">🌙</button>
+    <button onclick="handleSignout()" id="hmLogout" style="display:none;font-size:12px;" title="Sair">Sair</button>
   </div>
 </header>
 
@@ -5043,6 +5092,7 @@ async function salvarPropostaAtual(){
     if(localIdx>=0){arr[localIdx]=proposta;}else{arr.unshift(proposta);}
     savePropostas(arr);
     showToast('Proposta salva','#10B981');
+    logAction('editar_proposta',proposta.nome);
     refreshTimeline(proposta);
 
     // Atualizar _allPropostas em memória imediatamente (evitar dados stale do GitHub)
@@ -5096,6 +5146,7 @@ async function salvarPropostaAtual(){
         if(localIdx>=0){arr[localIdx]=proposta;}else{arr.unshift(proposta);}
         savePropostas(arr);
         showToast('Proposta salva','#10B981');
+        logAction('editar_proposta',proposta.nome);
         refreshTimeline(proposta);
 
         // Atualizar _allPropostas em memória imediatamente
@@ -5129,6 +5180,7 @@ async function salvarPropostaAtual(){
   arr.unshift(proposta);
   savePropostas(arr);
   showToast('Proposta salva','#10B981');
+  logAction('criar_proposta',proposta.nome);
   refreshTimeline(proposta);
 
   if(ghIsConfigured()){
@@ -5391,7 +5443,7 @@ function filterPropostas(){
           <button class="btn btn-o" onclick="carregarProposta(${p._origIdx})" title="Editar proposta">✏</button>
           <button class="btn btn-o" onclick="downloadProposta(${p._origIdx})" title="Baixar proposta">⬇</button>
           <button class="btn btn-o" onclick="abrirHandoff(${p._origIdx})" title="Kickoff — plano de rollout">🗎</button>
-          <button class="btn btn-o" onclick="deletarProposta(${p._origIdx})" title="Excluir proposta" style="color:#EF4444;border-color:#EF4444;">✕</button>
+          ${isAdmin()?`<button class="btn btn-o" onclick="deletarProposta(${p._origIdx})" title="Excluir proposta" style="color:#EF4444;border-color:#EF4444;">✕</button>`:''}
         </div>
       </div>`;
     }).join('');
@@ -5558,6 +5610,7 @@ function downloadProposta(idx){
 // EXCLUIR PROPOSTA
 // ══════════════════════════════════════
 async function deletarProposta(idx){
+  if(!isAdmin())return;
   const p=_allPropostas[idx];if(!p)return;
   if(!confirm(`Excluir proposta de "${p.nome}"?`))return;
 
@@ -5566,6 +5619,7 @@ async function deletarProposta(idx){
     try{
       await ghDeleteFile(p._gh_path,p._gh_sha,`Excluir: ${p.nome}`);
       showToast('Excluído do GitHub','#10B981');
+      logAction('excluir_proposta',p.nome);
     }catch(e){showToast('Erro GitHub: '+e.message,'#EF4444');return;}
   }else{
     // Excluir local
@@ -5573,6 +5627,7 @@ async function deletarProposta(idx){
     const localIdx=arr.findIndex(x=>x.id===p.id);
     if(localIdx>=0){arr.splice(localIdx,1);savePropostas(arr);}
     showToast('Excluído','#10B981');
+    logAction('excluir_proposta',p.nome);
   }
 
   _allPropostas.splice(idx,1);
@@ -8150,6 +8205,24 @@ function mvVisualizarPropostaSalva(idx){
 <div class="toast" id="toast"></div>
 
 <script>
+// ── FIREBASE CONFIGURATION ──
+const firebaseConfig={apiKey:"AIzaSyBTPihPj9PurM9DiUa_lPbpDabCmEo92o0",authDomain:"fir-propostas.firebaseapp.com",projectId:"fir-propostas",storageBucket:"fir-propostas.firebasestorage.app",messagingSenderId:"784721415970",appId:"1:784721415970:web:f09760cdefce543d579f7b"};firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=firebase.firestore();const ADMIN_EMAIL='joao.carlos@ifood.com.br';const isAdmin=()=>auth.currentUser?.email===ADMIN_EMAIL;
+
+// ── AUTH STATE LISTENER ──
+auth.onAuthStateChanged(user=>{const overlay=document.getElementById('authOverlay');const logout=document.getElementById('hmLogout');const adminBtn=document.getElementById('hm19');if(user&&user.email.endsWith('@ifood.com.br')){overlay.style.display='none';logout.style.display='block';if(isAdmin())adminBtn.style.display='block';logAction('login');}else{overlay.style.display='flex';logout.style.display='none';adminBtn.style.display='none';}});
+
+// ── AUTH FUNCTIONS ──
+function toggleAuthForm(e){e.preventDefault();const loginForm=document.getElementById('authLoginForm');const signupForm=document.getElementById('authSignupForm');const toggleText=document.getElementById('authToggleText');if(loginForm.style.display!=='none'){loginForm.style.display='none';signupForm.style.display='block';toggleText.innerHTML='Já tem conta? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Entrar</a>';}else{loginForm.style.display='block';signupForm.style.display='none';toggleText.innerHTML='Primeira vez? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Criar conta</a>';}}
+
+function handleLogin(e){e.preventDefault();const email=document.getElementById('authEmail').value.trim().toLowerCase();const password=document.getElementById('authPassword').value;const errorDiv=document.getElementById('authLoginError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';auth.signInWithEmailAndPassword(email,password).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
+
+function handleSignup(e){e.preventDefault();const email=document.getElementById('authSignupEmail').value.trim().toLowerCase();const password=document.getElementById('authSignupPassword').value;const errorDiv=document.getElementById('authSignupError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';auth.createUserWithEmailAndPassword(email,password).then(()=>{db.collection('users').doc(auth.currentUser.uid).set({email:email,dataCriacao:firebase.firestore.FieldValue.serverTimestamp()});}).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
+
+function handleSignout(){auth.signOut();}
+
+// ── LOG FUNCTION ──
+async function logAction(action,detail=''){const user=auth.currentUser;if(!user)return;try{await db.collection('logs').add({email:user.email,action:action,detail:detail,timestamp:firebase.firestore.FieldValue.serverTimestamp()});}catch(e){console.error('Erro ao registrar log:',e);}}
+
 (function(){
   if(localStorage.getItem('theme_3s')==='dark'){
     document.body.classList.add('dark');
@@ -8192,6 +8265,80 @@ document.addEventListener('mousemove',e=>{if(guideActive)showGuideInfo(e.target)
 function showTimeline(p){document.body.classList.remove('chat-open');const sb=document.getElementById('timelineSidebar');const tg=document.getElementById('timelineToggle');if(sb)sb.style.display='block';if(tg)tg.style.display='flex';document.body.classList.add('tl-open');renderTimeline(p);}
 </script>
 
+<!-- ══════════════════════════════════════ -->
+<!-- PAINEL 19 — ADMIN DASHBOARD             -->
+<!-- ══════════════════════════════════════ -->
+<div class="pnl" id="s19">
+  <h2 class="pnl-t">Dashboard Admin</h2>
+  <p class="pnl-d">Visualize logs de auditoria, ações dos usuários e exporte relatórios.</p>
+
+  <div class="card" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
+    <div style="text-align:center;padding:16px;background:#F3F4F6;border-radius:8px;">
+      <div style="font-size:28px;font-weight:800;color:var(--purple);" id="adminLoginsToday">0</div>
+      <div style="font-size:12px;color:var(--gray);margin-top:4px;">Logins hoje</div>
+    </div>
+    <div style="text-align:center;padding:16px;background:#F3F4F6;border-radius:8px;">
+      <div style="font-size:28px;font-weight:800;color:var(--green);" id="adminPropostasWeek">0</div>
+      <div style="font-size:12px;color:var(--gray);margin-top:4px;">Propostas esta semana</div>
+    </div>
+    <div style="text-align:center;padding:16px;background:#F3F4F6;border-radius:8px;">
+      <div style="font-size:28px;font-weight:800;color:var(--purple);" id="adminUsersUnique">0</div>
+      <div style="font-size:12px;color:var(--gray);margin-top:4px;">Usuários únicos</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="n">📋</span> Filtros e Ações</div>
+    <div class="r3" style="margin-bottom:14px;">
+      <div class="fld">
+        <label>Usuário</label>
+        <select id="adminFilterUser" onchange="adminLoadLogs()" style="width:100%;"><option value="">Todos</option></select>
+      </div>
+      <div class="fld">
+        <label>Ação</label>
+        <select id="adminFilterAction" onchange="adminLoadLogs()" style="width:100%;">
+          <option value="">Todas</option>
+          <option value="login">Login</option>
+          <option value="criar_proposta">Criar Proposta</option>
+          <option value="editar_proposta">Editar Proposta</option>
+          <option value="excluir_proposta">Excluir Proposta</option>
+          <option value="visualizar_proposta">Visualizar Proposta</option>
+        </select>
+      </div>
+      <div style="text-align:right;display:flex;align-items:flex-end;gap:8px;">
+        <button class="btn btn-p" onclick="adminLoadLogs()" style="font-size:12px;padding:8px 12px;">🔄 Atualizar</button>
+        <button class="btn btn-g" onclick="adminExportCSV()" style="font-size:12px;padding:8px 12px;">⬇ CSV</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-t"><span class="n">📊</span> Logs de Auditoria</div>
+    <div style="overflow-x:auto;max-height:400px;overflow-y:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:12px;">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border-light);position:sticky;top:0;background:#fff;">
+            <th style="text-align:left;padding:10px;font-weight:600;">Data/Hora</th>
+            <th style="text-align:left;padding:10px;font-weight:600;">Email</th>
+            <th style="text-align:left;padding:10px;font-weight:600;">Ação</th>
+            <th style="text-align:left;padding:10px;font-weight:600;">Detalhe</th>
+          </tr>
+        </thead>
+        <tbody id="adminLogsTable">
+          <tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray);">Carregando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:14px;text-align:center;color:var(--gray);font-size:11px;">
+      <span id="adminLogCount">0</span> registros
+    </div>
+  </div>
+
+  <div class="bbar" style="justify-content:space-between;">
+    <button class="btn btn-o" onclick="go(0)">← Voltar</button>
+  </div>
+</div>
+
 <!-- Chatbot & Guide -->
 <button id="chatBtn" onclick="toggleChat()" title="Assistente 3S">💬</button>
 <button id="tourBtn" onclick="guideActive?guideEnd():guideStart()" title="Acesso Guiado (Hover nos campos)">🧭</button>
@@ -8217,6 +8364,24 @@ function showTimeline(p){document.body.classList.remove('chat-open');const sb=do
   <div id="guideInfo"></div>
   <button id="guideCloseBtn" onclick="guideEnd()" style="position:fixed;bottom:120px;left:18px;z-index:201;width:46px;height:46px;border-radius:50%;background:var(--purple);color:#fff;border:none;cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(233,32,46,.3);" title="Fechar Guia">✕</button>
 </div>
+
+<script>
+// ── ADMIN DASHBOARD FUNCTIONS ──
+async function adminLoadLogs(){if(!isAdmin())return;const filterUser=document.getElementById('adminFilterUser').value;const filterAction=document.getElementById('adminFilterAction').value;const table=document.getElementById('adminLogsTable');table.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray);">Carregando...</td></tr>';try{let query=db.collection('logs').orderBy('timestamp','desc');if(filterAction)query=query.where('action','==',filterAction);const docs=await query.limit(500).get();let logs=docs.docs.map(d=>({...d.data(),id:d.id}));if(filterUser)logs=logs.filter(l=>l.email===filterUser);const tbody=document.getElementById('adminLogsTable');tbody.innerHTML='';if(logs.length===0){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray);">Nenhum log encontrado</td></tr>';document.getElementById('adminLogCount').textContent='0';return;}logs.forEach(log=>{const date=log.timestamp?new Date(log.timestamp.seconds*1000).toLocaleString('pt-BR'):'—';const row=`<tr style="border-bottom:1px solid var(--border-light);"><td style="padding:10px;">${date}</td><td style="padding:10px;">${log.email}</td><td style="padding:10px;"><span style="background:${getActionColor(log.action)};color:#fff;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;">${getActionLabel(log.action)}</span></td><td style="padding:10px;color:var(--gray);font-size:11px;">${log.detail||'—'}</td></tr>`;tbody.innerHTML+=row;});document.getElementById('adminLogCount').textContent=logs.length;populateUserFilter(logs);updateAdminStats(logs);}catch(e){console.error('Erro ao carregar logs:',e);table.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--red);">Erro ao carregar logs</td></tr>';}}
+
+function getActionColor(action){const colors={login:'#10B981',criar_proposta:'#3B82F6',editar_proposta:'#F59E0B',excluir_proposta:'#EF4444',visualizar_proposta:'#8B5CF6'};return colors[action]||'#6B7280';}
+
+function getActionLabel(action){const labels={login:'Login',criar_proposta:'Criar',editar_proposta:'Editar',excluir_proposta:'Excluir',visualizar_proposta:'Visualizar'};return labels[action]||action;}
+
+function populateUserFilter(logs){const select=document.getElementById('adminFilterUser');const users=[...new Set(logs.map(l=>l.email))];const current=select.value;select.innerHTML='<option value="">Todos</option>';users.forEach(u=>{select.innerHTML+=`<option value="${u}">${u}</option>`;});select.value=current;}
+
+function updateAdminStats(logs){const today=new Date().toDateString();const thisWeekStart=new Date();thisWeekStart.setDate(thisWeekStart.getDate()-7);const loginsToday=logs.filter(l=>l.action==='login'&&new Date(l.timestamp.seconds*1000).toDateString()===today).length;const propostasWeek=logs.filter(l=>l.action.includes('proposta')&&new Date(l.timestamp.seconds*1000)>=thisWeekStart).length;const usersUnique=new Set(logs.map(l=>l.email)).size;document.getElementById('adminLoginsToday').textContent=loginsToday;document.getElementById('adminPropostasWeek').textContent=propostasWeek;document.getElementById('adminUsersUnique').textContent=usersUnique;}
+
+function adminExportCSV(){if(!isAdmin())return;const table=document.getElementById('adminLogsTable');const rows=table.querySelectorAll('tr');let csv='Data/Hora,Email,Ação,Detalhe\n';rows.forEach(row=>{const cells=row.querySelectorAll('td');if(cells.length===4){const date=cells[0].textContent;const email=cells[1].textContent;const action=cells[2].textContent.replace(/\n/g,' ').trim();const detail=cells[3].textContent;csv+=`"${date}","${email}","${action}","${detail}"\n`;}});const link=document.createElement('a');link.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);link.download=`logs-3s-${new Date().toISOString().split('T')[0]}.csv`;link.click();}
+
+// Load logs when entering admin panel
+const originalGo=go;go=function(n){if(n===19&&isAdmin())adminLoadLogs();return originalGo(n);};
+</script>
 
 </body>
 </html>
