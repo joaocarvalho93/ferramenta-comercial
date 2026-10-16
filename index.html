@@ -700,6 +700,7 @@ body.dark #guideInfo p{color:#94a3b8;}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -724,6 +725,10 @@ body.dark #guideInfo p{color:#94a3b8;}
       <button type="submit" style="width:100%;padding:11px;background:#e9202e;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Entrar</button>
       <div id="authLoginError" style="color:#EF4444;font-size:12px;margin-top:12px;padding:10px;background:#FEE2E2;border-radius:6px;display:none;"></div>
     </form>
+
+    <!-- Google Sign In -->
+    <div id="googleSignInButton" style="margin:20px 0;"></div>
+    <p style="text-align:center;font-size:11px;color:#9CA3AF;">ou continue com email/senha</p>
 
     <!-- Form Cadastro -->
     <form id="authSignupForm" onsubmit="handleSignup(event)" style="display:none;">
@@ -8219,6 +8224,13 @@ function handleLogin(e){e.preventDefault();const email=document.getElementById('
 function handleSignup(e){e.preventDefault();const email=document.getElementById('authSignupEmail').value.trim().toLowerCase();const password=document.getElementById('authSignupPassword').value;const errorDiv=document.getElementById('authSignupError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';auth.createUserWithEmailAndPassword(email,password).then(()=>{db.collection('users').doc(auth.currentUser.uid).set({email:email,dataCriacao:firebase.firestore.FieldValue.serverTimestamp()});}).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
 
 function handleSignout(){auth.signOut();}
+
+// ── GOOGLE SIGN IN ──
+function handleGoogleSignIn(response){const id_token=response.credential;firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(id_token)).catch(e=>{document.getElementById('authLoginError').textContent=e.message;document.getElementById('authLoginError').style.display='block';});}
+
+function initGoogleSignIn(){if(window.google&&window.google.accounts){google.accounts.id.initialize({client_id:'784721415970-4ep2kj8amq5fad6o52pun4cupie8jakh.apps.googleusercontent.com',callback:handleGoogleSignIn});google.accounts.id.renderButton(document.getElementById('googleSignInButton'),{theme:'dark',size:'large',width:'100%'});return true;}return false;}
+
+document.addEventListener('DOMContentLoaded',()=>{if(!initGoogleSignIn()){const checkGoogle=setInterval(()=>{if(initGoogleSignIn())clearInterval(checkGoogle);},100);}});
 
 // ── LOG FUNCTION ──
 async function logAction(action,detail=''){const user=auth.currentUser;if(!user)return;try{await db.collection('logs').add({email:user.email,action:action,detail:detail,timestamp:firebase.firestore.FieldValue.serverTimestamp()});}catch(e){console.error('Erro ao registrar log:',e);}}
