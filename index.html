@@ -4175,10 +4175,12 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 </div>
 <script>
 function downloadPDF(){
-  const el=document.querySelector('.doc');
-  const nm=document.querySelector('.toolbar span')?.textContent?.replace('Proposta Comercial — ','')||'Cliente';
-  const opt={margin:[10,10,10,10],filename:'Proposta_'+nm.replace(/[^a-zA-Z0-9]/g,'_')+'.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','td']}};
-  html2pdf().set(opt).from(el).save();
+  if(typeof html2pdf==='undefined'){alert('Biblioteca de PDF ainda carregando. Aguarde um momento e tente novamente.');return;}
+  var el=document.querySelector('.doc');
+  var titleNode=document.querySelector('title');
+  var fname=((titleNode&&titleNode.textContent)||'Proposta').split(' —')[0].replace(/[^a-zA-Z0-9]/g,'_');
+  var opt={margin:[10,10,10,10],filename:'Proposta_'+fname+'.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','td']}};
+  html2pdf().set(opt).from(el).save().catch(function(err){alert('Erro ao gerar PDF: '+err.message);});
 }
 <\/script>
 ${pagesHTML}
