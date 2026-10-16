@@ -4175,12 +4175,19 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 </div>
 <script>
 function downloadPDF(){
-  if(typeof html2pdf==='undefined'){alert('Biblioteca de PDF ainda carregando. Aguarde um momento e tente novamente.');return;}
   var el=document.querySelector('.doc');
   var titleNode=document.querySelector('title');
   var fname=((titleNode&&titleNode.textContent)||'Proposta').split(' —')[0].replace(/[^a-zA-Z0-9]/g,'_');
   var opt={margin:[10,10,10,10],filename:'Proposta_'+fname+'.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','td']}};
-  html2pdf().set(opt).from(el).save().catch(function(err){alert('Erro ao gerar PDF: '+err.message);});
+  function run(){ html2pdf().set(opt).from(el).save().catch(function(err){alert('Erro ao gerar PDF: '+err.message);}); }
+  if(typeof html2pdf==='undefined'){
+    var tries=0;
+    var iv=setInterval(function(){
+      tries++;
+      if(typeof html2pdf!=='undefined'){clearInterval(iv);run();}
+      else if(tries>50){clearInterval(iv);alert('Não foi possível carregar a biblioteca de PDF. Verifique sua conexão.');}
+    },100);
+  } else { run(); }
 }
 <\/script>
 ${pagesHTML}
@@ -5537,24 +5544,13 @@ function carregarProposta(idx){
 // ══════════════════════════════════════
 function downloadProposta(idx){
   const p=_allPropostas[idx];if(!p)return;
-  // Carregar proposta na calculadora e gerar apresentação para download
-  // Opção rápida: exportar JSON com dados da proposta
-  const nome=p.nome||'proposta';
-  const fileName=nome.replace(/[^a-zA-Z0-9À-ɏ\s-]/g,'').replace(/\s+/g,'_')+'_proposta.json';
-  const exportData={...p};
-  delete exportData._gh_path;
-  delete exportData._gh_sha;
-  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
-  const url=window.URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.style.display='none';
-  a.href=url;
-  a.setAttribute('download',fileName);
-  document.body.appendChild(a);
-  a.click();
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(a);
-  showToast('Proposta baixada!','#10B981');
+  // Abrir visualização e baixar PDF automaticamente (mesmo fluxo que Visualizar > Baixar PDF)
+  if(p._moveTag==='move'){mvVisualizarPropostaSalva(idx);}else{_renderModalProposta(p);}
+  showToast('Gerando PDF…','#F59E0B');
+  setTimeout(()=>{
+    modalDownloadPDF();
+    setTimeout(()=>{fecharModalProposta();},1500);
+  },800);
 }
 
 // ══════════════════════════════════════
