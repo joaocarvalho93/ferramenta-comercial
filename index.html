@@ -3329,11 +3329,13 @@ function validarStep1(){
   const lojas=document.getElementById('p_lojas').value.trim();
   const contrato=document.getElementById('p_contrato').value.trim();
   const rollout=document.getElementById('p_rollout').value.trim();
+  const resp=getResponsavelAtual();
   const erros=[];
   if(!nome)erros.push('Nome da marca');
   if(!lojas||parseInt(lojas)<1)erros.push('Restaurantes atuais');
   if(!contrato||parseInt(contrato)<12)erros.push('Meses de contrato');
   if(!rollout||parseInt(rollout)<1)erros.push('Meses de rollout');
+  if(!resp||!resp.includes('@'))erros.push('Responsável pela proposta');
   const msgEl=document.getElementById('s1ValidationMsg');
   if(erros.length){
     msgEl.innerHTML='Preencha os campos obrigatórios: <strong>'+erros.join(', ')+'</strong>';
