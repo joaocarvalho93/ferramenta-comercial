@@ -3457,6 +3457,12 @@ function resetFormulario(){
   document.getElementById('p_seg').value='';
   document.getElementById('p_cul').value='';
   document.getElementById('p_uf').value='';
+  // Responsável — resetar select mas manter opções salvas
+  loadRespSelect();
+  document.getElementById('p_resp_select').value='';
+  document.getElementById('p_resp_input').style.display='none';
+  document.getElementById('p_resp_input').value='';
+  document.getElementById('p_resp_save_btn').style.display='none';
   const msgEl=document.getElementById('s1ValidationMsg');
   if(msgEl){msgEl.style.display='none';msgEl.style.background='';msgEl.style.borderColor='';msgEl.style.color='';}
 
@@ -4160,7 +4166,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 .toolbar span{color:#fff;font-size:12px;font-weight:600;}
 .toolbar button{background:#e9202e;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;}
 .toolbar button:hover{background:#c4151f;}
-.doc{max-width:210mm;margin:0 auto;margin-top:60px;}
+.doc{max-width:210mm;margin:0 auto;}
 .page{background:#fff;max-width:210mm;width:100%;margin:0 auto;padding:40px 44px;position:relative;}
 .page + .page{margin-top:24px;}
 .page::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e9202e,#FF6B7A,#F59E0B);}
@@ -4180,11 +4186,10 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 <script>
 function downloadPDF(){
   const el=document.querySelector('.doc');
-  const nome=document.getElementById('p_nome').value.trim()||'Cliente';
-  const opt={margin:[10,10,10,10],filename:`Proposta_${nome.replace(/[^a-zA-Z0-9]/g,'_')}.pdf`,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','td']}};
+  const opt={margin:[10,10,10,10],filename:'Proposta_${nome.replace(/[^a-zA-Z0-9]/g,'_')}.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','td']}};
   html2pdf().set(opt).from(el).save();
 }
-</script>
+<\/script>
 ${pagesHTML}
 
 </body></html>`;
@@ -4271,7 +4276,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 .toolbar span{color:#fff;font-size:12px;font-weight:600;}
 .toolbar button{background:#e9202e;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;}
 .toolbar button:hover{background:#c4151f;}
-.doc{max-width:210mm;margin:0 auto;margin-top:60px;}
+.doc{max-width:210mm;margin:0 auto;}
 .page{background:#fff;max-width:210mm;width:100%;margin:0 auto;padding:40px 44px;position:relative;}
 .page + .page{margin-top:24px;}
 .page::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#e9202e,#FF6B7A,#F59E0B);}
@@ -5438,6 +5443,7 @@ function carregarProposta(idx){
   if(p.estado)document.getElementById('p_uf').value=p.estado;
   if(p.conc)document.getElementById('p_conc').value=p.conc;
   document.getElementById('p_conc_inc').checked=(p.concIncluir!==false);
+  if(p.responsavel){loadRespSelect();document.getElementById('p_resp_select').value=p.responsavel;}
   document.getElementById('g_lojas').value=p.lj;
   document.getElementById('g_contrato').value=p.ct;
   document.getElementById('g_rollout').value=p.ro;
@@ -5611,6 +5617,8 @@ calc();
 ghLoadConfig();
 // Pré-carregar propostas para detecção de duplicatas no Step 1
 preloadPropostas();
+// Carregar select de responsáveis salvos
+loadRespSelect();
 // Cria a proposta padrão American Cookies (uma única vez)
 seedAmericanCookies();
 
@@ -8157,18 +8165,17 @@ function mvVisualizarPropostaSalva(idx){
 const firebaseConfig={apiKey:"AIzaSyBTPihPj9PurM9DiUa_lPbpDabCmEo92o0",authDomain:"fir-propostas.firebaseapp.com",projectId:"fir-propostas",storageBucket:"fir-propostas.firebasestorage.app",messagingSenderId:"784721415970",appId:"1:784721415970:web:f09760cdefce543d579f7b"};firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=firebase.firestore();const ADMIN_EMAIL='joao.carlos@ifood.com.br';const isAdmin=()=>auth.currentUser?.email===ADMIN_EMAIL;
 
 // ── GOOGLE SIGN IN INIT ──
-function initGoogleSignIn(){if(window.google&&window.google.accounts){google.accounts.id.initialize({client_id:'784721415970-4ep2kj8amq5fad6o52pun4cupie8jakh.apps.googleusercontent.com',callback:handleGoogleSignIn});google.accounts.id.renderButton(document.getElementById('googleSignInButton'),{theme:'dark',size:'large',width:'100%'});return true;}return false;}
-document.addEventListener('DOMContentLoaded',()=>{if(!initGoogleSignIn()){const checkGoogle=setInterval(()=>{if(initGoogleSignIn())clearInterval(checkGoogle);},100);}});
+document.addEventListener('DOMContentLoaded',()=>{if(window.google){google.accounts.id.initialize({client_id:'784721415970-4ep2kj8amq5fad6o52pun4cupie8jakh.apps.googleusercontent.com',callback:handleGoogleSignIn});google.accounts.id.renderButton(document.getElementById('googleSignInButton'),{theme:'dark',size:'large',width:'100%'});}});
 
 // ── AUTH STATE LISTENER ──
-auth.onAuthStateChanged(user=>{const overlay=document.getElementById('authOverlay');const logout=document.getElementById('hmLogout');const adminBtn=document.getElementById('hm19');if(user){overlay.style.display='none';logout.style.display='block';if(isAdmin())adminBtn.style.display='block';logAction('login');}else{overlay.style.display='flex';logout.style.display='none';adminBtn.style.display='none';}});
+auth.onAuthStateChanged(user=>{const overlay=document.getElementById('authOverlay');const logout=document.getElementById('hmLogout');const adminBtn=document.getElementById('hm19');if(user&&user.email.endsWith('@ifood.com.br')){overlay.style.display='none';logout.style.display='block';if(isAdmin())adminBtn.style.display='block';logAction('login');}else{overlay.style.display='flex';logout.style.display='none';adminBtn.style.display='none';}});
 
 // ── AUTH FUNCTIONS ──
 function toggleAuthForm(e){e.preventDefault();const loginForm=document.getElementById('authLoginForm');const signupForm=document.getElementById('authSignupForm');const toggleText=document.getElementById('authToggleText');if(loginForm.style.display!=='none'){loginForm.style.display='none';signupForm.style.display='block';toggleText.innerHTML='Já tem conta? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Entrar</a>';}else{loginForm.style.display='block';signupForm.style.display='none';toggleText.innerHTML='Primeira vez? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Criar conta</a>';}}
 
-function handleLogin(e){e.preventDefault();const email=document.getElementById('authEmail').value.trim().toLowerCase();const password=document.getElementById('authPassword').value;const rememberMe=document.getElementById('authRememberMe').checked;const errorDiv=document.getElementById('authLoginError');errorDiv.style.display='none';const persistence=rememberMe?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION;auth.setPersistence(persistence).then(()=>auth.signInWithEmailAndPassword(email,password)).catch(error=>{if(error.code==='auth/invalid-login-credentials'){errorDiv.textContent='Email ou senha incorretos. Se cadastrou com Google, use o botão Google Sign In.';}else{errorDiv.textContent=error.message;}errorDiv.style.display='block';});}
+function handleLogin(e){e.preventDefault();const email=document.getElementById('authEmail').value.trim().toLowerCase();const password=document.getElementById('authPassword').value;const rememberMe=document.getElementById('authRememberMe').checked;const errorDiv=document.getElementById('authLoginError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';const persistence=rememberMe?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION;auth.setPersistence(persistence).then(()=>auth.signInWithEmailAndPassword(email,password)).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
 
-function handleSignup(e){e.preventDefault();const email=document.getElementById('authSignupEmail').value.trim().toLowerCase();const password=document.getElementById('authSignupPassword').value;const rememberMe=document.getElementById('authSignupRememberMe').checked;const errorDiv=document.getElementById('authSignupError');errorDiv.style.display='none';const persistence=rememberMe?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION;auth.setPersistence(persistence).then(()=>auth.createUserWithEmailAndPassword(email,password)).then(()=>{db.collection('users').doc(auth.currentUser.uid).set({email:email,dataCriacao:firebase.firestore.FieldValue.serverTimestamp()});}).catch(error=>{if(error.code==='auth/email-already-in-use'){errorDiv.textContent='Email já cadastrado. Tente fazer login ou use outro email.';}else{errorDiv.textContent=error.message;}errorDiv.style.display='block';});}
+function handleSignup(e){e.preventDefault();const email=document.getElementById('authSignupEmail').value.trim().toLowerCase();const password=document.getElementById('authSignupPassword').value;const rememberMe=document.getElementById('authSignupRememberMe').checked;const errorDiv=document.getElementById('authSignupError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';const persistence=rememberMe?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION;auth.setPersistence(persistence).then(()=>auth.createUserWithEmailAndPassword(email,password)).then(()=>{db.collection('users').doc(auth.currentUser.uid).set({email:email,dataCriacao:firebase.firestore.FieldValue.serverTimestamp()});}).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
 
 function handleSignout(){auth.signOut();}
 
