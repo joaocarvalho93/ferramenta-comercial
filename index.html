@@ -848,17 +848,6 @@ body.dark #guideInfo p{color:#94a3b8;}
       <div class="fld"><label>Meses de contrato *</label><input type="number" id="p_contrato" value="60" min="12" max="120"></div>
       <div class="fld"><label>Meses de rollout *</label><input type="number" id="p_rollout" value="2" min="1" max="60"></div>
     </div>
-    <div class="fld" style="margin-top:4px;">
-      <label>Responsável pela proposta *</label>
-      <div style="display:flex;gap:8px;" id="respWrap">
-        <select id="p_resp_select" style="flex:1;" onchange="onRespSelect(this)">
-          <option value="">Selecionar responsável</option>
-          <option value="__novo__">+ Novo responsável</option>
-        </select>
-        <input type="email" id="p_resp_input" placeholder="nome@ifood.com.br" style="flex:1;display:none;" autocomplete="email">
-        <button class="btn btn-o" id="p_resp_save_btn" style="display:none;font-size:11px;padding:6px 12px;white-space:nowrap;" onclick="salvarNovoResp()">Salvar</button>
-      </div>
-    </div>
   </div>
 
   <div class="card">
@@ -3379,7 +3368,6 @@ function validarStep1(){
   if(!lojas||parseInt(lojas)<1)erros.push('Restaurantes atuais');
   if(!contrato||parseInt(contrato)<12)erros.push('Meses de contrato');
   if(!rollout||parseInt(rollout)<1)erros.push('Meses de rollout');
-  if(!resp||!resp.includes('@'))erros.push('Responsável pela proposta');
   const msgEl=document.getElementById('s1ValidationMsg');
   if(erros.length){
     msgEl.innerHTML='Preencha os campos obrigatórios: <strong>'+erros.join(', ')+'</strong>';
@@ -8214,14 +8202,14 @@ function mvVisualizarPropostaSalva(idx){
 const firebaseConfig={apiKey:"AIzaSyBTPihPj9PurM9DiUa_lPbpDabCmEo92o0",authDomain:"fir-propostas.firebaseapp.com",projectId:"fir-propostas",storageBucket:"fir-propostas.firebasestorage.app",messagingSenderId:"784721415970",appId:"1:784721415970:web:f09760cdefce543d579f7b"};firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=firebase.firestore();const ADMIN_EMAIL='joao.carlos@ifood.com.br';const isAdmin=()=>auth.currentUser?.email===ADMIN_EMAIL;
 
 // ── AUTH STATE LISTENER ──
-auth.onAuthStateChanged(user=>{const overlay=document.getElementById('authOverlay');const logout=document.getElementById('hmLogout');const adminBtn=document.getElementById('hm19');if(user&&user.email.endsWith('@ifood.com.br')){overlay.style.display='none';logout.style.display='block';if(isAdmin())adminBtn.style.display='block';logAction('login');}else{overlay.style.display='flex';logout.style.display='none';adminBtn.style.display='none';}});
+auth.onAuthStateChanged(user=>{const overlay=document.getElementById('authOverlay');const logout=document.getElementById('hmLogout');const adminBtn=document.getElementById('hm19');if(user){overlay.style.display='none';logout.style.display='block';if(isAdmin())adminBtn.style.display='block';logAction('login');}else{overlay.style.display='flex';logout.style.display='none';adminBtn.style.display='none';}});
 
 // ── AUTH FUNCTIONS ──
 function toggleAuthForm(e){e.preventDefault();const loginForm=document.getElementById('authLoginForm');const signupForm=document.getElementById('authSignupForm');const toggleText=document.getElementById('authToggleText');if(loginForm.style.display!=='none'){loginForm.style.display='none';signupForm.style.display='block';toggleText.innerHTML='Já tem conta? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Entrar</a>';}else{loginForm.style.display='block';signupForm.style.display='none';toggleText.innerHTML='Primeira vez? <a href="#" onclick="toggleAuthForm(event)" style="color:#e9202e;text-decoration:none;font-weight:600;cursor:pointer;">Criar conta</a>';}}
 
-function handleLogin(e){e.preventDefault();const email=document.getElementById('authEmail').value.trim().toLowerCase();const password=document.getElementById('authPassword').value;const errorDiv=document.getElementById('authLoginError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';auth.signInWithEmailAndPassword(email,password).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
+function handleLogin(e){e.preventDefault();const email=document.getElementById('authEmail').value.trim().toLowerCase();const password=document.getElementById('authPassword').value;const errorDiv=document.getElementById('authLoginError');errorDiv.style.display='none';auth.signInWithEmailAndPassword(email,password).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
 
-function handleSignup(e){e.preventDefault();const email=document.getElementById('authSignupEmail').value.trim().toLowerCase();const password=document.getElementById('authSignupPassword').value;const errorDiv=document.getElementById('authSignupError');if(!email.endsWith('@ifood.com.br')){errorDiv.textContent='Apenas emails @ifood.com.br são permitidos';errorDiv.style.display='block';return;}errorDiv.style.display='none';auth.createUserWithEmailAndPassword(email,password).then(()=>{db.collection('users').doc(auth.currentUser.uid).set({email:email,dataCriacao:firebase.firestore.FieldValue.serverTimestamp()});}).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
+function handleSignup(e){e.preventDefault();const email=document.getElementById('authSignupEmail').value.trim().toLowerCase();const password=document.getElementById('authSignupPassword').value;const errorDiv=document.getElementById('authSignupError');errorDiv.style.display='none';auth.createUserWithEmailAndPassword(email,password).then(()=>{db.collection('users').doc(auth.currentUser.uid).set({email:email,dataCriacao:firebase.firestore.FieldValue.serverTimestamp()});}).catch(error=>{errorDiv.textContent=error.message;errorDiv.style.display='block';});}
 
 function handleSignout(){auth.signOut();}
 
