@@ -3312,46 +3312,8 @@ function saveResponsavel(email){
   const arr=getResponsaveis();
   if(!arr.includes(email)){arr.push(email);localStorage.setItem('resp_emails_3s',JSON.stringify(arr));}
 }
-function loadRespSelect(){
-  const sel=document.getElementById('p_resp_select');
-  if(!sel)return;
-  const current=sel.value;
-  // Limpar e reconstruir
-  sel.innerHTML='<option value="">Selecionar responsável</option>';
-  getResponsaveis().forEach(e=>{
-    const opt=document.createElement('option');opt.value=e;opt.textContent=e;sel.appendChild(opt);
-  });
-  const novoOpt=document.createElement('option');novoOpt.value='__novo__';novoOpt.textContent='+ Novo responsável';sel.appendChild(novoOpt);
-  if(current&&current!=='__novo__')sel.value=current;
-}
-function onRespSelect(sel){
-  const inp=document.getElementById('p_resp_input');
-  const btn=document.getElementById('p_resp_save_btn');
-  if(sel.value==='__novo__'){
-    inp.style.display='';btn.style.display='';inp.focus();
-  }else{
-    inp.style.display='none';btn.style.display='none';inp.value='';
-  }
-}
-function salvarNovoResp(){
-  const inp=document.getElementById('p_resp_input');
-  const email=inp.value.trim().toLowerCase();
-  if(!email||!email.includes('@')){showToast('Digite um e-mail válido','#EF4444');return;}
-  saveResponsavel(email);
-  loadRespSelect();
-  document.getElementById('p_resp_select').value=email;
-  inp.style.display='none';
-  document.getElementById('p_resp_save_btn').style.display='none';
-  inp.value='';
-  showToast('Responsável salvo!','#10B981');
-}
 function getResponsavelAtual(){
-  const sel=document.getElementById('p_resp_select');
-  if(sel.value==='__novo__'){
-    const inp=document.getElementById('p_resp_input');
-    return inp.value.trim().toLowerCase();
-  }
-  return sel.value;
+  return auth.currentUser?.email||'';
 }
 
 // ══════════════════════════════════════
@@ -3491,12 +3453,6 @@ function resetFormulario(){
   document.getElementById('p_seg').value='';
   document.getElementById('p_cul').value='';
   document.getElementById('p_uf').value='';
-  // Responsável — resetar select mas manter opções salvas
-  loadRespSelect();
-  document.getElementById('p_resp_select').value='';
-  document.getElementById('p_resp_input').style.display='none';
-  document.getElementById('p_resp_input').value='';
-  document.getElementById('p_resp_save_btn').style.display='none';
   const msgEl=document.getElementById('s1ValidationMsg');
   if(msgEl){msgEl.style.display='none';msgEl.style.background='';msgEl.style.borderColor='';msgEl.style.color='';}
 
@@ -5480,7 +5436,6 @@ function carregarProposta(idx){
   if(p.estado)document.getElementById('p_uf').value=p.estado;
   if(p.conc)document.getElementById('p_conc').value=p.conc;
   document.getElementById('p_conc_inc').checked=(p.concIncluir!==false);
-  if(p.responsavel){loadRespSelect();document.getElementById('p_resp_select').value=p.responsavel;}
   document.getElementById('g_lojas').value=p.lj;
   document.getElementById('g_contrato').value=p.ct;
   document.getElementById('g_rollout').value=p.ro;
