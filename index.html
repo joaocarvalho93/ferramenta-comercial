@@ -4058,7 +4058,7 @@ pgs.forEach((p,i)=>{if(!p.id)p.id='zx'+i;const a=document.createElement('a');a.h
 const ds=nv.querySelectorAll('a');
 const ob=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const i=[...pgs].indexOf(e.target);ds.forEach((d,j)=>d.classList.toggle('on',j===i));}});},{threshold:.45});
 pgs.forEach(p=>ob.observe(p));
-</script>
+<\/scr`+`ipt>
 </body></html>`;
 
   document.getElementById('pFrame').srcdoc=html;
@@ -4170,7 +4170,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#374151;padding:0;marg
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
 .box{border-radius:8px;padding:10px 14px;margin-bottom:10px;}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-ZNgEQRombb+Q4OtxZc+5gCFDIXxDaNVMmwHMn2K7nbqrn4tkoBnImPQKAtRFXyy+4m/wv1UP3nCnea3dhXcEXQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-ZNgEQRombb+Q4OtxZc+5gCFDIXxDaNVMmwHMn2K7nbqrn4tkoBnImPQKAtRFXyy+4m/wv1UP3nCnea3dhXcEXQ==" crossorigin="anonymous" referrerpolicy="no-referrer"><\/script>
 </head>
 <body>
 <div class="toolbar">
@@ -4184,7 +4184,7 @@ function downloadPDF(){
   const opt={margin:[10,10,10,10],filename:`Proposta_${nome.replace(/[^a-zA-Z0-9]/g,'_')}.pdf`,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy'],avoid:['tr','td']}};
   html2pdf().set(opt).from(el).save();
 }
-</script>
+<\/script>
 ${pagesHTML}
 
 </body></html>`;
@@ -8173,7 +8173,7 @@ function handleSignup(e){e.preventDefault();const email=document.getElementById(
 function handleSignout(){auth.signOut();}
 
 // ── GOOGLE SIGN IN ──
-function handleGoogleSignIn(response){const id_token=response.credential;const provider=new firebase.auth.GoogleAuthProvider();firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(id_token)).catch(e=>{document.getElementById('authLoginError').textContent=e.message;document.getElementById('authLoginError').style.display='block';});}
+function handleGoogleSignIn(response){const id_token=response.credential;const payload=JSON.parse(atob(id_token.split('.')[1]));const email=payload.email;if(!email.endsWith('@ifood.com.br')){document.getElementById('authLoginError').textContent='Apenas emails @ifood.com.br são permitidos';document.getElementById('authLoginError').style.display='block';return;}const provider=new firebase.auth.GoogleAuthProvider();firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(id_token)).catch(e=>{document.getElementById('authLoginError').textContent=e.message;document.getElementById('authLoginError').style.display='block';});}
 
 // ── LOG FUNCTION ──
 async function logAction(action,detail=''){const user=auth.currentUser;if(!user)return;try{await db.collection('logs').add({email:user.email,action:action,detail:detail,timestamp:firebase.firestore.FieldValue.serverTimestamp()});}catch(e){console.error('Erro ao registrar log:',e);}}
