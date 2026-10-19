@@ -1,0 +1,230 @@
+{
+  "id": 1792422831629,
+  "data": "19/10/2026",
+  "hora": "12:13",
+  "dataCriacao": "2026-10-19T15:13:51.628Z",
+  "dataModificacao": "2026-10-19T15:13:51.628Z",
+  "nome": "Velho Madalosso",
+  "lj": 8,
+  "ct": 60,
+  "ro": 2,
+  "responsavel": "joao.carlos@ifood.com.br",
+  "segmento": "table",
+  "culinaria": "italiana",
+  "estado": "PR",
+  "conc": "teknisa",
+  "concIncluir": true,
+  "dores": [],
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": false,
+  "ixInst": false,
+  "ixInstExist": false,
+  "instFranquia": 1622,
+  "rebInst": 0,
+  "inv": 3000,
+  "invModo": "none",
+  "ms": 1100,
+  "opcTotal": 0,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "devHoras": 0,
+  "devObs": "",
+  "obsGeral": "",
+  "invMeses": 0,
+  "invMensal": 0,
+  "ecoIncentivo": false,
+  "ecoProd": false,
+  "ecoFixe": false,
+  "dMax": 20,
+  "skipPlano": true,
+  "modeloDesc": "linear",
+  "prazo": 2,
+  "mesesDesconto": 12,
+  "modulos": [
+    "PDV — Ilimitado",
+    "Produção Impressoras — Ilimitado",
+    "Marketplace — iFood / Open Delivery",
+    "POS Mobile — Ilimitado"
+  ],
+  "meIds": [
+    "pdv_ilim",
+    "imp_ilim",
+    "mkt_ifood_od"
+  ],
+  "meData": [
+    {
+      "id": "pdv_ilim",
+      "v": 650,
+      "ix": false
+    },
+    {
+      "id": "imp_ilim",
+      "v": 100,
+      "ix": false
+    },
+    {
+      "id": "mkt_ifood_od",
+      "v": 90,
+      "ix": true
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9,
+      "incMens": true
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60,
+      "incMens": true
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65,
+      "incMens": true
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100,
+      "incMens": true
+    },
+    {
+      "id": "pos_5",
+      "on": false,
+      "ix": false,
+      "v": 150,
+      "incMens": true
+    },
+    {
+      "id": "pos_ilim",
+      "on": true,
+      "ix": false,
+      "v": 350,
+      "incMens": true
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false,
+      "v": 100,
+      "incMens": true
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250,
+      "incMens": true
+    },
+    {
+      "id": "tef_adic",
+      "on": false,
+      "ix": false,
+      "v": 25.22,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": false,
+      "ix": false,
+      "v": 21.93,
+      "incMens": false
+    },
+    {
+      "id": "totem_soft",
+      "on": false,
+      "ix": false,
+      "v": 80,
+      "incMens": false
+    },
+    {
+      "id": "multimarca",
+      "on": false,
+      "ix": false,
+      "v": 50,
+      "incMens": false
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": false,
+      "v": 60,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_d",
+      "on": false,
+      "v": 180,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_combo",
+      "on": false,
+      "v": 300,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000,
+      "ix": false,
+      "incMens": false
+    }
+  ],
+  "historico": [],
+  "_migrateV": 3,
+  "_gh_path": "propostas/velho_madalosso_1792422831629.json",
+  "_gh_sha": null
+}
