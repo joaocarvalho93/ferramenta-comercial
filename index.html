@@ -4143,9 +4143,8 @@ function _buildPropostaHTML(){
   const bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj:ME,modOpc,isensList,xsSel,dores:DORES,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir});
   const comparativoHTML=(concData&&concIncluir)?renderComparativoBlock(concData):'';
   const rolloutHTML=(dMax>0&&!skipPlano)?renderRolloutBlock({lj,dMax,modeloDesc,prazo,mesesDesconto}):'';
-  const _pages=[];_pages.push('<div class="page">'+bodyHTML+'</div>');
+  const _pages=[];_pages.push('<div class="page">'+bodyHTML+(comparativoHTML?'<div style="border-top:2px solid #e9202e;margin:28px 0 0;"></div>'+comparativoHTML:'')+'</div>');
   if(rolloutHTML)_pages.push('<div class="page">'+rolloutHTML+'</div>');
-  if(comparativoHTML)_pages.push('<div class="page">'+comparativoHTML+'</div>');
   for(let i=0;i<_pages.length-1;i++){_pages[i]=_pages[i].replace('<div class="page">','<div class="page" style="page-break-after:always;">');}
   const pagesHTML='<div class="doc">'+_pages.join('')+'</div>';
   const html=`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -4263,9 +4262,8 @@ function genProposta(){
   const bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj:ME,modOpc,isensList,xsSel,dores:DORES,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir});
   const comparativoHTML=(concData&&concIncluir)?renderComparativoBlock(concData):'';
   const rolloutHTML=(dMax>0&&!skipPlano)?renderRolloutBlock({lj,dMax,modeloDesc,prazo,mesesDesconto}):'';
-  const _pages=[];_pages.push('<div class="page">'+bodyHTML+'</div>');
+  const _pages=[];_pages.push('<div class="page">'+bodyHTML+(comparativoHTML?'<div style="border-top:2px solid #e9202e;margin:28px 0 0;"></div>'+comparativoHTML:'')+'</div>');
   if(rolloutHTML)_pages.push('<div class="page">'+rolloutHTML+'</div>');
-  if(comparativoHTML)_pages.push('<div class="page">'+comparativoHTML+'</div>');
   for(let i=0;i<_pages.length-1;i++){_pages[i]=_pages[i].replace('<div class="page">','<div class="page" style="page-break-after:always;">');}
   const pagesHTML='<div class="doc">'+_pages.join('')+'</div>';
 
@@ -6319,9 +6317,8 @@ function _renderModalProposta(p){
     const _bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral:p.obsGeral||'',invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dores:p.dores||[],dMax:_dMax,skipPlano:_skipPlano,prazo:_prazo,modeloDesc:_modeloDesc,mesesDesconto:_mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal,opcTotal});
     const _rolloutHTML=(_dMax>0&&!_skipPlano)?renderRolloutBlock({lj,dMax:_dMax,modeloDesc:_modeloDesc,prazo:_prazo,mesesDesconto:_mesesDesconto}):'';
     const _comparativoHTML=(concData&&concIncluir)?renderComparativoBlock(concData):'';
-    const _pages=[];_pages.push('<div class="page">'+_bodyHTML+'</div>');
+    const _pages=[];_pages.push('<div class="page">'+_bodyHTML+(_comparativoHTML?'<div style="border-top:2px solid #e9202e;margin:28px 0 0;"></div>'+_comparativoHTML:'')+'</div>');
     if(_rolloutHTML)_pages.push('<div class="page">'+_rolloutHTML+'</div>');
-    if(_comparativoHTML)_pages.push('<div class="page">'+_comparativoHTML+'</div>');
     for(let i=0;i<_pages.length-1;i++){_pages[i]=_pages[i].replace('<div class="page">','<div class="page" style="page-break-after:always;">');}
     pageHTML=_pages.join('');
   }catch(e){
