@@ -253,7 +253,5 @@
       "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 3,
-  "_gh_path": "propostas/juistreet___pucpr_1792683719405.json",
-  "_gh_sha": "7036a592c72d25b5d2f9a690b3c5f1414fb970bf"
+  "_migrateV": 5
 }
