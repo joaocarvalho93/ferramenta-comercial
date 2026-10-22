@@ -853,12 +853,12 @@ body.dark #guideInfo p{color:#94a3b8;}
   <div class="card">
     <div class="card-t"><span class="n">2</span> Informações complementares</div>
     <div class="r2">
-      <div class="fld"><label>Segmento</label><select id="p_seg"><option value="" selected>Selecionar segmento</option><option value="qsr">Quick Service (QSR)</option><option value="table">Table Service</option><option value="delivery">Delivery First</option><option value="cafe">Cafeteria / Doceria</option></select></div>
-      <div class="fld"><label>Culinária</label><select id="p_cul"><option value="" selected>Selecionar culinária</option><option value="hamburgueria">Hamburgueria</option><option value="pizzaria">Pizzaria</option><option value="japonesa">Japonesa / Sushi</option><option value="brasileira">Brasileira</option><option value="italiana">Italiana</option><option value="mexicana">Mexicana</option><option value="arabe">Árabe / Esfiha</option><option value="chinesa">Chinesa</option><option value="acai">Açaí / Bowls</option><option value="cafe">Cafeteria / Doceria</option><option value="sorvete">Sorvete / Gelato</option><option value="padaria">Padaria</option><option value="churrascaria">Churrascaria</option><option value="frutos_mar">Frutos do Mar</option><option value="vegana">Vegana / Saudável</option><option value="pastel">Pastelaria</option><option value="hotdog">Hot Dog</option><option value="marmita">Marmitaria</option><option value="cookie">Cookie / Confeitaria</option><option value="poke">Poke / Havaiana</option><option value="outra">Outra</option></select></div>
+      <div class="fld"><label>Segmento</label><select id="p_seg"><option value="" selected>Selecionar segmento</option><option value="bares_pubs">Bares &amp; Pubs</option><option value="casual_dining">Casual Dining</option><option value="delivery">Delivery Only / Dark Kitchen</option><option value="fast_casual">Fast Casual</option><option value="fine_dining">Fine Dining</option><option value="premium_casual">Premium Casual Dining</option><option value="qsr">Quick Service</option><option value="quiosque">Quiosque</option><option value="self_service">Self-Service / Buffet</option></select></div>
+      <div class="fld"><label>Culinária</label><select id="p_cul"><option value="" selected>Selecionar culinária</option><option value="acai">Açaí / Bowls</option><option value="arabe">Árabe / Esfiha</option><option value="brasileira">Brasileira</option><option value="cafe">Cafeteria / Doceria</option><option value="chinesa">Chinesa</option><option value="churrascaria">Churrascaria</option><option value="cookie">Cookie / Confeitaria</option><option value="frutos_mar">Frutos do Mar</option><option value="hamburgueria">Hamburgueria</option><option value="hotdog">Hot Dog</option><option value="italiana">Italiana</option><option value="japonesa">Japonesa / Sushi</option><option value="marmita">Marmitaria</option><option value="mexicana">Mexicana</option><option value="padaria">Padaria</option><option value="pastel">Pastelaria</option><option value="pizzaria">Pizzaria</option><option value="poke">Poke / Havaiana</option><option value="sorvete">Sorvete / Gelato</option><option value="vegana">Vegana / Saudável</option><option value="outra">Outra</option></select></div>
     </div>
     <div class="fld">
       <label>Estado</label>
-      <select id="p_uf"><option value="" selected>Selecionar</option><option>SP</option><option>RJ</option><option>MG</option><option>RS</option><option>PR</option><option>SC</option><option>BA</option><option>CE</option><option>PE</option><option>GO</option><option>DF</option><option>PA</option><option>AM</option><option>ES</option><option>Outro</option></select>
+      <select id="p_uf"><option value="" selected>Selecionar</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MG</option><option>PA</option><option>PE</option><option>PR</option><option>RJ</option><option>RS</option><option>SC</option><option>SP</option><option>Outro</option></select>
     </div>
   </div>
 
@@ -2579,6 +2579,7 @@ function toggleTheme(){
 const MOD_CATALOG=[
   // ══ SERVIÇOS (essenciais — entram na mensalidade/margem) ══
   // PDV
+  {id:'pdv_1',nm:'PDV — 1',v:250,grp:'PDV',cat:'ess'},
   {id:'pdv_3',nm:'PDV — Até 3',v:350,grp:'PDV',cat:'ess'},
   {id:'pdv_5',nm:'PDV — Até 5',v:450,grp:'PDV',cat:'ess'},
   {id:'pdv_ilim',nm:'PDV — Ilimitado',v:650,grp:'PDV',cat:'ess'},
@@ -2587,6 +2588,7 @@ const MOD_CATALOG=[
   {id:'kds_3',nm:'KDS — Até 3',v:160,grp:'KDS',cat:'ess'},
   {id:'kds_ilim',nm:'KDS — Ilimitado',v:280,grp:'KDS',cat:'ess'},
   // Produção com Impressoras
+  {id:'imp_1',nm:'Produção com Impressoras — 1',v:40,grp:'Impressoras',cat:'ess'},
   {id:'imp_3',nm:'Produção Impressoras — Até 3',v:60,grp:'Impressoras',cat:'ess'},
   {id:'imp_ilim',nm:'Produção Impressoras — Ilimitado',v:100,grp:'Impressoras',cat:'ess'},
   // Totem
@@ -2615,6 +2617,7 @@ const MOD_CATALOG=[
   {id:'pdv_adic',nm:'PDV — Adicional',v:49.90,grp:'PDV',cat:'add'},
   {id:'kds_adic',nm:'KDS — Adicional',v:60,grp:'KDS',cat:'add'},
   {id:'totem_adic',nm:'Totem — Adicional',v:65,grp:'Totem',cat:'add'},
+  {id:'pos_1',nm:'POS Mobile ou Smartphone — 1',v:80,grp:'POS Mobile',cat:'add'},
   {id:'pos_3',nm:'POS Mobile — Até 3',v:100,grp:'POS Mobile',cat:'add'},
   {id:'pos_5',nm:'POS Mobile — Até 5',v:150,grp:'POS Mobile',cat:'add'},
   {id:'pos_ilim',nm:'POS Mobile — Ilimitado',v:350,grp:'POS Mobile',cat:'add'},
@@ -2655,6 +2658,7 @@ let MA=[
   {id:'pdv_adic',nm:'PDV — Adicional',v:49.90,on:false,ix:false},
   {id:'kds_adic',nm:'KDS — Adicional',v:60,on:false,ix:false},
   {id:'totem_adic',nm:'Totem — Adicional',v:65,on:false,ix:false},
+  {id:'pos_1',nm:'POS Mobile ou Smartphone — 1',v:80,on:false,ix:false},
   {id:'pos_3',nm:'POS Mobile — Até 3',v:100,on:false,ix:false},
   {id:'pos_5',nm:'POS Mobile — Até 5',v:150,on:false,ix:false},
   {id:'pos_ilim',nm:'POS Mobile — Ilimitado',v:350,on:false,ix:false},
@@ -3515,6 +3519,7 @@ function resetFormulario(){
     {id:'pdv_adic',nm:'PDV — Adicional',v:49.90,on:false,ix:false},
     {id:'kds_adic',nm:'KDS — Adicional',v:60,on:false,ix:false},
     {id:'totem_adic',nm:'Totem — Adicional',v:65,on:false,ix:false},
+    {id:'pos_1',nm:'POS Mobile ou Smartphone — 1',v:80,on:false,ix:false},
     {id:'pos_3',nm:'POS Mobile — Até 3',v:100,on:false,ix:false},
     {id:'pos_5',nm:'POS Mobile — Até 5',v:150,on:false,ix:false},
     {id:'pos_ilim',nm:'POS Mobile — Ilimitado',v:350,on:false,ix:false},
@@ -3560,9 +3565,14 @@ function buildOpCards(nome,lj,seg,dores){
   // Card 1: Segment-based
   const segCards={
     'qsr':{t:'Quick Service',d:'Operação de balcão rápida com alto volume de pedidos simultâneos'},
-    'table':{t:'Table Service',d:'Atendimento à mesa com gestão de comandas, divisão de conta e controle de praças'},
-    'delivery':{t:'Delivery First',d:'Operação focada em delivery com múltiplos agregadores e cozinha otimizada'},
-    'cafe':{t:'Cafeteria / Doceria',d:'Operação com alta rotatividade de clientes e múltiplos canais de venda'},
+    'fast_casual':{t:'Fast Casual',d:'Atendimento ágil com experiência superior ao fast food tradicional'},
+    'casual_dining':{t:'Casual Dining',d:'Atendimento à mesa com gestão de comandas e divisão de conta'},
+    'premium_casual':{t:'Premium Casual Dining',d:'Experiência casual elevada com foco em qualidade e ambiente'},
+    'fine_dining':{t:'Fine Dining',d:'Alta gastronomia com controle rigoroso de insumos e margem'},
+    'self_service':{t:'Self-Service / Buffet',d:'Operação por quilo ou buffet com controle de custo e reposição'},
+    'bares_pubs':{t:'Bares & Pubs',d:'Operação de bar com controle de comandas, abas e happy hour'},
+    'delivery':{t:'Delivery Only / Dark Kitchen',d:'Operação focada em delivery com múltiplos agregadores'},
+    'quiosque':{t:'Quiosque',d:'Operação compacta de alta rotatividade em ponto comercial enxuto'},
   };
   const segCard=segCards[seg]||segCards['qsr'];
   cards.push(segCard);
@@ -4563,10 +4573,14 @@ function extractFromText(txt){
   const segKeys=['segmento de foodservice principal','segmento','tipo','tipo de operacao','modelo','formato','categoria','culinaria','tipo de culinaria'];
   let docSeg='';
   const segMap={
-    'qsr':['fast food','fast-food','fastfood','quick service','qsr','fast casual','lanchonete','hamburgueria','açaí','acai','pastel','hot dog','hotdog','pizza rápida','esfiha','esfiharia','cookie','sorvete','gelato','frozen','poke','temaki','yakisoba','açaiteria','acaiteria','sorveteria'],
-    'table':['table service','full service','restaurante','trattoria','ristorante','steakhouse','churrascaria','rodízio','rodizio','buffet','pizzaria','sushi','japonês','japones','italiano','mexicano','árabe','padaria','bistrô','bistro','gastrobar','gastropub','grill','cantina','bar','pub','casual'],
+    'qsr':['fast food','fast-food','fastfood','quick service','qsr','lanchonete','hamburgueria','açaí','acai','pastel','hot dog','hotdog','pizza rápida','esfiha','esfiharia','cookie','sorvete','gelato','frozen','poke','temaki','yakisoba','açaiteria','acaiteria','sorveteria'],
+    'fast_casual':['fast casual','fast-casual'],
+    'casual_dining':['casual dining','table service','full service','restaurante','trattoria','ristorante','steakhouse','churrascaria','rodízio','rodizio','pizzaria','sushi','japonês','japones','italiano','mexicano','árabe','padaria','bistrô','bistro','gastrobar','gastropub','grill','cantina','casual'],
+    'fine_dining':['fine dining','alta gastronomia','gastronomico','gastronômico'],
+    'self_service':['self service','self-service','buffet','por quilo','selfservice'],
+    'bares_pubs':['bar','pub','happy hour','cervejaria','choperia','chopería'],
     'delivery':['delivery','dark kitchen','ghost kitchen','cloud kitchen','virtual kitchen','delivery first','só delivery','apenas delivery','cozinha virtual'],
-    'cafe':['café','cafeteria','coffee','doceria','confeitaria','patisserie','boulangerie','brigaderia','casa de chá','tea','bakery','padaria artesanal'],
+    'quiosque':['quiosque','kiosk','trailer','food truck'],
   };
   for(const k of segKeys){
     const fieldKey=Object.keys(fields).find(fk=>fk.includes(k));
