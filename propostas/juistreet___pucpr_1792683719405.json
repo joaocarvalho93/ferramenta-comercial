@@ -3,7 +3,7 @@
   "data": "22/10/2026",
   "hora": "13:07",
   "dataCriacao": "2026-10-22T15:41:59.404Z",
-  "dataModificacao": "2026-10-22T16:07:26.643Z",
+  "dataModificacao": "2026-10-22T16:07:30.853Z",
   "nome": "Juistreet - PUCPR",
   "lj": 1,
   "ct": 48,
@@ -38,8 +38,15 @@
   "invMensal": 0,
   "ecoIncentivo": false,
   "ecoProd": false,
-  "ecoFixe": false,
-  "fixeOn": [],
+  "ecoFixe": true,
+  "fixeOn": [
+    {
+      "id": "fx_fid",
+      "nm": "Fidelidade",
+      "v": 199,
+      "desc": "Selos, pontuação, cashback, gift back via Wallet/WhatsApp/Web/APP"
+    }
+  ],
   "dMax": 20,
   "skipPlano": true,
   "modeloDesc": "linear",
@@ -281,9 +288,38 @@
       "prazo": 2,
       "mesesDesconto": 12,
       "responsavel": "joao.carlos@ifood.com.br"
+    },
+    {
+      "data": "2026-10-22T16:07:26.643Z",
+      "nome": "Juistreet - PUCPR",
+      "lj": 1,
+      "ct": 48,
+      "ro": 2,
+      "ms": 310,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": true,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "obsGeral": "Totem VS - totem de balcão Modelo 15,6\"\n12 meses - R$930 mensalidade\n24 meses - R$884 mensalidade\n36 meses - R$837 mensalidade",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 2,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
   "_migrateV": 3,
   "_gh_path": "propostas/juistreet___pucpr_1792683719405.json",
-  "_gh_sha": "5ade09f567f544577cb6eab5b289d23a14e7b24d"
+  "_gh_sha": "5095777b88708febba0e35ffb13b5a95843a114c"
 }
