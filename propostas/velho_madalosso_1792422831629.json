@@ -341,7 +341,5 @@
       "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 3,
-  "_gh_path": "propostas/velho_madalosso_1792422831629.json",
-  "_gh_sha": "f5f93cebb7bd925d1a279970cb1ca071c203c3b1"
+  "_migrateV": 5
 }
