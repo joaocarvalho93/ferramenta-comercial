@@ -6100,6 +6100,12 @@ function renderPropostaBody(d){
   const fmtBRL=(v)=>'R$ '+(+v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
   const fmtBRLi=fmtBRL;
   const iTag=(origV)=>'<span style="color:#9CA3AF;text-decoration:line-through;margin-right:6px;">'+fmtBRL(origV)+'</span><span style="color:#10B981;font-size:9px;font-weight:700;">Isento</span>';
+  // Adicionais (opcionais) para o resumo final — serviços opcionais + produtos adicionais + Fixe CRM
+  const adicionais=[];
+  if(modOpc&&modOpc.length)modOpc.forEach(m=>adicionais.push({nm:(m.nm||m),v:(typeof m.v==='number'?m.v:0)}));
+  if(xsSel&&xsSel.length)xsSel.forEach(m=>adicionais.push({nm:m.nm,v:m.ix?0:m.v}));
+  const totalOpcionais=adicionais.reduce((s,m)=>s+(+m.v||0),0)+(fixeTotal||0);
+  const temOpcionais=adicionais.length>0||(fixeTotal||0)>0;
 
   return `
   <div class="header" style="text-align:center;margin-bottom:28px;">
@@ -6144,7 +6150,7 @@ function renderPropostaBody(d){
 
   ${modOpc&&modOpc.length?'<div style="background:#FEF9C3;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Serviços Opcionais (não inclusos)</div>'+modOpc.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+(m.nm||m)+'</span><span style="font-weight:600;color:#D97706;">'+(typeof m.v==='number'?fmtBRL(m.v):'')+'</span></div>').join('')+'</div>':''}
 
-  ${(xsSel.length||(fixeMods&&fixeMods.length))?'<div style="background:#FFFBEB;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Produtos Adicionais / Loja</div>'+xsSel.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+m.nm+'</span><span style="font-weight:600;color:#D97706;">'+(m.ix?iTag(m.origV):fmtBRL(m.v))+'</span></div>').join('')+(fixeMods&&fixeMods.length?fixeMods.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">Fixe - '+(m.nm||m)+': '+(m.id==='fx_fid'?'Programa de fidelização e relacionamento':(m.desc||''))+'</span><span style="font-weight:600;color:#D97706;">'+(m.v>0?fmtBRL(m.v):'Incluso')+'</span></div>').join(''):'')+'</div>':''}
+  ${(xsSel.length||(fixeMods&&fixeMods.length))?'<div style="background:#FFFBEB;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Produtos Adicionais / Loja</div>'+xsSel.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+m.nm+'</span><span style="font-weight:600;color:#D97706;">'+(m.ix?iTag(m.origV):fmtBRL(m.v))+'</span></div>').join('')+(fixeMods&&fixeMods.length?fixeMods.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">Fixe CRM - '+(m.id==='fx_fid'?'Programa de fidelidade e relacionamento':(m.nm||m))+'</span><span style="font-weight:600;color:#D97706;">'+(m.v>0?fmtBRL(m.v):'Incluso')+'</span></div>').join(''):'')+'</div>':''}
 
   ${!ixInst?'<div style="background:#F0FDF4;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#10B981;margin-bottom:10px;">Instalação lojas novas</div>'+((instFranquia!==instVal)?'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Loja própria</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instVal)+'</span></div><div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Loja franquia</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instFranquia)+'</span></div>':'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Instalação por loja</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instVal)+'</span></div>')+'<div style="font-size:10px;color:#065F46;line-height:1.5;padding:6px 0 0;">Novas lojas incorporadas durante a vigência do contrato terão o valor de instalação correspondente.</div></div>':''}
 
@@ -6153,10 +6159,12 @@ function renderPropostaBody(d){
   <div style="background:#2D0A0E;border-radius:10px;padding:18px 28px;margin-bottom:16px;">
     <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:rgba(255,255,255,.5);margin-bottom:6px;">Mensalidade 3S / Loja</div>
     <div style="font-size:28px;font-weight:900;color:#fff;">${fmtBRL(ms)}</div>
-    ${(opcTotal>0||fixeTotal>0)?'<div style="font-size:10px;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.6;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;">'+
-      '<div style="display:flex;justify-content:space-between;"><span>Mensalidade</span><span>'+fmtBRL(ms)+'</span></div>'+
-      (opcTotal>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Adicionais (fora mensalidade)</span><span>'+fmtBRL(opcTotal)+'</span></div>':'')+
-      (fixeTotal>0?'<div style="display:flex;justify-content:space-between;margin-top:3px;"><span>+ Fixe CRM</span><span>'+fmtBRL(fixeTotal)+'</span></div>':'')+
+    ${temOpcionais?'<div style="font-size:11px;color:rgba(255,255,255,.85);margin-top:10px;line-height:1.9;border-top:1px solid rgba(255,255,255,.15);padding-top:10px;">'+
+      '<div style="display:flex;justify-content:space-between;"><span>Mensalidade fixa</span><span style="font-weight:700;">'+fmtBRL(ms)+'</span></div>'+
+      '<div style="font-weight:700;color:rgba(255,255,255,.6);margin-top:6px;">Adicionais</div>'+
+      adicionais.map(a=>'<div style="display:flex;justify-content:space-between;padding-left:12px;"><span>'+a.nm+'</span><span style="font-weight:600;">'+fmtBRL(a.v)+'</span></div>').join('')+
+      ((fixeTotal||0)>0?'<div style="display:flex;justify-content:space-between;padding-left:12px;"><span>Fixe CRM</span><span style="font-weight:600;">'+fmtBRL(fixeTotal)+'</span></div>':'')+
+      '<div style="display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.15);font-weight:800;font-size:12px;"><span>Valor total com opcionais</span><span>'+fmtBRL(ms+totalOpcionais)+'</span></div>'+
       '</div>':''}
   </div>
 
