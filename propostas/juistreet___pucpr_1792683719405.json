@@ -1,9 +1,9 @@
 {
   "id": 1792683719405,
   "data": "22/10/2026",
-  "hora": "15:35",
+  "hora": "16:00",
   "dataCriacao": "2026-10-22T15:41:59.404Z",
-  "dataModificacao": "2026-10-22T18:35:04.161Z",
+  "dataModificacao": "2026-10-22T19:00:28.629Z",
   "nome": "Juistreet - PUCPR",
   "lj": 1,
   "ct": 48,
@@ -26,7 +26,7 @@
   "invModo": "none",
   "ms": 310,
   "opcTotal": 0,
-  "addTotal": 220,
+  "addTotal": 0,
   "rb": 0,
   "incAnual": 0,
   "incMes": 0,
@@ -37,7 +37,7 @@
   "invMeses": 0,
   "invMensal": 0,
   "ecoIncentivo": false,
-  "ecoProd": true,
+  "ecoProd": false,
   "ecoFixe": true,
   "fixeOn": [
     {
@@ -54,8 +54,7 @@
   "mesesDesconto": 12,
   "modulos": [
     "PDV — 1",
-    "Produção com Impressoras — 1",
-    "3S BI — Administrador"
+    "Produção com Impressoras — 1"
   ],
   "meIds": [
     "pdv_1",
@@ -183,7 +182,7 @@
     },
     {
       "id": "bi_admin",
-      "on": true,
+      "on": false,
       "v": 220,
       "ix": false,
       "incMens": false
@@ -376,7 +375,38 @@
       "prazo": 2,
       "mesesDesconto": 12,
       "responsavel": "joao.carlos@ifood.com.br"
+    },
+    {
+      "data": "2026-10-22T18:35:04.161Z",
+      "nome": "Juistreet - PUCPR",
+      "lj": 1,
+      "ct": 48,
+      "ro": 2,
+      "ms": 310,
+      "addTotal": 220,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": true,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "obsGeral": "Totem VS - totem de balcão Modelo 15,6\"\n12 meses - R$930 mensalidade\n24 meses - R$884 mensalidade\n36 meses - R$837 mensalidade",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 2,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 3,
+  "_gh_path": "propostas/juistreet___pucpr_1792683719405.json",
+  "_gh_sha": "37a8382d011a9e1e12e5e31e75633cec7d003631"
 }
