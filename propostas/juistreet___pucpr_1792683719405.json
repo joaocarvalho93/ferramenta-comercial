@@ -1,0 +1,229 @@
+{
+  "id": 1792683719405,
+  "data": "22/10/2026",
+  "hora": "12:41",
+  "dataCriacao": "2026-10-22T15:41:59.404Z",
+  "dataModificacao": "2026-10-22T15:41:59.404Z",
+  "nome": "Juistreet - PUCPR",
+  "lj": 1,
+  "ct": 48,
+  "ro": 2,
+  "responsavel": "joao.carlos@ifood.com.br",
+  "segmento": "quiosque",
+  "culinaria": "acai",
+  "estado": "PR",
+  "conc": "",
+  "concIncluir": false,
+  "dores": [],
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": false,
+  "ixInst": false,
+  "ixInstExist": false,
+  "instFranquia": 1622,
+  "rebInst": 0,
+  "inv": 3000,
+  "invModo": "none",
+  "ms": 310,
+  "opcTotal": 0,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "devHoras": 0,
+  "devObs": "",
+  "obsGeral": "Totem VS - totem de balcão Modelo 15,6\"\n12 meses - R$930 mensalidade\n24 meses - R$884 mensalidade\n36 meses - R$837 mensalidade",
+  "invMeses": 0,
+  "invMensal": 0,
+  "ecoIncentivo": false,
+  "ecoProd": false,
+  "ecoFixe": true,
+  "dMax": 20,
+  "skipPlano": true,
+  "modeloDesc": "linear",
+  "prazo": 2,
+  "mesesDesconto": 12,
+  "modulos": [
+    "PDV — 1",
+    "Produção com Impressoras — 1"
+  ],
+  "meIds": [
+    "pdv_1",
+    "imp_1"
+  ],
+  "meData": [
+    {
+      "id": "pdv_1",
+      "v": 250,
+      "ix": false
+    },
+    {
+      "id": "imp_1",
+      "v": 60,
+      "ix": false
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9,
+      "incMens": true
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60,
+      "incMens": true
+    },
+    {
+      "id": "totem_adic",
+      "on": false,
+      "ix": false,
+      "v": 65,
+      "incMens": true
+    },
+    {
+      "id": "pos_1",
+      "on": false,
+      "ix": false,
+      "v": 80,
+      "incMens": true
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100,
+      "incMens": true
+    },
+    {
+      "id": "pos_5",
+      "on": false,
+      "ix": false,
+      "v": 150,
+      "incMens": true
+    },
+    {
+      "id": "pos_ilim",
+      "on": false,
+      "ix": false,
+      "v": 350,
+      "incMens": true
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false,
+      "v": 100,
+      "incMens": true
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250,
+      "incMens": true
+    },
+    {
+      "id": "tef_adic",
+      "on": false,
+      "ix": false,
+      "v": 25.22,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": false,
+      "ix": false,
+      "v": 21.93,
+      "incMens": false
+    },
+    {
+      "id": "totem_soft",
+      "on": false,
+      "ix": false,
+      "v": 80,
+      "incMens": false
+    },
+    {
+      "id": "multimarca",
+      "on": false,
+      "ix": false,
+      "v": 50,
+      "incMens": false
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": false,
+      "v": 60,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "kinesis",
+      "on": false,
+      "v": 300,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_d",
+      "on": false,
+      "v": 180,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_combo",
+      "on": false,
+      "v": 300,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000,
+      "ix": false,
+      "incMens": false
+    }
+  ],
+  "historico": [],
+  "_migrateV": 3,
+  "_gh_path": "propostas/juistreet___pucpr_1792683719405.json",
+  "_gh_sha": null
+}
