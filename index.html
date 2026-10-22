@@ -4129,7 +4129,7 @@ function _buildPropostaHTML(){
   const xsSel=gc('eco_prod')?MX.filter(m=>m.on&&m.incMens!==true):[];
   const xsTotal=xsSel.reduce((s,m)=>s+(m.ix?0:m.v),0);
   const hasFX=gc('eco_fixe');
-  const fixeSel=FIXE_MODS.filter(m=>gc(m.id));
+  const fixeSel=hasFX?FIXE_MODS.filter(m=>gc(m.id)):[];
   const fixeTotal=hasFX&&fixeSel.length?fixeSel.reduce((s,m)=>s+m.v,0):0;
   const addTotal=xsTotal+fixeTotal;
   const isensList=[];
@@ -4150,7 +4150,7 @@ function _buildPropostaHTML(){
   const dataStr=new Date().toLocaleDateString('pt-BR');
   const dMax=gv('g_dmax'),prazo=gv('g_prazo'),modeloDesc=document.getElementById('g_modelo_desc').value,mesesDesconto=gv('g_mesesdesc');
   const skipPlano=document.getElementById('g_skip_plano')&&document.getElementById('g_skip_plano').checked;
-  const bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj:ME,modOpc,isensList,xsSel,dores:DORES,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir});
+  const bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj:ME,modOpc,isensList,xsSel,dores:DORES,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir,fixeMods:fixeSel,fixeTotal});
   const comparativoHTML=(concData&&concIncluir)?renderComparativoBlock(concData):'';
   const rolloutHTML=(dMax>0&&!skipPlano)?renderRolloutBlock({lj,dMax,modeloDesc,prazo,mesesDesconto}):'';
   const _pages=[];_pages.push('<div class="page">'+bodyHTML+(comparativoHTML?'<div style="border-top:2px solid #e9202e;margin:48px 0 32px;"></div>'+comparativoHTML:'')+'</div>');
@@ -4243,7 +4243,7 @@ function genProposta(){
 
   // Fixe
   const hasFX=gc('eco_fixe');
-  const fixeSel=FIXE_MODS.filter(m=>gc(m.id));
+  const fixeSel=hasFX?FIXE_MODS.filter(m=>gc(m.id)):[];
   const fixeTotal=hasFX&&fixeSel.length?fixeSel.reduce((s,m)=>s+m.v,0):0;
   const addTotal=xsTotal+fixeTotal;
 
@@ -4269,7 +4269,7 @@ function genProposta(){
   const dataStr=new Date().toLocaleDateString('pt-BR');
   const dMax=gv('g_dmax'),prazo=gv('g_prazo'),modeloDesc=document.getElementById('g_modelo_desc').value,mesesDesconto=gv('g_mesesdesc');
   const skipPlano=document.getElementById('g_skip_plano')&&document.getElementById('g_skip_plano').checked;
-  const bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj:ME,modOpc,isensList,xsSel,dores:DORES,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir});
+  const bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj:ME,modOpc,isensList,xsSel,dores:DORES,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir,fixeMods:fixeSel,fixeTotal});
   const comparativoHTML=(concData&&concIncluir)?renderComparativoBlock(concData):'';
   const rolloutHTML=(dMax>0&&!skipPlano)?renderRolloutBlock({lj,dMax,modeloDesc,prazo,mesesDesconto}):'';
   const _pages=[];_pages.push('<div class="page">'+bodyHTML+(comparativoHTML?'<div style="border-top:2px solid #e9202e;margin:48px 0 32px;"></div>'+comparativoHTML:'')+'</div>');
@@ -5021,6 +5021,7 @@ function buildPropostaObj(){
     rb,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,
     ecoIncentivo:incOn,
     ecoProd:gc('eco_prod'),ecoFixe:gc('eco_fixe'),
+    fixeOn:gc('eco_fixe')?FIXE_MODS.filter(m=>gc(m.id)).map(m=>({id:m.id,nm:m.nm,v:m.v,desc:m.desc})):[],
     dMax:gv('g_dmax'),skipPlano:gc('g_skip_plano'),modeloDesc:document.getElementById('g_modelo_desc').value,prazo:gv('g_prazo'),mesesDesconto:gv('g_mesesdesc'),
     modulos,
     meIds:ME.map(m=>m.id),
@@ -6093,7 +6094,7 @@ function renderDoresBlock(doresList){
 }
 
 function renderPropostaBody(d){
-  const {nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal,opcTotal}=d;
+  const {nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral,invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dMax,skipPlano,prazo,modeloDesc,mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal,opcTotal,fixeMods,fixeTotal}=d;
   // Se passou modulosObj, usa getModNm() para cada módulo
   const modulosRender=modulosObj?modulosObj.map(m=>getModNm(m)):modulos;
   const fmtBRL=(v)=>'R$ '+(+v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -6144,6 +6145,8 @@ function renderPropostaBody(d){
   ${modOpc&&modOpc.length?'<div style="background:#FEF9C3;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Serviços Opcionais (não inclusos)</div>'+modOpc.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+(m.nm||m)+'</span><span style="font-weight:600;color:#D97706;">'+(typeof m.v==='number'?fmtBRL(m.v):'')+'</span></div>').join('')+'</div>':''}
 
   ${xsSel.length?'<div style="background:#FFFBEB;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Produtos Adicionais / Loja</div>'+xsSel.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+m.nm+'</span><span style="font-weight:600;color:#D97706;">'+(m.ix?iTag(m.origV):fmtBRL(m.v))+'</span></div>').join('')+'</div>':''}
+
+  ${fixeMods&&fixeMods.length?'<div style="background:#FDF4FF;border:1.5px solid #E9D5FF;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#6B21A8;margin-bottom:10px;">Ecossistema Fixe CRM</div>'+fixeMods.map(m=>'<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:5px 0;border-bottom:1px solid rgba(107,33,168,.08);"><span style="color:#4C1D95;">'+(m.nm||m)+'</span><span style="font-weight:700;color:#6B21A8;">'+(m.v>0?fmtBRL(m.v):'<span style="color:#10B981;">Incluso</span>')+'</span></div>').join('')+'<div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:8px 0 0;margin-top:4px;border-top:1.5px solid rgba(107,33,168,.15);font-weight:800;"><span style="color:#4C1D95;">Total CRM / mês</span><span style="color:#6B21A8;">'+fmtBRL(fixeTotal||0)+'</span></div></div>':''}
 
   ${!ixInst?'<div style="background:#F0FDF4;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#10B981;margin-bottom:10px;">Instalação lojas novas</div>'+((instFranquia!==instVal)?'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Loja própria</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instVal)+'</span></div><div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Loja franquia</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instFranquia)+'</span></div>':'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Instalação por loja</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instVal)+'</span></div>')+'<div style="font-size:10px;color:#065F46;line-height:1.5;padding:6px 0 0;">Novas lojas incorporadas durante a vigência do contrato terão o valor de instalação correspondente.</div></div>':''}
 
@@ -6304,6 +6307,10 @@ function _renderModalProposta(p){
   const xsTotal=xsSel.reduce((s,m)=>s+m.v,0);
   const msBase=ms-msAdicionais;
 
+  // Fixe CRM (reconstruir do salvo)
+  const fixeMods=(p.fixeOn&&p.fixeOn.length)?p.fixeOn:[];
+  const fixeTotal=fixeMods.reduce((s,m)=>s+(m.v||0),0);
+
   // Isenções
   const isensList=[];
   if(ixSetup)isensList.push({item:'Setup da marca',de:setupVal});
@@ -6328,7 +6335,7 @@ function _renderModalProposta(p){
   let pageHTML;
   try{
     const _dMax=p.dMax||0,_skipPlano=!!p.skipPlano,_prazo=p.prazo||0,_modeloDesc=p.modeloDesc||'linear',_mesesDesconto=p.mesesDesconto||0;
-    const _bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral:p.obsGeral||'',invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dores:p.dores||[],dMax:_dMax,skipPlano:_skipPlano,prazo:_prazo,modeloDesc:_modeloDesc,mesesDesconto:_mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal,opcTotal});
+    const _bodyHTML=renderPropostaBody({nome,dataStr,lj,ct,ro,setupVal,instVal,instFranquia,ixSetup,ixInst,ixInstExist,ms,addTotal,rb,rebInst,incAnual,incMes,devVal,devHoras,devObs,obsGeral:p.obsGeral||'',invMeses,invMensal,invTotal,invVal,invModo,invDisclaimer,modulos,modulosObj,modOpc,isensList,xsSel,dores:p.dores||[],dMax:_dMax,skipPlano:_skipPlano,prazo:_prazo,modeloDesc:_modeloDesc,mesesDesconto:_mesesDesconto,concData,concIncluir,msAdicionais,msBase,xsTotal,opcTotal,fixeMods,fixeTotal});
     const _rolloutHTML=(_dMax>0&&!_skipPlano)?renderRolloutBlock({lj,dMax:_dMax,modeloDesc:_modeloDesc,prazo:_prazo,mesesDesconto:_mesesDesconto}):'';
     const _comparativoHTML=(concData&&concIncluir)?renderComparativoBlock(concData):'';
     const _pages=[];_pages.push('<div class="page">'+_bodyHTML+(_comparativoHTML?'<div style="border-top:2px solid #e9202e;margin:48px 0 32px;"></div>'+_comparativoHTML:'')+'</div>');
