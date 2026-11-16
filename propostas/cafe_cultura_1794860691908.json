@@ -1,9 +1,9 @@
 {
   "id": 1794860691908,
   "data": "16/11/2026",
-  "hora": "17:24",
+  "hora": "17:26",
   "dataCriacao": "2026-11-16T20:24:51.907Z",
-  "dataModificacao": "2026-11-16T20:24:51.907Z",
+  "dataModificacao": "2026-11-16T20:26:02.488Z",
   "nome": "Café Cultura",
   "lj": 45,
   "ct": 60,
@@ -24,7 +24,7 @@
   "rebInst": 0,
   "inv": 3000,
   "invModo": "none",
-  "ms": 495.8,
+  "ms": 600,
   "opcTotal": 0,
   "addTotal": 0,
   "rb": 0,
@@ -50,6 +50,7 @@
     "KDS — Ilimitado",
     "Produção Impressoras — Ilimitado",
     "Marketplace — iFood / Rappi / 99 / Keeta / Open Delivery",
+    "TEF — Primeira integração",
     "3SGo — Ilimitado por loja",
     "3S Connection — Kinesis"
   ],
@@ -57,7 +58,8 @@
     "pdv_3",
     "kds_ilim",
     "imp_ilim",
-    "mkt_custom"
+    "mkt_custom",
+    "tef_1"
   ],
   "meData": [
     {
@@ -86,6 +88,11 @@
         "od": true,
         "keeta": true
       }
+    },
+    {
+      "id": "tef_1",
+      "v": 104.2,
+      "ix": false
     }
   ],
   "maOn": [
@@ -246,8 +253,38 @@
       "incMens": false
     }
   ],
-  "historico": [],
+  "historico": [
+    {
+      "data": "2026-11-16T20:24:51.907Z",
+      "nome": "Café Cultura",
+      "lj": 45,
+      "ct": 60,
+      "ro": 6,
+      "ms": 495.8,
+      "addTotal": 0,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "obsGeral": "",
+      "invMeses": 1,
+      "invMensal": 500000,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 6,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
+    }
+  ],
   "_migrateV": 3,
   "_gh_path": "propostas/cafe_cultura_1794860691908.json",
-  "_gh_sha": null
+  "_gh_sha": "ba4836f9e7893f8bb86707b61cad56a499c82c13"
 }
