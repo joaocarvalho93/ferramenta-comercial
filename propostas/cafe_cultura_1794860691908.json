@@ -1,0 +1,253 @@
+{
+  "id": 1794860691908,
+  "data": "16/11/2026",
+  "hora": "17:24",
+  "dataCriacao": "2026-11-16T20:24:51.907Z",
+  "dataModificacao": "2026-11-16T20:24:51.907Z",
+  "nome": "Café Cultura",
+  "lj": 45,
+  "ct": 60,
+  "ro": 6,
+  "responsavel": "joao.carlos@ifood.com.br",
+  "segmento": "",
+  "culinaria": "",
+  "estado": "",
+  "conc": "",
+  "concIncluir": false,
+  "dores": [],
+  "setup": 3000,
+  "inst": 1622,
+  "ixSetup": true,
+  "ixInst": false,
+  "ixInstExist": true,
+  "instFranquia": 1622,
+  "rebInst": 0,
+  "inv": 3000,
+  "invModo": "none",
+  "ms": 495.8,
+  "opcTotal": 0,
+  "addTotal": 0,
+  "rb": 0,
+  "incAnual": 0,
+  "incMes": 0,
+  "devVal": 0,
+  "devHoras": 0,
+  "devObs": "",
+  "obsGeral": "",
+  "invMeses": 1,
+  "invMensal": 500000,
+  "ecoIncentivo": true,
+  "ecoProd": true,
+  "ecoFixe": false,
+  "fixeOn": [],
+  "dMax": 20,
+  "skipPlano": true,
+  "modeloDesc": "linear",
+  "prazo": 6,
+  "mesesDesconto": 12,
+  "modulos": [
+    "PDV — Até 3",
+    "KDS — Ilimitado",
+    "Produção Impressoras — Ilimitado",
+    "Marketplace — iFood / Rappi / 99 / Keeta / Open Delivery",
+    "3SGo — Ilimitado por loja",
+    "3S Connection — Kinesis"
+  ],
+  "meIds": [
+    "pdv_3",
+    "kds_ilim",
+    "imp_ilim",
+    "mkt_custom"
+  ],
+  "meData": [
+    {
+      "id": "pdv_3",
+      "v": 250,
+      "ix": false
+    },
+    {
+      "id": "kds_ilim",
+      "v": 145.8,
+      "ix": false
+    },
+    {
+      "id": "imp_ilim",
+      "v": 100,
+      "ix": false
+    },
+    {
+      "id": "mkt_custom",
+      "v": 110,
+      "ix": true,
+      "mktPlayers": {
+        "99": true,
+        "ifood": true,
+        "rappi": true,
+        "od": true,
+        "keeta": true
+      }
+    }
+  ],
+  "maOn": [
+    {
+      "id": "pdv_adic",
+      "on": false,
+      "ix": false,
+      "v": 49.9,
+      "incMens": true
+    },
+    {
+      "id": "kds_adic",
+      "on": false,
+      "ix": false,
+      "v": 60,
+      "incMens": true
+    },
+    {
+      "id": "totem_adic",
+      "on": true,
+      "ix": true,
+      "v": 65,
+      "incMens": false
+    },
+    {
+      "id": "pos_1",
+      "on": false,
+      "ix": false,
+      "v": 80,
+      "incMens": true
+    },
+    {
+      "id": "pos_3",
+      "on": false,
+      "ix": false,
+      "v": 100,
+      "incMens": true
+    },
+    {
+      "id": "pos_5",
+      "on": false,
+      "ix": false,
+      "v": 150,
+      "incMens": true
+    },
+    {
+      "id": "pos_ilim",
+      "on": false,
+      "ix": false,
+      "v": 350,
+      "incMens": true
+    },
+    {
+      "id": "marca",
+      "on": false,
+      "ix": false,
+      "v": 100,
+      "incMens": true
+    },
+    {
+      "id": "nav_extra",
+      "on": false,
+      "ix": false,
+      "v": 250,
+      "incMens": true
+    },
+    {
+      "id": "tef_adic",
+      "on": false,
+      "ix": false,
+      "v": 25.22,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": false,
+      "ix": false,
+      "v": 21.93,
+      "incMens": false
+    },
+    {
+      "id": "totem_soft",
+      "on": false,
+      "ix": false,
+      "v": 80,
+      "incMens": false
+    },
+    {
+      "id": "multimarca",
+      "on": false,
+      "ix": false,
+      "v": 50,
+      "incMens": false
+    }
+  ],
+  "mxOn": [
+    {
+      "id": "3sgo",
+      "on": true,
+      "v": 60,
+      "ix": true,
+      "incMens": false
+    },
+    {
+      "id": "bi_simples",
+      "on": false,
+      "v": 120,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_admin",
+      "on": false,
+      "v": 220,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "bi_setup",
+      "on": false,
+      "v": 1200,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "kinesis",
+      "on": true,
+      "v": 300,
+      "ix": true,
+      "incMens": false
+    },
+    {
+      "id": "eats_d",
+      "on": false,
+      "v": 180,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_m",
+      "on": false,
+      "v": 180,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_combo",
+      "on": false,
+      "v": 300,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "eats_setup",
+      "on": false,
+      "v": 2000,
+      "ix": false,
+      "incMens": false
+    }
+  ],
+  "historico": [],
+  "_migrateV": 3,
+  "_gh_path": "propostas/cafe_cultura_1794860691908.json",
+  "_gh_sha": null
+}
