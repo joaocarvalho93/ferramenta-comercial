@@ -313,7 +313,5 @@
       "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 3,
-  "_gh_path": "propostas/cafe_cultura_1794860691908.json",
-  "_gh_sha": "bf7b9661d53ef0b480f41b98acf9c2468c79b755"
+  "_migrateV": 5
 }
