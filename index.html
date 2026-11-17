@@ -1103,7 +1103,7 @@ body.dark #guideInfo p{color:#94a3b8;}
     <p style="font-size:12px;color:var(--gray);margin-bottom:8px;">Produtos que ampliam o ecossistema 3S além do core. <strong>Não impactam a margem principal.</strong></p>
     <label class="tgl" style="margin-bottom:10px;"><input type="checkbox" id="eco_fixe" onchange="toggleFixe();calc();"> Incluir ecossistema na proposta</label>
     <div id="fixeModulos" style="display:none;padding:14px;background:#F3F4F6;border-radius:8px;">
-      <div style="font-size:11px;font-weight:700;color:var(--dark-gray);margin-bottom:8px;">Fixe CRM — selecione os módulos contratados:</div>
+      <div style="font-size:11px;font-weight:700;color:var(--dark-gray);margin-bottom:8px;">Selecione os módulos contratados:</div>
       <div class="chk-grid" id="fixeGrid"></div>
     </div>
   </div>
@@ -2298,21 +2298,31 @@ const CONC={
 // ECOSSISTEMA
 // ══════════════════════════════════════
 const FIXE_MODS=[
-  {id:'fx_fid',nm:'Fidelidade',desc:'Selos, pontuação, cashback, gift back via Wallet/WhatsApp/Web/APP',v:199},
-  {id:'fx_app',nm:'Super APP Whitelabel',desc:'App próprio da marca nas lojas iOS e Android',v:999},
-  {id:'fx_nps',nm:'Pesquisa NPS',desc:'NPS relacional, transacional e bonificado com report automático',v:129},
-  {id:'fx_gift',nm:'Cartão Presente',desc:'Gift card PF (clientes) e PJ/RH (empresas para colaboradores)',v:1699},
+  {id:'fx_fid',nm:'Fidelidade',desc:'Selos, pontuação, cashback, gift back via Wallet/WhatsApp/Web/APP',v:199,grp:'Fixe CRM'},
+  {id:'fx_app',nm:'Super APP Whitelabel',desc:'App próprio da marca nas lojas iOS e Android',v:999,grp:'Fixe CRM'},
+  {id:'fx_nps',nm:'Pesquisa NPS',desc:'NPS relacional, transacional e bonificado com report automático',v:129,grp:'Fixe CRM'},
+  {id:'fx_gift',nm:'Cartão Presente',desc:'Gift card PF (clientes) e PJ/RH (empresas para colaboradores)',v:1699,grp:'Fixe CRM'},
+  {id:'crm_admin',nm:'CRM Admin',desc:'Painel administrativo do CRM para gestão da base de clientes, campanhas e comunicação',v:179,grp:'CRM Admin'},
 ];
-// Fixe modules sub-grid
-const fG=document.getElementById('fixeGrid');
-FIXE_MODS.forEach(m=>{
-  const div=document.createElement('div');div.className='chk';
-  const precoHtml=m.v>0?`<br><span style="font-size:10px;color:var(--purple);font-weight:600;">R$ ${m.v.toFixed(2).replace('.',',')}/mês</span>`:'';
-  div.innerHTML=`<input type="checkbox" id="${m.id}"><span><strong>${m.nm}</strong>${precoHtml}<br><span style="font-size:10px;color:var(--gray);">${m.desc}</span></span>`;
-  div.addEventListener('click',ev=>{if(ev.target.tagName==='INPUT')return;const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);calc();});
-  div.querySelector('input').addEventListener('change',function(){div.classList.toggle('sel',this.checked);calc();});
-  fG.appendChild(div);
-});
+// Ecossistema sub-grid — agrupa por `grp` (ex.: Fixe CRM, CRM Admin)
+(function(){
+  const fG=document.getElementById('fixeGrid'); if(!fG)return;
+  const grupos=[];
+  FIXE_MODS.forEach(m=>{const g=m.grp||'Outros'; let b=grupos.find(x=>x.nm===g); if(!b){b={nm:g,items:[]};grupos.push(b);} b.items.push(m);});
+  grupos.forEach((g,i)=>{
+    const h=document.createElement('div');h.style.cssText='grid-column:1/-1;font-size:11px;font-weight:700;color:var(--dark-gray);'+(i>0?'margin-top:10px;':'');
+    h.textContent=g.nm;
+    fG.appendChild(h);
+    g.items.forEach(m=>{
+      const div=document.createElement('div');div.className='chk';
+      const precoHtml=m.v>0?`<br><span style="font-size:10px;color:var(--purple);font-weight:600;">R$ ${m.v.toFixed(2).replace('.',',')}/mês</span>`:'';
+      div.innerHTML=`<input type="checkbox" id="${m.id}"><span><strong>${m.nm}</strong>${precoHtml}<br><span style="font-size:10px;color:var(--gray);">${m.desc}</span></span>`;
+      div.addEventListener('click',ev=>{if(ev.target.tagName==='INPUT')return;const c=div.querySelector('input');c.checked=!c.checked;div.classList.toggle('sel',c.checked);calc();});
+      div.querySelector('input').addEventListener('change',function(){div.classList.toggle('sel',this.checked);calc();});
+      fG.appendChild(div);
+    });
+  });
+})();
 function toggleFixe(){document.getElementById('fixeModulos').style.display=gc('eco_fixe')?'block':'none';}
 function toggleProd(){document.getElementById('prodModulos').style.display=gc('eco_prod')?'block':'none';}
 function toggleIncentivo(){document.getElementById('incentivoModulos').style.display=gc('eco_incentivo')?'block':'none';}
@@ -2533,7 +2543,6 @@ const PREC_GROUP_META={
   '3S BI':{name:'3S BI',abbr:'Business Intelligence',desc:'Dashboards e relatórios gerenciais. "Simples" é a visão operacional; "Administrador" tem acesso completo e cross-marca. O setup inclui 6 visões personalizadas.',labels:{bi_simples:'Simples',bi_admin:'Administrador',bi_setup:'Setup (6 visões) — taxa única'}},
   '3S Connection':{name:'3S Connection — Kinesis',desc:'Integração dos dados do 3S com sistemas externos (ERPs, BI próprio, data lakes) via stream Kinesis.',labels:{kinesis:'Mensalidade'}},
   '3S Eats':{name:'3S Eats',abbr:'Delivery próprio e pedido na mesa',desc:'App/White-label próprio do cliente para delivery ou pedido direto pela mesa. O Combo Super App junta os dois canais. O setup publica o app na AppStore e Google Play.',labels:{eats_d:'Delivery',eats_m:'Pedido na mesa',eats_combo:'Combo Super App (Delivery + Mesa)',eats_setup:'Setup AppStore / Google Play — taxa única'}},
-  'Ecossistema':{name:'CRM Admin',desc:'Painel administrativo do CRM para gestão da base de clientes, campanhas e comunicação.',labels:{crm_admin:'Mensalidade'}},
 };
 
 // Módulos sem grupo (c.grp = null) ganham um card individual usando esse metadado por id.
@@ -2616,22 +2625,23 @@ function renderPrecificacao(){
   function renderEcossistema(){
     let html='<div class="prec-group" data-cat="eco">';
     html+='<div class="prec-group-hdr"><div class="prec-group-title">◉ Ecossistema</div><div class="prec-badge eco">Produto adicional</div></div>';
-    // Fixe CRM — card único com variações
-    if(FIXE_MODS.length){
+    // Fixe CRM — card único com variações (todos os FIXE_MODS com grp 'Fixe CRM')
+    const fixeItems=FIXE_MODS.filter(m=>m.grp==='Fixe CRM');
+    if(fixeItems.length){
       html+='<div class="mod-card" data-search="fixe crm fidelidade nps cartao cartão super app">';
       html+='<div class="mod-head"><div class="mod-name">Fixe CRM</div><div class="mod-abbr">Plataforma de relacionamento e fidelização</div></div>';
       html+='<p class="mod-desc">Ecossistema de CRM para engajamento e retenção de clientes. Cada módulo é contratado separadamente.</p>';
       html+='<div class="mod-rows">';
-      FIXE_MODS.forEach(m=>{
+      fixeItems.forEach(m=>{
         html+='<div class="k">'+esc(m.nm)+(m.desc?' — '+esc(m.desc).toLowerCase():'')+'</div><div class="v">'+fmtR(m.v)+'</div>';
       });
       html+='</div></div>';
     }
-    // CRM Admin (card separado) vindo de MOD_CATALOG
-    const crm=MOD_CATALOG.find(c=>c.id==='crm_admin');
+    // CRM Admin (card separado) — também vem de FIXE_MODS
+    const crm=FIXE_MODS.find(m=>m.id==='crm_admin');
     if(crm){
       html+='<div class="mod-card" data-search="crm admin"><div class="mod-head"><div class="mod-name">CRM Admin</div></div>';
-      html+='<p class="mod-desc">Painel administrativo do CRM para gestão da base de clientes, campanhas e comunicação.</p>';
+      html+='<p class="mod-desc">'+esc(crm.desc)+'.</p>';
       html+='<div class="mod-rows"><div class="k">Mensalidade</div><div class="v">'+fmtR(crm.v)+'</div></div></div>';
     }
     html+='</div>';
@@ -2727,8 +2737,6 @@ const MOD_CATALOG=[
   {id:'tef_1',nm:'TEF — Primeira integração',v:99,grp:'TEF',cat:'prod'},
   {id:'tef_adic',nm:'TEF — Integrações adicionais (2 a 4 PDVs)',v:25.22,grp:'TEF',cat:'prod'},
   {id:'tef_5',nm:'TEF — Integrações adicionais (5 a 20 PDVs)',v:21.93,grp:'TEF',cat:'prod'},
-  // CRM Admin
-  {id:'crm_admin',nm:'CRM Admin',v:179,grp:null,cat:'prod'},
   {id:'3sgo',nm:'3SGo — Ilimitado por loja',v:60,grp:'3S GO',cat:'prod'},
   {id:'bi_simples',nm:'3S BI — Simples',v:120,grp:'3S BI',cat:'prod'},
   {id:'bi_admin',nm:'3S BI — Administrador',v:220,grp:'3S BI',cat:'prod'},
@@ -2772,8 +2780,6 @@ let MX=[
   {id:'tef_1',nm:'TEF — Primeira integração',v:99,on:false,ix:false,grp:'TEF',incMens:false},
   {id:'tef_adic',nm:'TEF — Integrações adicionais (2 a 4 PDVs)',v:25.22,on:false,ix:false,grp:'TEF',incMens:false},
   {id:'tef_5',nm:'TEF — Integrações adicionais (5 a 20 PDVs)',v:21.93,on:false,ix:false,grp:'TEF',incMens:false},
-  // CRM Admin (novo)
-  {id:'crm_admin',nm:'CRM Admin',v:179,on:false,ix:false,grp:'Ecossistema'},
   {id:'3sgo',nm:'3SGo — Ilimitado por loja',v:60,on:false,ix:false,grp:'3S GO'},
   {id:'bi_simples',nm:'3S BI — Simples',v:120,on:false,ix:false,grp:'3S BI'},
   {id:'bi_admin',nm:'3S BI — Administrador',v:220,on:false,ix:false,grp:'3S BI'},
@@ -3633,7 +3639,6 @@ function resetFormulario(){
     {id:'tef_1',nm:'TEF — Primeira integração',v:99,on:false,ix:false,grp:'TEF',incMens:false},
     {id:'tef_adic',nm:'TEF — Integrações adicionais (2 a 4 PDVs)',v:25.22,on:false,ix:false,grp:'TEF',incMens:false},
     {id:'tef_5',nm:'TEF — Integrações adicionais (5 a 20 PDVs)',v:21.93,on:false,ix:false,grp:'TEF',incMens:false},
-    {id:'crm_admin',nm:'CRM Admin',v:179,on:false,ix:false,grp:'Ecossistema'},
     {id:'3sgo',nm:'3SGo — Ilimitado por loja',v:60,on:false,ix:false,grp:'3S GO'},
     {id:'bi_simples',nm:'3S BI — Simples',v:120,on:false,ix:false,grp:'3S BI'},
     {id:'bi_admin',nm:'3S BI — Administrador',v:220,on:false,ix:false,grp:'3S BI'},
@@ -5299,7 +5304,7 @@ let _lastSaveTs=0; // Timestamp da última gravação — evita race condition c
 
 // ── Migração automática: converter propostas antigas (meIds) para formato novo (meData) ──
 async function migratePropostas(propostas){
-  const MIGRATE_VERSION=6; // incrementar para forçar re-migração
+  const MIGRATE_VERSION=7; // incrementar para forçar re-migração
   let migrated=0;
   for(let p of propostas){
     const needsMigration=!p.meData||!p.meData.length||(p._migrateV||0)<MIGRATE_VERSION;
@@ -5341,6 +5346,25 @@ async function migratePropostas(propostas){
         const v=(typeof d.v==='number')?d.v:(def?def.v:0);
         p.mxOn.push({id:d.id,on:true,v,ix:!!d.ix,incMens:false});
       });
+    }
+
+    // Migração v7: CRM Admin saiu de mxOn (Produtos adicionais) e passou a viver em
+    // fixeOn/FIXE_MODS (Ecossistema), junto com os módulos Fixe CRM.
+    if(Array.isArray(p.mxOn)){
+      const crmIdx=p.mxOn.findIndex(x=>x.id==='crm_admin');
+      if(crmIdx>=0){
+        const d=p.mxOn[crmIdx];
+        p.mxOn.splice(crmIdx,1);
+        if(d.on){
+          if(!Array.isArray(p.fixeOn))p.fixeOn=[];
+          if(!p.fixeOn.some(x=>x.id==='crm_admin')){
+            const def=FIXE_MODS.find(x=>x.id==='crm_admin');
+            p.fixeOn.push({id:'crm_admin',nm:def?def.nm:'CRM Admin',v:(typeof d.v==='number'?d.v:(def?def.v:179)),desc:def?def.desc:''});
+          }
+          // Se o ecossistema ainda não estava marcado, marcar (produto foi selecionado)
+          if(p.ecoFixe!==true)p.ecoFixe=true;
+        }
+      }
     }
 
     // Garantir que maOn tenha campo v e deduplicar com ME
@@ -6253,7 +6277,7 @@ function renderPropostaBody(d){
 
   ${modOpc&&modOpc.length?'<div style="background:#FEF9C3;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Serviços Opcionais (não inclusos)</div>'+modOpc.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+(m.nm||m)+'</span><span style="font-weight:600;color:#D97706;">'+(typeof m.v==='number'?fmtBRL(m.v):'')+'</span></div>').join('')+'</div>':''}
 
-  ${(xsSel.length||(fixeMods&&fixeMods.length))?'<div style="background:#FFFBEB;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Produtos Adicionais / Loja</div>'+xsSel.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+m.nm+'</span><span style="font-weight:600;color:#D97706;">'+(m.ix?iTag(m.origV):fmtBRL(m.v))+'</span></div>').join('')+(fixeMods&&fixeMods.length?fixeMods.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">Fixe CRM - '+(m.id==='fx_fid'?'Programa de fidelidade e relacionamento':(m.nm||m))+'</span><span style="font-weight:600;color:#D97706;">'+(m.v>0?fmtBRL(m.v):'Incluso')+'</span></div>').join(''):'')+'</div>':''}
+  ${(xsSel.length||(fixeMods&&fixeMods.length))?'<div style="background:#FFFBEB;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#D97706;margin-bottom:10px;">Produtos Adicionais / Loja</div>'+xsSel.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+m.nm+'</span><span style="font-weight:600;color:#D97706;">'+(m.ix?iTag(m.origV):fmtBRL(m.v))+'</span></div>').join('')+(fixeMods&&fixeMods.length?fixeMods.map(m=>'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#92400E;">'+(m.id==='fx_fid'?'Fixe CRM - Programa de fidelidade e relacionamento':(m.id==='crm_admin'?(m.nm||'CRM Admin'):'Fixe CRM - '+(m.nm||m)))+'</span><span style="font-weight:600;color:#D97706;">'+(m.v>0?fmtBRL(m.v):'Incluso')+'</span></div>').join(''):'')+'</div>':''}
 
   ${!ixInst?'<div style="background:#F0FDF4;border-radius:10px;padding:16px 18px;margin-bottom:16px;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#10B981;margin-bottom:10px;">Instalação lojas novas</div>'+((instFranquia!==instVal)?'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Loja própria</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instVal)+'</span></div><div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Loja franquia</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instFranquia)+'</span></div>':'<div style="display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid rgba(0,0,0,.05);"><span style="color:#065F46;">Instalação por loja</span><span style="font-weight:600;color:#10B981;">'+fmtBRL(instVal)+'</span></div>')+'<div style="font-size:10px;color:#065F46;line-height:1.5;padding:6px 0 0;">Novas lojas incorporadas durante a vigência do contrato terão o valor de instalação correspondente.</div></div>':''}
 
