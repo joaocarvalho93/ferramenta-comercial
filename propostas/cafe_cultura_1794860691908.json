@@ -88,11 +88,6 @@
         "od": true,
         "keeta": true
       }
-    },
-    {
-      "id": "tef_1",
-      "v": 104.2,
-      "ix": false
     }
   ],
   "maOn": [
@@ -158,20 +153,6 @@
       "ix": false,
       "v": 250,
       "incMens": true
-    },
-    {
-      "id": "tef_adic",
-      "on": false,
-      "ix": false,
-      "v": 25.22,
-      "incMens": false
-    },
-    {
-      "id": "tef_5",
-      "on": false,
-      "ix": false,
-      "v": 21.93,
-      "incMens": false
     },
     {
       "id": "totem_soft",
@@ -251,6 +232,27 @@
       "v": 2000,
       "ix": false,
       "incMens": false
+    },
+    {
+      "id": "tef_1",
+      "on": true,
+      "v": 104.2,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "tef_adic",
+      "on": true,
+      "v": 25.22,
+      "ix": false,
+      "incMens": false
+    },
+    {
+      "id": "tef_5",
+      "on": true,
+      "v": 21.93,
+      "ix": false,
+      "incMens": false
     }
   ],
   "historico": [
@@ -313,5 +315,5 @@
       "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 5
+  "_migrateV": 6
 }
