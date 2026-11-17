@@ -13,3 +13,7 @@ Thumbs.db
 
 # Keep only production-relevant files
 # Everything else is for development/reference
+
+# Projetos distintos que podem vazar para dentro desta pasta
+growth/
+propostas/propostas_backup/
