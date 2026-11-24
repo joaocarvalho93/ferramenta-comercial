@@ -1,9 +1,9 @@
 {
   "id": 1795540685903,
   "data": "24/11/2026",
-  "hora": "14:18",
+  "hora": "14:19",
   "dataCriacao": "2026-11-24T17:18:05.903Z",
-  "dataModificacao": "2026-11-24T17:18:05.903Z",
+  "dataModificacao": "2026-11-24T17:19:55.972Z",
   "nome": "HHH",
   "lj": 45,
   "ct": 60,
@@ -24,7 +24,7 @@
   "rebInst": 0,
   "inv": 3000,
   "invModo": "none",
-  "ms": 410,
+  "ms": 560,
   "opcTotal": 0,
   "addTotal": 120,
   "rb": 0,
@@ -79,7 +79,7 @@
     {
       "id": "mkt_full",
       "v": 150,
-      "ix": true
+      "ix": false
     },
     {
       "id": "totem_ilim",
@@ -252,6 +252,38 @@
       "incMens": false
     }
   ],
-  "historico": [],
-  "_migrateV": 7
+  "historico": [
+    {
+      "data": "2026-11-24T17:18:05.903Z",
+      "nome": "HHH",
+      "lj": 45,
+      "ct": 60,
+      "ro": 2,
+      "ms": 410,
+      "addTotal": 120,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": false,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "obsGeral": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "escalonado",
+      "prazo": 2,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/hhh_1795540685903.json",
+  "_gh_sha": "9342cf353ee12ca9896bd766fb5922b57a4d67a3"
 }
