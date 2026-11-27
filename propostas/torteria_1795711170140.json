@@ -264,7 +264,5 @@
       "responsavel": "joao.carlos@ifood.com.br"
     }
   ],
-  "_migrateV": 3,
-  "_gh_path": "propostas/torteria_1795711170140.json",
-  "_gh_sha": "64a159acd0bc5e31dc991b9226ff1e59a9aabcec"
+  "_migrateV": 7
 }
