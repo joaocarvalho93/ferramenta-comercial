@@ -1,9 +1,9 @@
 {
   "id": 1795711170140,
   "data": "26/11/2026",
-  "hora": "13:39",
+  "hora": "09:37",
   "dataCriacao": "2026-11-26T16:39:30.139Z",
-  "dataModificacao": "2026-11-26T16:39:30.139Z",
+  "dataModificacao": "2026-11-27T12:37:25.532Z",
   "nome": "Torteria",
   "lj": 5,
   "ct": 60,
@@ -12,7 +12,7 @@
   "segmento": "",
   "culinaria": "",
   "estado": "",
-  "conc": "",
+  "conc": "sw",
   "concIncluir": false,
   "dores": [],
   "setup": 3000,
@@ -26,7 +26,7 @@
   "invModo": "none",
   "ms": 500,
   "opcTotal": 0,
-  "addTotal": 180,
+  "addTotal": 120,
   "rb": 0,
   "incAnual": 0,
   "incMes": 0,
@@ -49,6 +49,7 @@
     "PDV — Até 3",
     "Produção Impressoras — Ilimitado",
     "POS Mobile — Ilimitado",
+    "TEF — Primeira integração",
     "3S Eats — Delivery"
   ],
   "meIds": [
@@ -149,8 +150,8 @@
   "mxOn": [
     {
       "id": "tef_1",
-      "on": false,
-      "v": 99,
+      "on": true,
+      "v": 120,
       "ix": false,
       "incMens": false
     },
@@ -207,7 +208,7 @@
       "id": "eats_d",
       "on": true,
       "v": 180,
-      "ix": false,
+      "ix": true,
       "incMens": false
     },
     {
@@ -232,6 +233,38 @@
       "incMens": false
     }
   ],
-  "historico": [],
-  "_migrateV": 7
+  "historico": [
+    {
+      "data": "2026-11-26T16:39:30.139Z",
+      "nome": "Torteria",
+      "lj": 5,
+      "ct": 60,
+      "ro": 2,
+      "ms": 500,
+      "addTotal": 180,
+      "setup": 3000,
+      "inst": 1622,
+      "invModo": "none",
+      "ixSetup": true,
+      "ixInst": true,
+      "ixInstExist": true,
+      "rb": 0,
+      "incAnual": 0,
+      "incMes": 0,
+      "devVal": 0,
+      "devHoras": 0,
+      "devObs": "",
+      "obsGeral": "",
+      "invMeses": 0,
+      "invMensal": 0,
+      "dMax": 20,
+      "modeloDesc": "linear",
+      "prazo": 2,
+      "mesesDesconto": 12,
+      "responsavel": "joao.carlos@ifood.com.br"
+    }
+  ],
+  "_migrateV": 3,
+  "_gh_path": "propostas/torteria_1795711170140.json",
+  "_gh_sha": "64a159acd0bc5e31dc991b9226ff1e59a9aabcec"
 }
